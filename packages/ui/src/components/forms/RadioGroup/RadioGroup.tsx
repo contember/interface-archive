@@ -5,6 +5,7 @@ import { useRadioGroupState } from 'react-stately'
 import { useClassNamePrefix } from '../../../auxiliary'
 import type { Size, ValidationState } from '../../../types'
 import { toEnumStateClass, toEnumViewClass } from '../../../utils'
+import { Icon } from '../../Icon'
 import { ErrorList, ErrorListProps } from '../ErrorList'
 import { RadioContext } from './RadioContext'
 import { RadioControl } from './RadioControl'
@@ -17,9 +18,11 @@ export interface RadioGroupProps extends ErrorListProps {
 	onChange: (newValue: string) => void
 	options: RadioOption[]
 	orientation?: 'horizontal' | 'vertical'
+	presentation?: 'radio' | 'button'
 	size?: Size
 	validationState?: ValidationState
 	value?: string
+	allowNull?: boolean
 }
 
 // TODO: Maybe extract later for reuse
@@ -35,7 +38,10 @@ function deriveAriaValidationState(validationState?: ValidationState): 'valid' |
 }
 
 export const RadioGroup = memo((props: RadioGroupProps) => {
-	const { errors, name, options, orientation, size, validationState } = props
+	const { errors, name, options, size, validationState, allowNull } = props
+
+	const presentation = props.presentation ?? 'radio'
+	const orientation = props.orientation ?? (presentation === 'button' ? 'horizontal' : 'vertical')
 
 	const prefix = useClassNamePrefix()
 
@@ -47,11 +53,15 @@ export const RadioGroup = memo((props: RadioGroupProps) => {
 	const state = useRadioGroupState(ariaRadioGroupProps)
 	const { radioGroupProps } = useRadioGroup(ariaRadioGroupProps, state)
 
+	const hasSelectedSomething = !(state.selectedValue === null || typeof state.selectedValue === 'undefined')
+
 	const classList = classNames(
 		`${prefix}radio-group`,
 		toEnumViewClass(size),
 		toEnumStateClass(validationState),
-		toEnumViewClass(orientation ?? 'vertical'),
+		toEnumViewClass(orientation),
+		toEnumViewClass(presentation),
+		toEnumViewClass(allowNull ? 'allowNull' : 'denyNull'),
 	)
 
 	return (
@@ -69,6 +79,17 @@ export const RadioGroup = memo((props: RadioGroupProps) => {
 							{label}
 						</RadioControl>
 					))}
+					{allowNull && hasSelectedSomething && (
+						<RadioControl
+							name={name}
+							value={null as unknown as string}
+							validationState={validationState}
+							description={null}
+							centered
+						>
+							<Icon blueprintIcon="cross" />
+						</RadioControl>
+					)}
 				</RadioContext.Provider>
 			</div>
 			{!!errors && (

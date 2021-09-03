@@ -13,10 +13,11 @@ interface RadioProps {
 	name?: string
 	validationState?: ValidationState
 	value: RadioOption['value']
+	centered?: boolean
 }
 
 export const RadioControl = memo((props: RadioProps) => {
-	const { children, description, validationState, value } = props
+	const { children, description, validationState, value, centered } = props
 
 	const prefix = useClassNamePrefix()
 	const ref = useRef<HTMLInputElement>(null)
@@ -38,6 +39,7 @@ export const RadioControl = memo((props: RadioProps) => {
 		toStateClass('disabled', isDisabled),
 		toStateClass('readonly', isReadOnly),
 		toStateClass('hovered', isHovered),
+		toStateClass('centered', centered),
 	)
 
 	return (
