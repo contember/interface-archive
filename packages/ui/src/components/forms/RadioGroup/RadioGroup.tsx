@@ -56,22 +56,26 @@ export const RadioGroup = memo((props: RadioGroupProps) => {
 
 	return (
 		<div className={classList} {...radioGroupProps}>
-			<RadioContext.Provider value={state}>
-				{options.map(({ value, label, labelDescription }: RadioOption) => (
-					<RadioControl
-						key={value}
-						name={name}
-						value={value}
-						validationState={validationState}
-						description={labelDescription}
-					>
-						{label}
-					</RadioControl>
-				))}
-			</RadioContext.Provider>
+			<div className={`${prefix}radio-group-options`}>
+				<RadioContext.Provider value={state}>
+					{options.map(({ value, label, labelDescription }: RadioOption) => (
+						<RadioControl
+							key={value}
+							name={name}
+							value={value}
+							validationState={validationState}
+							description={labelDescription}
+						>
+							{label}
+						</RadioControl>
+					))}
+				</RadioContext.Provider>
+			</div>
 			{!!errors && (
-				<div className={`${prefix}checkbox-errors`}>
-					<ErrorList errors={errors} size={size} />
+				<div className={`${prefix}radio-group-error`}>
+					<div className={`${prefix}checkbox-errors`}>
+						<ErrorList errors={errors} size={size} />
+					</div>
 				</div>
 			)}
 		</div>

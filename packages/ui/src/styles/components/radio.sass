@@ -14,10 +14,17 @@
 		display: flex
 		flex-direction: column
 		gap: $gap-between
-		&.view-horizontal
+
+		&-options
+			display: flex
+			flex-direction: column
+			gap: $gap-between
+
+		&.view-horizontal &-options
 			flex-direction: row
 			flex-wrap: wrap
 			gap: $gap-between
+
 		&.view-small
 			font-size: $cui-control-small-font-size
 		&.view-large
