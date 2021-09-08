@@ -11,6 +11,7 @@
 		$borderColor: map_get($settings, borderColor)
 		$distinctionColor: map_get($settings, distinctionColor)
 		$focusColor: map_get($settings, focusColor)
+		$textShadow: map_get($settings, textShadow)
 
 		$view: toView($name)
 
@@ -18,6 +19,7 @@
 			color: $color
 			background: linear-gradient(to bottom, lighten($background, 3), darken($background, 3))
 			border-color: $borderColor
+			text-shadow: $textShadow
 
 		&#{$view}#{$primary-selector}:hover#{$secondary-selector}
 			background: linear-gradient(to bottom, darken($background, 3), darken($background, 9))
@@ -41,12 +43,15 @@
 			background: linear-gradient(to bottom, $cui-button-disabled-background-color, $cui-button-disabled-background-color)
 			border-color: $cui-button-disabled-border-color
 			opacity: $cui-control-inactive-opacity
+			text-shadow: none
 
 		&#{$view}.view-seamless#{$primary-selector}#{$secondary-selector},
 		&#{$view}.view-outlined#{$primary-selector}#{$secondary-selector}
 			background: transparent
 			border-color: transparent
 			color: $distinctionColor
+			text-shadow: none
+			box-shadow: none
 		&#{$view}.view-outlined#{$primary-selector}#{$secondary-selector}
 			border-color: $distinctionColor
 		&#{$view}.view-seamless#{$primary-selector}:hover#{$secondary-selector},

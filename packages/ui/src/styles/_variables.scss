@@ -156,6 +156,7 @@ $cui-button-view-default: (
 	'borderColor': $cui-button-view-default-border-color,
 	'focusColor': $cui-button-view-default-focus-color,
 	'distinctionColor': $cui-button-view-default-distinction-color,
+	'textShadow':0 1px rgba(255,255,255,0.7),
 ) !default;
 
 $cui-button-view-primary-color: $cui-color-white !default;
@@ -169,6 +170,7 @@ $cui-button-view-primary: (
 	'borderColor': $cui-button-view-primary-border-color,
 	'focusColor': $cui-button-view-primary-focus-color,
 	'distinctionColor': $cui-button-view-primary-distinction-color,
+	'textShadow':0 1px rgba(0,0,0,0.8),
 ) !default;
 
 $cui-button-view-secondary-color: $cui-color-white !default;
@@ -182,6 +184,7 @@ $cui-button-view-secondary: (
 	'borderColor': $cui-button-view-secondary-border-color,
 	'focusColor': $cui-button-view-secondary-focus-color,
 	'distinctionColor': $cui-button-view-secondary-distinction-color,
+	'textShadow':0 1px rgba(0,0,0,0.4),
 ) !default;
 
 $cui-button-view-tertiary-color: $cui-color-white !default;
@@ -195,6 +198,7 @@ $cui-button-view-tertiary: (
 	'borderColor': $cui-button-view-tertiary-border-color,
 	'focusColor': $cui-button-view-tertiary-focus-color,
 	'distinctionColor': $cui-button-view-tertiary-distinction-color,
+	'textShadow':0 1px rgba(0,0,0,0.5),
 ) !default;
 
 $cui-button-view-success-color: $cui-color-white !default;
@@ -208,6 +212,7 @@ $cui-button-view-success: (
 	'borderColor': $cui-button-view-success-border-color,
 	'focusColor': $cui-button-view-success-focus-color,
 	'distinctionColor': $cui-button-view-success-distinction-color,
+	'textShadow': 0 1px rgba(0,0,0,0.4),
 ) !default;
 
 $cui-button-view-warn-color: $cui-color-white !default;
@@ -221,6 +226,7 @@ $cui-button-view-warn: (
 	'borderColor': $cui-button-view-warn-border-color,
 	'focusColor': $cui-button-view-warn-focus-color,
 	'distinctionColor': $cui-button-view-warn-distinction-color,
+	'textShadow':0 1px rgba(0,0,0,0.4),
 ) !default;
 
 $cui-button-view-danger-color: $cui-color-white !default;
@@ -234,6 +240,7 @@ $cui-button-view-danger: (
 	'borderColor': $cui-button-view-danger-border-color,
 	'focusColor': $cui-button-view-danger-focus-color,
 	'distinctionColor': $cui-button-view-danger-distinction-color,
+	'textShadow':0 1px rgba(0,0,0,0.4),
 ) !default;
 
 $cui-button-view-dark-color: $cui-color-gray-2 !default;
@@ -247,6 +254,7 @@ $cui-button-view-dark: (
 	'borderColor': $cui-button-view-dark-border-color,
 	'focusColor': $cui-button-view-dark-focus-color,
 	'distinctionColor': $cui-button-view-dark-distinction-color,
+	'textShadow':0 1px rgba(0,0,0,0.4),
 ) !default;
 
 

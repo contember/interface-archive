@@ -3,11 +3,11 @@
   $normalizedHeight: math.div($height, $c)
   $visualLineHeight: $normalizedHeight - 2 * math.div($cui-control-border-width, $c)
   $actualLineHeight: 1.25em
-  $edgeOffset: ($visualLineHeight - $actualLineHeight) * 0.5
+  $edgeOffset: ($visualLineHeight - $actualLineHeight) * 0.6
 
   min-height: $normalizedHeight
   line-height: $actualLineHeight
-  padding: $edgeOffset .5em
+  padding: $edgeOffset $edgeOffset * 2
   font-size: $fontSize
 
   &.view-squarish,
