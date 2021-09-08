@@ -35,7 +35,7 @@ export const RadioControl = memo((props: RadioProps) => {
 		toEnumStateClass(validationState),
 		toStateClass('focused', isFocusVisible),
 		toStateClass('checked', isSelected),
-		toStateClass('indeterminate', state.selectedValue === null),
+		toStateClass('indeterminate', (state.selectedValue === null || state.selectedValue === '') && !isSelected),
 		toStateClass('disabled', isDisabled),
 		toStateClass('readonly', isReadOnly),
 		toStateClass('hovered', isHovered),

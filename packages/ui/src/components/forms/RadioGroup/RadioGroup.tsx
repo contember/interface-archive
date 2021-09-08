@@ -1,5 +1,6 @@
+import { AriaRadioGroupProps } from '@react-types/radio'
 import classNames from 'classnames'
-import { memo } from 'react'
+import { memo, useCallback } from 'react'
 import { useRadioGroup } from 'react-aria'
 import { useRadioGroupState } from 'react-stately'
 import { useClassNamePrefix } from '../../../auxiliary'
@@ -15,13 +16,13 @@ export interface RadioGroupProps extends ErrorListProps {
 	isDisabled?: boolean
 	isReadOnly?: boolean
 	name?: string
-	onChange: (newValue: string) => void
+	onChange: (newValue: string | null) => void
 	options: RadioOption[]
 	orientation?: 'horizontal' | 'vertical'
 	presentation?: 'radio' | 'button'
 	size?: Size
 	validationState?: ValidationState
-	value?: string
+	value?: string | null
 	allowNull?: boolean
 }
 
@@ -38,22 +39,40 @@ function deriveAriaValidationState(validationState?: ValidationState): 'valid' |
 }
 
 export const RadioGroup = memo((props: RadioGroupProps) => {
-	const { errors, name, options, size, validationState, allowNull } = props
+	const { errors, name, options, size, validationState, allowNull, onChange } = props
+	const { value, ...propsWithoutValue } = props
 
 	const presentation = props.presentation ?? 'radio'
 	const orientation = props.orientation ?? (presentation === 'button' ? 'horizontal' : 'vertical')
 
 	const prefix = useClassNamePrefix()
 
-	const ariaRadioGroupProps = {
-		...props,
+	if (value === '') {
+		throw new Error('Cannot use "" as RadioGroup value. Use null.')
+	}
+
+	const onStringChange: AriaRadioGroupProps['onChange'] = useCallback(
+		updatedValue => {
+			onChange(updatedValue === '' ? null : updatedValue)
+		},
+		[onChange],
+	)
+
+	const ariaRadioGroupProps: AriaRadioGroupProps = {
+		...propsWithoutValue,
+		onChange: onStringChange,
 		validationState: deriveAriaValidationState(validationState),
+	}
+
+	if (ariaRadioGroupProps.value === null) {
+		ariaRadioGroupProps.value = ''
 	}
 
 	const state = useRadioGroupState(ariaRadioGroupProps)
 	const { radioGroupProps } = useRadioGroup(ariaRadioGroupProps, state)
 
-	const hasSelectedSomething = !(state.selectedValue === null || typeof state.selectedValue === 'undefined')
+	const hasSelectedSomething =
+		state.selectedValue !== '' && state.selectedValue !== null && typeof state.selectedValue !== 'undefined'
 
 	const classList = classNames(
 		`${prefix}radio-group`,
@@ -80,13 +99,7 @@ export const RadioGroup = memo((props: RadioGroupProps) => {
 						</RadioControl>
 					))}
 					{allowNull && hasSelectedSomething && (
-						<RadioControl
-							name={name}
-							value={null as unknown as string}
-							validationState={validationState}
-							description={null}
-							centered
-						>
+						<RadioControl name={name} value={''} validationState={validationState} description={null} centered>
 							<Icon blueprintIcon="cross" />
 						</RadioControl>
 					)}
