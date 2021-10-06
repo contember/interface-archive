@@ -26,7 +26,7 @@ import {
 	VariableInputTransformer,
 } from '@contember/binding'
 import { emptyArray, noop, useConstantLengthInvariant } from '@contember/react-utils'
-import { EditorCanvas } from '@contember/ui'
+import { EditorCanvas, EditorCanvasSize } from '@contember/ui'
 import {
 	Fragment,
 	FunctionComponent,
@@ -62,27 +62,29 @@ import { useBlockEditorSlateNodes } from './useBlockEditorSlateNodes'
 
 export interface BlockEditorProps extends SugaredRelativeEntityList, CreateEditorPublicOptions {
 	label: ReactNode
-	contentField: SugaredFieldProps['field']
-	sortableBy: SugaredFieldProps['field']
+	contentField: SugaredFieldProps[ 'field' ]
+	sortableBy: SugaredFieldProps[ 'field' ]
 	children?: ReactNode
 
 	leadingFieldBackedElements?: FieldBackedElement[]
 	trailingFieldBackedElements?: FieldBackedElement[]
 
 	referencesField?: SugaredRelativeEntityList | string
-	referenceDiscriminationField?: SugaredFieldProps['field']
+	referenceDiscriminationField?: SugaredFieldProps[ 'field' ]
 	monolithicReferencesMode?: boolean
 
 	embedReferenceDiscriminateBy?: SugaredDiscriminateBy
-	embedContentDiscriminationField?: SugaredFieldProps['field']
+	embedContentDiscriminationField?: SugaredFieldProps[ 'field' ]
 	embedHandlers?: Iterable<EmbedHandler>
 
 	// TODO
-	inlineButtons?: HoveringToolbarsProps['inlineButtons']
-	blockButtons?: BlockHoveringToolbarContentsProps['blockButtons']
-	otherBlockButtons?: BlockHoveringToolbarContentsProps['otherBlockButtons']
+	inlineButtons?: HoveringToolbarsProps[ 'inlineButtons' ]
+	blockButtons?: BlockHoveringToolbarContentsProps[ 'blockButtons' ]
+	otherBlockButtons?: BlockHoveringToolbarContentsProps[ 'otherBlockButtons' ]
 
 	unstable_diagnosticLog?: Unstable_BlockEditorDiagnostics
+
+	size?: EditorCanvasSize
 }
 
 // TODO enforce that leadingFieldBackedElements and trailingFieldBackedElements always have the same length
@@ -121,6 +123,8 @@ const BlockEditorComponent: FunctionComponent<BlockEditorProps> = Component(
 
 			unstable_diagnosticLog,
 
+			size,
+
 			...blockListProps
 		} = props
 
@@ -156,7 +160,7 @@ const BlockEditorComponent: FunctionComponent<BlockEditorProps> = Component(
 				return VariableInputTransformer.transformValue(embedReferenceDiscriminateBy, environment)
 			}
 			return undefined
-		}, [embedReferenceDiscriminateBy, environment])
+		}, [ embedReferenceDiscriminateBy, environment ])
 		const embedSubBlocks = useNormalizedBlocks(
 			embedReferenceDiscriminant !== undefined
 				? getDiscriminatedBlock(editorReferenceBlocks, embedReferenceDiscriminant)?.datum.children
@@ -165,10 +169,10 @@ const BlockEditorComponent: FunctionComponent<BlockEditorProps> = Component(
 
 		//
 
-		const [contemberFieldElementCache] = useState(() => new WeakMap<FieldAccessor<string>, ContemberFieldElement>())
-		const [blockElementCache] = useState(() => new WeakMap<EntityAccessor, ElementNode>())
-		const [blockElementPathRefs] = useState(() => new Map<string, PathRef>())
-		const [referencedEntityCache] = useState(() => new Map<EntityId, EntityRealmKey>())
+		const [ contemberFieldElementCache ] = useState(() => new WeakMap<FieldAccessor<string>, ContemberFieldElement>())
+		const [ blockElementCache ] = useState(() => new WeakMap<EntityAccessor, ElementNode>())
+		const [ blockElementPathRefs ] = useState(() => new Map<string, PathRef>())
+		const [ referencedEntityCache ] = useState(() => new Map<EntityId, EntityRealmKey>())
 
 		//
 
@@ -182,7 +186,7 @@ const BlockEditorComponent: FunctionComponent<BlockEditorProps> = Component(
 			sortedBlocksRef.current = topLevelBlocks
 		}) // Deliberately no deps array
 
-		const [editor] = useState(() =>
+		const [ editor ] = useState(() =>
 			createBlockEditor({
 				augmentEditor,
 				augmentEditorBuiltins,
@@ -232,10 +236,10 @@ const BlockEditorComponent: FunctionComponent<BlockEditorProps> = Component(
 					const blocks = getEntity().getEntityList(blockListProps)
 					let blockIndex = leadingFieldBackedElements.length
 					for (const topLevelBlock of blocks) {
-						blockElementPathRefs.set(topLevelBlock.id, Editor.pathRef(editor, [blockIndex++], { affinity: 'backward' }))
+						blockElementPathRefs.set(topLevelBlock.id, Editor.pathRef(editor, [ blockIndex++ ], { affinity: 'backward' }))
 					}
 				},
-				[referencedEntityCache, blockElementPathRefs, blockListProps, leadingFieldBackedElements.length, editor],
+				[ referencedEntityCache, blockElementPathRefs, blockListProps, leadingFieldBackedElements.length, editor ],
 			),
 		)
 
@@ -283,12 +287,12 @@ const BlockEditorComponent: FunctionComponent<BlockEditorProps> = Component(
 						// would completely ruin the UX. Thus we want to keep the old node if possible. We check whether it
 						// would be equivalent, and if so, just use the old one. That way Slate never gets a new node and no
 						// remounting ever takes place.
-						const previousNode = editor.children[blockIndex]
+						const previousNode = editor.children[ blockIndex ]
 						const contentField = blockEntity.getRelativeSingleField<string>(desugaredBlockContentField)
 						const currentNode = editor.deserializeNodes(
 							contentField.value!,
 							`BlockEditor: The 'contentField' of a block contains invalid data.`,
-						)[0] as ElementNode
+						)[ 0 ] as ElementNode
 						if (JSON.stringify(previousNode) === JSON.stringify(currentNode)) {
 							blockElementCache.set(blockEntity, previousNode as ElementNode)
 						}
@@ -328,13 +332,13 @@ const BlockEditorComponent: FunctionComponent<BlockEditorProps> = Component(
 							unstable_diagnosticLog.identify(getParentAccessor, getNewLogEntity, options)
 						})
 					},
-					[editor.unstable_diagnosticOperationLog, unstable_diagnosticLog],
+					[ editor.unstable_diagnosticOperationLog, unstable_diagnosticLog ],
 				),
 			)
 			useEntityPersistSuccess(
 				useCallback(() => {
 					editor.unstable_diagnosticOperationLog.length = 0
-				}, [editor.unstable_diagnosticOperationLog]),
+				}, [ editor.unstable_diagnosticOperationLog ]),
 			)
 		}
 
@@ -351,8 +355,8 @@ const BlockEditorComponent: FunctionComponent<BlockEditorProps> = Component(
 
 			// TODO This shouldn't be hardcoded like this.
 			const rangeOfFieldBacked: SlateRange = {
-				anchor: Editor.start(editor, [0]),
-				focus: Editor.end(editor, [leadingFieldBackedElements.length - 1]),
+				anchor: Editor.start(editor, [ 0 ]),
+				focus: Editor.end(editor, [ leadingFieldBackedElements.length - 1 ]),
 			}
 			const intersection = SlateRange.intersection(selection, rangeOfFieldBacked)
 
@@ -360,7 +364,7 @@ const BlockEditorComponent: FunctionComponent<BlockEditorProps> = Component(
 			// We don't want to disable the toolbar if some part of the selection is outside of rangeOfFieldBacked,
 			// and so we disable the toolbar only if the entirety of the selection is contained within rangeOfFieldBacked.
 			return intersection === null || !SlateRange.equals(selection, intersection)
-		}, [editor, leadingFieldBackedElements.length])
+		}, [ editor, leadingFieldBackedElements.length ])
 
 		// TODO label?
 		return (
@@ -375,7 +379,7 @@ const BlockEditorComponent: FunctionComponent<BlockEditorProps> = Component(
 						onBlurCapture: editor.onBlur,
 						onDOMBeforeInput: editor.onDOMBeforeInput,
 					}}
-					size="large"
+					size={size ?? 'large'}
 				>
 					{useMemo(
 						() => (
@@ -391,7 +395,7 @@ const BlockEditorComponent: FunctionComponent<BlockEditorProps> = Component(
 								}
 							/>
 						),
-						[blockButtons, editorReferenceBlocks, inlineButtons, otherBlockButtons, shouldDisplayInlineToolbar],
+						[ blockButtons, editorReferenceBlocks, inlineButtons, otherBlockButtons, shouldDisplayInlineToolbar ],
 					)}
 				</EditorCanvas>
 			</Slate>
@@ -404,8 +408,8 @@ const BlockEditorComponent: FunctionComponent<BlockEditorProps> = Component(
 
 		const inlineButtons: ToolbarButtonSpec[] = props.inlineButtons
 			? (
-					(Array.isArray(props.inlineButtons[0]) ? props.inlineButtons : [props.inlineButtons]) as ToolbarButtonSpec[][]
-			  ).flat()
+				(Array.isArray(props.inlineButtons[ 0 ]) ? props.inlineButtons : [ props.inlineButtons ]) as ToolbarButtonSpec[][]
+			).flat()
 			: emptyArray
 
 		const references = !!(props.referencesField && props.referenceDiscriminationField) && (
@@ -496,14 +500,14 @@ const assertStaticBlockEditorInvariants = (props: BlockEditorProps, environment:
 		if (props.referencesField !== undefined && props.referenceDiscriminationField === undefined) {
 			throw new BindingError(
 				`BlockEditor: missing the 'referenceDiscriminationField' prop. ` +
-					`Without it the editor cannot tell different kinds of references apart!`,
+				`Without it the editor cannot tell different kinds of references apart!`,
 			)
 		}
 		if (props.referencesField === undefined && props.referenceDiscriminationField !== undefined) {
 			throw new BindingError(
 				`BlockEditor: supplied the 'referenceDiscriminationField' prop but missing 'referencesField'. ` +
-					`Either remove 'referenceDiscriminationField' to get rid of this error ` +
-					`or provide 'referencesField' to enable content references.`,
+				`Either remove 'referenceDiscriminationField' to get rid of this error ` +
+				`or provide 'referencesField' to enable content references.`,
 			)
 		}
 		if (
@@ -517,7 +521,7 @@ const assertStaticBlockEditorInvariants = (props: BlockEditorProps, environment:
 		) {
 			throw new BindingError(
 				`BlockEditor: trying to enable embeds without content references being enabled. In order to use embeds, ` +
-					`provide both the 'referenceDiscriminationField' as well as the 'referencesField' prop`,
+				`provide both the 'referenceDiscriminationField' as well as the 'referencesField' prop`,
 			)
 		}
 
@@ -525,15 +529,15 @@ const assertStaticBlockEditorInvariants = (props: BlockEditorProps, environment:
 			if (props.embedContentDiscriminationField === undefined) {
 				throw new BindingError(
 					`BlockEditor: You enabled embed blocks by supplying the 'embedReferenceDiscriminateBy' prop but then ` +
-						`failed to also supply the 'embedContentDiscriminationField'. Without it, the editor would not be ` +
-						`able to distinguish between the kinds of embedded content.`,
+					`failed to also supply the 'embedContentDiscriminationField'. Without it, the editor would not be ` +
+					`able to distinguish between the kinds of embedded content.`,
 				)
 			}
 			if (!props.embedHandlers || Array.from(props.embedHandlers).length === 0) {
 				throw new BindingError(
 					`BlockEditor: You enabled embed blocks by supplying the 'embedReferenceDiscriminateBy' prop but then ` +
-						`failed to also supply any embed handlers. Without them, the editor would not be able to ` +
-						`recognize any embedded content.`,
+					`failed to also supply any embed handlers. Without them, the editor would not be able to ` +
+					`recognize any embedded content.`,
 				)
 			}
 		}
@@ -541,8 +545,8 @@ const assertStaticBlockEditorInvariants = (props: BlockEditorProps, environment:
 }
 
 const RB = RichEditor.buttons
-const defaultInlineButtons: HoveringToolbarsProps['inlineButtons'] = [
-	[RB.bold, RB.italic, RB.underline, RB.anchor],
-	[RB.headingOne, RB.headingTwo],
-	[RB.strikeThrough, RB.code],
+const defaultInlineButtons: HoveringToolbarsProps[ 'inlineButtons' ] = [
+	[ RB.bold, RB.italic, RB.underline, RB.anchor ],
+	[ RB.headingOne, RB.headingTwo ],
+	[ RB.strikeThrough, RB.code ],
 ]
