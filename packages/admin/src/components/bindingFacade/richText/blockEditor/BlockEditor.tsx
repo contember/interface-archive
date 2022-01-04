@@ -265,10 +265,10 @@ const BlockEditorComponent: FunctionComponent<BlockEditorProps> = Component(
 		return (
 			<>
 				{props.leadingFieldBackedElements?.map((item, i) => (
-					<SugaredField field={item.field} key={`leading_${i}`} />
+					'element' in item ? item.element : <SugaredField field={item.field} key={`leading_${i}`} />
 				))}
 				{props.trailingFieldBackedElements?.map((item, i) => (
-					<SugaredField field={item.field} key={`trailing_${i}`} />
+					'element' in item ? item.element : <SugaredField field={item.field} key={`trailing_${i}`} />
 				))}
 				<Repeater {...props} initialEntityCount={0}>
 					<SugaredField field={props.sortableBy} />
@@ -296,6 +296,9 @@ export const BlockEditor = Object.assign<
 const useFieldBackedElementFields = (elements: FieldBackedElement[]) => {
 	return <>
 		{elements.map(el => {
+			if ('element' in el) {
+				return el.element
+			}
 			if (el.format === 'plainText') {
 				return (
 					<TextField field={el.field} label={undefined} placeholder={el.placeholder} distinction={'seamless'}
