@@ -2,6 +2,14 @@ import type { GroupTypeBase, OptionTypeBase, StylesConfig } from 'react-select'
 
 // TODO: Not yet finished with all styles
 export const selectStyles: StylesConfig<OptionTypeBase, boolean, GroupTypeBase<OptionTypeBase>> = {
+	option: (styles, { data }) => ({
+		...styles,
+		display: data.label === '' ? 'none' : styles.display,
+	}),
+	singleValue: (styles, { data }) => ({
+		...styles,
+		display: data.label === '' ? 'none' : styles.display,
+	}),
 	indicatorSeparator: (provided, { isFocused, isDisabled }) => {
 		const backgroundColor = isDisabled
 			? 'var(--cui-color--lower)'
