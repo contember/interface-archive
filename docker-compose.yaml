@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  sandbox_vite:
+  sandbox-vite:
     image: node:16-alpine
     command: '/src/node_modules/.bin/vite src --config vite.config.js --debug --port 3000 --host 0.0.0.0'
 
@@ -15,7 +15,7 @@ services:
       - .:/src:cached
 
 
-  admin_server:
+  admin-server:
     image: node:16-alpine
     command: 'node dist/server/run-admin.js'
 
@@ -42,11 +42,11 @@ services:
       REDIS_PREFIX: 'contember-admin-server'
 
     depends_on:
-      - admin_server_esbuild
-      - admin_server_vite
+      - admin-server-esbuild
+      - admin-server-vite
 
 
-  admin_server_esbuild:
+  admin-server-esbuild:
     image: node:16-alpine
     command: 'npm run watch:server'
 
@@ -55,7 +55,7 @@ services:
       - .:/src:cached
 
 
-  admin_server_vite:
+  admin-server-vite:
     image: node:16-alpine
     command: 'npm run watch:public'
 

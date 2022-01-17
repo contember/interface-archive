@@ -1,19 +1,19 @@
 version: '3'
 
 services:
-  sandbox_vite:
+  sandbox-vite:
     image: 'alpine'
     command: ['sleep', 'infinity']
 
-  admin_server:
+  admin-server:
     image: 'alpine'
     command: ['sleep', 'infinity']
 
-  admin_server_esbuild:
+  admin-server-esbuild:
     image: 'alpine'
     command: ['sleep', 'infinity']
 
-  admin_server_vite:
+  admin-server-vite:
     image: 'alpine'
     command: ['sleep', 'infinity']
 

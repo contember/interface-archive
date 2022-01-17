@@ -1,18 +1,18 @@
 version: '3'
 
 services:
-  sandbox_vite:
+  sandbox-vite:
     user: '1000:1000'
     ports: ['3000:3000']
 
-  admin_server:
+  admin-server:
     user: '1000:1000'
     ports: ['3006:4000']
 
-  admin_server_esbuild:
+  admin-server-esbuild:
     user: '1000:1000'
 
-  admin_server_vite:
+  admin-server-vite:
     user: '1000:1000'
 
   api:
