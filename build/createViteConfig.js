@@ -43,7 +43,6 @@ export function createViteConfig(packageName) {
 				jsxFragment: '_jsxFragment',
 				jsxInject: `import { createElement as _jsx, Fragment as _jsxFragment } from 'react'`,
 			},
-			plugins: [reactRefresh()],
 			resolve: {
 				alias: [
 					...packageList.map(packageName => ({
