@@ -1,0 +1,15 @@
+{
+	"formatVersion": 3,
+	"modifications": [
+		{
+			"modification": "updateColumnDefinition",
+			"entityName": "InputShowcase",
+			"fieldName": "textValue",
+			"definition": {
+				"nullable": false,
+				"type": "String",
+				"columnType": "text"
+			}
+		}
+	]
+}

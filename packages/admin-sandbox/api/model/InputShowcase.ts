@@ -6,7 +6,7 @@ export const SomeEnum = d.createEnum('a', 'b', 'c')
 
 export class InputShowcase {
 	unique = d.enumColumn(One).notNull().unique()
-	textValue = d.stringColumn()
+	textValue = d.stringColumn().notNull()
 	slugValue = d.stringColumn()
 	multilineValue = d.stringColumn()
 	boolValue = d.boolColumn()
