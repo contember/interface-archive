@@ -17,4 +17,5 @@ export interface FieldState<Value extends FieldValue = FieldValue> {
 	placeholderName: FieldName
 	touchLog: Set<string> | undefined
 	value: Value | null
+	nullable: boolean | null
 }

@@ -83,7 +83,7 @@ export class OperationsHelpers {
 
 		const realmBlueprint = realm.blueprint
 
-		const newEntity = stateInitializer.initializeEntityState(newId, oldEntity.entityName)
+		const newEntity = stateInitializer.initializeEntityState(newId, oldEntity.entityName, oldEntity.nullable)
 		const newRealmKey = RealmKeyGenerator.getRealmKey(newId, realmBlueprint)
 
 		realm.realmKey = newRealmKey

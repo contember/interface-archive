@@ -17,6 +17,7 @@ import type {
 	FieldName,
 	Scalar,
 } from '../treeParameters'
+import { EventListenersStore } from '../treeParameters'
 import { assertNever } from '../utils'
 import type { AccessorErrorManager } from './AccessorErrorManager'
 import type { Config } from './Config'
@@ -36,7 +37,6 @@ import {
 } from './state'
 import { TreeParameterMerger } from './TreeParameterMerger'
 import type { TreeStore } from './TreeStore'
-import { EventListenersStore } from '../treeParameters'
 
 export class StateInitializer {
 	private readonly fieldOperations: FieldOperations
@@ -100,12 +100,13 @@ export class StateInitializer {
 		entityName: EntityName,
 		blueprint: EntityRealmBlueprint,
 		copyFrom?: EntityRealmState | EntityRealmStateStub,
+		nullable?: boolean | null,
 	): EntityRealmState | EntityRealmStateStub {
 		// This is counter-intuitive a bit. The method can also return an EntityRealmState, not just a stub.
 		// The reason is so that each call-site can just default to trying to initialize a stub without having to keep
 		// in mind that the realm might have already been initialized.
 
-		const entity = this.initializeEntityState(id, entityName)
+		const entity = this.initializeEntityState(id, entityName, nullable)
 		const realmKey = RealmKeyGenerator.getRealmKey(id, blueprint)
 
 		const existing = this.treeStore.entityRealmStore.get(realmKey)
@@ -280,7 +281,7 @@ export class StateInitializer {
 		entity.realms.set(realmKey, entityRealm)
 	}
 
-	public initializeEntityState(id: RuntimeId, entityName: EntityName): EntityState {
+	public initializeEntityState(id: RuntimeId, entityName: EntityName, nullable: boolean | null | undefined): EntityState {
 		const entityId = id.value
 
 		const existing = this.treeStore.entityStore.get(entityId)
@@ -290,6 +291,7 @@ export class StateInitializer {
 
 		const entityState: EntityState = {
 			entityName,
+			nullable: nullable ?? null,
 			hasIdSetInStone: id instanceof ServerGeneratedUuid,
 			id,
 			isScheduledForDeletion: false,
@@ -364,6 +366,8 @@ export class StateInitializer {
 	): FieldState {
 		const resolvedFieldValue = persistedValue ?? fieldMarker.defaultValue ?? null
 
+		const fieldSchema = this.treeStore.schema.getEntityField(parent.entity.entityName, placeholderName)
+
 		const fieldState: FieldState = {
 			type: 'field',
 			accessor: undefined,
@@ -371,11 +375,13 @@ export class StateInitializer {
 			placeholderName,
 			persistedValue,
 			parent,
+			nullable: fieldSchema?.nullable ?? null,
 			value: resolvedFieldValue,
 			eventListeners: this.initializeFieldEventListenerStore(fieldMarker),
 			errors: undefined,
 			touchLog: undefined,
 			hasUnpersistedChanges: false,
+
 			getAccessor: () => {
 				if (fieldState.accessor === undefined) {
 					fieldState.accessor = new FieldAccessor(
@@ -383,6 +389,7 @@ export class StateInitializer {
 						this.fieldOperations,
 						fieldState.placeholderName,
 						fieldState.value,
+						fieldState.nullable,
 						fieldState.persistedValue === undefined ? null : fieldState.persistedValue,
 						fieldState.fieldMarker.defaultValue,
 						fieldState.errors,

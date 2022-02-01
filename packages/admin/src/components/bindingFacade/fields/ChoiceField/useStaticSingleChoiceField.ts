@@ -1,20 +1,20 @@
-import { ChoiceFieldData } from './ChoiceFieldData'
 import { Environment, useEnvironment, useField, useMutationState, VariableInputTransformer } from '@contember/binding'
 import { useCallback, useMemo } from 'react'
+import { useAccessorErrors } from '../../errors'
+import { ChoiceFieldData } from './ChoiceFieldData'
 import {
 	NormalizedStaticOption,
 	OptionallyVariableStaticOption,
 	StaticSingleChoiceFieldProps,
 } from './StaticSingleChoiceField'
-import { useAccessorErrors } from '../../errors'
 
 export const useStaticSingleChoiceField = (
 	props: StaticSingleChoiceFieldProps,
 ): ChoiceFieldData.SingleChoiceFieldMetadata => {
-
 	const environment = useEnvironment()
 	const isMutating = useMutationState()
 	const field = useField(props)
+	const nullable = field.nullable
 	const options = useMemo(() => normalizeOptions(props.options, environment), [environment, props.options])
 	const currentValue: ChoiceFieldData.ValueRepresentation = options.findIndex(({ value }) => field.hasValue(value))
 	const data = useMemo(
@@ -35,6 +35,7 @@ export const useStaticSingleChoiceField = (
 		[field, options],
 	)
 	const errors = useAccessorErrors(field)
+
 	return useMemo<ChoiceFieldData.SingleChoiceFieldMetadata>(
 		() => ({
 			currentValue,
@@ -43,10 +44,12 @@ export const useStaticSingleChoiceField = (
 			errors,
 			environment,
 			isMutating,
+			nullable,
 		}),
-		[currentValue, data, environment, errors, isMutating, onChange],
+		[currentValue, data, environment, errors, isMutating, nullable, onChange],
 	)
 }
+
 const normalizeOptions = (options: OptionallyVariableStaticOption[], environment: Environment) =>
 	options.map(
 		(options): NormalizedStaticOption => ({
@@ -56,4 +59,3 @@ const normalizeOptions = (options: OptionallyVariableStaticOption[], environment
 			description: options.description,
 		}),
 	)
-

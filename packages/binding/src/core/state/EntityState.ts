@@ -4,6 +4,7 @@ import type { EntityRealmState, EntityRealmStateStub } from './EntityRealmState'
 
 export interface EntityState {
 	entityName: EntityName
+	nullable: boolean | null
 	hasIdSetInStone: boolean // Initially, ids may be changed but only up to a certain point. This marks that point.
 	id: RuntimeId
 	isScheduledForDeletion: boolean

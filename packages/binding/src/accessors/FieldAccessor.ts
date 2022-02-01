@@ -1,10 +1,10 @@
 import type { FieldOperations } from '../core/operations'
+import type { FieldState } from '../core/state'
 import { TemporalFieldHelper, UuidFieldHelper } from '../fieldHelpers'
 import type { FieldName, FieldValue } from '../treeParameters'
 import type { BatchUpdatesOptions } from './BatchUpdatesOptions'
 import type { Errorable } from './Errorable'
 import { ErrorAccessor } from './ErrorAccessor'
-import type { FieldState } from '../core/state'
 
 class FieldAccessor<Value extends FieldValue = FieldValue> implements Errorable {
 	constructor(
@@ -12,6 +12,7 @@ class FieldAccessor<Value extends FieldValue = FieldValue> implements Errorable 
 		private readonly operations: FieldOperations,
 		public readonly fieldName: FieldName,
 		public readonly value: Value | null,
+		public readonly nullable: boolean | null,
 		public readonly valueOnServer: Value | null,
 		public readonly defaultValue: Value | undefined,
 		public readonly errors: ErrorAccessor | undefined,
