@@ -6,18 +6,21 @@ import {
 	useDerivedField,
 	useEnvironment,
 } from '@contember/binding'
-import { SingleLineTextInputProps, SlugInput } from '@contember/ui'
+import { SlugInput, TextInputProps } from '@contember/ui'
 import slugify from '@sindresorhus/slugify'
 import { useCallback, useMemo } from 'react'
 import type { SimpleRelativeSingleFieldProps } from '../auxiliary'
 import { SimpleRelativeSingleField } from '../auxiliary'
-import { stringFieldParser, useTextInput } from './useTextInput'
+import {
+	stringFieldParser,
+	useFieldControl,
+} from './useFieldControl'
 
 type SlugPrefix = string | ((environment: Environment) => string)
 
 export type SlugFieldProps =
 	& SimpleRelativeSingleFieldProps
-	& Omit<SingleLineTextInputProps, 'value' | 'onChange' | 'validationState' | 'allowNewlines'>
+	& Omit<TextInputProps, 'value' | 'onChange' | 'validationState' | 'allowNewlines'>
 	& {
 		derivedFrom: SugaredRelativeSingleField['field']
 		unpersistedHardPrefix?: SlugPrefix
@@ -43,7 +46,6 @@ export const SlugFieldInner = SimpleRelativeSingleField<SlugFieldProps, string>(
 	(fieldMetadata, {
 		name,
 		label,
-		onBlur,
 		unpersistedHardPrefix,
 		persistedHardPrefix,
 		persistedSoftPrefix,
@@ -56,14 +58,15 @@ export const SlugFieldInner = SimpleRelativeSingleField<SlugFieldProps, string>(
 		const normalizedPersistedHardPrefix = useNormalizedPrefix(persistedHardPrefix)
 		const normalizedPersistedSoftPrefix = useNormalizedPrefix(persistedSoftPrefix)
 
-		const { ref: inputRef, ...inputProps } = useTextInput({
+		const inputProps = useFieldControl<string, string>({
+			...props,
 			fieldMetadata,
-			onBlur,
 			parse: (val, field) => {
 				const parsedValue = stringFieldParser(val, field)
 				return parsedValue !== null ? `${normalizedPersistedHardPrefix}${parsedValue}` : null
 			},
-			format: val => val !== null ? val.substring(normalizedPersistedHardPrefix.length) : '',
+			format: value => typeof value === 'string' ? value.substring(normalizedPersistedHardPrefix.length) : '',
+			type: 'text',
 		})
 		const transform = useCallback(
 			(driverFieldValue: string | null) => {
@@ -84,9 +87,7 @@ export const SlugFieldInner = SimpleRelativeSingleField<SlugFieldProps, string>(
 
 		return (
 			<SlugInput
-				{...props}
 				{...inputProps}
-				inputRef={inputRef}
 				prefix={hardPrefix}
 				link={linkToExternalUrl ? fullValue : undefined}
 			/>

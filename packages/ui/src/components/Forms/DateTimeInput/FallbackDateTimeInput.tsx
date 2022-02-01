@@ -1,6 +1,6 @@
 import { ChangeEvent, forwardRef, memo, Ref, useCallback, useEffect, useMemo, useRef } from 'react'
-import { assertDatetimeString, splitDateTime } from '.'
 import { Stack } from '../../Stack'
+import { assertDatetimeString, splitDatetime } from './Serializer'
 import { DateTimeInputProps } from './Types'
 
 export const FallbackDateTimeInput = memo(
@@ -17,9 +17,9 @@ export const FallbackDateTimeInput = memo(
 			assertDatetimeString(min)
 		}
 
-		const [maxDate, maxTime] = useMemo(() => splitDateTime(max), [max])
-		const [minDate, minTime] = useMemo(() => splitDateTime(min), [min])
-		const [valueDate, valueTime] = useMemo(() => splitDateTime(value), [value])
+		const [maxDate, maxTime] = useMemo(() => splitDatetime(max), [max])
+		const [minDate, minTime] = useMemo(() => splitDatetime(min), [min])
+		const [valueDate, valueTime] = useMemo(() => splitDatetime(value), [value])
 
 		const date = useRef<string>(valueDate)
 		const time = useRef<string>(valueTime)
@@ -56,6 +56,7 @@ export const FallbackDateTimeInput = memo(
 					onChange={onDateChange}
 					value={valueDate}
 					{...rest}
+					placeholder={rest.placeholder ?? undefined}
 					type="date"
 				/>
 				<input
@@ -64,6 +65,7 @@ export const FallbackDateTimeInput = memo(
 					onChange={onTimeChange}
 					value={valueTime}
 					{...rest}
+					placeholder={undefined}
 					type="time"
 				/>
 			</Stack>

@@ -1,29 +1,35 @@
 import { TextInput, TextInputProps } from '@contember/ui'
 import { SimpleRelativeSingleField, SimpleRelativeSingleFieldProps } from '../auxiliary'
-import { stringFieldParser, useTextInput } from './useTextInput'
+import {
+	stringFieldFormatter as format,
+	stringFieldParser as parse,
+	useFieldControl,
+} from './useFieldControl'
 
 export type TextFieldProps =
 	& SimpleRelativeSingleFieldProps
-	& Omit<TextInputProps, 'value' | 'onChange' | 'validationState'>
+	& TextInputProps
 	& {
 		wrapLines?: boolean
 	}
 
-const removeNewLines = (text: string) => text.replace(/[\r\n]/g, '')
-
 export const TextField = SimpleRelativeSingleField<TextFieldProps, string>(
-	(fieldMetadata, { defaultValue, name, label, onBlur, wrapLines = false, allowNewlines = false, ...props }) => {
-		const inputProps = useTextInput({
+	(fieldMetadata, {
+		label,
+		name,
+		wrapLines = false,
+		...props
+	}) => {
+		const inputProps = useFieldControl<string, string>({
+			...props,
 			fieldMetadata,
-			onBlur,
-			parse: wrapLines && !allowNewlines ? removeNewLines : stringFieldParser,
+			parse,
+			format,
+			type: 'text',
 		})
+
 		return (
-			<TextInput
-				allowNewlines={allowNewlines || wrapLines}
-				{...inputProps}
-				{...(props as any)} // This is VERY wrong.
-			/>
+			<TextInput {...inputProps} />
 		)
 	},
 	'TextField',

@@ -1,11 +1,38 @@
-import { Component } from '@contember/binding'
-import type { FunctionComponent } from 'react'
-import { TextField, TextFieldProps } from './TextField'
+import { TextareaInput, TextareaInputProps } from '@contember/ui'
+import { SimpleRelativeSingleField, SimpleRelativeSingleFieldProps } from '../auxiliary'
+import { stringFieldParser as parse, useFieldControl } from './useFieldControl'
 
-export type TextareaFieldProps = TextFieldProps
+export type TextareaFieldProps =
+	& SimpleRelativeSingleFieldProps
+	& TextareaInputProps
+	& {
+		wrapLines?: boolean
+	}
 
-const TF: any = TextField // TODO this is a shitty hotfix
+const format = (value: string | null | undefined) => String(value ?? '')
 
-export const TextAreaField: FunctionComponent<TextFieldProps> = Component(props => (
-	<TF {...props} allowNewlines={true} minRows={(props as any).minRows || 3} />
-))
+export const TextareaField = SimpleRelativeSingleField<TextareaFieldProps, string>(
+	(fieldMetadata, {
+		label,
+		name,
+		minRows,
+		...props
+	}) => {
+		const inputProps = useFieldControl<string, string>({
+			...props,
+			fieldMetadata,
+			parse,
+			format,
+			type: 'text',
+		})
+		return (
+			<TextareaInput {...inputProps} minRows={minRows || 3} />
+		)
+	},
+	'TextField',
+)
+
+/**
+ * @deprecated Please use `TextareaField` instead
+ */
+export const TextAreaField = TextareaField

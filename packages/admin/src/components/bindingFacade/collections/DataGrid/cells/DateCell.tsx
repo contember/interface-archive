@@ -1,6 +1,6 @@
 import { Component, QueryLanguage, wrapFilterInHasOnes } from '@contember/binding'
 import type { Input } from '@contember/client'
-import { DateTimeInput, dateToDateValue, FieldContainer, Stack } from '@contember/ui'
+import { DateTimeInput, FieldContainer, Stack, toDateString } from '@contember/ui'
 import { forwardRef, FunctionComponent, memo, ReactNode, useCallback } from 'react'
 import { useMessageFormatter } from '../../../../../i18n'
 import { dateToStringWithoutTimezone } from '../../../../../utils'
@@ -56,8 +56,8 @@ export const DateCell: FunctionComponent<DateCellProps> = Component(props => {
 			filterRenderer={({ filter, setFilter }) => {
 				const formatMessage = useMessageFormatter(dataGridCellsDictionary)
 
-				const start = filter.start ? dateToDateValue(new Date(filter.start)) : ''
-				const end = filter.end ? dateToDateValue(new Date(filter.end)) : ''
+				const start = toDateString(filter.start) ?? ''
+				const end = toDateString(filter.end) ?? ''
 
 				const onDateStartChange = useCallback((value?: string | null) => {
 					setFilter({

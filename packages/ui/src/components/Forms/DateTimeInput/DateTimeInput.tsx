@@ -1,10 +1,10 @@
 import classNames from 'classnames'
 import { DetailedHTMLProps, forwardRef, InputHTMLAttributes, memo, Ref } from 'react'
-import { assertDateString, assertDatetimeString, assertTimeString } from '.'
 import { useComponentClassName } from '../../../auxiliary'
 import { toViewClass } from '../../../utils'
 import { useNativeInput } from '../useNativeInput'
 import { FallbackDateTimeInput } from './FallbackDateTimeInput'
+import { assertDateString, assertDatetimeString, assertTimeString } from './Serializer'
 import { DateTimeInputProps } from './Types'
 
 let _isInputDateTimeLocalSupported: boolean | null = null

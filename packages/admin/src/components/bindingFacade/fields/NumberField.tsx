@@ -1,19 +1,26 @@
-import { SingleLineTextInputProps, TextInput } from '@contember/ui'
+import { TextInput, TextInputProps } from '@contember/ui'
 import { SimpleRelativeSingleField, SimpleRelativeSingleFieldProps } from '../auxiliary'
-import { useTextInput } from './useTextInput'
+import { useFieldControl } from './useFieldControl'
 
 export type NumberFieldProps = SimpleRelativeSingleFieldProps &
-	Omit<SingleLineTextInputProps, 'value' | 'onChange' | 'validationState' | 'allowNewlines'>
+	Omit<TextInputProps, 'value' | 'onChange' | 'validationState' | 'allowNewlines'>
 
 export const NumberField = SimpleRelativeSingleField<NumberFieldProps, number>(
-	(fieldMetadata, { defaultValue, onBlur, ...props }) => {
-		const inputProps = useTextInput<number>({
+	(fieldMetadata, { defaultValue, ...props }) => {
+		const inputProps = useFieldControl<number, string>({
+			...props,
 			fieldMetadata,
-			onBlur,
-			parse: value => parseInt(value, 10),
-			format: value => (typeof value === 'number' ? value.toString(10) : '0'),
+			parse: value => typeof value === 'string' && value.trim() !== ''
+				? parseInt(value, 10)
+				: null,
+			format: value => (typeof value === 'number' && value !== NaN
+				? value.toString(10)
+				: ''
+			),
+			type: 'number',
 		})
-		return <TextInput type="number" {...inputProps} {...props} />
+
+		return <TextInput {...inputProps} />
 	},
 	'NumberField',
 )

@@ -1,33 +1,46 @@
-import { SingleLineTextInputProps, TextInput } from '@contember/ui'
-import { SimpleRelativeSingleField, SimpleRelativeSingleFieldProps } from '../auxiliary'
-import { useTextInput } from './useTextInput'
+import { TextInput, TextInputProps } from '@contember/ui'
 import { useState } from 'react'
+import { SimpleRelativeSingleField, SimpleRelativeSingleFieldProps } from '../auxiliary'
+import { useFieldControl } from './useFieldControl'
 
 export type FloatFieldProps = SimpleRelativeSingleFieldProps &
-	Omit<SingleLineTextInputProps, 'value' | 'onChange' | 'validationState' | 'allowNewlines'>
+	Omit<TextInputProps, 'value' | 'validationState' | 'allowNewlines'>
 
 export const FloatField = SimpleRelativeSingleField<FloatFieldProps, number>(
-	(fieldMetadata, { defaultValue, onBlur, ...props }) => {
+	(fieldMetadata, {
+		defaultValue,
+		name,
+		label,
+		...props
+	}) => {
 		const [innerValue, setInnerValue] = useState('')
-		const inputProps = useTextInput<number>({
+
+		const inputProps = useFieldControl<number, string>({
+			...props,
+			type: 'text',
 			fieldMetadata,
-			onBlur,
-			parse: val => {
-				const normalizedValue = (val || '0')
-					.replaceAll(',', '.')
-					.replace(/([^0-9.]|\.(?=\d*\.))/g, '')
-					.replace(/^0*(?=\d)/, '')
+			parse: value => {
+				const normalizedValue = typeof value === 'string' && value.trim() !== ''
+					? (value)
+						.replaceAll(',', '.')
+						.replace(/([^0-9.]|\.(?=\d*\.))/g, '')
+						.replace(/^0*(?=\d)/, '')
+					: ''
+
 				setInnerValue(normalizedValue)
-				return parseFloat(normalizedValue)
+
+				return normalizedValue ? parseFloat(normalizedValue) : null
 			},
-			format: value =>
-				innerValue && parseFloat(innerValue) === value
+			format: value => {
+				return innerValue && parseFloat(innerValue) === value
 					? innerValue
 					: typeof value === 'number'
-					? value.toString(10)
-					: '0',
+						? value.toString(10)
+						: ''
+			},
 		})
-		return <TextInput {...inputProps} {...props} />
+
+		return <TextInput {...inputProps} />
 	},
 	'FloatField',
 )
