@@ -59,13 +59,13 @@ export const DateCell: FunctionComponent<DateCellProps> = Component(props => {
 				const start = filter.start ? dateToDateValue(new Date(filter.start)) : ''
 				const end = filter.end ? dateToDateValue(new Date(filter.end)) : ''
 
-				const onDateStartChange = useCallback((value: string | null) => {
+				const onDateStartChange = useCallback((value?: string | null) => {
 					setFilter({
 						...filter,
 						start: value ? dateToStringWithoutTimezone(new Date(value)) : null,
 					})
 				}, [filter, setFilter])
-				const onDateEndChange = useCallback((value: string | null) => {
+				const onDateEndChange = useCallback((value?: string | null) => {
 					setFilter({
 						...filter,
 						end: value ? dateToStringWithoutTimezone(new Date(value)) : null,

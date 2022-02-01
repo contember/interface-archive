@@ -13,14 +13,14 @@ import {
 } from '@contember/binding'
 import { emptyArray, noop } from '@contember/react-utils'
 import { EditorCanvas, EditorCanvasSize, FieldContainer, Scheme } from '@contember/ui'
-import { Fragment, FunctionComponent, ReactElement, ReactNode, useCallback, useMemo, useState, useLayoutEffect } from 'react'
-import { Range as SlateRange, Transforms, Editor } from 'slate'
+import { Fragment, FunctionComponent, ReactElement, ReactNode, useCallback, useLayoutEffect, useMemo, useState } from 'react'
+import { Range as SlateRange, Transforms } from 'slate'
 import { Slate } from 'slate-react'
 import { getDiscriminatedBlock, useNormalizedBlocks } from '../../blocks'
 import { Repeater, SortableRepeaterContainer } from '../../collections'
 import { shouldCancelStart } from '../../collections/Repeater/shouldCancelStart'
 import { SugaredDiscriminateBy, useDiscriminatedData } from '../../discrimination'
-import { TextField } from '../../fields'
+import { TextareaField } from '../../fields'
 import { createEditorWithEssentials } from '../baseEditor'
 import { EditableCanvas } from '../baseEditor/EditableCanvas'
 import type { CreateEditorPublicOptions } from '../editorFactory'
@@ -337,8 +337,15 @@ const useFieldBackedElementFields = (elements: FieldBackedElement[]) => {
 			}
 			if (el.format === 'plainText') {
 				return (
-					<TextField key={i} field={el.field} label={undefined} placeholder={el.placeholder} distinction={'seamless'}
-										 size={el.size} wrapLines />
+					<TextareaField
+						key={i}
+						wrapLines
+						distinction={'seamless'}
+						field={el.field}
+						label={undefined}
+						placeholder={el.placeholder}
+						size={el.size}
+					/>
 				)
 			}
 			return <RichTextField key={i} field={el.field} label={undefined} placeholder={el.placeholder} distinction={'seamless'} />

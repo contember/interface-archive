@@ -49,7 +49,6 @@ export const ChangePassword: FC<{}> = ({}) => {
 						errors={errors.currentPassword === undefined ? undefined : [{ message: errors.currentPassword }]}
 					>
 						<TextInput
-							allowNewlines={false}
 							type="password"
 							autoComplete="password"
 							{...register('currentPassword')}
@@ -60,7 +59,6 @@ export const ChangePassword: FC<{}> = ({}) => {
 						errors={errors.newPassword === undefined ? undefined : [{ message: errors.newPassword }]}
 					>
 						<TextInput
-							allowNewlines={false}
 							type="password"
 							autoComplete="new-password"
 							{...register('newPassword')}
@@ -71,7 +69,6 @@ export const ChangePassword: FC<{}> = ({}) => {
 						errors={errors.newPasswordAgain === undefined ? undefined : [{ message: errors.newPasswordAgain }]}
 					>
 						<TextInput
-							allowNewlines={false}
 							type="password"
 							autoComplete="new-password"
 							{...register('newPasswordAgain')}

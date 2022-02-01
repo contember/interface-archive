@@ -11,7 +11,7 @@ import {
 	RadioField,
 	SelectField,
 	SlugField,
-	TextAreaField,
+	TextareaField,
 	TextField,
 	TimeField,
 } from '@contember/admin'
@@ -22,7 +22,7 @@ export const Inputs = (
 		<TextField field={'textValue'} label={'Text'} />
 		<SlugField derivedFrom={'textValue'} field={'slugValue'} label={'Slug with prefix'} unpersistedHardPrefix="https://www.contember.com/" linkToExternalUrl />
 		<SlugField derivedFrom={'textValue'} field={'slugValue'} label={'Slug without prefix'} />
-		<TextAreaField field={'multilineValue'} label={'Multiline text'} />
+		<TextareaField field={'multilineValue'} label={'Multiline text'} />
 		<CheckboxField field={'boolValue'} label={'Bool'} />
 		<NumberField field={'intValue'} label={'Int'} />
 		<FloatField field={'floatValue'} label={'Float value'} />

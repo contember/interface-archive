@@ -1,4 +1,4 @@
-import { Box, Button, FieldContainer, Icon, RepeaterItemContainer, Select, SelectOption } from '@contember/ui'
+import { Box, Button, Divider, FieldContainer, Icon, Select, SelectOption, Stack } from '@contember/ui'
 import { ComponentType, Dispatch, FC, SetStateAction, useCallback } from 'react'
 import { useListRolesQuery } from '../../queries'
 import { Membership } from '../../types'
@@ -42,8 +42,8 @@ export const EditMembership: FC<EditMembershipProps> = ({ project, memberships, 
 				const roleDefinitions = query.data.project.roles
 				const rolesToShow = rolesConfig ? roleDefinitions.filter(({ name }) => name in rolesConfig) : roleDefinitions
 				return (
-					<>
-						<Box heading={'Roles'} distinction="seamless">
+					<FieldContainer label={'Roles'} useLabelElement={false}>
+						<Stack direction="vertical" gap="small">
 							{memberships.map((membership, membershipIndex) => {
 								const roleDefinition = membership && roleDefinitions.find(def => def.name === membership.role)
 
@@ -62,22 +62,19 @@ export const EditMembership: FC<EditMembershipProps> = ({ project, memberships, 
 								}
 
 								return (
-									<RepeaterItemContainer
-										label={undefined}
-										key={membershipIndex}
-										actions={<Button distinction={'seamless'} size="small" onClick={removeMembership}><Icon blueprintIcon="trash" /></Button>}
-									>
-										<FieldContainer label={undefined}>
+									<Box key={membershipIndex} padding="no-padding">
+										<Stack align="center" direction="horizontal" gap="none">
 											<Select
-												onChange={e => {
-													const newRole = e.target.value
-													if (!membership || newRole !== membership.role) {
-														updateMembership({ role: newRole, variables: [] })
+												required
+												distinction="seamless"
+												onChange={role => {
+													if (typeof role === 'string' && (!membership || role !== membership.role)) {
+														updateMembership({ role, variables: [] })
 													}
 												}}
+												placeholder="Select role"
 												options={[
-													{ value: -1, label: 'Select role', disabled: true },
-													...rolesToShow.map(({ name: roleName }): SelectOption => {
+													...rolesToShow.map(({ name: roleName }): SelectOption<typeof roleName> => {
 														const otherIndex = memberships.findIndex(mem => mem && mem.role === roleName)
 														const enabled = otherIndex === -1 || otherIndex === membershipIndex
 														return {
@@ -89,37 +86,48 @@ export const EditMembership: FC<EditMembershipProps> = ({ project, memberships, 
 												]}
 												value={membership === undefined ? -1 : membership.role}
 											/>
-										</FieldContainer>
-										{roleDefinition &&
-											membership &&
-											roleDefinition.variables.map(variable => (
-												<VariableSelector
-													key={variable.name}
-													rolesConfig={rolesConfig}
-													membership={membership}
-													variable={variable}
-													onChange={newMembership => {
-														updateMembership(newMembership)
-													}}
-												/>
-											))}
-
-									</RepeaterItemContainer>
+											<Divider gap="none" />
+											<Button
+												distinction="seamless"
+												flow="squarish"
+												onClick={removeMembership}
+											>
+												<Icon blueprintIcon="trash" />
+											</Button>
+										</Stack>
+										{roleDefinition && roleDefinition.variables.length > 0 && membership && <>
+											<Divider gap="none" />
+											<Box distinction="seamless">
+												<Stack direction="vertical">
+													{roleDefinition.variables.map(variable => (
+														<VariableSelector
+															key={variable.name}
+															rolesConfig={rolesConfig}
+															membership={membership}
+															variable={variable}
+															onChange={newMembership => {
+																updateMembership(newMembership)
+															}}
+														/>
+													))}
+												</Stack>
+											</Box>
+											</>
+										}
+									</Box>
 								)
 							})}
-							<RepeaterItemContainer label={undefined}>
-								<Button
-									distinction="seamless"
-									flow="block"
-									justification="justifyStart"
-									onClick={addMembership}
-								>
-									<Icon blueprintIcon={'add'} style={{ marginRight: '0.2em' }} />
-									Add role
-								</Button>
-							</RepeaterItemContainer>
-						</Box>
-					</>
+							<Button
+								distinction="seamless"
+								flow="block"
+								justification="justifyStart"
+								onClick={addMembership}
+							>
+								<Icon blueprintIcon={'add'} style={{ marginRight: '0.2em' }} />
+								Add role
+							</Button>
+						</Stack>
+					</FieldContainer>
 				)
 			}}
 		</QueryLoader>
