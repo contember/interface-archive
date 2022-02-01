@@ -1,9 +1,8 @@
-import { TextInputOwnProps } from '../TextInput'
+import { OwnControlProps } from '../Types'
 
-export type DateTimeInputProps = Omit<TextInputOwnProps, 'onChange'> & {
-	className?: string
-	onChange: (value: string | null) => void,
+export type DateTimeInputProps = OwnControlProps<string> & {
 	type: 'date' | 'time' | 'datetime'
 	min?: string
 	max?: string
+	withTopToolbar?: boolean
 }

@@ -19,6 +19,8 @@ export interface ControlStateProps {
 	loading?: boolean
 	readOnly?: boolean
 	required?: boolean
+  focused?: boolean
+  hovered?: boolean
 }
 
 export interface ControlFocusProps {
@@ -66,3 +68,9 @@ export type OwnControlProps<V> =
 
 export type AllOwnControlProps<V> = All<OwnControlProps<V>>
 export type OwnControlPropsKeys<V> = keyof OwnControlProps<V>
+
+export type VisuallyDependententControlProps =
+	ControlStateProps
+	& ControlDisplayProps
+	& Pick<ValidationSteteProps, 'validationState'>
+export type AllVisuallyDependententControlProps = All<VisuallyDependententControlProps>

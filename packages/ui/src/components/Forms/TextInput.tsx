@@ -1,62 +1,34 @@
-import cn from 'classnames'
-import { ChangeEventHandler, createElement, forwardRef, memo, Ref } from 'react'
-import TextareaAutosize from 'react-textarea-autosize'
+import classNames from 'classnames'
+import { AllHTMLAttributes, forwardRef, memo } from 'react'
 import { useComponentClassName } from '../../auxiliary'
-import type { ControlDistinction, Size, ValidationState } from '../../types'
-import { toEnumStateClass, toEnumViewClass, toViewClass } from '../../utils'
+import { toViewClass } from '../../utils'
+import type { OwnControlProps, OwnControlPropsKeys } from './Types'
+import { useNativeInput } from './useNativeInput'
 
-type PropBlackList = 'onChange' | 'ref' | 'defaultValue' | 'size'
+interface UnderlyingElementProps extends Omit<AllHTMLAttributes<HTMLInputElement>, OwnControlPropsKeys<string>> {}
 
-type UnderlyingTextAreaProps = Omit<JSX.IntrinsicElements['textarea'], PropBlackList> & {
-	allowNewlines: true
-	minRows?: number
-}
-
-type UnderlyingInputProps = Omit<JSX.IntrinsicElements['input'], PropBlackList> & {
-	allowNewlines?: false
-}
-
-export interface TextInputOwnProps {
-	value: string
-	onChange: ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>
-
-	size?: Size
-	distinction?: ControlDistinction
-	validationState?: ValidationState
+export type TextInputOwnProps = OwnControlProps<string> & {
 	withTopToolbar?: boolean
-	readOnly?: boolean
 }
 
-export type TextInputProps = TextInputOwnProps & (UnderlyingTextAreaProps | UnderlyingInputProps)
-
-export type SingleLineTextInputProps = TextInputOwnProps & UnderlyingInputProps
-export type MultiLineTextInputProps = TextInputOwnProps & UnderlyingTextAreaProps
+export type TextInputProps = TextInputOwnProps & UnderlyingElementProps
 
 export const TextInput = memo(
-	forwardRef(({ size, distinction, validationState, withTopToolbar, ...otherProps }: TextInputProps, ref: Ref<any>) => {
-		const finalClassName = cn(
-			useComponentClassName('input'),
-			toEnumViewClass(size),
-			toEnumViewClass(distinction),
-			toEnumStateClass(validationState),
-			toViewClass('withTopToolbar', withTopToolbar),
-		)
+	forwardRef<HTMLInputElement, TextInputProps>(({
+		className,
+		withTopToolbar,
+		...props
+	}, ref) => {
+		const inputProps = useNativeInput<HTMLInputElement>({
+			...props,
+			className: classNames(
+				useComponentClassName('input'),
+				toViewClass('withTopToolbar', withTopToolbar),
+				className,
+			),
+		}, ref)
 
-		if (otherProps.allowNewlines) {
-			const { allowNewlines, style, ...textareaProps } = otherProps
-
-			// Casting because the typings are currently just wrong. The actual library now supplies its own but
-			// a storybook dependency requires an ancient version of the definitely typed package from before that.
-			return createElement(TextareaAutosize, {
-				ref: ref,
-				className: finalClassName,
-				cacheMeasurements: true,
-				style: style as any,
-				...textareaProps,
-			} as any)
-		}
-		const { allowNewlines, ...inputProps } = otherProps
-		return <input ref={ref} type="text" className={finalClassName} {...inputProps} />
+		return <input {...inputProps} />
 	}),
 )
 TextInput.displayName = 'TextInput'

@@ -33,7 +33,7 @@ export const FallbackDateTimeInput = memo(
 			const newValue = date.current && time.current ? `${date.current}T${time.current}` : ''
 
 			if (newValue !== value) {
-				onChange(newValue)
+				onChange?.(newValue)
 			}
 		}, [onChange, value])
 

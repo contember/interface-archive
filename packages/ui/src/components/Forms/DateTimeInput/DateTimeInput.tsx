@@ -1,8 +1,9 @@
 import classNames from 'classnames'
-import { ChangeEventHandler, DetailedHTMLProps, forwardRef, InputHTMLAttributes, memo, Ref, useCallback } from 'react'
+import { DetailedHTMLProps, forwardRef, InputHTMLAttributes, memo, Ref } from 'react'
 import { assertDateString, assertDatetimeString, assertTimeString } from '.'
 import { useComponentClassName } from '../../../auxiliary'
-import { toEnumStateClass, toEnumViewClass, toViewClass } from '../../../utils'
+import { toViewClass } from '../../../utils'
+import { useNativeInput } from '../useNativeInput'
 import { FallbackDateTimeInput } from './FallbackDateTimeInput'
 import { DateTimeInputProps } from './Types'
 
@@ -81,31 +82,29 @@ const InnerDatetimeInput = memo(
 InnerDatetimeInput.displayName = 'InnerDatetimeInput'
 
 export const DateTimeInput = memo(
-	forwardRef((props: DateTimeInputProps, ref: Ref<HTMLInputElement>) => {
-		const { className: _className, size, distinction, onChange: _onChange, validationState, withTopToolbar, type, ...rest } = props
+	forwardRef(({
+		className,
+		withTopToolbar,
+		...props
+	}: DateTimeInputProps, ref: Ref<HTMLInputElement>) => {
+		const inputProps = useNativeInput<HTMLInputElement>({
+			...props,
+			className: classNames(
+				useComponentClassName('input'),
+				toViewClass('withTopToolbar', withTopToolbar),
+				className,
+			),
+		}, ref)
 
-		const className = classNames(
-			useComponentClassName('input'),
-			toEnumViewClass(size),
-			toEnumViewClass(distinction),
-			toEnumStateClass(validationState),
-			toViewClass('withTopToolbar', withTopToolbar),
-			_className,
-		)
-
-		const onChange: ChangeEventHandler<HTMLInputElement> = useCallback(event => {
-			_onChange(event.target.value ? event.target.value : null)
-		}, [_onChange])
-
-		switch (type) {
+		switch (props.type) {
 			case 'date':
-				return <InnerDateInput ref={ref} className={className} onChange={onChange} {...rest} />
+				return <InnerDateInput {...inputProps} />
 			case 'time':
-				return <InnerTimeInput ref={ref} className={className} onChange={onChange} {...rest} />
+				return <InnerTimeInput {...inputProps} />
 			default:
 				return isInputDateTimeLocalSupported()
-					? <InnerDatetimeInput ref={ref} className={className} onChange={onChange} {...rest} />
-					: <FallbackDateTimeInput ref={ref} {...props} className={className} />
+					? <InnerDatetimeInput {...inputProps} />
+					: <FallbackDateTimeInput ref={ref} {...props} />
 		}
 	}),
 )
