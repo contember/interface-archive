@@ -80,7 +80,7 @@ export function DimensionsRenderer(props: DimensionsRendererProps) {
 								href={href}
 								flow="block"
 								distinction="seamless"
-								isActive={dimension.isSelected}
+								active={dimension.isSelected}
 								onClick={onClick}
 							>
 								{dimension.label}
