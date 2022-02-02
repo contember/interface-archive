@@ -1,87 +1,104 @@
-import cn from 'classnames'
-import { memo, ReactNode, useRef } from 'react'
+import classNames from 'classnames'
+import { AllHTMLAttributes, forwardRef, memo, ReactNode, RefObject } from 'react'
 import { mergeProps, useCheckbox, useFocusRing, useHover, VisuallyHidden } from 'react-aria'
 import { useToggleState } from 'react-stately'
-import { useClassNamePrefix } from '../../../auxiliary'
-import type { Size, ValidationState } from '../../../types'
-import { toEnumStateClass, toStateClass } from '../../../utils'
-import { CheckboxButton as DefaultCheckboxButton } from './CheckboxButton'
+import { useComponentClassName } from '../../../auxiliary'
+import { toStateClass } from '../../../utils'
 import { FieldContainer } from '../FieldContainer'
+import { OwnControlProps, OwnControlPropsKeys } from '../Types'
+import { useNativeInput } from '../useNativeInput'
+import { CheckboxButton as DefaultCheckboxButton } from './CheckboxButton'
 
-export interface CheckboxProps {
+interface UnderlyingElementProps extends Omit<AllHTMLAttributes<HTMLInputElement>, OwnControlPropsKeys<boolean> | 'checked'> {}
+
+export type CheckoboxOwnProps = OwnControlProps<boolean> & {
 	CheckboxButtonComponent?: typeof DefaultCheckboxButton
 	children: ReactNode
-	isDisabled?: boolean
 	labelDescription?: ReactNode
-	onChange: (newValue: boolean) => void
-	size?: Size
-	validationState?: ValidationState
-	value: boolean | null
 }
 
+export type CheckboxProps = CheckoboxOwnProps & UnderlyingElementProps
+
 export const Checkbox = memo(
-	({ CheckboxButtonComponent, value, onChange, size, isDisabled, children, labelDescription, validationState }: CheckboxProps) => {
-		const prefix = useClassNamePrefix()
+	forwardRef<HTMLInputElement, CheckboxProps>(({
+		CheckboxButtonComponent,
+		children,
+		className: outerClassName,
+		...props
+	}, forwardedRef) => {
+		const checked = props.value ?? false
+		const indeterminate = props.value === null
+		const componentClassName = useComponentClassName('checkbox')
+
+		const { ref, className, ...nativeInputProps } = useNativeInput({
+			...props,
+			className: classNames(
+				componentClassName,
+				toStateClass('checked', checked),
+				toStateClass('indeterminate', indeterminate),
+				outerClassName,
+			),
+			defaultValue: undefined,
+			onChange: undefined,
+			value: undefined,
+		}, forwardedRef)
 
 		const toggleProps: Parameters<typeof useToggleState>[0] = {
-			isDisabled,
 			children,
-			onChange,
-			isSelected: value ?? false,
+			isDisabled: props.disabled,
+			isSelected: checked,
+			onChange: props.onChange,
 		}
 
 		const toggleState = useToggleState(toggleProps)
-		const checkboxRef = useRef<HTMLInputElement>(null)
-		const { inputProps } = useCheckbox(
+		const { inputProps: checkboxProps } = useCheckbox(
 			{
 				...toggleProps,
-				isIndeterminate: value === null,
+				isIndeterminate: indeterminate,
 			},
 			toggleState,
-			checkboxRef,
+			ref as RefObject<HTMLInputElement>,
 		)
 
 		const { isFocusVisible, focusProps } = useFocusRing()
-		const { isHovered, hoverProps } = useHover({ isDisabled })
-
-		const finalClassName = cn(
-			`${prefix}checkbox`,
-			toEnumStateClass(validationState),
-			toStateClass('focused', isFocusVisible),
-			toStateClass('checked', value === true),
-			toStateClass('indeterminate', value === null),
-			toStateClass('disabled', isDisabled),
-			toStateClass('readonly', inputProps.readOnly),
-			toStateClass('hovered', isHovered),
-		)
+		const { isHovered, hoverProps } = useHover({ isDisabled: props.disabled })
 
 		const CheckboxButton = CheckboxButtonComponent ?? DefaultCheckboxButton
 
 		return (
-			<label {...hoverProps} className={finalClassName}>
+			<label {...hoverProps} className={className}>
 				<FieldContainer
 					useLabelElement={false}
-					size={size}
+					size={props.size}
 					label={children}
-					labelDescription={labelDescription}
+					labelDescription={props.labelDescription}
 					labelPosition="labelInlineRight"
 				>
 					<VisuallyHidden>
-						<input {...mergeProps(inputProps, focusProps)} ref={checkboxRef} />
+						<input {...mergeProps(nativeInputProps, checkboxProps, focusProps)} ref={ref} />
 					</VisuallyHidden>
 
 					<CheckboxButton
-						isFocused={isFocusVisible}
-						isChecked={value === true}
-						isIndeterminate={value === null}
-						isDisabled={isDisabled}
-						isReadonly={inputProps.readOnly}
-						isHovered={isHovered}
-						isInvalid={validationState === 'invalid'}
+						active={props.active}
+						checked={checked}
+						className={outerClassName}
+						disabled={props.disabled}
+						distinction={props.distinction}
+						focused={isFocusVisible}
+						hovered={isHovered}
+						indeterminate={indeterminate}
+						intent={props.intent}
+						loading={props.loading}
+						readOnly={props.readOnly}
+						required={props.required}
+						scheme={props.scheme}
+						size={props.size}
+						type="checkbox" // TODO: should come from props?
+						validationState={props.validationState}
 					/>
 				</FieldContainer>
 			</label>
 		)
 	},
-)
+))
 Checkbox.displayName = 'Checkbox'

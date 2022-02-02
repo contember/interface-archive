@@ -17,13 +17,16 @@ export default {
 } as ComponentMeta<typeof Checkbox>
 
 const Template: ComponentStory<typeof Checkbox> = args => {
-	const [value, setValue] = useState<boolean | null>(args.value)
+	const [value, setValue] = useState<boolean | undefined | null>(args.value)
 
 	React.useEffect(() => {
 		setValue(args.value)
 	}, [args.value])
 
-	return <Checkbox {...args} value={value} onChange={setValue} />
+	return <>
+		<Checkbox {...args} value={value} onChange={setValue} />
+		<div>value: {JSON.stringify(value)}</div>
+	</>
 }
 
 export const Defaut = Template.bind({})

@@ -78,7 +78,7 @@ export const TextCell: FunctionComponent<TextCellProps> = Component(props => {
 							onChange={checked => {
 								setFilter({
 									...filter,
-									nullCondition: checked,
+									nullCondition: !!checked,
 								})
 							}}
 						>

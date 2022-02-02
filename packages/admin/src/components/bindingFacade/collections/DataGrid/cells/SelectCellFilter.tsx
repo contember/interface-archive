@@ -1,11 +1,11 @@
-import { FilterRendererProps } from '../base'
-import { BaseDynamicChoiceField } from '../../../fields/ChoiceField/BaseDynamicChoiceField'
-import { useSelectOptions } from '../../../fields/ChoiceField/useSelectOptions'
+import { Checkbox } from '@contember/ui'
 import { useMemo } from 'react'
 import { useMessageFormatter } from '../../../../../i18n'
-import { dataGridCellsDictionary } from './dataGridCellsDictionary'
 import { MultiSelectFieldInner } from '../../../fields'
-import { Checkbox } from '@contember/ui'
+import { BaseDynamicChoiceField } from '../../../fields/ChoiceField/BaseDynamicChoiceField'
+import { useSelectOptions } from '../../../fields/ChoiceField/useSelectOptions'
+import { FilterRendererProps } from '../base'
+import { dataGridCellsDictionary } from './dataGridCellsDictionary'
 
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
@@ -57,7 +57,7 @@ export const SelectCellFilter = ({ filter, setFilter, environment, optionProps }
 			onChange={checked => {
 				setFilter({
 					...filter,
-					nullCondition: checked,
+					nullCondition: !!checked,
 				})
 			}}
 		>

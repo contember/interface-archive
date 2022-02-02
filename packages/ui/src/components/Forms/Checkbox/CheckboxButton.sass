@@ -56,7 +56,10 @@
 
 	&.is-disabled
 		cursor: not-allowed
-		opacity: 0.5
+		opacity: 0.33
+	&.is-read-only
+		cursor: not-allowed
+		opacity: 0.75
 	&.is-focused
 		box-shadow: 0 0 0 .2em var(--cui-control-border-color--highlighted)
 	&.is-focused:not(.is-checked)

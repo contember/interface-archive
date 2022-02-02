@@ -93,7 +93,7 @@ export function DimensionsRenderer(props: DimensionsRendererProps) {
 					<Checkbox
 						key={dimension.slug}
 						value={dimension.isSelected}
-						isDisabled={dimension.isSelected && !canSelectLess}
+						disabled={dimension.isSelected && !canSelectLess}
 						onChange={() => redirect(getRequestChangeCallback(dimension))}
 					>
 						{dimension.label}
