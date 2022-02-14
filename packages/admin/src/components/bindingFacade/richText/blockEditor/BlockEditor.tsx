@@ -183,6 +183,13 @@ const BlockEditorComponent: FunctionComponent<BlockEditorProps> = Component(
 		const leadingElements = useFieldBackedElementFields(leadingFieldBackedElements)
 		const trailingElements = useFieldBackedElementFields(trailingFieldBackedElements)
 
+		useEffect(() => {
+			if (editor.children !== nodes) {
+				editor.children = nodes
+			}
+		}, [nodes, editor])
+
+
 		// TODO label?
 		return (
 			<ReferencesProvider getReferencedEntity={getReferencedEntity}>
