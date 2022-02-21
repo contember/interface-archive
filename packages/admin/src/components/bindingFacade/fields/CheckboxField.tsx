@@ -19,7 +19,6 @@ export const CheckboxField: FunctionComponent<CheckboxFieldProps> = Component(
 				errors={useAccessorErrors(field)}
 				label={undefined}
 				useLabelElement={false}
-				required={!field.schema.nullable}
 			>
 				<Checkbox
 					labelDescription={props.labelDescription}

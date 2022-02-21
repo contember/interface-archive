@@ -63,7 +63,6 @@ export const SimpleRelativeSingleFieldProxy = memo(
 						labelPosition={labelPosition}
 						description={normalizedDescription}
 						errors={fieldErrors}
-						required={!field.schema.nullable}
 					>
 						{rendered}
 					</FieldContainer>
