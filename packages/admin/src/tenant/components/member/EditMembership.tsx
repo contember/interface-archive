@@ -84,7 +84,7 @@ export const EditMembership: FC<EditMembershipProps> = ({ project, memberships, 
 														}
 													}),
 												]}
-												value={membership === undefined ? -1 : membership.role}
+												value={membership === undefined ? null : membership.role}
 											/>
 											<Divider gap="none" />
 											<Button
