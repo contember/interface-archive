@@ -1,5 +1,5 @@
 import { BindingError, Component } from '@contember/binding'
-import { FieldContainer, FieldContainerProps, FieldErrors, Select, SelectOption } from '@contember/ui'
+import { FieldContainer, FieldContainerProps, FieldErrors, flipValue, Select, SelectOption } from '@contember/ui'
 import { forwardRef, FunctionComponent, memo, RefAttributes } from 'react'
 import {
 	ChoiceField,
@@ -46,7 +46,11 @@ export const NativeSelectField: FunctionComponent<NativeSelectFieldProps> = Comp
 
 export interface NativeSelectFieldInnerPublicProps extends Omit<FieldContainerProps, 'children'> {
 	placeholder?: string
-	allowNull?: boolean | null
+	/**
+	 * @deprecated Use `notNull` prop instead
+	 */
+	allowNull?: boolean
+	notNull?: boolean
 }
 
 export interface NativeSelectFieldInnerProps extends ChoiceFieldData.SingleChoiceFieldMetadata, NativeSelectFieldInnerPublicProps, RefAttributes<HTMLSelectElement> {
@@ -69,7 +73,8 @@ export const NativeSelectFieldInner = memo(forwardRef<HTMLSelectElement, NativeS
 		<FieldContainer {...props} label={props.environment.applySystemMiddleware('labelMiddleware', props.label)}>
 			<Select
 				ref={ref}
-				required={props.allowNull === false}
+				required={props.required}
+				notNull={props.notNull ?? flipValue(props.allowNull)}
 				value={props.currentValue}
 				placeholder={props.placeholder}
 				onChange={(value?: number | null) => {
