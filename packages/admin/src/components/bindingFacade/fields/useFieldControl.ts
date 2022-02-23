@@ -101,7 +101,8 @@ export const useFieldControl = <Value extends FieldValue, ControlValue extends F
 		readOnly: fieldMetadata.isMutating,
 		disabled: fieldMetadata.isMutating,
 		loading: fieldMetadata.isMutating,
-		required: fieldMetadata.field.schema.nullable === false,
+		required: props.required, // TODO: ?? fieldMetadata.field.schema.required,
+		notNull: props.notNull ?? fieldMetadata.field.schema.nullable === false,
 		focused: props.focused,
 		hovered: props.hovered,
 
