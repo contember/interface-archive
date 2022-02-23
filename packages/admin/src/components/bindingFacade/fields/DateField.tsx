@@ -6,12 +6,7 @@ import {
 } from '../auxiliary'
 import { useFieldControl } from './useFieldControl'
 
-export type DateFieldProps = SimpleRelativeSingleFieldProps &
-	Omit<TextInputProps, 'max' | 'min'> & {
-		max?: string
-		min?: string
-		showTimeSelect?: boolean
-	}
+export type DateFieldProps = SimpleRelativeSingleFieldProps & TextInputProps
 
 export const DateField = SimpleRelativeSingleField<DateFieldProps, string>(
 	(fieldMetadata, props) => {
