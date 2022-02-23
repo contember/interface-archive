@@ -27,6 +27,8 @@ export const CheckboxField: FunctionComponent<CheckboxFieldProps> = Component(
 						field.updateValue(checked ?? null)
 					}}
 					disabled={isMutating}
+					notNull={!field.schema.nullable}
+					// required={field.schema.required} // TODO: Waiting for API
 				>
 					{environment.applySystemMiddleware('labelMiddleware', props.label)}
 				</Checkbox>
