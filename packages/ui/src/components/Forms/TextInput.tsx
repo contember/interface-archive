@@ -5,13 +5,13 @@ import { toViewClass } from '../../utils'
 import type { OwnControlProps, OwnControlPropsKeys } from './Types'
 import { useNativeInput } from './useNativeInput'
 
-interface UnderlyingElementProps extends Omit<AllHTMLAttributes<HTMLInputElement>, OwnControlPropsKeys<string>> {}
+export interface RestHTMLTextInputProps extends Omit<AllHTMLAttributes<HTMLInputElement>, OwnControlPropsKeys<string>> {}
 
 export type TextInputOwnProps = OwnControlProps<string> & {
 	withTopToolbar?: boolean
 }
 
-export type TextInputProps = TextInputOwnProps & UnderlyingElementProps
+export type TextInputProps = TextInputOwnProps & RestHTMLTextInputProps
 
 export const TextInput = memo(
 	forwardRef<HTMLInputElement, TextInputProps>(({
