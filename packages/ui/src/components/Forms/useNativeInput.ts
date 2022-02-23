@@ -20,6 +20,7 @@ export function useNativeInput<E extends HTMLInputElement | HTMLTextAreaElement 
 	// ControlValueProps
 	defaultValue,
 	onChange,
+	notNull,
 	placeholder,
 	type,
 	value,
