@@ -9,7 +9,7 @@ import { OwnControlProps, OwnControlPropsKeys } from '../Types'
 import { useNativeInput } from '../useNativeInput'
 import { CheckboxButton as DefaultCheckboxButton } from './CheckboxButton'
 
-interface UnderlyingElementProps extends Omit<AllHTMLAttributes<HTMLInputElement>, OwnControlPropsKeys<boolean> | 'checked'> {}
+export interface RestHTMLCheckboxProps extends Omit<AllHTMLAttributes<HTMLInputElement>, OwnControlPropsKeys<boolean> | 'checked'> {}
 
 export type CheckoboxOwnProps = OwnControlProps<boolean> & {
 	CheckboxButtonComponent?: typeof DefaultCheckboxButton
@@ -17,7 +17,7 @@ export type CheckoboxOwnProps = OwnControlProps<boolean> & {
 	labelDescription?: ReactNode
 }
 
-export type CheckboxProps = CheckoboxOwnProps & UnderlyingElementProps
+export type CheckboxProps = CheckoboxOwnProps & RestHTMLCheckboxProps
 
 export const Checkbox = memo(
 	forwardRef<HTMLInputElement, CheckboxProps>(({
