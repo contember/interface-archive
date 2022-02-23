@@ -10,9 +10,9 @@ export interface SelectOption<V = string> {
 	disabled?: boolean
 }
 
-interface RestOfHTMLSelectProps<V> extends Omit<AllHTMLAttributes<HTMLSelectElement>, OwnControlPropsKeys<V> | 'children'> {}
+export interface RestHTMLSelectProps<V> extends Omit<AllHTMLAttributes<HTMLSelectElement>, OwnControlPropsKeys<V> | 'children'> {}
 
-export type SelectProps<V> = OwnControlProps<V> & RestOfHTMLSelectProps<V> & {
+export type SelectProps<V> = OwnControlProps<V> & RestHTMLSelectProps<V> & {
 	options: SelectOption<V>[]
 }
 
