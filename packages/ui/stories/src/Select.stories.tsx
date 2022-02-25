@@ -1,5 +1,5 @@
-import { useState } from '@storybook/addons'
-import type { ComponentMeta, ComponentStory } from '@storybook/react'
+import { useCallback, useState } from '@storybook/addons'
+import { ComponentMeta, ComponentStory, forceReRender } from '@storybook/react'
 import * as React from 'react'
 import { Select } from '../../src'
 import { Button } from '../ui/Button'
@@ -24,12 +24,19 @@ export default {
 
 const Template: ComponentStory<typeof Select> = args => {
 	const ref = React.useRef<HTMLSelectElement>(null)
-	const [value, setValue] = useState(args.value)
+	const [value, setValue] = useState<unknown | null | undefined>(args.value as unknown)
 	const [error, setError] = useState<string | undefined>(undefined)
 	const [touched, setTouched] = useState<boolean | undefined>(undefined)
 
+	const onChange = useCallback((value?: unknown | null) => {
+		setValue(value)
+		forceReRender()
+		console.log('Changed value:', value)
+	}, [])
+
 	React.useEffect(() => {
 		setValue(args.value)
+		forceReRender()
 	}, [args.value])
 
 	return <>
@@ -37,12 +44,10 @@ const Template: ComponentStory<typeof Select> = args => {
 			ref={ref}
 			validationState={touched && error ? 'invalid' : undefined}
 			{...args}
+			defaultValue={args.defaultValue}
 			value={value}
-			onChange={React.useCallback(value => {
-				setValue(value)
-				console.log('Changed value:', value)
-			}, [setValue])}
-			onBlur={React.useCallback(() => {
+			onChange={onChange}
+			onBlur={useCallback(() => {
 				setTouched(true)
 			}, [setTouched])}
 			onValidationStateChange={setError}
