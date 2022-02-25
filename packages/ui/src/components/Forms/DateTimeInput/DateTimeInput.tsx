@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import { DetailedHTMLProps, forwardRef, InputHTMLAttributes, memo, Ref } from 'react'
 import { useComponentClassName } from '../../../auxiliary'
 import { toViewClass } from '../../../utils'
-import { useNativeInput } from '../useNativeInput'
+import { fromStringValue, toStringValue, useNativeInput } from '../useNativeInput'
 import { FallbackDateTimeInput } from './FallbackDateTimeInput'
 import { assertDateString, assertDatetimeString, assertTimeString } from './Serializer'
 import { DateTimeInputProps } from './Types'
@@ -85,26 +85,31 @@ export const DateTimeInput = memo(
 	forwardRef(({
 		className,
 		withTopToolbar,
-		...props
-	}: DateTimeInputProps, ref: Ref<HTMLInputElement>) => {
-		const inputProps = useNativeInput<HTMLInputElement>({
-			...props,
-			className: classNames(
-				useComponentClassName('input'),
-				toViewClass('withTopToolbar', withTopToolbar),
-				className,
-			),
-		}, ref)
+		...outerProps
+	}: DateTimeInputProps, forwardedRef: Ref<HTMLInputElement>) => {
+		const { ref, props } = useNativeInput<HTMLInputElement>(
+			{
+				...outerProps,
+				className: classNames(
+					useComponentClassName('input'),
+					toViewClass('withTopToolbar', withTopToolbar),
+					className,
+				),
+			},
+			forwardedRef,
+			toStringValue,
+			fromStringValue,
+		)
 
-		switch (props.type) {
+		switch (outerProps.type) {
 			case 'date':
-				return <InnerDateInput {...inputProps} />
+				return <InnerDateInput ref={ref} {...props} />
 			case 'time':
-				return <InnerTimeInput {...inputProps} />
+				return <InnerTimeInput ref={ref} {...props} />
 			default:
 				return isInputDateTimeLocalSupported()
-					? <InnerDatetimeInput {...inputProps} />
-					: <FallbackDateTimeInput ref={ref} {...props} />
+					? <InnerDatetimeInput ref={ref} {...props} />
+					: <FallbackDateTimeInput ref={ref} {...outerProps} />
 		}
 	}),
 )

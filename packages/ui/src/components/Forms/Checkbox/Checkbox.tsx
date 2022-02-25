@@ -1,7 +1,7 @@
 import classNames from 'classnames'
-import { AllHTMLAttributes, forwardRef, memo, ReactNode, RefObject } from 'react'
-import { mergeProps, useCheckbox, useFocusRing, useHover, VisuallyHidden } from 'react-aria'
-import { useToggleState } from 'react-stately'
+import { AllHTMLAttributes, DetailedHTMLProps, forwardRef, InputHTMLAttributes, memo, ReactNode, useCallback, useEffect } from 'react'
+import { mergeProps, useFocusRing, useHover, VisuallyHidden } from 'react-aria'
+import { fromBooleanValue, toBooleanValue } from '..'
 import { useComponentClassName } from '../../../auxiliary'
 import { toStateClass } from '../../../utils'
 import { FieldContainer } from '../FieldContainer'
@@ -23,78 +23,102 @@ export const Checkbox = memo(
 	forwardRef<HTMLInputElement, CheckboxProps>(({
 		CheckboxButtonComponent,
 		children,
-		className: outerClassName,
-		...props
+		labelDescription,
+		onChange,
+		value,
+		...outerProps
 	}, forwardedRef) => {
-		const checked = props.value ?? false
-		const indeterminate = props.value === null
 		const componentClassName = useComponentClassName('checkbox')
 
-		const { ref, className, ...nativeInputProps } = useNativeInput({
-			...props,
-			className: classNames(
-				componentClassName,
-				toStateClass('checked', checked),
-				toStateClass('indeterminate', indeterminate),
-				outerClassName,
-			),
-			defaultValue: undefined,
-			onChange: undefined,
-			value: undefined,
-		}, forwardedRef)
+		const notNull = outerProps.notNull
 
-		const toggleProps: Parameters<typeof useToggleState>[0] = {
-			children,
-			isDisabled: props.disabled,
-			isSelected: checked,
-			onChange: props.onChange,
+		const onChangeRotateState = useCallback((nextValue?: string | null) => {
+			let next = toBooleanValue(nextValue)
+			console.log('onChange:before', { next })
+
+			if (!notNull) {
+				if (value === false && next === true) {
+					next = null
+				} else if (value === null) {
+					next = true
+				}
+			}
+
+			console.log('onChange:after', { next })
+
+			onChange?.(next)
+		}, [value, notNull, onChange])
+
+		const { ref, props, state } = useNativeInput({
+				...outerProps,
+				onChange: onChangeRotateState,
+				type: 'checkbox',
+				defaultValue: fromBooleanValue(outerProps.defaultValue),
+				value: fromBooleanValue(value),
+			}, forwardedRef)
+
+		const { className, ...nativeInputProps } = props
+		const booleanValue = toBooleanValue(state)
+
+		// Sync when internal value changes
+		useEffect(() => {
+			if (typeof ref !== 'object' || !ref.current) {
+				return
+			}
+
+			ref.current.indeterminate = booleanValue === null
+			ref.current.checked = booleanValue === true
+		}, [ref, booleanValue])
+
+		const { isFocusVisible: focused, focusProps } = useFocusRing()
+		const { isHovered: hovered, hoverProps } = useHover({ isDisabled: props.disabled })
+
+		const ariaProps: {
+			'aria-checked': DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>['aria-checked']
+		} = {
+			'aria-checked': booleanValue === null ? 'mixed' : booleanValue === true ? 'true' : booleanValue === false ? 'false' : undefined,
 		}
-
-		const toggleState = useToggleState(toggleProps)
-		const { inputProps: checkboxProps } = useCheckbox(
-			{
-				...toggleProps,
-				isIndeterminate: indeterminate,
-			},
-			toggleState,
-			ref as RefObject<HTMLInputElement>,
-		)
-
-		const { isFocusVisible, focusProps } = useFocusRing()
-		const { isHovered, hoverProps } = useHover({ isDisabled: props.disabled })
 
 		const CheckboxButton = CheckboxButtonComponent ?? DefaultCheckboxButton
 
 		return (
-			<label {...hoverProps} className={className}>
+			<label {...hoverProps} className={classNames(
+				componentClassName,
+				toStateClass('indeterminate', booleanValue === null),
+				toStateClass('checked', booleanValue === true),
+				className,
+			)}>
 				<FieldContainer
 					useLabelElement={false}
-					size={props.size}
+					size={outerProps.size}
 					label={children}
-					labelDescription={props.labelDescription}
+					labelDescription={labelDescription}
 					labelPosition="labelInlineRight"
 				>
 					<VisuallyHidden>
-						<input {...mergeProps(nativeInputProps, checkboxProps, focusProps)} ref={ref} />
+						<input
+							ref={ref}
+							{...mergeProps(nativeInputProps, ariaProps, focusProps)}
+						/>
 					</VisuallyHidden>
 
 					<CheckboxButton
-						active={props.active}
-						checked={checked}
-						className={outerClassName}
-						disabled={props.disabled}
-						distinction={props.distinction}
-						focused={isFocusVisible}
-						hovered={isHovered}
-						indeterminate={indeterminate}
-						intent={props.intent}
-						loading={props.loading}
-						readOnly={props.readOnly}
-						required={props.required}
-						scheme={props.scheme}
-						size={props.size}
-						type="checkbox" // TODO: should come from props?
-						validationState={props.validationState}
+						active={outerProps.active}
+						checked={booleanValue}
+						className={className}
+						disabled={outerProps.disabled}
+						distinction={outerProps.distinction}
+						focused={focused}
+						hovered={hovered}
+						indeterminate={booleanValue === null}
+						intent={outerProps.intent}
+						loading={outerProps.loading}
+						readOnly={outerProps.readOnly}
+						required={outerProps.required}
+						scheme={outerProps.scheme}
+						size={outerProps.size}
+						type={props.type}
+						validationState={outerProps.validationState}
 					/>
 				</FieldContainer>
 			</label>

@@ -1,8 +1,17 @@
-import { AllHTMLAttributes, ChangeEventHandler, FocusEventHandler, ForwardedRef, RefCallback, RefObject, useCallback, useEffect, useRef } from 'react'
-import type { OwnControlProps } from './Types'
+import { AllHTMLAttributes, ChangeEventHandler, FocusEventHandler, ForwardedRef, RefCallback, RefObject, useCallback, useEffect, useRef, useState } from 'react'
+import type { OwnControlProps, Scalar } from './Types'
 import { useInputClassName } from './useInputClassName'
 
-export function useNativeInput<E extends HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>({
+export function toStringValue(internalValue?: string | null): string | undefined {
+	return internalValue ?? undefined
+}
+
+export function fromStringValue(nextValue: string, notNull?: boolean): string | null {
+	const isEmptyString = nextValue.trim().length === 0
+	return isEmptyString && notNull === false ? null : nextValue
+}
+
+export function useNativeInput<E extends HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement, V extends Scalar = string>({
 	// ControlStateProps
 	active,
 	disabled,
@@ -38,9 +47,30 @@ export function useNativeInput<E extends HTMLInputElement | HTMLTextAreaElement 
 
 	// Common own props
 	...rest
-}: OwnControlProps<string>, forwardedRef: ForwardedRef<E>): AllHTMLAttributes<E> & { ref: RefCallback<E> | RefObject<E> } {
+}: OwnControlProps<V>,
+	forwardedRef: ForwardedRef<E>,
+	toStringValue: (internalValue?: V | null, element?: E) => string | undefined,
+	fromStringValue: (nextValue: string, notNull?: boolean, previousValue?: V | null, element?: E) => V | null | undefined,
+): {
+	ref: RefCallback<E> | RefObject<E>,
+	props: AllHTMLAttributes<E>,
+	value: V | null | undefined,
+} {
 	const innerRef = useRef<E>(null)
 	const ref = forwardedRef ?? innerRef
+
+	const [internalValue, setInternalValue] = useState<V | null | undefined>(value ?? defaultValue)
+	const changed = useRef<boolean>(false)
+
+	useOuterValue({ value }, setInternalValue)
+
+	// Sync when outer notNullProp changes
+	useEffect(() => {
+		if (notNull && internalValue === null) {
+			setInternalValue(fromStringValue(''))
+			changed.current = true
+		}
+	}, [fromStringValue, internalValue, notNull])
 
 	if (!ref && import.meta.env.DEV) {
 		console.error([
@@ -51,6 +81,7 @@ export function useNativeInput<E extends HTMLInputElement | HTMLTextAreaElement 
 		outerClassName += ` has-dev-error:-missing-ref`
 	}
 
+	// TODO: toStateClass('indeterminate', props.value === null),
 	const className = useInputClassName({
 		// ControlStateProps
 		active,
@@ -92,8 +123,6 @@ export function useNativeInput<E extends HTMLInputElement | HTMLTextAreaElement 
 	})
 
 	const onBlurListener = useCallback<FocusEventHandler<E>>((event => {
-		// TODO: Maybe remove
-		// This is unlikely to happen (unless maybe being used outide of the Contember?)
 		if (event.defaultPrevented) {
 			return
 		}
@@ -104,8 +133,20 @@ export function useNativeInput<E extends HTMLInputElement | HTMLTextAreaElement 
 	}), [onBlur, onFocusChange, changeValidationState])
 
 	const onChangeListener = useCallback<ChangeEventHandler<E>>(event => {
-		onChange?.(event.target.value)
-	}, [onChange])
+		const nextValue = fromStringValue(event.target.value, notNull, internalValue, typeof ref === 'object' && ref?.current ? ref.current : undefined)
+
+		if (nextValue !== internalValue) {
+			setInternalValue(nextValue)
+			changed.current = true
+		}
+	}, [internalValue, notNull, ref, fromStringValue])
+
+	useEffect(() => {
+		if (changed.current) {
+			changed.current = false
+			onChange?.(internalValue)
+		}
+	}, [onChange, internalValue])
 
 	const onFocusListener = useCallback<FocusEventHandler<E>>(event => {
 		onFocus?.()
@@ -113,18 +154,34 @@ export function useNativeInput<E extends HTMLInputElement | HTMLTextAreaElement 
 	}, [onFocus, onFocusChange])
 
 	return {
-		...rest,
 		ref,
-		className,
-		defaultValue: typeof value === 'undefined' ? defaultValue : undefined, // `defaultValue` and `value` are never used together in a form element
-		disabled: disabled || loading,
-		onBlur: onBlurListener,
-		onChange: onChangeListener,
-		onFocus: onFocusListener,
-		placeholder: placeholder ?? '',
-		readOnly: readOnly || loading,
-		required,
-		value: value ?? '',
-		type,
+		props: {
+			...rest,
+			className,
+			// `defaultValue` and `value` are never used together in a form element
+			defaultValue: toStringValue(value === undefined ? defaultValue : undefined),
+			disabled: disabled || loading,
+			onBlur: onBlurListener,
+			onChange: onChangeListener,
+			onFocus: onFocusListener,
+			placeholder: placeholder ?? undefined,
+			readOnly: readOnly || loading,
+			required,
+			value: toStringValue(value ?? undefined),
+			type,
+		},
+		value: internalValue,
 	}
+}
+
+// Sync when outer value changes
+export function useOuterValue<V>({ value }: { value: V }, setter: (value: V) => void) {
+	const previous = useRef<V>(value)
+
+	useEffect(() => {
+		if (previous.current !== value) {
+			previous.current = value
+			setter(value)
+		}
+	}, [value, setter])
 }

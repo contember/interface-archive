@@ -1,5 +1,5 @@
-import { useState } from '@storybook/addons'
-import type { ComponentMeta, ComponentStory } from '@storybook/react'
+import { useCallback, useState } from '@storybook/addons'
+import { ComponentMeta, ComponentStory, forceReRender } from '@storybook/react'
 import * as React from 'react'
 import { Checkbox } from '../../src'
 import { booleanControl, disabledControlsForAttributes, enumControl, stringControl } from './Helpers'
@@ -19,12 +19,17 @@ export default {
 const Template: ComponentStory<typeof Checkbox> = args => {
 	const [value, setValue] = useState<boolean | undefined | null>(args.value)
 
+	const onChange = useCallback((value?: boolean | null) => {
+		setValue(value)
+		forceReRender()
+	}, [])
+
 	React.useEffect(() => {
 		setValue(args.value)
 	}, [args.value])
 
 	return <>
-		<Checkbox {...args} value={value} onChange={setValue} />
+		<Checkbox {...args} value={value} onChange={onChange} />
 		<div>value: {JSON.stringify(value)}</div>
 	</>
 }

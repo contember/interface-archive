@@ -1,6 +1,8 @@
 import { HTMLAttributes } from 'react'
 import { ControlDistinction, Intent, Scheme, Size, ValidationState } from '../../types'
 
+export type Scalar = string | number | boolean | null
+
 /**
  * Returns new type where all the properties are required but some of them may be undefined
  */

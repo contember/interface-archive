@@ -5,7 +5,7 @@ import { AllVisuallyDependententControlProps } from '../Types'
 import { useInputClassName } from '../useInputClassName'
 
 export interface CheckboxButtonProps extends AllVisuallyDependententControlProps {
-  checked?: boolean
+  checked?: boolean | null
   indeterminate?: boolean
 }
 
@@ -19,7 +19,7 @@ export const CheckboxButton = ({
   return <span
     className={classNames(
       componentClassName,
-      toStateClass('checked', checked),
+      toStateClass('checked', checked === true),
       toStateClass('indeterminate', indeterminate),
       useInputClassName(props),
     )}
