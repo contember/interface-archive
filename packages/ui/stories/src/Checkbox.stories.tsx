@@ -2,17 +2,17 @@ import { useCallback, useState } from '@storybook/addons'
 import { ComponentMeta, ComponentStory, forceReRender } from '@storybook/react'
 import * as React from 'react'
 import { Checkbox } from '../../src'
-import { booleanControl, disabledControlsForAttributes, enumControl, stringControl } from './Helpers'
+import { booleanControl, disabledControlsForAttributes, enumControl } from './Helpers'
 
 export default {
 	title: 'Checkbox',
 	component: Checkbox,
 	argTypes: {
 		...disabledControlsForAttributes<typeof Checkbox>('CheckboxButtonComponent'),
-		isDisabled: booleanControl(false),
+		active: booleanControl(false),
+		disabled: booleanControl(false),
+		defaultValue: booleanControl(false),
 		value: enumControl([undefined, null, true, false], 'radio', undefined),
-		children: stringControl('Label'),
-		labelDescription: stringControl('Description under the label'),
 	},
 } as ComponentMeta<typeof Checkbox>
 
