@@ -68,9 +68,11 @@ export function useNativeInput<E extends HTMLInputElement | HTMLTextAreaElement 
 	const innerRef = useRef<E>(null)
 	const ref = forwardedRef ?? innerRef
 
+	const isCheckbox = typeof ref === 'object' && ref.current instanceof HTMLInputElement && ref.current.type === 'checkbox'
+
 	const [internalState, setInternalState] = useState<string>(value ?? defaultValue ?? '')
 	const previousValue = useRef<string>(value ?? defaultValue ?? '')
-	const changed = useRef<boolean>(false)
+	const changed = useRef<boolean | undefined>(undefined)
 
 	const notNull = _notNull || required
 
@@ -118,12 +120,20 @@ export function useNativeInput<E extends HTMLInputElement | HTMLTextAreaElement 
 		}
 	}, [value, internalState, setInternalState])
 
+	useEffect(() => {
+		if (changed.current !== undefined) {
+			changed.current = true
+		}
+	}, [notNull])
+
 	// Trigger outer onChange
 	useEffect(() => {
 		if (changed.current) {
-			onChange?.(internalState.trim().length === 0 ? null : internalState)
+			onChange?.(internalState.trim().length === 0
+				? notNull ? isCheckbox ? FALSE : '' : null
+				: internalState)
 		}
-	}, [onChange, internalState])
+	}, [internalState, isCheckbox, notNull, onChange])
 
 	const validationMessage = useRef<string>()
 
@@ -191,8 +201,6 @@ export function useNativeInput<E extends HTMLInputElement | HTMLTextAreaElement 
 		// ValidationSteteProps
 		validationState,
 	})
-
-	const isCheckbox = typeof ref === 'object' && ref.current instanceof HTMLInputElement && ref.current.type === 'checkbox'
 
 	return {
 		ref,
