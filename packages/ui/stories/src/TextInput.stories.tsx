@@ -1,5 +1,5 @@
-import { useState } from '@storybook/addons'
-import type { ComponentMeta, ComponentStory } from '@storybook/react'
+import { useCallback, useState } from '@storybook/addons'
+import { ComponentMeta, ComponentStory, forceReRender } from '@storybook/react'
 import * as React from 'react'
 import { TextInput } from '../../src'
 import { Button } from '../ui/Button'
@@ -10,11 +10,18 @@ export default {
 	component: TextInput,
 	argTypes: {
 		active: booleanControl(false),
+		className: stringControl(''),
+		defaultValue: stringControl(''),
 		disabled: booleanControl(false),
+		focused: booleanControl(false),
+		hovered: booleanControl(false),
 		loading: booleanControl(false),
+		notNull: booleanControl(false),
+		placeholder: stringControl('Enter value...'),
 		readOnly: booleanControl(false),
 		required: booleanControl(false),
-		placeholder: stringControl('Enter value...'),
+		value: stringControl(''),
+		withTopToolbar: booleanControl(false),
 	},
 } as ComponentMeta<typeof TextInput>
 
@@ -24,8 +31,14 @@ const Template: ComponentStory<typeof TextInput> = args => {
 	const [error, setError] = useState<string | undefined>(undefined)
 	const [touched, setTouched] = useState<boolean | undefined>(undefined)
 
+	const onChange = useCallback((value?: string | null) => {
+		setValue(value)
+		forceReRender()
+	}, [])
+
 	React.useEffect(() => {
-		setValue(args.value ?? '')
+		setValue(args.value)
+		forceReRender()
 	}, [args.value])
 
 	return <>
@@ -34,7 +47,7 @@ const Template: ComponentStory<typeof TextInput> = args => {
 			validationState={touched && error ? 'invalid' : undefined}
 			{...args}
 			value={value}
-			onChange={setValue}
+			onChange={onChange}
 			onBlur={React.useCallback(() => {
 				setTouched(true)
 			}, [setTouched])}
