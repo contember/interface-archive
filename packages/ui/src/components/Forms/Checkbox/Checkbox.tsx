@@ -1,10 +1,9 @@
 import classNames from 'classnames'
-import { AllHTMLAttributes, DetailedHTMLProps, forwardRef, InputHTMLAttributes, memo, ReactNode, useCallback } from 'react'
-import { mergeProps, useFocusRing, useHover, VisuallyHidden } from 'react-aria'
+import { AllHTMLAttributes, DetailedHTMLProps, forwardRef, InputHTMLAttributes, memo, useCallback } from 'react'
+import { mergeProps, useFocusRing, useHover } from 'react-aria'
 import { fromBooleanValue, toBooleanValue } from '..'
 import { useComponentClassName } from '../../../auxiliary'
 import { toStateClass } from '../../../utils'
-import { FieldContainer } from '../FieldContainer'
 import { ControlProps, ControlPropsKeys } from '../Types'
 import { useNativeInput } from '../useNativeInput'
 import { CheckboxButton as DefaultCheckboxButton } from './CheckboxButton'
@@ -13,8 +12,6 @@ export interface RestHTMLCheckboxProps extends Omit<AllHTMLAttributes<HTMLInputE
 
 export type CheckoboxOwnProps = ControlProps<boolean> & {
 	CheckboxButtonComponent?: typeof DefaultCheckboxButton
-	children: ReactNode
-	labelDescription?: ReactNode
 }
 
 export type CheckboxProps = CheckoboxOwnProps & RestHTMLCheckboxProps
@@ -22,8 +19,6 @@ export type CheckboxProps = CheckoboxOwnProps & RestHTMLCheckboxProps
 export const Checkbox = memo(
 	forwardRef<HTMLInputElement, CheckboxProps>(({
 		CheckboxButtonComponent,
-		children,
-		labelDescription,
 		max,
 		min,
 		onChange,
@@ -36,7 +31,6 @@ export const Checkbox = memo(
 
 		const onChangeRotateState = useCallback((nextValue?: string | null) => {
 			let next = toBooleanValue(nextValue ?? '')
-			console.log('onChange:before', { next, value })
 
 			if (!notNull) {
 				if (value === false && next === true) {
@@ -45,8 +39,6 @@ export const Checkbox = memo(
 					next = true
 				}
 			}
-
-			console.log('onChange:after', { next })
 
 			onChange?.(next)
 		}, [value, notNull, onChange])
@@ -75,50 +67,41 @@ export const Checkbox = memo(
 		const CheckboxButton = CheckboxButtonComponent ?? DefaultCheckboxButton
 
 		return (
-			<label {...hoverProps} className={classNames(
+			<div {...hoverProps} className={classNames(
 				componentClassName,
 				toStateClass('indeterminate', booleanValue === null),
 				toStateClass('checked', booleanValue === true),
 				className,
 			)}>
-				<FieldContainer
-					useLabelElement={false}
-					size={outerProps.size}
-					label={children}
-					labelDescription={labelDescription}
-					labelPosition="labelInlineRight"
-				>
-					<VisuallyHidden>
-						<input
-							ref={ref}
-							type="checkbox"
-							{...mergeProps(
-								nativeInputProps,
-								ariaProps,
-								focusProps,
-							)}
-						/>
-					</VisuallyHidden>
+				<input
+					ref={ref}
+					type="checkbox"
+					{...mergeProps(
+						nativeInputProps,
+						ariaProps,
+						focusProps,
+					)}
+					className={`${componentClassName}-visually-hidden`}
+				/>
 
-					<CheckboxButton
-						active={outerProps.active}
-						checked={booleanValue}
-						className={className}
-						disabled={outerProps.disabled}
-						distinction={outerProps.distinction}
-						focused={focused}
-						hovered={hovered}
-						indeterminate={booleanValue === null}
-						intent={outerProps.intent}
-						loading={outerProps.loading}
-						readOnly={outerProps.readOnly}
-						required={outerProps.required}
-						scheme={outerProps.scheme}
-						size={outerProps.size}
-						validationState={outerProps.validationState}
-					/>
-				</FieldContainer>
-			</label>
+				<CheckboxButton
+					active={outerProps.active}
+					checked={booleanValue}
+					className={className}
+					disabled={outerProps.disabled}
+					distinction={outerProps.distinction}
+					focused={focused}
+					hovered={hovered}
+					indeterminate={booleanValue === null}
+					intent={outerProps.intent}
+					loading={outerProps.loading}
+					readOnly={outerProps.readOnly}
+					required={outerProps.required}
+					scheme={outerProps.scheme}
+					size={outerProps.size}
+					validationState={outerProps.validationState}
+				/>
+			</div>
 		)
 	},
 ))
