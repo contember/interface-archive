@@ -1,24 +1,27 @@
-import { DateTimeInput, TextInputProps, toDateString, toISOString } from '@contember/ui'
-import { DateTimeInputProps } from '@contember/ui/src/components/Forms/DateTimeInput/Types'
+import {
+	DateInput,
+	DateInputProps,
+	toDateString,
+	toISOString,
+} from '@contember/ui'
 import {
 	SimpleRelativeSingleField,
 	SimpleRelativeSingleFieldProps,
 } from '../auxiliary'
 import { useFieldControl } from './useFieldControl'
 
-export type DateFieldProps = SimpleRelativeSingleFieldProps & TextInputProps
+export type DateFieldProps = SimpleRelativeSingleFieldProps & DateInputProps
 
 export const DateField = SimpleRelativeSingleField<DateFieldProps, string>(
 	(fieldMetadata, props) => {
-		const inputProps = useFieldControl<string, string, DateTimeInputProps['type']>({
+		const inputProps = useFieldControl<string, string>({
 			...props,
 			fieldMetadata,
 			parse: toISOString,
 			format: toDateString,
-			type: 'date',
 		})
 
-		return <DateTimeInput {...inputProps} />
+		return <DateInput {...inputProps} />
 	},
 	'DateField',
 )
