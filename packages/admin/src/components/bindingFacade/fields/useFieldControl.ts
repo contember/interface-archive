@@ -71,7 +71,7 @@ export const useFieldControl = <FieldValue extends Scalar, ControlValue extends 
 		defaultValue: format(field.current.defaultValue, field.current) ?? undefined,
 		onChange: useCallback((_value?: ControlValue | null) => {
 			const value = parse(_value, field.current) ?? null
-			const valueOrNull = value || value === 0 ? value : null
+			const valueOrNull = value || value === 0 || value === false ? value : null
 
 			const isEmptyOnServer = field.current.valueOnServer === null
 			const isStillEmpty = valueOrNull === null
