@@ -50,8 +50,6 @@ const SelectComponent = <V extends any>({
 				? options[parseInt(index)]?.value
 				: null
 
-			console.log('Change to index', { index, options, next })
-
 			if (next !== value) {
 				onChange?.(next)
 			}
