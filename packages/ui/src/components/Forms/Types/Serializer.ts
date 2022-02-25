@@ -1,31 +1,9 @@
-type TimeInputString = string
-type DateInputString = string
-type DateTimeInputString = string
-
-const TimeInputStringRegExp = /^\d{2}:\d{2}(?::\d{2})?$/
-const DateInputStringRegExp = /^\d{4}-\d{2}-\d{2}$/
-const dateTimeInputStringRegExp = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/
+import {
+	DateInputString, DateTimeInputString, TimeInputString,
+} from './ControlValues'
 
 export function splitDatetime(datetime: string | null | undefined): string[] {
   return (datetime ?? 'T').split('T')
-}
-
-export function assertTimeString(value: unknown): asserts value is TimeInputString {
-	if (!(typeof value === 'string' && value.match(TimeInputStringRegExp))) {
-		throw new Error('Expecting time value in format `hh:mm` or `hh:mm:ss`, got ' + JSON.stringify(value))
-	}
-}
-
-export function assertDateString(value: unknown): asserts value is DateInputString {
-	if (!(typeof value === 'string' && value.match(DateInputStringRegExp))) {
-		throw new Error('Expecting time value in format `yyyy-mm-dd`, got ' + JSON.stringify(value))
-	}
-}
-
-export function assertDatetimeString(value: unknown): asserts value is DateTimeInputString {
-	if (!(typeof value === 'string' && value.match(dateTimeInputStringRegExp))) {
-		throw new Error('Expecting time value in format `YYYY-MM-DDThh:mm`, got ' + JSON.stringify(value))
-	}
 }
 
 export function toDate(value?: any): Date | null {

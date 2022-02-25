@@ -1,8 +1,8 @@
 import classNames from 'classnames'
-import { AllHTMLAttributes, DetailedHTMLProps, ForwardedRef, forwardRef, memo, OptionHTMLAttributes, ReactElement, RefAttributes, useCallback, useEffect, useMemo } from 'react'
+import { AllHTMLAttributes, DetailedHTMLProps, ForwardedRef, forwardRef, memo, OptionHTMLAttributes, ReactElement, RefAttributes, useCallback, useMemo } from 'react'
 import { useComponentClassName } from '../../auxiliary'
-import type { OwnControlProps, OwnControlPropsKeys } from './Types'
-import { fromStringValue, toStringValue, useNativeInput } from './useNativeInput'
+import type { ControlProps, ControlPropsKeys } from './Types'
+import { useNativeInput } from './useNativeInput'
 
 export interface SelectOption<V = string> {
 	value: V
@@ -10,9 +10,9 @@ export interface SelectOption<V = string> {
 	disabled?: boolean
 }
 
-export interface RestHTMLSelectProps<V> extends Omit<AllHTMLAttributes<HTMLSelectElement>, OwnControlPropsKeys<V> | 'children'> {}
+export interface RestHTMLSelectProps<V> extends Omit<AllHTMLAttributes<HTMLSelectElement>, ControlPropsKeys<V> | 'children'> {}
 
-export type SelectProps<V> = OwnControlProps<V> & RestHTMLSelectProps<V> & {
+export type SelectProps<V> = Omit<ControlProps<V>, 'min' | 'max'> & RestHTMLSelectProps<V> & {
 	options: SelectOption<V>[]
 }
 
@@ -26,9 +26,9 @@ function deriveSelectIndexValue (index: number) {
 
 const SelectComponent = <V extends any>({
 	defaultValue,
-	placeholder,
 	onChange,
 	options,
+	placeholder,
 	value,
 	...outerProps
 }: SelectProps<V>, forwardedRef: ForwardedRef<HTMLSelectElement>) => {
@@ -41,33 +41,53 @@ const SelectComponent = <V extends any>({
 	const canHideBuiltinEmptyOption = outerProps.required && !placeholder
 	const displayBuiltinEmptyOption = noEmptyOptionProvided && !canHideBuiltinEmptyOption
 
-	const { ref, props: inputProps } = useNativeInput<HTMLSelectElement>(
-		{
-			...outerProps,
-			defaultValue: useMemo(() => deriveSelectIndexValue(options.findIndex(option => option.value === defaultValue)), [defaultValue, options]),
-			onChange: useCallback((index?: string | null) => {
-				onChange?.(options[parseInt(index ?? '')]?.value)
-			}, [onChange, options]),
-			value: useMemo(() => deriveSelectIndexValue(options.findIndex(option => option.value === value)), [value, options]),
-		},
-		forwardedRef,
-		toStringValue,
-		fromStringValue,
-	)
+	const { ref, props: inputProps } = useNativeInput<HTMLSelectElement>({
+		...outerProps,
+		defaultValue: useMemo(() => defaultValue !== undefined
+			? deriveSelectIndexValue(options.findIndex(option => option.value === defaultValue))
+			: undefined, [defaultValue, options]),
+		onChange: useCallback((index?: string | null) => {
+			const next = typeof index === 'string'
+				? options[parseInt(index)]?.value
+				: null
 
-	useEffect(() => {
-		if (ref && typeof ref !== 'function') {
-			const selectValue = ref.current?.value
+			console.log('Change to index', { index, options, next })
 
-			if (inputProps.value !== selectValue) {
-				onChange?.(options[parseInt(selectValue ?? '')]?.value)
+			if (next !== value) {
+				onChange?.(next)
 			}
-		}
-	}, [options, inputProps.value, onChange, ref])
+		}, [onChange, options, value]),
+		value: useMemo(() => value !== undefined
+			? deriveSelectIndexValue(options.findIndex(option => option.value === value))
+			: undefined, [value, options]),
+	}, forwardedRef)
+
+	// useEffect(() => {
+	// 	if (ref && typeof ref !== 'function') {
+	// 		const selectValue = ref.current?.value
+
+	// 		console.log({ selectValue: ref.current?.value, inputPropsValue: inputProps.value })
+
+	// 		if (selectValue && inputProps.value !== selectValue) {
+	// 			console.log('Advancing value to...', selectValue, options[parseInt(selectValue)]?.value)
+	// 			onChange?.(options[parseInt(selectValue)]?.value)
+	// 		}
+	// 	}
+	// }, [options, inputProps.value, onChange, ref])
+
+	// return <pre>{JSON.stringify({
+	// 	inner: {
+	// 		providedEmptyOptionIndex,
+	// 		noEmptyOptionProvided,
+	// 		canHideBuiltinEmptyOption,
+	// 		displayBuiltinEmptyOption,
+	// 	},
+	// 	inputProps,
+	// }, null, ' ')}</pre>
 
 	return (
 		<div className={classNames(inputProps.className, wrapperClassName)}>
-			<select {...inputProps} className={classNames(inputProps.className, selectClassName)}>
+			<select ref={ref} {...inputProps} className={classNames(inputProps.className, selectClassName)}>
 				{displayBuiltinEmptyOption && <option key="-1" disabled={outerProps.required} value="">{placeholder ?? '…'}</option>}
 				{options.map((option, index) => {
 					const isEmptyOptionValue = optionValueIsEmpty(option.value)

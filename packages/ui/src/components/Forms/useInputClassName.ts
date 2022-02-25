@@ -29,7 +29,6 @@ export function useInputClassName<P extends AllVisuallyDependententControlProps 
   intent,
 	scheme,
 	size,
-  type,
 
   // ValidationSteteProps
   validationState,
@@ -60,7 +59,6 @@ export function useInputClassName<P extends AllVisuallyDependententControlProps 
 		toEnumClass('scheme-', !disabled ? scheme : undefined),
 		toThemeClass(finalIntent),
 		toEnumViewClass(size),
-		toEnumViewClass(type),
 		toEnumViewClass(distinction),
 		toEnumStateClass(validationState),
 

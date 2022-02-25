@@ -1,5 +1,5 @@
 import { HTMLAttributes } from 'react'
-import { ControlDistinction, Intent, Scheme, Size, ValidationState } from '../../types'
+import { ControlDistinction, Intent, Scheme, Size, ValidationState } from '../../../types'
 
 export type Scalar = string | number | boolean | null
 
@@ -37,29 +37,32 @@ export interface ControlDisplayProps {
 	intent?: Intent
 	scheme?: Scheme
 	size?: Size
-	type?: string | undefined
+	type?: never
 }
 
 export interface ControlValueProps<V> {
-	defaultValue?: V | undefined
+	defaultValue?: V | null | undefined
 	onChange?: (value?: V | null) => void
+	max?: V | null
+	min?: V | null
+	name?: string
 	notNull?: boolean
 	placeholder?: string | null
 	value?: V | null
 }
 
-export type OwnControlProps<V> =
+export type ControlProps<V> =
 	ControlDisplayProps &
 	ValidationSteteProps &
 	ControlStateProps &
 	ControlFocusProps &
 	ControlValueProps<V>
 
-export type AllOwnControlProps<V> = All<OwnControlProps<V>>
-export type OwnControlPropsKeys<V> = keyof OwnControlProps<V>
+export type AllControlProps<V> = Omit<All<ControlProps<V>>, 'type'>
+export type ControlPropsKeys<V> = keyof ControlProps<V>
 
 export type VisuallyDependententControlProps =
 	ControlStateProps
 	& ControlDisplayProps
 	& Pick<ValidationSteteProps, 'validationState'>
-export type AllVisuallyDependententControlProps = All<VisuallyDependententControlProps>
+export type AllVisuallyDependententControlProps = Omit<All<VisuallyDependententControlProps>, 'type'>

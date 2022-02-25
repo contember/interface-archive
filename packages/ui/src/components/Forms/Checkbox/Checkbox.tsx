@@ -1,17 +1,17 @@
 import classNames from 'classnames'
-import { AllHTMLAttributes, DetailedHTMLProps, forwardRef, InputHTMLAttributes, memo, ReactNode, useCallback, useEffect } from 'react'
+import { AllHTMLAttributes, DetailedHTMLProps, forwardRef, InputHTMLAttributes, memo, ReactNode, useCallback } from 'react'
 import { mergeProps, useFocusRing, useHover, VisuallyHidden } from 'react-aria'
 import { fromBooleanValue, toBooleanValue } from '..'
 import { useComponentClassName } from '../../../auxiliary'
 import { toStateClass } from '../../../utils'
 import { FieldContainer } from '../FieldContainer'
-import { OwnControlProps, OwnControlPropsKeys } from '../Types'
+import { ControlProps, ControlPropsKeys } from '../Types'
 import { useNativeInput } from '../useNativeInput'
 import { CheckboxButton as DefaultCheckboxButton } from './CheckboxButton'
 
-export interface RestHTMLCheckboxProps extends Omit<AllHTMLAttributes<HTMLInputElement>, OwnControlPropsKeys<boolean> | 'checked'> {}
+export interface RestHTMLCheckboxProps extends Omit<AllHTMLAttributes<HTMLInputElement>, ControlPropsKeys<boolean> | 'checked'> {}
 
-export type CheckoboxOwnProps = OwnControlProps<boolean> & {
+export type CheckoboxOwnProps = ControlProps<boolean> & {
 	CheckboxButtonComponent?: typeof DefaultCheckboxButton
 	children: ReactNode
 	labelDescription?: ReactNode
@@ -24,6 +24,8 @@ export const Checkbox = memo(
 		CheckboxButtonComponent,
 		children,
 		labelDescription,
+		max,
+		min,
 		onChange,
 		value,
 		...outerProps
@@ -33,8 +35,8 @@ export const Checkbox = memo(
 		const notNull = outerProps.notNull
 
 		const onChangeRotateState = useCallback((nextValue?: string | null) => {
-			let next = toBooleanValue(nextValue)
-			console.log('onChange:before', { next })
+			let next = toBooleanValue(nextValue ?? '')
+			console.log('onChange:before', { next, value })
 
 			if (!notNull) {
 				if (value === false && next === true) {
@@ -52,23 +54,14 @@ export const Checkbox = memo(
 		const { ref, props, state } = useNativeInput({
 				...outerProps,
 				onChange: onChangeRotateState,
-				type: 'checkbox',
 				defaultValue: fromBooleanValue(outerProps.defaultValue),
+				max: fromBooleanValue(max),
+				min: fromBooleanValue(min),
 				value: fromBooleanValue(value),
 			}, forwardedRef)
 
 		const { className, ...nativeInputProps } = props
 		const booleanValue = toBooleanValue(state)
-
-		// Sync when internal value changes
-		useEffect(() => {
-			if (typeof ref !== 'object' || !ref.current) {
-				return
-			}
-
-			ref.current.indeterminate = booleanValue === null
-			ref.current.checked = booleanValue === true
-		}, [ref, booleanValue])
 
 		const { isFocusVisible: focused, focusProps } = useFocusRing()
 		const { isHovered: hovered, hoverProps } = useHover({ isDisabled: props.disabled })
@@ -98,7 +91,12 @@ export const Checkbox = memo(
 					<VisuallyHidden>
 						<input
 							ref={ref}
-							{...mergeProps(nativeInputProps, ariaProps, focusProps)}
+							type="checkbox"
+							{...mergeProps(
+								nativeInputProps,
+								ariaProps,
+								focusProps,
+							)}
 						/>
 					</VisuallyHidden>
 
@@ -117,7 +115,6 @@ export const Checkbox = memo(
 						required={outerProps.required}
 						scheme={outerProps.scheme}
 						size={outerProps.size}
-						type={props.type}
 						validationState={outerProps.validationState}
 					/>
 				</FieldContainer>

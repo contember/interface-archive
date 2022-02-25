@@ -1,19 +1,19 @@
 import classNames from 'classnames'
 import { ChangeEvent, forwardRef, memo, Ref, useCallback, useEffect, useRef, useState } from 'react'
-import { fromStringValue, toStringValue, useNativeInput, VisuallyDependententControlProps } from '..'
+import { useNativeInput, VisuallyDependententControlProps } from '..'
 import { useComponentClassName } from '../../../auxiliary'
 import { toViewClass } from '../../../utils'
 import { Divider } from '../../Divider'
 import { Stack } from '../../Stack'
+import { assertDatetimeString, splitDatetime } from '../Types'
 import { useInputClassName } from '../useInputClassName'
-import { assertDatetimeString, splitDatetime } from './Serializer'
 import { DateTimeInputProps } from './Types'
 
 function joinDatetime(date?: string | null, time?: string | null) {
 	return `${date}T${time}`
 }
 
-export const FallbackDateTimeInput = memo(
+export const DateTimeInputFallback = memo(
 	forwardRef(({
 		className,
 		max,
@@ -64,44 +64,35 @@ export const FallbackDateTimeInput = memo(
 			onValidationStateChange?.([dateError.current, timeError.current].filter(Boolean).join(' '))
 		}, [onValidationStateChange])
 
-		const { ref: dateRef, props: dateInputProps } = useNativeInput<HTMLInputElement>(
-			{
-				...outerProps,
-				distinction: 'seamless',
-				className: classNames(
-					useComponentClassName('input'),
-					className,
-				),
-				onValidationStateChange: useCallback((error: string | undefined) => {
-					dateError.current = error
-					changeValidationState()
-				}, [changeValidationState]),
-				value: date,
-			},
-			forwardedRef,
-			toStringValue,
-			fromStringValue,
-		)
+		const { ref: dateRef, props: dateInputProps } = useNativeInput<HTMLInputElement>({
+			...outerProps,
+			distinction: 'seamless',
+			className: classNames(
+				useComponentClassName('input'),
+				className,
+			),
+			onValidationStateChange: useCallback((error: string | undefined) => {
+				dateError.current = error
+				changeValidationState()
+			}, [changeValidationState]),
+			value: date,
+		}, forwardedRef)
 
 		const timeInputRef = useRef<HTMLInputElement>(null)
-		const { ref: timeRef, props: timeInputProps } = useNativeInput<HTMLInputElement>(
-			{
-				...outerProps,
-				distinction: 'seamless',
-				className: classNames(
-					useComponentClassName('input'),
-					className,
-				),
-				onValidationStateChange: useCallback((error: string | undefined) => {
-					timeError.current = error
-					changeValidationState()
-				}, [changeValidationState]),
-				value: time,
-			},
-			timeInputRef,
-			toStringValue,
-			fromStringValue,
-		)
+		const { ref: timeRef, props: timeInputProps } = useNativeInput<HTMLInputElement>({
+			...outerProps,
+			distinction: 'seamless',
+			className: classNames(
+				useComponentClassName('input'),
+				className,
+			),
+			onValidationStateChange: useCallback((error: string | undefined) => {
+				timeError.current = error
+				changeValidationState()
+			}, [changeValidationState]),
+			value: time,
+		},
+		timeInputRef)
 
 		const [maxDate, maxTime] = splitDatetime(max)
 		const [minDate, minTime] = splitDatetime(min)
@@ -109,7 +100,8 @@ export const FallbackDateTimeInput = memo(
 		return <Stack gap="large" direction="horizontal" className={useInputClassName<VisuallyDependententControlProps>({
 			...outerProps,
 			className: classNames(
-				useComponentClassName('input'),
+				useComponentClassName('text-input'),
+				useComponentClassName('datetime-input'),
 				toViewClass('withTopToolbar', withTopToolbar),
 				className,
 			),
@@ -136,4 +128,4 @@ export const FallbackDateTimeInput = memo(
 		</Stack>
 	}),
 )
-FallbackDateTimeInput.displayName = 'FallbackDateTimeInput'
+DateTimeInputFallback.displayName = 'DateTimeInputFallback'

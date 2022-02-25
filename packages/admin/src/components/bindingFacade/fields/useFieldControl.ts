@@ -1,41 +1,37 @@
-import type { FieldAccessor, FieldValue } from '@contember/binding'
+import type { FieldAccessor, Scalar } from '@contember/binding'
 import { useEntityBeforePersist } from '@contember/binding'
-import { AllOwnControlProps, OwnControlProps } from '@contember/ui'
+import type { AllControlProps, ControlProps } from '@contember/ui'
 import { Ref, useCallback, useEffect, useRef, useState } from 'react'
 import type { SimpleRelativeSingleFieldMetadata } from '../auxiliary'
 
-export type ControlValueParser<ControlValue, Value extends FieldValue> = (
+export type ControlValueParser<ControlValue, Value extends Scalar> = (
 	value: ControlValue | null | undefined,
 	field: FieldAccessor<Value>,
 ) => Value | null
 
-export type ControlValueFormatter<Value extends FieldValue, ControlValue extends FieldValue> = (
-	value: Value | null | undefined,
-	field: FieldAccessor<Value>,
+export type FieldValueFormatter<FieldValue extends Scalar, ControlValue extends Scalar> = (
+	value: FieldValue | null | undefined,
+	field: FieldAccessor<FieldValue>,
 ) => ControlValue | null
 
 type UseControlProps<
-	Value extends FieldValue,
-	ControlValue extends FieldValue,
-	Type extends string | undefined = string | undefined
-> = OwnControlProps<ControlValue> & {
-	fieldMetadata: SimpleRelativeSingleFieldMetadata<Value>
-	parse: ControlValueParser<ControlValue, Value>
-	format: ControlValueFormatter<Value, ControlValue>
-	type: Type
+	FieldValue extends Scalar,
+	ControlValue extends Scalar,
+> = ControlProps<FieldValue> & {
+	fieldMetadata: SimpleRelativeSingleFieldMetadata<FieldValue>
+	parse: ControlValueParser<ControlValue, FieldValue>
+	format: FieldValueFormatter<FieldValue, ControlValue>
 }
 
 export const stringFieldParser: ControlValueParser<string, string> = value => value ??  null
-export const stringFieldFormatter: ControlValueFormatter<string, string> = value => value ?? ''
+export const stringFieldFormatter: FieldValueFormatter<string, string> = value => value ?? ''
 
-export const useFieldControl = <Value extends FieldValue, ControlValue extends FieldValue, Type extends string | undefined = string | undefined>({
+export const useFieldControl = <FieldValue extends Scalar, ControlValue extends Scalar, Type extends string | undefined = string | undefined>({
 	fieldMetadata,
 	parse,
 	format,
-	type,
 	...props
-}: UseControlProps<Value, ControlValue, Type>): AllOwnControlProps<ControlValue> & {
-	type: Type,
+}: UseControlProps<FieldValue, ControlValue>): AllControlProps<ControlValue> & {
 	ref: Ref<any>,
 } => {
 	// TODO: fix unknow
@@ -83,7 +79,9 @@ export const useFieldControl = <Value extends FieldValue, ControlValue extends F
 			field.current.updateValue(isEmptyOnServer && isStillEmpty ? null : value)
 		}, [parse]),
 		placeholder: props.placeholder,
-		type,
+		name: props.name,
+		max: format(props.max, field.current),
+		min: format(props.min, field.current),
 		value: format(field.current.value, field.current),
 
 		// ValidationSteteProps

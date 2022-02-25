@@ -1,17 +1,25 @@
 import { AllHTMLAttributes, ChangeEventHandler, FocusEventHandler, ForwardedRef, RefCallback, RefObject, useCallback, useEffect, useRef, useState } from 'react'
-import type { OwnControlProps, Scalar } from './Types'
+import type { ControlProps } from './Types'
 import { useInputClassName } from './useInputClassName'
 
-export function toStringValue(internalValue?: string | null): string | undefined {
-	return internalValue ?? undefined
+const TRUE = 'on'
+const FALSE = 'off'
+
+export function fromBooleanValue(value?: boolean | null): string {
+	return value === true ? TRUE : value === false ? FALSE : ''
 }
 
-export function fromStringValue(nextValue: string, notNull?: boolean): string | null {
-	const isEmptyString = nextValue.trim().length === 0
-	return isEmptyString && notNull === false ? null : nextValue
+export function toBooleanValue(value: string): boolean | null {
+	return value === FALSE ? false : value === TRUE ? true : null
 }
 
-export function useNativeInput<E extends HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement, V extends Scalar = string>({
+function fromElementValue<E extends HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>(element: E): string {
+	return element.type === 'checkbox' && element instanceof HTMLInputElement
+			? element.indeterminate ? '' : fromBooleanValue(element.checked)
+			: element.value
+}
+
+export function useNativeInput<E extends HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>({
 	// ControlStateProps
 	active,
 	disabled,
@@ -28,8 +36,11 @@ export function useNativeInput<E extends HTMLInputElement | HTMLTextAreaElement 
 
 	// ControlValueProps
 	defaultValue,
+	name,
+	max,
+	min,
 	onChange,
-	notNull,
+	notNull: _notNull,
 	placeholder,
 	type,
 	value,
@@ -47,67 +58,77 @@ export function useNativeInput<E extends HTMLInputElement | HTMLTextAreaElement 
 
 	// Common own props
 	...rest
-}: OwnControlProps<V>,
+}: ControlProps<string>,
 	forwardedRef: ForwardedRef<E>,
-	toStringValue: (internalValue?: V | null, element?: E) => string | undefined,
-	fromStringValue: (nextValue: string, notNull?: boolean, previousValue?: V | null, element?: E) => V | null | undefined,
 ): {
 	ref: RefCallback<E> | RefObject<E>,
 	props: AllHTMLAttributes<E>,
-	value: V | null | undefined,
+	state: string,
 } {
 	const innerRef = useRef<E>(null)
 	const ref = forwardedRef ?? innerRef
 
-	const [internalValue, setInternalValue] = useState<V | null | undefined>(value ?? defaultValue)
+	const [internalState, setInternalState] = useState<string>(value ?? defaultValue ?? '')
+	const previousValue = useRef<string>(value ?? defaultValue ?? '')
 	const changed = useRef<boolean>(false)
 
-	useOuterValue({ value }, setInternalValue)
+	const notNull = _notNull || required
 
-	// Sync when outer notNullProp changes
+	// Sync element when internalState changes
 	useEffect(() => {
-		if (notNull && internalValue === null) {
-			setInternalValue(fromStringValue(''))
-			changed.current = true
+		if (!ref || typeof ref !== 'object' || !ref.current) {
+			return
 		}
-	}, [fromStringValue, internalValue, notNull])
 
-	if (!ref && import.meta.env.DEV) {
-		console.error([
-			'Forwarded `ref` parameter is required for inputs to work correctly.',
-			'Look for elements with `has-dev-error:-missing-ref` class to identify such components.',
-		].join(' '))
+		if (ref.current instanceof HTMLInputElement && ref.current.type === 'checkbox') {
+			ref.current.indeterminate = internalState === ''
+			ref.current.checked = internalState === TRUE
+		}
+	}, [ref, internalState])
 
-		outerClassName += ` has-dev-error:-missing-ref`
-	}
+	// Sync when element.value changes
+	useEffect(() => {
+		if (ref && typeof ref === 'object' && ref.current) {
+			const nextValue = fromElementValue(ref.current)
 
-	// TODO: toStateClass('indeterminate', props.value === null),
-	const className = useInputClassName({
-		// ControlStateProps
-		active,
-		disabled,
-		loading,
-		readOnly,
-		required,
-		focused,
-		hovered,
+			if (nextValue !== internalState) {
+				previousValue.current = nextValue
+				changed.current = true
+				setInternalState(nextValue)
+			}
+		}
+	}, [ref, internalState, notNull])
 
-		// ControlDisplayProps
-		className: outerClassName,
-		distinction,
-		intent,
-		scheme,
-		size,
-		type,
+	// Sync when outer value changes
+	useEffect(() => {
+		// Uncontrolled
+		if (value == undefined) {
+			return
+		}
 
-		// ValidationSteteProps
-		validationState,
-	})
+		const nextValue = value
+
+		if (previousValue.current !== nextValue) {
+			previousValue.current = nextValue
+			changed.current = false
+
+			if (internalState !== nextValue) {
+				setInternalState(nextValue)
+			}
+		}
+	}, [value, internalState, setInternalState])
+
+	// Trigger outer onChange
+	useEffect(() => {
+		if (changed.current) {
+			onChange?.(internalState.trim().length === 0 ? null : internalState)
+		}
+	}, [onChange, internalState])
 
 	const validationMessage = useRef<string>()
 
 	const changeValidationState = useCallback(() => {
-		if (ref && typeof ref !== 'function' && onValidationStateChange) {
+		if (ref && typeof ref === 'object' && onValidationStateChange) {
 			const valid = ref.current?.validity?.valid
 			const message = valid ? undefined : ref.current?.validationMessage
 
@@ -133,55 +154,63 @@ export function useNativeInput<E extends HTMLInputElement | HTMLTextAreaElement 
 	}), [onBlur, onFocusChange, changeValidationState])
 
 	const onChangeListener = useCallback<ChangeEventHandler<E>>(event => {
-		const nextValue = fromStringValue(event.target.value, notNull, internalValue, typeof ref === 'object' && ref?.current ? ref.current : undefined)
+		if (typeof ref !== 'object' || !ref.current) {
+			return
+		}
 
-		if (nextValue !== internalValue) {
-			setInternalValue(nextValue)
+		const nextValue = fromElementValue(event.target)
+
+		if (nextValue !== internalState) {
+			setInternalState(nextValue)
 			changed.current = true
 		}
-	}, [internalValue, notNull, ref, fromStringValue])
-
-	useEffect(() => {
-		if (changed.current) {
-			changed.current = false
-			onChange?.(internalValue)
-		}
-	}, [onChange, internalValue])
+	}, [internalState, ref])
 
 	const onFocusListener = useCallback<FocusEventHandler<E>>(event => {
 		onFocus?.()
 		onFocusChange?.(true)
 	}, [onFocus, onFocusChange])
 
+	const className = useInputClassName({
+		// ControlStateProps
+		active,
+		disabled,
+		loading,
+		readOnly,
+		required,
+		focused,
+		hovered,
+
+		// ControlDisplayProps
+		className: outerClassName,
+		distinction,
+		intent,
+		scheme,
+		size,
+
+		// ValidationSteteProps
+		validationState,
+	})
+
+	const isCheckbox = typeof ref === 'object' && ref.current instanceof HTMLInputElement && ref.current.type === 'checkbox'
+
 	return {
 		ref,
 		props: {
 			...rest,
 			className,
-			// `defaultValue` and `value` are never used together in a form element
-			defaultValue: toStringValue(value === undefined ? defaultValue : undefined),
 			disabled: disabled || loading,
+			name,
 			onBlur: onBlurListener,
 			onChange: onChangeListener,
 			onFocus: onFocusListener,
 			placeholder: placeholder ?? undefined,
 			readOnly: readOnly || loading,
 			required,
-			value: toStringValue(value ?? undefined),
-			type,
+			max: isCheckbox ? undefined : max ?? undefined,
+			min: isCheckbox ? undefined : min ?? undefined,
+			value: isCheckbox ? TRUE : internalState,
 		},
-		value: internalValue,
+		state: internalState,
 	}
-}
-
-// Sync when outer value changes
-export function useOuterValue<V>({ value }: { value: V }, setter: (value: V) => void) {
-	const previous = useRef<V>(value)
-
-	useEffect(() => {
-		if (previous.current !== value) {
-			previous.current = value
-			setter(value)
-		}
-	}, [value, setter])
 }

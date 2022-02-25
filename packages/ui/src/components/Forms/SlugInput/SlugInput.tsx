@@ -1,6 +1,6 @@
 import { ForwardedRef, forwardRef, memo, ReactNode } from 'react'
 import { useClassNamePrefix } from '../../../auxiliary'
-import { TextInput, TextInputProps } from '../TextInput'
+import { TextInput, TextInputProps } from '../Inputs'
 
 export type SlugInputProps =
 	& TextInputProps
