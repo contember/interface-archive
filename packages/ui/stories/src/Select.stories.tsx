@@ -113,7 +113,6 @@ export const Numeric_Strict = Template.bind({})
 
 Numeric_Strict.args = {
 	required: true,
-	placeholder: null,
 	options: [{
 		value: 1,
 		label: 'Fist option',
@@ -139,4 +138,18 @@ Mixed_Values.args = {
 		value: new Date(),
 		label: 'Date object',
 	}],
+}
+
+export const Boolean_Values = Template.bind({})
+
+Boolean_Values.args = {
+	notNull: true,
+	options: [{
+		value: true,
+		label: 'On',
+	}, {
+		value: false,
+		label: 'Off',
+	}],
+	rows: 2,
 }

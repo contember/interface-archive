@@ -14,6 +14,7 @@ export interface RestHTMLSelectProps<V> extends Omit<AllHTMLAttributes<HTMLSelec
 
 export type SelectProps<V> = Omit<ControlProps<V>, 'min' | 'max'> & RestHTMLSelectProps<V> & {
 	options: SelectOption<V>[]
+	rows?: number
 }
 
 function optionValueIsEmpty (value: unknown) {
@@ -30,16 +31,14 @@ const SelectComponent = <V extends any>({
 	options,
 	placeholder,
 	value,
+	rows,
 	...outerProps
 }: SelectProps<V>, forwardedRef: ForwardedRef<HTMLSelectElement>) => {
 	const selectClassName = useComponentClassName('select')
 	const wrapperClassName = `${selectClassName}-wrapper`
 
-	const providedEmptyOptionIndex = useMemo(() => options.findIndex(option => optionValueIsEmpty(option.value)), [options])
-
-	const noEmptyOptionProvided = providedEmptyOptionIndex === -1
-	const canHideBuiltinEmptyOption = outerProps.required && !placeholder
-	const displayBuiltinEmptyOption = noEmptyOptionProvided && !canHideBuiltinEmptyOption
+	const notNullOrRequired = outerProps.notNull || outerProps.required
+	const displayBuiltinEmptyOption = !notNullOrRequired
 
 	const { ref, props: inputProps } = useNativeInput<HTMLSelectElement>({
 		...outerProps,
@@ -62,32 +61,21 @@ const SelectComponent = <V extends any>({
 			: undefined, [value, options]),
 	}, forwardedRef)
 
-	// useEffect(() => {
-	// 	if (ref && typeof ref !== 'function') {
-	// 		const selectValue = ref.current?.value
-
-	// 		console.log({ selectValue: ref.current?.value, inputPropsValue: inputProps.value })
-
-	// 		if (selectValue && inputProps.value !== selectValue) {
-	// 			console.log('Advancing value to...', selectValue, options[parseInt(selectValue)]?.value)
-	// 			onChange?.(options[parseInt(selectValue)]?.value)
-	// 		}
-	// 	}
-	// }, [options, inputProps.value, onChange, ref])
-
-	// return <pre>{JSON.stringify({
-	// 	inner: {
-	// 		providedEmptyOptionIndex,
-	// 		noEmptyOptionProvided,
-	// 		canHideBuiltinEmptyOption,
-	// 		displayBuiltinEmptyOption,
-	// 	},
-	// 	inputProps,
-	// }, null, ' ')}</pre>
-
 	return (
-		<div className={classNames(inputProps.className, wrapperClassName)}>
-			<select ref={ref} {...inputProps} className={classNames(inputProps.className, selectClassName)}>
+		<div
+			className={classNames(
+				inputProps.className,
+				wrapperClassName,
+				rows && rows > 0 ? 'view-rows' : null,
+			)}>
+			<select
+				ref={ref}
+				{...inputProps}
+				className={classNames(
+					inputProps.className,
+					selectClassName,
+					rows && rows > 0 ? 'view-rows' : null,
+				)} size={rows}>
 				{displayBuiltinEmptyOption && <option key="-1" disabled={outerProps.required} value="">{placeholder ?? '…'}</option>}
 				{options.map((option, index) => {
 					const isEmptyOptionValue = optionValueIsEmpty(option.value)
