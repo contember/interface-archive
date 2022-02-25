@@ -6,7 +6,7 @@ import {
 	useDerivedField,
 	useEnvironment,
 } from '@contember/binding'
-import { SlugInput, TextInputProps } from '@contember/ui'
+import { ControlProps, SlugInput } from '@contember/ui'
 import slugify from '@sindresorhus/slugify'
 import { useCallback, useMemo } from 'react'
 import type { SimpleRelativeSingleFieldProps } from '../auxiliary'
@@ -20,7 +20,7 @@ type SlugPrefix = string | ((environment: Environment) => string)
 
 export type SlugFieldProps =
 	& SimpleRelativeSingleFieldProps
-	& Omit<TextInputProps, 'value' | 'onChange' | 'validationState' | 'allowNewlines'>
+	& ControlProps<string>
 	& {
 		derivedFrom: SugaredRelativeSingleField['field']
 		unpersistedHardPrefix?: SlugPrefix
@@ -44,7 +44,6 @@ export const SlugField = Component<SlugFieldProps>(
 
 export const SlugFieldInner = SimpleRelativeSingleField<SlugFieldProps, string>(
 	(fieldMetadata, {
-		name,
 		label,
 		unpersistedHardPrefix,
 		persistedHardPrefix,
@@ -66,7 +65,6 @@ export const SlugFieldInner = SimpleRelativeSingleField<SlugFieldProps, string>(
 				return parsedValue !== null ? `${normalizedPersistedHardPrefix}${parsedValue}` : null
 			},
 			format: value => typeof value === 'string' ? value.substring(normalizedPersistedHardPrefix.length) : '',
-			type: 'text',
 		})
 		const transform = useCallback(
 			(driverFieldValue: string | null) => {

@@ -1,10 +1,10 @@
-import { TextInput, TextInputProps } from '@contember/ui'
-import { useState } from 'react'
+import { ControlProps, FloatInput } from '@contember/ui'
 import { SimpleRelativeSingleField, SimpleRelativeSingleFieldProps } from '../auxiliary'
 import { useFieldControl } from './useFieldControl'
 
-export type FloatFieldProps = SimpleRelativeSingleFieldProps &
-	Omit<TextInputProps, 'value' | 'validationState' | 'allowNewlines'>
+export type FloatFieldProps =
+	& SimpleRelativeSingleFieldProps
+	& ControlProps<number>
 
 export const FloatField = SimpleRelativeSingleField<FloatFieldProps, number>(
 	(fieldMetadata, {
@@ -13,34 +13,20 @@ export const FloatField = SimpleRelativeSingleField<FloatFieldProps, number>(
 		label,
 		...props
 	}) => {
-		const [innerValue, setInnerValue] = useState('')
-
 		const inputProps = useFieldControl<number, string>({
 			...props,
-			type: 'text',
 			fieldMetadata,
-			parse: value => {
-				const normalizedValue = typeof value === 'string' && value.trim() !== ''
-					? (value)
-						.replaceAll(',', '.')
-						.replace(/([^0-9.]|\.(?=\d*\.))/g, '')
-						.replace(/^0*(?=\d)/, '')
-					: ''
-
-				setInnerValue(normalizedValue)
-
-				return normalizedValue ? parseFloat(normalizedValue) : null
-			},
-			format: value => {
-				return innerValue && parseFloat(innerValue) === value
-					? innerValue
-					: typeof value === 'number'
-						? value.toString(10)
-						: ''
-			},
+			parse: value => typeof value === 'string' && value.trim() !== ''
+				? parseFloat(value)
+				: null,
+			format: value => typeof value === 'number' && value !== NaN
+				? value.toString(10)
+				: typeof value === 'string'
+					? parseFloat(value).toString(10)
+					: null,
 		})
 
-		return <TextInput {...inputProps} />
+		return <FloatInput {...inputProps} />
 	},
 	'FloatField',
 )

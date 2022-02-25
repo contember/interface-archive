@@ -1,4 +1,4 @@
-import { TextInput, TextInputProps } from '@contember/ui'
+import { ControlProps, TextInput } from '@contember/ui'
 import { SimpleRelativeSingleField, SimpleRelativeSingleFieldProps } from '../auxiliary'
 import {
 	stringFieldFormatter as format,
@@ -8,16 +8,11 @@ import {
 
 export type TextFieldProps =
 	& SimpleRelativeSingleFieldProps
-	& TextInputProps
-	& {
-		wrapLines?: boolean
-	}
+	& ControlProps<string>
 
 export const TextField = SimpleRelativeSingleField<TextFieldProps, string>(
 	(fieldMetadata, {
 		label,
-		name,
-		wrapLines = false,
 		...props
 	}) => {
 		const inputProps = useFieldControl<string, string>({
@@ -25,12 +20,9 @@ export const TextField = SimpleRelativeSingleField<TextFieldProps, string>(
 			fieldMetadata,
 			parse,
 			format,
-			type: 'text',
 		})
 
-		return (
-			<TextInput {...inputProps} />
-		)
+		return <TextInput {...inputProps} />
 	},
 	'TextField',
 )
