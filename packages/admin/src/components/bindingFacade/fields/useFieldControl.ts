@@ -23,9 +23,6 @@ type UseControlProps<
 	format: FieldValueFormatter<FieldValue, ControlValue>
 }
 
-export const stringFieldParser: ControlValueParser<string, string> = value => value ??  null
-export const stringFieldFormatter: FieldValueFormatter<string, string> = value => value ?? ''
-
 export const useFieldControl = <FieldValue extends Scalar, ControlValue extends Scalar, Type extends string | undefined = string | undefined>({
 	fieldMetadata,
 	parse,

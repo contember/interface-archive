@@ -1,14 +1,17 @@
 import { ControlProps, TextInput } from '@contember/ui'
 import { SimpleRelativeSingleField, SimpleRelativeSingleFieldProps } from '../auxiliary'
 import {
-	stringFieldFormatter as format,
-	stringFieldParser as parse,
+	ControlValueParser,
+	FieldValueFormatter,
 	useFieldControl,
 } from './useFieldControl'
 
 export type TextFieldProps =
 	& SimpleRelativeSingleFieldProps
 	& ControlProps<string>
+
+const parse: ControlValueParser<string, string> = value => value ??  null
+const format: FieldValueFormatter<string, string> = value => value ?? null
 
 export const TextField = SimpleRelativeSingleField<TextFieldProps, string>(
 	(fieldMetadata, {

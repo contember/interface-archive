@@ -12,7 +12,6 @@ import { useCallback, useMemo } from 'react'
 import type { SimpleRelativeSingleFieldProps } from '../auxiliary'
 import { SimpleRelativeSingleField } from '../auxiliary'
 import {
-	stringFieldParser,
 	useFieldControl,
 } from './useFieldControl'
 
@@ -61,7 +60,7 @@ export const SlugFieldInner = SimpleRelativeSingleField<SlugFieldProps, string>(
 			...props,
 			fieldMetadata,
 			parse: (val, field) => {
-				const parsedValue = stringFieldParser(val, field)
+				const parsedValue = val ?? null
 				return parsedValue !== null ? `${normalizedPersistedHardPrefix}${parsedValue}` : null
 			},
 			format: value => typeof value === 'string' ? value.substring(normalizedPersistedHardPrefix.length) : '',

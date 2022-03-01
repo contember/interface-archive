@@ -1,13 +1,18 @@
 import { ControlProps, TextareaInput, TextareaInputOwnProps } from '@contember/ui'
 import { SimpleRelativeSingleField, SimpleRelativeSingleFieldProps } from '../auxiliary'
-import { stringFieldParser as parse, useFieldControl } from './useFieldControl'
+import {
+	ControlValueParser,
+	FieldValueFormatter,
+	useFieldControl,
+} from './useFieldControl'
 
 export type TextareaFieldProps =
 	& SimpleRelativeSingleFieldProps
 	& ControlProps<string>
 	& TextareaInputOwnProps
 
-const format = (value: string | null | undefined) => String(value ?? '')
+const parse: ControlValueParser<string, string> = value => value ??  null
+const format: FieldValueFormatter<string, string> = value => value ?? null
 
 export const TextareaField = SimpleRelativeSingleField<TextareaFieldProps, string>(
 	(fieldMetadata, {
