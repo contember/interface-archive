@@ -23,5 +23,5 @@ export const TimeField = SimpleRelativeSingleField<TimeFieldProps, string>(
 
 		return <TimeInput {...inputProps} />
 	},
-	'DateTimeField',
+	'TimeField',
 )

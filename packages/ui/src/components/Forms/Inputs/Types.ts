@@ -6,25 +6,26 @@ import type {
   DateInputString,
   DateTimeInputString,
   MonthInputString,
+  Scalar,
   TimeInputString,
   WeekInputString,
 } from '../Types'
 
 export interface RestHTMLTextInputProps extends Omit<AllHTMLAttributes<HTMLInputElement>, ControlPropsKeys<string>> {}
 
-export type TextInputOwnProps<V extends string = string> = ControlProps<V> & {
+export type TextInputOwnProps<V extends Scalar = string> = ControlProps<V> & {
 	withTopToolbar?: boolean
 }
 
-export type TextInputProps<V extends string = string> = TextInputOwnProps<V> & RestHTMLTextInputProps
+export type TextInputProps<V extends Scalar = string> = TextInputOwnProps<V> & RestHTMLTextInputProps
 
 export type ColorInputProps = TextInputProps<ColorString>
 export type DateInputProps = TextInputProps<DateInputString>
 export type DateTimeInputProps = TextInputProps<DateTimeInputString>
 export type EmailInputProps = TextInputProps
-export type FloatInputProps = TextInputProps
+export type FloatInputProps = TextInputProps<number>
 export type MonthInputProps = TextInputProps<MonthInputString>
-export type NumberInputProps = TextInputProps
+export type NumberInputProps = TextInputProps<number>
 export type PasswordInputProps = TextInputProps
 export type RangeInputProps = TextInputProps
 export type SearchInputProps = TextInputProps

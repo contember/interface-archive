@@ -1,8 +1,8 @@
 import { TextInput, TextInputProps } from '@contember/ui'
 import { SimpleRelativeSingleField, SimpleRelativeSingleFieldProps } from '../auxiliary'
 import {
-	stringFieldFormatter,
-	stringFieldParser,
+	stringFieldFormatter as format,
+	stringFieldParser as parse,
 	useFieldControl,
 } from './useFieldControl'
 
@@ -19,9 +19,8 @@ export const ColorField = SimpleRelativeSingleField<ColorFieldProps, string>(
 		const inputProps = useFieldControl<string, string>({
 			...props,
 			fieldMetadata,
-			parse: stringFieldParser,
-			format: stringFieldFormatter,
-			type: 'color',
+			parse,
+			format,
 		})
 
 		return <TextInput {...inputProps} />

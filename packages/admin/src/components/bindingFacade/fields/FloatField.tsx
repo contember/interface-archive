@@ -1,10 +1,18 @@
 import { ControlProps, FloatInput } from '@contember/ui'
 import { SimpleRelativeSingleField, SimpleRelativeSingleFieldProps } from '../auxiliary'
-import { useFieldControl } from './useFieldControl'
+import {
+	ControlValueParser,
+	FieldValueFormatter,
+	useFieldControl,
+} from './useFieldControl'
 
 export type FloatFieldProps =
 	& SimpleRelativeSingleFieldProps
 	& ControlProps<number>
+
+
+const parse: ControlValueParser<number, number> = value => value ??  null
+const format: FieldValueFormatter<number, number> = value => value ?? null
 
 export const FloatField = SimpleRelativeSingleField<FloatFieldProps, number>(
 	(fieldMetadata, {
@@ -13,17 +21,11 @@ export const FloatField = SimpleRelativeSingleField<FloatFieldProps, number>(
 		label,
 		...props
 	}) => {
-		const inputProps = useFieldControl<number, string>({
+		const inputProps = useFieldControl<number, number>({
 			...props,
 			fieldMetadata,
-			parse: value => typeof value === 'string' && value.trim() !== ''
-				? parseFloat(value)
-				: null,
-			format: value => typeof value === 'number' && value !== NaN
-				? value.toString(10)
-				: typeof value === 'string'
-					? parseFloat(value).toString(10)
-					: null,
+			parse,
+			format,
 		})
 
 		return <FloatInput {...inputProps} />

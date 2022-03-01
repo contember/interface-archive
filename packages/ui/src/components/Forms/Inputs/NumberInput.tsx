@@ -9,7 +9,11 @@ import type { NumberInputProps } from './Types'
 export const NumberInput = memo(
 	forwardRef<HTMLInputElement, NumberInputProps>(({
 		className,
+		defaultValue,
+		max,
+		min,
 		onChange,
+		value,
 		withTopToolbar,
 		...outerProps
 	}, forwardedRed) => {
@@ -21,6 +25,9 @@ export const NumberInput = memo(
 				toViewClass('withTopToolbar', withTopToolbar),
 				className,
 			),
+			defaultValue: defaultValue?.toString(10),
+			max: max?.toString(10),
+			min: min?.toString(10),
 			onChange: useCallback((value?: string | null) => {
 				value = typeof value === 'string' && value.trim() !== ''
 				? (value)
@@ -28,8 +35,9 @@ export const NumberInput = memo(
 					.replace(/^0*(?=\d)/, '')
 				: null
 
-				onChange?.(value)
+				onChange?.(value ? parseInt(value) : null)
 			}, [onChange]),
+			value: value?.toString(10),
 		}, forwardedRed)
 
 		return <input

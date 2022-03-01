@@ -24,7 +24,7 @@ export const TextareaField = SimpleRelativeSingleField<TextareaFieldProps, strin
 
 		return <TextareaInput {...inputProps} minRows={minRows || 3} />
 	},
-	'TextField',
+	'TextareaField',
 )
 
 /**
