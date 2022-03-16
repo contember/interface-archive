@@ -34,15 +34,11 @@ describe('screenshots', async () => {
 
 	test('index', async () => {
 		await page.goto('http://localhost:3333')
-		await page.setViewport({ width: 1920, height: 1080 })
-		await page.waitForNetworkIdle()
 		await assertScreenshot(page, 'index')
-	})
+	}, 60_000)
 
 	test('inputs', async () => {
 		await page.goto('http://localhost:3333/inputs')
-		await page.setViewport({ width: 1920, height: 1080 })
-		await page.waitForNetworkIdle()
 		await assertScreenshot(page, 'inputs')
-	})
+	}, 60_000)
 })
