@@ -10,7 +10,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    container: node:16-alpine
+    container: node:16
 
     steps:
       - uses: actions/checkout@v2
