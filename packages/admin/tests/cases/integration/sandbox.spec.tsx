@@ -23,7 +23,7 @@ describe('screenshots', async () => {
 			mode: 'test',
 		})
 
-		browser = await puppeteer.launch()
+		browser = await puppeteer.launch({ args: ['--font-render-hinting=none'] })
 		page = await browser.newPage()
 	})
 
