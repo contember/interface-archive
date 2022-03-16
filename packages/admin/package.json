@@ -28,7 +28,7 @@
 		"build": "pnpm run build:js && pnpm run build:css",
 		"build:js": "vite build --mode development && vite build --mode production",
 		"build:css": "sass --no-charset src/index.sass:dist/style.css",
-		"test": "vitest --environment jsdom"
+		"test": "(cd ../admin-sandbox && pnpm exec vite build --config vite.config.ts --mode test) && vitest --environment jsdom"
 	},
 	"dependencies": {
 		"@contember/binding": "workspace:*",
@@ -70,6 +70,9 @@
 		"@types/debounce": "1.2.0",
 		"@types/is-hotkey": "0.1.5",
 		"@types/leaflet": "1.7.5",
+		"@types/node": "^16",
+		"@types/pixelmatch": "^5.2.4",
+		"@types/pngjs": "^6.0.1",
 		"@types/react": "17.0.30",
 		"@types/react-dom": "17.0.9",
 		"@types/react-leaflet": "2.8.2",
@@ -78,6 +81,9 @@
 		"@types/react-window": "1.8.5",
 		"csstype": "3.0.8",
 		"jsdom": "^18.0.0",
+		"pixelmatch": "^5.2.1",
+		"pngjs": "^6.0.0",
+		"puppeteer": "^13.5.1",
 		"react-test-renderer": "^17"
 	}
 }
