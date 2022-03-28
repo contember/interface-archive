@@ -5,7 +5,8 @@ const INVITE_MUTATION = `
 	invite(
 		email: $email,
 		projectSlug: $projectSlug,
-		memberships: $memberships
+		memberships: $memberships,
+		options: { method: RESET_PASSWORD },
 	) {
 		ok
 		errors {
