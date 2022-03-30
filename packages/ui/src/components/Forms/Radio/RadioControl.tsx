@@ -4,10 +4,10 @@ import { useFocusRing, useHover, useRadio, VisuallyHidden } from 'react-aria'
 import { useClassNamePrefix } from '../../../auxiliary'
 import { Size, ValidationState } from '../../../types'
 import { toEnumStateClass, toStateClass } from '../../../utils'
+import { FieldContainer } from '../FieldContainer'
 import { RadioButton as DefaultRadioButton } from './RadioButton'
 import { RadioContext } from './RadioContext'
 import type { RadioOption } from './types'
-import { FieldContainer } from '../FieldContainer'
 
 interface RadioProps {
 	RadioButtonComponent?: typeof DefaultRadioButton

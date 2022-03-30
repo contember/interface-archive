@@ -5,8 +5,8 @@ import { useToggleState } from 'react-stately'
 import { useClassNamePrefix } from '../../../auxiliary'
 import type { Size, ValidationState } from '../../../types'
 import { toEnumStateClass, toStateClass } from '../../../utils'
-import { CheckboxButton as DefaultCheckboxButton } from './CheckboxButton'
 import { FieldContainer } from '../FieldContainer'
+import { CheckboxButton as DefaultCheckboxButton } from './CheckboxButton'
 
 export interface CheckboxProps {
 	CheckboxButtonComponent?: typeof DefaultCheckboxButton
