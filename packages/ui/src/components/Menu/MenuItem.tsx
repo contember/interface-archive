@@ -1,3 +1,4 @@
+import { useSessionStorageState } from '@contember/react-utils'
 import classNames from 'classnames'
 import { SyntheticEvent, useCallback, useContext, useEffect, useRef } from 'react'
 import { randomId, useComponentClassName } from '../../auxiliary'
@@ -11,10 +12,9 @@ import { MenuExpandToggle } from './ExpandToggle'
 import { MenuLink } from './MenuLink'
 import { MenuItemProps, TAB_INDEX_FOCUSABLE, TAB_INDEX_NEVER_FOCUSABLE, TAB_INDEX_TEMPORARY_UNFOCUSABLE } from './Types'
 import { useActiveMenuItemContext } from './useActiveMenuItem'
-import { useMouseToFocus } from './useMouseToFocus'
-import { useMenuId } from './useMenuId'
-import { useSessionStorageState } from '@contember/react-utils'
 import { useKeyNavigation } from './useKeyNavigation'
+import { useMenuId } from './useMenuId'
+import { useMouseToFocus } from './useMouseToFocus'
 
 
 export function MenuItem<T extends any = any>({ children, ...props }: MenuItemProps<T>) {
@@ -104,6 +104,7 @@ export function MenuItem<T extends any = any>({ children, ...props }: MenuItemPr
 
 	const submenu = (
 		<ul
+			key={`menu-id-submenu-${id.current}`}
 			aria-labelledby={isInteractive ? id.current : undefined}
 			className={classNames(
 				`${componentClassName}-list`,
@@ -125,7 +126,7 @@ export function MenuItem<T extends any = any>({ children, ...props }: MenuItemPr
 		'aria-haspopup': true,
 		'aria-controls': id.current,
 		'aria-expanded': expanded,
-	} : undefined
+} : undefined
 
 	return (
 		<DepthContext.Provider value={depth + 1}>
@@ -138,6 +139,7 @@ export function MenuItem<T extends any = any>({ children, ...props }: MenuItemPr
 			}}>
 				<li
 					ref={listItemRef}
+					key={`menu-item-li-${id.current}`}
 					{...interactiveProps}
 					aria-label={label}
 					role={href ? 'link' : undefined}
