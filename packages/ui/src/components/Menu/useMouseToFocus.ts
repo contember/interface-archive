@@ -25,8 +25,8 @@ export function useMouseToFocus({
 				return
 			}
 
-			liRef.focus()
 			event.preventDefault()
+			liRef.focus()
 		}
 
 		const mouseOutListener = (event: MouseEvent) => {
