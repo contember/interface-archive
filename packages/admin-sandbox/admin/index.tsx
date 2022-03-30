@@ -1,3 +1,5 @@
+import './wdyr' // THIS MUST BE THE FIRST IMPORT!
+
 import { ApplicationEntrypoint, Pages, runReactApp } from '@contember/admin'
 import { Layout } from './components/Layout'
 import './index.sass'
