@@ -1,5 +1,5 @@
 import { DevErrorBadge, DevErrorList, ErrorType } from '@contember/ui'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useParsedStacktrace } from './useParsedStacktrace'
 
 export class ErrorBus {
@@ -53,12 +53,12 @@ export function DevErrorManager(props: DevErrorManagerProps) {
 
 	const currentError = errors[errIndex]
 	const stackTrace = useParsedStacktrace(currentError?.error)
+	const onClose = useCallback(() => setOpen(false), [])
+	const onPrevious = useCallback(() => setErrorIndex(it => Math.max(0, it - 1)), [])
+	const onNext = useCallback(() => setErrorIndex(it => Math.min(errors.length - 1, it + 1)), [errors.length])
 	if (!currentError) {
 		return null
 	}
-	const onPrevious = () => setErrorIndex(it => Math.max(0, it - 1))
-	const onNext = () => setErrorIndex(it => Math.min(errors.length - 1, it + 1))
-	const onClose = () => setOpen(false)
 	if (!open) {
 		return <DevErrorBadge errorCount={errors.length} onOpen={() => setOpen(true)} />
 	}
