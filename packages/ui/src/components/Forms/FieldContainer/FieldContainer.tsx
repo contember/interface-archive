@@ -47,7 +47,7 @@ export const FieldContainer = memo(
 				`${componentClassName}`,
 				toEnumViewClass(size),
 				toEnumViewClass(labelPosition),
-				errors?.length ? toThemeClass('danger', 'controls') : undefined,
+				toThemeClass(null, null, errors?.length ? 'danger' : undefined),
 			)}>
 				<LabelElement className={`${componentClassName}-label`}>
 					{(label || labelDescription) && <span className={`${componentClassName}-header`}>
