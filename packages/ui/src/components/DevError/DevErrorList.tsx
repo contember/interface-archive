@@ -45,7 +45,7 @@ export function DevErrorList({
 						) : null}
 						<div className={`${prefix}devError-close`}>
 							<Button distinction={'outlined'} size={'small'} onClick={onClose}>
-								<Icon blueprintIcon={'cross'} />{' '}
+								<Icon blueprintIcon="cross" />
 							</Button>
 						</div>
 					</div>
