@@ -56,11 +56,11 @@ export const Menu: FunctionComponent<any> & {
 		<MenuIdProvider menuId={menuId}>
 			<MouseMoveProvider elementRef={menuRef}>
 				<ActiveMenuItemProvider menuRef={menuRef}>
-					<section className={classNames(
+					<section key={`menu-${menuId}-section`} className={classNames(
 						componentClassName,
 						toViewClass('showCaret', props.showCaret ?? true),
 					)}>
-						<ul ref={menuRef} className={classNames(
+						<ul key={`menu-${menuId}-section-list`} ref={menuRef} className={classNames(
 							`${componentClassName}-list`,
 							'is-expanded',
 						)}>

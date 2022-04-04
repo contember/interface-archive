@@ -1,3 +1,4 @@
+import { useSessionStorageState } from '@contember/react-utils'
 import classNames from 'classnames'
 import { SyntheticEvent, useCallback, useContext, useEffect, useRef } from 'react'
 import { randomId, useComponentClassName } from '../../auxiliary'
@@ -11,10 +12,9 @@ import { MenuExpandToggle } from './ExpandToggle'
 import { MenuLink } from './MenuLink'
 import { MenuItemProps, TAB_INDEX_FOCUSABLE, TAB_INDEX_NEVER_FOCUSABLE, TAB_INDEX_TEMPORARY_UNFOCUSABLE } from './Types'
 import { useActiveMenuItemContext } from './useActiveMenuItem'
-import { useMouseToFocus } from './useMouseToFocus'
-import { useMenuId } from './useMenuId'
-import { useSessionStorageState } from '@contember/react-utils'
 import { useKeyNavigation } from './useKeyNavigation'
+import { useMenuId } from './useMenuId'
+import { useMouseToFocus } from './useMouseToFocus'
 
 
 export function MenuItem<T extends any = any>({ children, ...props }: MenuItemProps<T>) {
@@ -104,6 +104,7 @@ export function MenuItem<T extends any = any>({ children, ...props }: MenuItemPr
 
 	const submenu = (
 		<ul
+			key={`${menuItemId}-list`}
 			aria-labelledby={isInteractive ? id.current : undefined}
 			className={classNames(
 				`${componentClassName}-list`,
@@ -137,6 +138,7 @@ export function MenuItem<T extends any = any>({ children, ...props }: MenuItemPr
 				parentIsExpanded: parentIsExpanded && expanded,
 			}}>
 				<li
+					key={`${menuItemId}-list-item`}
 					ref={listItemRef}
 					{...interactiveProps}
 					aria-label={label}
@@ -151,7 +153,7 @@ export function MenuItem<T extends any = any>({ children, ...props }: MenuItemPr
 					tabIndex={tabIndex}
 					aria-disabled={tabIndex === TAB_INDEX_NEVER_FOCUSABLE}
 				>
-					<div ref={listItemTitleRef} className={`${componentClassName}-title`}>
+					<div key={`${menuItemId}-title`} ref={listItemTitleRef} className={`${componentClassName}-title`}>
 						{isInteractive && <MenuExpandToggle
 							checked={expanded}
 							controls={id.current}
@@ -180,7 +182,7 @@ export function MenuItem<T extends any = any>({ children, ...props }: MenuItemPr
 						}
 					</div>
 					{isInteractive
-						? <Collapsible expanded={expanded}>{submenu}</Collapsible>
+						? <Collapsible key={`${menuItemId}-collapsible`} expanded={expanded}>{submenu}</Collapsible>
 						: submenu
 					}
 				</li>
