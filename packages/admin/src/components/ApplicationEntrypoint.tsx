@@ -29,8 +29,17 @@ const validateProps = (props: Partial<ApplicationEntrypointProps>) => {
 export const ApplicationEntrypoint = (props: ApplicationEntrypointProps) => {
 	validateProps(props)
 
+	let projectName = props.project
+	if (projectName === '__PROJECT_NAME__') {
+		projectName = window.location.pathname.split(/\//)[1]
+	}
+	let basePath = props.basePath ?? '/'
+	if (basePath === './') {
+		basePath = `/${projectName}/`
+	}
+
 	const routing: RoutingContextValue = {
-		basePath: props.basePath ?? '/',
+		basePath,
 		routes: props.routes ?? { index: { path: '/' } },
 		defaultDimensions: props.defaultDimensions,
 	}
@@ -52,7 +61,7 @@ export const ApplicationEntrypoint = (props: ApplicationEntrypointProps) => {
 										apiBaseUrl={props.apiBaseUrl}
 										sessionToken={props.sessionToken}
 										loginToken={props.loginToken}
-										project={props.project}
+										project={projectName}
 										stage={props.stage}
 									>
 										<NavigationProvider>
