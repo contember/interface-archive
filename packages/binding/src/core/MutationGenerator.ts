@@ -15,7 +15,7 @@ import {
 	EntityRealmStateStub,
 	EntityState,
 	FieldState,
-	getEntityMarker,
+	getEntityMarker, RootStateNode, StateIterator,
 } from './state'
 import type { TreeStore } from './TreeStore'
 
@@ -32,62 +32,70 @@ export class MutationGenerator {
 			let builder: QueryBuilder = new CrudQueryBuilder.CrudQueryBuilder()
 			const processedPlaceholdersByEntity: ProcessedPlaceholdersByEntity = new Map()
 
-			for (const [treeRootId, rootStates] of this.treeStore.subTreeStatesByRoot) {
-				for (const [placeholderName, subTreeState] of rootStates) {
-					if (subTreeState.type === 'entityRealm') {
+			const states = Array.from(this.treeStore.subTreeStatesByRoot.entries())
+				.flatMap(
+					([treeRootId, rootStates]) =>
+						Array.from(rootStates.entries()).map(
+							([placeholderName, subtreeState]): [string | undefined, string, RootStateNode] => [treeRootId, placeholderName, subtreeState],
+						).reverse(),
+				)
+				.filter(it => it[2].unpersistedChangesCount > 0)
+
+			for (const [treeRootId, placeholderName, subTreeState] of states) {
+				if (subTreeState.type === 'entityRealm') {
+					builder = this.addSubMutation(
+						processedPlaceholdersByEntity,
+						treeRootId,
+						placeholderName,
+						mutationOperationSubTreeType.singleEntity,
+						subTreeState.entity.id.value,
+						subTreeState,
+						builder,
+					)
+				} else if (subTreeState.type === 'entityList') {
+					for (const childState of subTreeState.children.values()) {
+						if (childState.type === 'entityRealmStub') {
+							// TODO there can be a forceCreate somewhere in there that we're hereby ignoring.
+							continue
+						}
 						builder = this.addSubMutation(
 							processedPlaceholdersByEntity,
 							treeRootId,
 							placeholderName,
-							mutationOperationSubTreeType.singleEntity,
-							subTreeState.entity.id.value,
-							subTreeState,
+							mutationOperationSubTreeType.entityList,
+							childState.entity.id.value,
+							childState,
 							builder,
 						)
-					} else if (subTreeState.type === 'entityList') {
-						for (const childState of subTreeState.children.values()) {
-							if (childState.type === 'entityRealmStub') {
-								// TODO there can be a forceCreate somewhere in there that we're hereby ignoring.
+					}
+					if (subTreeState.plannedRemovals) {
+						for (const [removedId, removalType] of subTreeState.plannedRemovals) {
+							if (removalType === 'disconnect') {
 								continue
 							}
-							builder = this.addSubMutation(
-								processedPlaceholdersByEntity,
-								treeRootId,
-								placeholderName,
-								mutationOperationSubTreeType.entityList,
-								childState.entity.id.value,
-								childState,
-								builder,
-							)
-						}
-						if (subTreeState.plannedRemovals) {
-							for (const [removedId, removalType] of subTreeState.plannedRemovals) {
-								if (removalType === 'disconnect') {
-									continue
-								}
-								if (removalType === 'delete') {
-									builder = this.addDeleteMutation(
-										subTreeState.entityName,
-										removedId,
-										MutationAlias.encodeTopLevel({
-											treeRootId,
-											subTreePlaceholder: placeholderName,
-											type: mutationOperationType.delete,
-											subTreeType: mutationOperationSubTreeType.entityList,
-											entityId: removedId,
-										}),
-										builder,
-									)
-								} else {
-									assertNever(removalType)
-								}
+							if (removalType === 'delete') {
+								builder = this.addDeleteMutation(
+									subTreeState.entityName,
+									removedId,
+									MutationAlias.encodeTopLevel({
+										treeRootId,
+										subTreePlaceholder: placeholderName,
+										type: mutationOperationType.delete,
+										subTreeType: mutationOperationSubTreeType.entityList,
+										entityId: removedId,
+									}),
+									builder,
+								)
+							} else {
+								assertNever(removalType)
 							}
 						}
-					} else {
-						assertNever(subTreeState)
 					}
+				} else {
+					assertNever(subTreeState)
 				}
 			}
+
 			return builder.inTransaction(undefined, { deferForeignKeyConstraints: true }).getGql()
 		} catch (e) {
 			return undefined
