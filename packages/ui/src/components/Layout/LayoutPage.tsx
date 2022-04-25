@@ -43,9 +43,13 @@ export const LayoutPage = memo(({
 		const ref = contentRef.current
 
 		const topOffsetHandler = () => {
-			const contentOffsetTop = ref.offsetTop
+			setContentOffsetTop(ref.offsetTop)
 
-			setContentOffsetTop(contentOffsetTop)
+			setTimeout(() => {
+				if (ref) {
+					setContentOffsetTop(ref.offsetTop)
+				}
+			}, 100)
 		}
 
 		topOffsetHandler()
