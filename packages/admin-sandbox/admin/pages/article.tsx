@@ -19,6 +19,8 @@ import {
 	TextCell,
 	TextField,
 } from '@contember/admin'
+import { useMemo } from 'react'
+import { CategoryForm } from './categories'
 import { DataGridTile } from '../components/DataGridTile'
 import { If } from '@contember/admin'
 
@@ -67,14 +69,15 @@ const ArticleForm = Component(() => <>
 			fileTypeField="type"
 		/>
 		<MultiSelectField label={'tags'} field={'tags'} options={{
-			fields: 'Tag.locales(locale.code=\'cs\').name',
+			fields: 'Tag.name',
 			orderBy: 'name desc',
-		}} />
+		}} createNewForm={<TextField field={'name'} label={'Name'} />}/>
 
-		<SelectField label={'category'} field={'category'} options={{
-			fields: 'Category.locales(locale.code=\'cs\').name',
+		<SelectField label={'category'} field={'category'}  createNewForm={<CategoryForm/>} options={{
+			fields: 'Category.name',
 			orderBy: 'name desc',
-		}} />
+		}}
+		/>
 
 		<TextField field={'title'} label={'Title'} />
 		<RichTextField field={'content'} label={'Content'} />
