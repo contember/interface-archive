@@ -1,5 +1,13 @@
 import { BindingError, Component } from '@contember/binding'
-import { FieldContainer, FieldContainerProps, FieldErrors, flipValue, Select, SelectOption } from '@contember/ui'
+import {
+	FieldContainer,
+	FieldContainerProps,
+	FieldErrors,
+	flipValue,
+	Select,
+	SelectCreateNewWrapper,
+	SelectOption,
+} from '@contember/ui'
 import { forwardRef, FunctionComponent, memo, RefAttributes } from 'react'
 import {
 	ChoiceField,
@@ -21,23 +29,8 @@ export type NativeSelectFieldProps =
 export const NativeSelectField: FunctionComponent<NativeSelectFieldProps> = Component(
 	props => (
 		<ChoiceField {...props}>
-			{({
-				data,
-				currentValue,
-				onChange,
-				errors,
-				environment,
-				isMutating,
-			}: ChoiceFieldData.SingleChoiceFieldMetadata) => (
-				<NativeSelectFieldInner
-					{...props}
-					data={data}
-					currentValue={currentValue}
-					onChange={onChange}
-					environment={environment}
-					errors={errors}
-					isMutating={isMutating}
-				/>
+			{(choiceProps: ChoiceFieldData.SingleChoiceFieldMetadata) => (
+				<NativeSelectFieldInner {...props} {...choiceProps} />
 			)}
 		</ChoiceField>
 	),
@@ -71,18 +64,20 @@ export const NativeSelectFieldInner = memo(forwardRef<HTMLSelectElement, NativeS
 
 	return (
 		<FieldContainer {...props} label={props.environment.applySystemMiddleware('labelMiddleware', props.label)}>
-			<Select
-				ref={ref}
-				required={props.required}
-				notNull={props.notNull ?? flipValue(props.allowNull)}
-				value={props.currentValue}
-				placeholder={props.placeholder}
-				onChange={(value?: number | null) => {
-					props.onChange(value ?? -1)
-				}}
-				options={options}
-				loading={props.isMutating}
-			/>
+			<SelectCreateNewWrapper onClick={props.onAddNew}>
+				<Select
+					ref={ref}
+					required={props.required}
+					notNull={props.notNull ?? flipValue(props.allowNull)}
+					value={props.currentValue}
+					placeholder={props.placeholder}
+					onChange={(value?: number | null) => {
+						props.onChange(value ?? -1)
+					}}
+					options={options}
+					loading={props.isMutating}
+				/>
+			</SelectCreateNewWrapper>
 		</FieldContainer>
 	)
 }))

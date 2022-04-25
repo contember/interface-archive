@@ -1,5 +1,5 @@
 import { Component, FieldValue } from '@contember/binding'
-import { FieldContainer, FieldContainerProps, FieldErrors } from '@contember/ui'
+import { FieldContainer, FieldContainerProps, FieldErrors, SelectCreateNewWrapper } from '@contember/ui'
 import { FunctionComponent, memo } from 'react'
 import type { Props as SelectProps } from 'react-select'
 import AsyncSelect from 'react-select/async'
@@ -22,23 +22,8 @@ export type SelectFieldProps =
 export const SelectField: FunctionComponent<SelectFieldProps> = Component(
 	props => (
 		<ChoiceField {...props} >
-			{({
-				data,
-				currentValue,
-				onChange,
-				errors,
-				environment,
-				isMutating,
-			}: ChoiceFieldData.SingleChoiceFieldMetadata) => (
-				<SelectFieldInner
-					{...props}
-					data={data}
-					currentValue={currentValue}
-					onChange={onChange}
-					environment={environment}
-					errors={errors}
-					isMutating={isMutating}
-				/>
+			{(choiceProps: ChoiceFieldData.SingleChoiceFieldMetadata) => (
+				<SelectFieldInner {...props}{...choiceProps} />
 			)}
 		</ChoiceField>
 	),
@@ -53,6 +38,7 @@ export interface SelectFieldInnerPublicProps extends Omit<FieldContainerProps, '
 
 export interface SelectFieldInnerProps extends ChoiceFieldData.SingleChoiceFieldMetadata, SelectFieldInnerPublicProps {
 	errors: FieldErrors | undefined
+
 }
 
 export const SelectFieldInner = memo(
@@ -66,6 +52,7 @@ export const SelectFieldInner = memo(
 		isMutating,
 		onChange,
 		reactSelectProps,
+		onAddNew,
 		...fieldContainerProps
 	}: SelectFieldInnerProps) => {
 		const asyncProps = useCommonReactSelectAsyncProps({
@@ -81,35 +68,37 @@ export const SelectFieldInner = memo(
 				errors={errors}
 				label={environment.applySystemMiddleware('labelMiddleware', fieldContainerProps.label)}
 			>
-				<AsyncSelect
-					{...asyncProps}
-					isClearable={allowNull === true}
-					value={data[currentValue]}
-					styles={selectStyles as Object} // TODO: Too complex to fix styling related typesafety
-					onChange={(newValue, actionMeta) => {
-						const value = newValue as ChoiceFieldData.SingleDatum<FieldValue | undefined>
-						switch (actionMeta.action) {
-							case 'select-option': {
-								onChange(value.key)
-								break
+				<SelectCreateNewWrapper onClick={onAddNew}>
+					<AsyncSelect
+						{...asyncProps}
+						isClearable={allowNull === true}
+						value={data[currentValue]}
+						styles={selectStyles as Object} // TODO: Too complex to fix styling related typesafety
+						onChange={(newValue, actionMeta) => {
+							const value = newValue as ChoiceFieldData.SingleDatum<FieldValue | undefined>
+							switch (actionMeta.action) {
+								case 'select-option': {
+									onChange(value.key)
+									break
+								}
+								case 'clear': {
+									onChange(-1)
+									break
+								}
+								case 'create-option': {
+									// TODO not yet supported
+									break
+								}
+								case 'remove-value':
+								case 'pop-value':
+								case 'deselect-option': {
+									// When is this even called? 🤔
+									break
+								}
 							}
-							case 'clear': {
-								onChange(-1)
-								break
-							}
-							case 'create-option': {
-								// TODO not yet supported
-								break
-							}
-							case 'remove-value':
-							case 'pop-value':
-							case 'deselect-option': {
-								// When is this even called? 🤔
-								break
-							}
-						}
-					}}
-				/>
+						}}
+					/>
+				</SelectCreateNewWrapper>
 			</FieldContainer>
 		)
 	},

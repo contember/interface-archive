@@ -8,6 +8,7 @@ import {
 	SugaredQualifiedFieldList,
 } from '@contember/binding'
 import { BaseDynamicChoiceField } from './BaseDynamicChoiceField'
+import { NIL_UUID } from '@contember/binding'
 
 export const renderDynamicChoiceFieldStatic = (props: BaseDynamicChoiceField, environment: Environment): {
 	subTree: ReactElement
@@ -39,9 +40,20 @@ export const renderDynamicChoiceFieldStatic = (props: BaseDynamicChoiceField, en
 				: props.options
 
 		const subTree = (
-			<EntityListSubTree {...sugaredEntityList} expectedMutation="none">
-				{renderedOption}
-			</EntityListSubTree>
+			<>
+				<EntityListSubTree {...sugaredEntityList} expectedMutation="none">
+					{renderedOption}
+				</EntityListSubTree>
+				{props.createNewForm && (
+					<EntityListSubTree entities={{
+						entityName: typeof sugaredEntityList.entities === 'string' ? sugaredEntityList.entities : sugaredEntityList.entities.entityName,
+						filter: { id: { eq: NIL_UUID } },
+					}} expectedMutation={'none'}>
+						{props.createNewForm}
+						{renderedOption}
+					</EntityListSubTree>
+				)}
+			</>
 		)
 
 		return { subTree, renderedOption }
@@ -59,16 +71,28 @@ export const renderDynamicChoiceFieldStatic = (props: BaseDynamicChoiceField, en
 		)
 
 		const subTree = (
-			<EntityListSubTree
-				{...fieldList}
-				entities={{
-					entityName: fieldList.entityName,
-					filter: fieldList.filter,
-				}}
-				expectedMutation="none"
-			>
-				{renderedOption}
-			</EntityListSubTree>
+			<>
+				<EntityListSubTree
+					{...fieldList}
+					entities={{
+						entityName: fieldList.entityName,
+						filter: fieldList.filter,
+					}}
+					expectedMutation="none"
+				>
+					{renderedOption}
+				</EntityListSubTree>
+				{props.createNewForm && (
+					<EntityListSubTree entities={{
+						entityName: fieldList.entityName,
+						filter: { id: { eq: NIL_UUID } },
+					}} expectedMutation={'none'}>
+						{props.createNewForm}
+						{searchByFields}
+						{renderedOptionBase}
+					</EntityListSubTree>
+				)}
+			</>
 		)
 
 		return { subTree, renderedOption }
