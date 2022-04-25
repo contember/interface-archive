@@ -4,13 +4,19 @@ import { NativeProps } from '../../types'
 import { useSectionTabsRegistration } from '../SectionTabs'
 import { Stack } from '../Stack'
 
-function isElementFixed (element: HTMLDivElement) {
-  const offsetTop = element.offsetTop
-  const offsetHeight = element.offsetHeight
-  const scrollTop = element.scrollTop
-  const scrollHeight = element.scrollHeight
+const metaTabPositionCache: { [key: string]: CSSStyleDeclaration['position'] } = {}
 
-  return offsetTop === scrollTop && offsetHeight === scrollHeight
+function isMetaTabSticky (element: HTMLDivElement): boolean {
+	const offsetTop = element.offsetTop
+	const offsetHeight = element.offsetHeight
+
+	const layoutHash = `${offsetTop}:${offsetHeight}`
+
+	if (!metaTabPositionCache[layoutHash]) {
+		metaTabPositionCache[layoutHash] = getComputedStyle(element).position
+	}
+
+	return metaTabPositionCache[layoutHash] === 'sticky'
 }
 
 const metaTab = {
@@ -27,9 +33,7 @@ export const LayoutPageAside = memo(({ children }: NativeProps<HTMLDivElement>) 
 	useLayoutEffect(() => {
 		const tabRegistration = () => {
 			if (element.current) {
-				const isFixed = isElementFixed(element.current)
-
-				if (!isFixed) {
+				if (!isMetaTabSticky(element.current)) {
 					registerTab(metaTab)
 				} else {
 					unregisterTab(metaTab)
