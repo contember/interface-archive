@@ -42,18 +42,22 @@ export const LayoutPage = memo(({
 
 		const ref = contentRef.current
 
-		const topOffsetHandler = () => {
-			const contentOffsetTop = ref.offsetTop
-
-			setContentOffsetTop(contentOffsetTop)
+		function updateTopOffsetCallback() {
+			if (ref) {
+				setContentOffsetTop(ref.offsetTop)
+			}
 		}
 
-		topOffsetHandler()
+		function updateTopOffsetHandler() {
+			requestAnimationFrame(updateTopOffsetCallback)
+		}
 
-		window.addEventListener('resize', topOffsetHandler, { passive: true })
+		updateTopOffsetHandler()
+
+		window.addEventListener('resize', updateTopOffsetHandler, { passive: true })
 
 		return () => {
-			window.removeEventListener('resize', topOffsetHandler)
+			window.removeEventListener('resize', updateTopOffsetHandler)
 		}
 	}, [])
 
