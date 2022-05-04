@@ -37,6 +37,7 @@
 		"test": "vitest --environment jsdom tests/vitest"
 	},
 	"dependencies": {
+		"@babel/core": "7.17.10",
 		"@contember/binding": "workspace:*",
 		"@contember/client": "workspace:*",
 		"@contember/react-client": "workspace:*",
@@ -90,9 +91,11 @@
 		"@types/react-window": "1.8.5",
 		"csstype": "3.0.8",
 		"jsdom": "^18.0.0",
-		"node-fetch": "^2.6.5",
+		"node-fetch": "^3.2.4",
 		"pg": "^8.7.3",
 		"playwright": "^1.20.0",
+		"react": "^17",
+		"react-dom": "^17",
 		"react-test-renderer": "^17"
 	}
 }
