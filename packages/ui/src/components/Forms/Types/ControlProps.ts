@@ -41,7 +41,7 @@ export interface ControlDisplayProps {
 
 export interface ControlValueProps<V> {
 	defaultValue?: V | null | undefined
-	onChange?: (value?: V | null) => void
+	onChange?: (value: V | null) => void
 	max?: V | null
 	min?: V | null
 	name?: string
