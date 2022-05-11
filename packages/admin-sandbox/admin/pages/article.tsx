@@ -2,12 +2,14 @@ import {
 	AnchorButton,
 	CreatePage,
 	DataGridPage,
+	DataGridTile,
 	DeleteEntityButton,
 	EditPage,
 	EnumCell,
 	GenericCell,
 	HasManySelectCell,
 	HasOneSelectCell,
+	ImageUploadField,
 	LinkButton,
 	MultiSelectField,
 	NumberCell,
@@ -28,8 +30,14 @@ const stateOptions = {
 export const List = () => <DataGridPage
 	entities="Article"
 	itemsPerPage={20}
+	tile={<DataGridTile
+		to={`article/edit(id: $entity.id)`}
+		thumbnailField="image.url"
+		titleField="title"
+	/>}
 	rendererProps={{
 		actions: <LinkButton to="article/create">Add article</LinkButton>,
+		layout: 'full-width',
 		title: 'Articles',
 	}}
 >
@@ -47,6 +55,16 @@ export const List = () => <DataGridPage
 
 const articleForm = (
 	<>
+		<ImageUploadField
+			label="Image"
+			baseEntity="image"
+			urlField="url"
+			widthField="width"
+			heightField="height"
+			fileSizeField="size"
+			fileTypeField="type"
+		/>
+
 		<MultiSelectField label={'tags'} field={'tags'} options={{
 			fields: 'Tag.locales(locale.code=\'cs\').name',
 			orderBy: 'name desc',
