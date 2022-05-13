@@ -10,10 +10,10 @@ import {
 	useGetEntityListSubTree,
 	useMutationState,
 } from '@contember/binding'
-import { BaseDynamicChoiceField, useDesugaredOptionPath } from './BaseDynamicChoiceField'
+import { Button, Stack, useDialog } from '@contember/ui'
 import { useMemo } from 'react'
-import { Button, ButtonList, Stack, useDialog } from '@contember/ui'
 import { useMessageFormatter } from '../../../../i18n'
+import { BaseDynamicChoiceField, useDesugaredOptionPath } from './BaseDynamicChoiceField'
 import { choiceFieldDictionary } from './choiceFieldDictionary'
 
 export const useOnAddNew = ({ createNewForm, connect, ...props }: BaseDynamicChoiceField & { connect: (entity: EntityAccessor) => void }) => {
@@ -53,10 +53,10 @@ export const useOnAddNew = ({ createNewForm, connect, ...props }: BaseDynamicCho
 							<AccessorTree state={currentAccessorTreeState}>
 								<Entity accessor={entity}>{createNewForm}</Entity>
 							</AccessorTree>
-							<ButtonList>
-								<Button onClick={() => contentProps.resolve(true)}>{localization('choiceField.createNew.confirmButtonText')}</Button>
-								<Button onClick={() => contentProps.resolve()} intent={'tertiary'}>{localization('choiceField.createNew.cancelButtonText')}</Button>
-							</ButtonList>
+							<Stack direction="horizontal" evenly>
+								<Button onClick={() => contentProps.resolve()} distinction="default" elevation="none">{localization('choiceField.createNew.cancelButtonText')}</Button>
+								<Button onClick={() => contentProps.resolve(true)} distinction="primary" elevation="none">{localization('choiceField.createNew.confirmButtonText')}</Button>
+							</Stack>
 						</Stack>
 					),
 				})
