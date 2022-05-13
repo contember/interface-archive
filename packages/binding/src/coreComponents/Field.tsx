@@ -4,6 +4,7 @@ import { useField } from '../accessorPropagation'
 import { MarkerFactory } from '../queryLanguage'
 import type { FieldValue, SugaredRelativeSingleField } from '../treeParameters'
 import { Component } from './Component'
+import { TreeNodeEnvironmentHelper } from '../dao/TreeNodeEnvironmentHelper'
 
 export interface FieldBasicProps extends SugaredRelativeSingleField {}
 
@@ -34,6 +35,9 @@ export const Field = Component(
 	},
 	{
 		generateLeafMarker: (props, environment) => MarkerFactory.createFieldMarker(props, environment),
+		generateEnvironment: (props, environment) => {
+			return TreeNodeEnvironmentHelper.createEnvironmentForField(props, environment)
+		},
 	},
 	'Field',
 ) as <Persisted extends FieldValue = FieldValue>(props: FieldProps<Persisted>) => ReactElement

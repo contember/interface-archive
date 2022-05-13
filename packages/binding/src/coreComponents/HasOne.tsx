@@ -1,12 +1,13 @@
-import type { ComponentType, ReactElement, ReactNode } from 'react'
+import type { ReactElement, ReactNode } from 'react'
 import { useEntity } from '../accessorPropagation'
 import { PRIMARY_KEY_NAME } from '../bindingTypes'
 import { Environment } from '../dao'
 import { MarkerFactory } from '../queryLanguage'
 import type { SugaredRelativeSingleEntity } from '../treeParameters'
 import { Component } from './Component'
-import { Entity, EntityBaseProps } from './Entity'
+import { Entity } from './Entity'
 import { Field } from './Field'
+import { TreeNodeEnvironmentHelper } from '../dao/TreeNodeEnvironmentHelper'
 
 export type HasOneProps<EntityProps = never> = SugaredRelativeSingleEntity & {
 	children?: ReactNode
@@ -21,7 +22,8 @@ export const HasOne = Component(
 	},
 	{
 		generateEnvironment: (props, oldEnvironment) => {
-			return oldEnvironment.withVariables(props.variables)
+			const environment = oldEnvironment.withVariables(props.variables)
+			return TreeNodeEnvironmentHelper.createEnvironmentForEntity(props, environment)
 		},
 		staticRender: props => (
 			<Entity {...props} accessor={undefined as any}>

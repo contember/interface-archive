@@ -270,13 +270,13 @@ export class DataBinding {
 		if (options.signal?.aborted) {
 			return Promise.reject(DataBindingExtendAborted)
 		}
-		const markerTreeRoot = new MarkerTreeGenerator(newFragment, options.environment ?? this.environment).generate()
+		const schema = await this.getOrLoadSchema()
+		const markerTreeRoot = new MarkerTreeGenerator(newFragment, (options.environment ?? this.environment).withSchema(schema)).generate()
 
 		if (this.treeStore.effectivelyHasTreeRoot(markerTreeRoot)) {
 			// This isn't perfectly accurate as theoretically, we could already have all the data necessary but this
 			// could still be false.
 
-			const schema = await this.getOrLoadSchema()
 			this.treeStore.setSchema(schema)
 			if (import.meta.env.DEV) {
 				// For most trees, checking this against the schema should be unnecessary since if we already effectively
