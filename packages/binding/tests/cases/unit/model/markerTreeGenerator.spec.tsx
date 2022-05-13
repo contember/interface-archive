@@ -20,6 +20,8 @@ import {
 	PRIMARY_KEY_NAME,
 	SubTreeMarkers,
 } from '../../../../src'
+import { Schema } from '../../../../src/core/schema'
+import { SchemaPreprocessor } from '../../../../src/core/schema/SchemaPreprocessor'
 
 describe('Marker tree generator', () => {
 	it('should accept empty trees', () => {
@@ -29,19 +31,162 @@ describe('Marker tree generator', () => {
 	})
 
 	it('combine nested markers', () => {
-		const onInit1 = () => {}
-		const onInit2 = () => {}
-		const onInit3 = () => {}
-		const onInit4 = () => {}
-		const onInit5 = () => {}
-		const onInit6 = () => {}
-		const onInit7 = () => {}
-		const onInit8 = () => {}
-		const onInit9 = () => {}
+		const onInit1 = () => {
+		}
+		const onInit2 = () => {
+		}
+		const onInit3 = () => {
+		}
+		const onInit4 = () => {
+		}
+		const onInit5 = () => {
+		}
+		const onInit6 = () => {
+		}
+		const onInit7 = () => {
+		}
+		const onInit8 = () => {
+		}
+		const onInit9 = () => {
+		}
 
-		const onBeforePersist1 = () => {}
-		const onBeforePersist2 = () => {}
-		const onBeforePersist3 = () => {}
+		const onBeforePersist1 = () => {
+		}
+		const onBeforePersist2 = () => {
+		}
+		const onBeforePersist3 = () => {
+		}
+		const environment = Environment.create()
+			.withSchema(new Schema(SchemaPreprocessor.processRawSchema({
+				entities: [
+					{
+						name: 'Foo',
+						customPrimaryAllowed: false,
+						unique: { fields: new Set() },
+						fields: [
+							{
+								__typename: '_Column',
+								name: 'id',
+								nullable: false,
+								defaultValue: null,
+								type: 'Uuid',
+								enumName: null,
+							},
+							{
+								__typename: '_Relation',
+								name: 'hasMany',
+								targetEntity: 'Bar',
+								type: 'OneHasMany',
+								nullable: null,
+								ownedBy: 'hasOne',
+								side: 'inverse',
+								orderBy: null,
+								onDelete: null,
+								orphanRemoval: null,
+							},
+							{
+								__typename: '_Relation',
+								name: 'common',
+								targetEntity: 'Bar',
+								type: 'OneHasMany',
+								nullable: null,
+								ownedBy: 'hasOne',
+								side: 'inverse',
+								orderBy: null,
+								onDelete: null,
+								orphanRemoval: null,
+							},
+
+							{
+								__typename: '_Column',
+								name: 'fooField',
+								nullable: false,
+								defaultValue: null,
+								type: 'String',
+								enumName: null,
+							},
+							{
+								__typename: '_Column',
+								name: 'hasOneField',
+								nullable: false,
+								defaultValue: null,
+								type: 'String',
+								enumName: null,
+							},
+						],
+					},
+					{
+						name: 'Bar',
+						customPrimaryAllowed: false,
+						unique: { fields: new Set() },
+						fields: [
+							{
+								__typename: '_Column',
+								name: 'id',
+								nullable: false,
+								defaultValue: null,
+								type: 'Uuid',
+								enumName: null,
+							},
+							{
+								__typename: '_Relation',
+								name: 'hasOne',
+								targetEntity: 'Foo',
+								type: 'ManyHasOne',
+								nullable: null,
+								inversedBy: 'hasMany',
+								side: 'owning',
+								orderBy: null,
+								onDelete: null,
+								orphanRemoval: null,
+							},
+
+							{
+								__typename: '_Column',
+								name: 'hasManyField',
+								nullable: false,
+								defaultValue: null,
+								type: 'String',
+								enumName: null,
+							},
+							{
+								__typename: '_Column',
+								name: 'same',
+								nullable: false,
+								defaultValue: null,
+								type: 'String',
+								enumName: null,
+							},
+							{
+								__typename: '_Column',
+								name: 'name',
+								nullable: false,
+								defaultValue: null,
+								type: 'String',
+								enumName: null,
+							},
+							{
+								__typename: '_Column',
+								name: 'surname',
+								nullable: false,
+								defaultValue: null,
+								type: 'String',
+								enumName: null,
+							},
+							{
+								__typename: '_Column',
+								name: 'whatever',
+								nullable: false,
+								defaultValue: null,
+								type: 'String',
+								enumName: null,
+							},
+						],
+					},
+
+				],
+				enums: [],
+			})))
 
 		const generator = new MarkerTreeGenerator(
 			(
@@ -88,14 +233,23 @@ describe('Marker tree generator', () => {
 					</EntitySubTree>
 				</>
 			),
+			environment,
 		)
 
-		const environment = Environment.create({
-			rootShouldExists: 'yes',
-			rootWhere: { bar: 123 },
-			rootWhereAsFilter: { bar: { eq: 123 } },
-		})
 		const idMarker = [PRIMARY_KEY_NAME, new FieldMarker(PRIMARY_KEY_NAME)] as const
+		const subTreeEnv = environment.withSubtree({
+			'entity': 'Foo',
+			'expectedCardinality': 'one',
+			'filter': {
+				'bar': {
+					'eq': 123,
+				},
+			},
+			'type': 'entity',
+		})
+		const outerHasManyEnv = subTreeEnv.withTreeChild('hasMany')
+		const hasOneEnv = outerHasManyEnv.withTreeChild('hasOne')
+		const innerHasManyEnv = hasOneEnv.withTreeChild('common')
 
 		const innerHasMany = new HasManyRelationMarker(
 			{
@@ -127,7 +281,7 @@ describe('Marker tree generator', () => {
 					['surname', 'surname'],
 				]),
 			),
-			environment,
+			innerHasManyEnv,
 		)
 
 		const hasOne = new HasOneRelationMarker(
@@ -157,8 +311,9 @@ describe('Marker tree generator', () => {
 					['hasOneField', 'hasOneField'],
 				]),
 			),
-			environment,
+			hasOneEnv,
 		)
+
 
 		const outerHasMany = new HasManyRelationMarker(
 			{
@@ -188,7 +343,7 @@ describe('Marker tree generator', () => {
 					[hasOne.parameters.field, hasOne.placeholderName],
 				]),
 			),
-			environment,
+			outerHasManyEnv,
 		)
 		const subTreeMarker = new EntitySubTreeMarker(
 			{
@@ -220,7 +375,7 @@ describe('Marker tree generator', () => {
 					['fooField', 'fooField'],
 				]),
 			),
-			environment,
+			subTreeEnv,
 		)
 		const listSubTreeMarker = new EntityListSubTreeMarker(
 			{
@@ -248,13 +403,19 @@ describe('Marker tree generator', () => {
 					['whatever', 'whatever'],
 				]),
 			),
-			environment,
+			environment.withSubtree({
+				expectedCardinality: 'zero-to-many',
+				entity: 'Bar',
+				filter: {},
+				type: 'list',
+			}),
 		)
 		const subTreeMarkers: SubTreeMarkers = new Map()
 		subTreeMarkers.set(subTreeMarker.placeholderName, subTreeMarker)
 		subTreeMarkers.set(listSubTreeMarker.placeholderName, listSubTreeMarker)
 
-		expect(generator.generate()).toEqual(new MarkerTreeRoot(subTreeMarkers, new Map()))
+		const generated = generator.generate()
+		expect(generated).toEqual(new MarkerTreeRoot(subTreeMarkers, new Map()))
 	})
 
 	it('should reject top-level fields and relations', () => {
