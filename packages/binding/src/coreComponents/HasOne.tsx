@@ -10,7 +10,7 @@ import { Field } from './Field'
 
 export type HasOneProps<EntityProps = never> = SugaredRelativeSingleEntity & {
 	children?: ReactNode
-	variables?: Environment.DeltaFactory
+	variables?: Environment.ValuesMapWithFactory
 }
 
 export const HasOne = Component(
@@ -21,10 +21,7 @@ export const HasOne = Component(
 	},
 	{
 		generateEnvironment: (props, oldEnvironment) => {
-			if (props.variables === undefined) {
-				return oldEnvironment
-			}
-			return oldEnvironment.putDelta(Environment.generateDelta(oldEnvironment, props.variables))
+			return oldEnvironment.withVariables(props.variables)
 		},
 		staticRender: props => (
 			<Entity {...props} accessor={undefined as any}>
