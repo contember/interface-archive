@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import { BindingError } from '../BindingError'
 import type { Filter } from '../treeParameters'
 import equal from 'fast-deep-equal/es6';
+import { Schema } from "../core/schema";
 
 class Environment {
 	private constructor(
@@ -32,6 +33,24 @@ class Environment {
 				...subtree,
 				rootEntity: this.options.treePosition?.rootEntity ?? subtree.subtreeEntity,
 				rootFilter: this.options.treePosition?.rootFilter ?? subtree.subtreeFilter,
+				nodeEntity: subtree.subtreeEntity,
+				nodeType: subtree.subtreeType,
+				nodePath: [],
+			},
+		})
+	}
+
+	public withTreeNode(node: Pick<Environment.TreePosition, 'nodeType' | 'nodeEntity'>, path: string[]) {
+		if (!this.options.treePosition) {
+			throw new BindingError()
+		}
+		return new Environment({
+			...this.options,
+			treePosition: {
+				...this.options.treePosition,
+				nodePath: [...this.options.treePosition.nodePath, ...path],
+				nodeEntity: node.nodeEntity,
+				nodeType: node.nodeType,
 			},
 		})
 	}
@@ -150,6 +169,17 @@ class Environment {
 		}
 		return undefined
 	}
+
+	public getSchema(): Schema {
+		if (!this.options.schema) {
+			throw new BindingError()
+		}
+		return this.options.schema
+	}
+
+	public withSchema(schema: Schema): Environment {
+		return new Environment({ ...this.options, schema })
+	}
 }
 
 namespace Environment {
@@ -159,6 +189,7 @@ namespace Environment {
 
 	export interface Options {
 		treePosition?: TreePosition
+		schema?: Schema
 		dimensions: SelectedDimensions
 		parameters: Parameters
 		variables: CustomVariables
@@ -173,6 +204,10 @@ namespace Environment {
 		subtreeType: 'list' | 'entity'
 		subtreeExpectedCardinality: 'many' | 'zero' | 'one' | 'zero-one'
 		subtreeFilter: Filter
+
+		nodePath: string[]
+		nodeEntity: string
+		nodeType: 'list' | 'entity'
 	}
 
 
