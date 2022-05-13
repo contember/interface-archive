@@ -90,7 +90,7 @@ describe('Marker tree generator', () => {
 			),
 		)
 
-		const environment = Environment.create({
+		const environment = Environment.create().withVariables({
 			rootShouldExists: 'yes',
 			rootWhere: { bar: 123 },
 			rootWhereAsFilter: { bar: { eq: 123 } },

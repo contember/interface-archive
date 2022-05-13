@@ -16,7 +16,7 @@ import { Entity } from './Entity'
 import { Field } from './Field'
 
 export interface EntitySubTreeAdditionalProps {
-	variables?: Environment.DeltaFactory
+	variables?: Environment.ValuesMapWithFactory
 }
 
 export type EntitySubTreeAdditionalCreationProps = {} | SetOrderFieldOnCreateOwnProps
@@ -69,28 +69,24 @@ export const EntitySubTree = Component(
 			</>
 		),
 		generateEnvironment: (props, oldEnvironment) => {
-			const newEnvironment =
-				props.variables === undefined
-					? oldEnvironment
-					: oldEnvironment.putDelta(Environment.generateDelta(oldEnvironment, props.variables))
-
-			if (newEnvironment.hasName('rootWhere') || newEnvironment.hasName('rootWhereAsFilter')) {
-				return newEnvironment
-			}
+			const newEnvironment = oldEnvironment.withVariables(props.variables)
 
 			if (props.isCreating) {
 				const rootWhere = { id: NIL_UUID } as const
-				return newEnvironment.putDelta({
-					rootWhere,
-					rootWhereAsFilter: whereToFilter(rootWhere),
-					rootShouldExists: 'no',
+				const qualifiedSingleEntity = QueryLanguage.desugarUnconstrainedQualifiedSingleEntity(props, newEnvironment)
+				return newEnvironment.withSubtree({
+					subtreeFilter: whereToFilter(rootWhere),
+					subtreeExpectedCardinality: 'zero',
+					subtreeEntity: qualifiedSingleEntity.entityName,
+					subtreeType: 'entity',
 				})
 			}
 			const qualifiedSingleEntity = QueryLanguage.desugarQualifiedSingleEntity(props, newEnvironment, { missingSetOnCreate: 'fill' })
-			return newEnvironment.putDelta({
-				rootWhere: qualifiedSingleEntity.where,
-				rootWhereAsFilter: whereToFilter(qualifiedSingleEntity.where),
-				rootShouldExists: qualifiedSingleEntity.setOnCreate ? 'maybe' : 'yes',
+			return newEnvironment.withSubtree({
+				subtreeFilter: whereToFilter(qualifiedSingleEntity.where),
+				subtreeExpectedCardinality: qualifiedSingleEntity.setOnCreate ? 'zero-one' : 'one',
+				subtreeEntity: qualifiedSingleEntity.entityName,
+				subtreeType: 'entity',
 			})
 		},
 	},

@@ -61,7 +61,7 @@ export const RadioFieldInner = memo((props: RadioFieldInnerProps) => {
 		<FieldContainer
 			{...props}
 			errors={props.errors}
-			label={props.environment.applySystemMiddleware('labelMiddleware', props.label)}
+			label={props.environment.getLabelMiddleware()(props.label)}
 			useLabelElement={false}
 		>
 			<Radio

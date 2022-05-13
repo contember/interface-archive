@@ -11,7 +11,7 @@ import { Field } from './Field'
 
 export type HasManyProps<ListProps = never, EntityProps = never> = SugaredRelativeEntityList & {
 	children?: ReactNode
-	variables?: Environment.DeltaFactory
+	variables?: Environment.ValuesMapWithFactory
 } & (
 		| {}
 		| {
@@ -28,10 +28,7 @@ export const HasMany = Component(
 	},
 	{
 		generateEnvironment: (props, oldEnvironment) => {
-			if (props.variables === undefined) {
-				return oldEnvironment
-			}
-			return oldEnvironment.putDelta(Environment.generateDelta(oldEnvironment, props.variables))
+			return oldEnvironment.withVariables(props.variables)
 		},
 		staticRender: props => (
 			<EntityList {...props} accessor={undefined as any}>

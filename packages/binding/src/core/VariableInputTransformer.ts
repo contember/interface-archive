@@ -11,7 +11,7 @@ export class VariableInputTransformer {
 	}
 
 	public static transformVariableFieldValue(variableFieldValue: VariableFieldValue, environment: Environment): Scalar {
-		const value = environment.getValueOrElse(variableFieldValue.variableName, undefined)
+		const value = environment.resolveValue(variableFieldValue.variableName)
 
 		if (typeof value !== 'string' && typeof value !== 'boolean' && typeof value !== 'number' && value !== null) {
 			throw new BindingError(

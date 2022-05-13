@@ -727,19 +727,9 @@ class Parser extends EmbeddedActionsParser {
 		const variableName = this.CONSUME(tokens.Identifier).image
 
 		return this.ACTION(() => {
-			if (Parser.environment.hasName(variableName)) {
-				return Parser.environment.getValue(variableName)
-			}
-			if (Parser.environment.hasDimension(variableName)) {
-				const dimensionValue = Parser.environment.getDimension(variableName)
-
-				if (dimensionValue.length === 1) {
-					return dimensionValue[0]
-				}
-				throw new QueryLanguageError(
-					`The variable \$${variableName} resolved to a dimension which exists but contains ${dimensionValue.length} values. It has to contain exactly one. ` +
-						`Perhaps you forgot to set the 'maxItems' prop of your DimensionsSwitcher?`,
-				)
+			const value = Parser.environment.resolveValue(variableName)
+			if (value !== undefined) {
+				return value
 			}
 			throw new QueryLanguageError(`Undefined variable \$${variableName}.`)
 		})

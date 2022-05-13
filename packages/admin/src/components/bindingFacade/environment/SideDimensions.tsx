@@ -125,7 +125,7 @@ namespace SideDimensions {
 		}
 
 		public static generateEnvironment(props: SingleDimensionProps, oldEnvironment: Environment): Environment {
-			let deltaFactory: Environment.DeltaFactory
+			let deltaFactory: Environment.ValuesMapWithFactory
 
 			if (typeof props.variables === 'function') {
 				deltaFactory = props.variables(props.dimensionValue)
@@ -136,11 +136,12 @@ namespace SideDimensions {
 			}
 
 			if (props.variableName) {
-				oldEnvironment = oldEnvironment.putName(props.variableName, props.dimensionValue)
 				deltaFactory[props.variableName] = props.dimensionValue
 			}
+			const { labelMiddleware, ...variables } = deltaFactory
+			const newEnvironment = oldEnvironment.withVariables(variables)
 
-			return oldEnvironment.putDelta(Environment.generateDelta(oldEnvironment, deltaFactory))
+			return labelMiddleware ? newEnvironment.withLabelMiddleware(labelMiddleware as Environment.Options['labelMiddleware']) : newEnvironment
 		}
 	}
 

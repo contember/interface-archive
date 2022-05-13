@@ -1,201 +1,201 @@
 import type { ReactNode } from 'react'
-import type { Filter, UniqueWhere } from '../treeParameters'
+import { BindingError } from '../BindingError'
+import type { Filter } from '../treeParameters'
+import equal from 'fast-deep-equal/es6';
 
 class Environment {
-	private readonly names: Environment.NameStore
-
-	public constructor(names: Environment.NameStore = Environment.defaultNameStore) {
-		this.names = {
-			...Environment.defaultNameStore,
-			...names,
-		}
+	private constructor(
+		private readonly options: Environment.Options,
+	) {
 	}
 
-	public static create(delta: Partial<Environment.NameStore> = {}) {
+	public static create() {
 		return new Environment({
-			...Environment.defaultSystemVariables,
+			labelMiddleware: label => label,
 			dimensions: {},
-		}).putDelta(delta)
-	}
-
-	public hasName(name: keyof Environment.NameStore): boolean {
-		return name in this.names
-	}
-
-	public hasDimension(dimensionName: keyof Environment.SelectedDimensions): boolean {
-		return dimensionName in this.names.dimensions
-	}
-
-	public getValueOrElse<F, V extends Environment.Value = Environment.Value>(
-		name: keyof Environment.NameStore,
-		fallback: F,
-	): V | F {
-		if (!this.hasName(name)) {
-			return fallback
-		}
-		return this.names[name] as V
-	}
-
-	public getDimensionOrElse<F>(dimensionName: keyof Environment.SelectedDimensions, fallback: F): string[] | F {
-		if (!this.hasDimension(dimensionName)) {
-			return fallback
-		}
-		return this.names.dimensions[dimensionName]
-	}
-
-	public getValue<V extends Environment.Value = Environment.Value>(name: keyof Environment.NameStore): V {
-		return this.names[name] as V
-	}
-
-	public getDimension(dimensionName: keyof Environment.SelectedDimensions): string[] {
-		return this.names.dimensions[dimensionName]
-	}
-
-	public getAllNames(): Environment.NameStore {
-		return { ...this.names }
-	}
-
-	public getAllDimensions(): Environment.SelectedDimensions {
-		return { ...this.names.dimensions }
-	}
-
-	public getSystemVariable<N extends Environment.SystemVariableName>(name: N): Environment.SystemVariables[N] {
-		return this.names[name]
-	}
-
-	public putName(name: Environment.Name, value: Environment.Value): Environment {
-		return new Environment({
-			...this.names,
-			dimensions: { ...this.names.dimensions },
-			[name]: value,
+			variables: {},
+			parameters: {},
 		})
 	}
 
-	public putSystemVariable<N extends Environment.SystemVariableName>(
-		name: N,
-		value: Environment.SystemVariables[N],
-	): Environment {
-		return this.putName(name, value)
+	public getTreePosition(): Environment.TreePosition {
+		if (!this.options.treePosition) {
+			throw new BindingError()
+		}
+		return this.options.treePosition
 	}
 
-	public putDelta(delta: Partial<Environment.NameStore>): Environment {
-		const currentNames = this.getAllNames()
+	public withSubtree(subtree: Pick<Environment.TreePosition, 'subtreeEntity' | 'subtreeExpectedCardinality' | 'subtreeType' | 'subtreeFilter'>) {
+		return new Environment({
+			...this.options,
+			treePosition: {
+				...subtree,
+				rootEntity: this.options.treePosition?.rootEntity ?? subtree.subtreeEntity,
+				rootFilter: this.options.treePosition?.rootFilter ?? subtree.subtreeFilter,
+			},
+		})
+	}
 
-		for (const newName in delta) {
-			const deltaValue = delta[newName]
-			if (deltaValue === undefined) {
-				delete currentNames[newName]
+	public withVariables(variables: Environment.ValuesMapWithFactory | undefined): Environment {
+		if (variables === undefined) {
+			return this
+		}
+		const resolvedVariablesEntries: [string, Environment.Value][] = Object.entries(variables).map(
+			([name, value]) => {
+				if (name === 'labelMiddleware') {
+					throw new BindingError('You cannot pass labelMiddleware to withVariables method. Use withLabelMiddleware instead.')
+				}
+				return [
+					name,
+					typeof value === 'function' ? value(this) : value,
+				]
+			},
+		)
+		const newVariables = { ...this.options.variables }
+		for (const [newName, newValue] of resolvedVariablesEntries) {
+			if (newValue === undefined) {
+				delete newVariables[newName]
 			} else {
-				currentNames[newName] = deltaValue
+				newVariables[newName] = newValue
+			}
+		}
+		return new Environment({ ...this.options, variables: newVariables })
+	}
+
+	public getVariable(key: string): Environment.Value {
+		return this.options.variables[key]
+	}
+
+	public withParameters(parameters: Environment.Parameters): Environment {
+		return new Environment({ ...this.options, parameters })
+	}
+
+	public withDimensions(dimensions: Environment.SelectedDimensions): Environment {
+		const newDimensions = {
+			...this.options.dimensions,
+			...dimensions,
+		}
+		if (JSON.stringify(newDimensions) === JSON.stringify(this.options.dimensions)) {
+			return this
+		}
+		return new Environment({ ...this.options, dimensions: newDimensions })
+	}
+
+
+	public getDimension(dimensionName: string): string[] | undefined {
+		return this.options.dimensions[dimensionName]
+	}
+
+	public getAllDimensions(): Environment.SelectedDimensions {
+		return this.options.dimensions
+	}
+
+	public withLabelMiddleware(labelMiddleware: Environment.Options['labelMiddleware']) {
+		return new Environment({ ...this.options, labelMiddleware })
+	}
+
+	public getLabelMiddleware(): Environment.Options['labelMiddleware'] {
+		return this.options['labelMiddleware']
+	}
+
+	public merge(other: Environment): Environment {
+		if (other === this) {
+			return this
+		}
+		if (!equal(this.options.treePosition, other.options.treePosition)) {
+			throw new BindingError(`Cannot merge two environments with different tree position.`)
+		}
+		if (!equal(this.options.parameters, other.options.parameters)) {
+			throw new BindingError(`Cannot merge two environments with different parameters.`)
+		}
+		if (!equal(this.options.dimensions, other.options.dimensions)) {
+			throw new BindingError(`Cannot merge two environments with different dimensions.`)
+		}
+		if (equal(this.options.variables, other.options.variables)) {
+			return this
+		}
+		for (const key in other.options.variables) {
+			if (key in this.options.variables && !equal(this.options.variables[key], other.options.variables[key])) {
+				throw new BindingError(`Cannot merge two environments with different value of variable ${key}.`)
 			}
 		}
 
-		return new Environment(currentNames)
+		return new Environment({
+			...this.options,
+			variables: { ...this.options.variables, ...other.options.variables },
+		})
 	}
 
-	public updateDimensionsIfNecessary(
-		dimensions: Environment.NameStore['dimensions'],
-		defaultDimensions: Environment.NameStore['dimensions'],
-	): Environment {
-		const normalizedDimensions: Environment.NameStore['dimensions'] = {
-			...defaultDimensions,
-			...dimensions,
+
+	public resolveValue(key: string): any | undefined {
+		switch (key) {
+			case 'rootFilter':
+			case 'rootWhereAsFilter':
+				return this.options.treePosition?.rootFilter
 		}
 
-		const dimensionsEqual = JSON.stringify(this.names.dimensions) === JSON.stringify(normalizedDimensions)
-		return dimensionsEqual
-			? this
-			: new Environment({
-					...this.names,
-					dimensions: { ...normalizedDimensions },
-			  })
-	}
-
-	public static generateDelta(
-		currentEnvironment: Environment,
-		delta: Environment.DeltaFactory,
-	): Partial<Environment.NameStore> {
-		const newDelta: Partial<Environment.NameStore> = {}
-
-		for (const name in delta) {
-			const value = delta[name]
-
-			newDelta[name] =
-				value &&
-				value instanceof Function &&
-				!Environment.systemVariableNames.has(name as Environment.SystemVariableName)
-					? value(currentEnvironment)
-					: delta[name]
+		if (key in this.options.variables) {
+			return this.options.variables[key]
 		}
-
-		return newDelta
-	}
-
-	public applySystemMiddleware<
-		N extends Environment.SystemMiddlewareName,
-		A extends Parameters<Exclude<Environment.SystemMiddleware[N], undefined>>,
-	>(name: N, ...args: A): ReturnType<Exclude<Environment.SystemMiddleware[N], undefined>> | A {
-		const middleware: Environment.SystemMiddleware[N] = this.names[name]
-		if (typeof middleware === 'function') {
-			return (middleware as (...args: A) => any)(...args)
+		if (key in this.options.parameters) {
+			return this.options.parameters[key]
 		}
-		return args
+		if (key in this.options.dimensions) {
+			const dimensionValue = this.options.dimensions[key]
+			if (dimensionValue.length > 1) {
+				throw new BindingError(`The variable \$${key} resolved to a dimension which exists but contains ${dimensionValue.length} values. It has to contain exactly one. ` +
+					`Perhaps you forgot to set the 'maxItems' prop of your DimensionsSwitcher?`)
+			}
+			return dimensionValue[0]
+		}
+		return undefined
 	}
 }
 
 namespace Environment {
-	export type Name = string | number
+	export type Name = string
 
 	export type Value = ReactNode
 
-	export interface SystemVariables {
-		labelMiddleware?: (label: ReactNode) => ReactNode
-		rootWhere?: UniqueWhere
-		rootWhereAsFilter?: Filter
-		rootShouldExists?: 'no' | 'maybe' | 'yes'
+	export interface Options {
+		treePosition?: TreePosition
+		dimensions: SelectedDimensions
+		parameters: Parameters
+		variables: CustomVariables
+		labelMiddleware: (label: ReactNode) => ReactNode
 	}
 
-	export const systemVariableNames: Set<SystemVariableName> = new Set([
-		'labelMiddleware',
-		'rootWhere',
-		'rootWhereAsFilter',
-		'rootShouldExists',
-	])
+	export interface TreePosition {
+		rootEntity: string
+		rootFilter: Filter
 
-	export const reservedVariableNames: Set<string> = new Set([
-		...systemVariableNames,
-		'dimensions',
-	])
+		subtreeEntity: string
+		subtreeType: 'list' | 'entity'
+		subtreeExpectedCardinality: 'many' | 'zero' | 'one' | 'zero-one'
+		subtreeFilter: Filter
+	}
 
-	export type SystemVariableName = keyof SystemVariables
 
 	export interface SelectedDimensions {
 		[key: string]: string[]
 	}
 
-	export interface NameStore extends SystemVariables {
-		dimensions: SelectedDimensions
-
-		[name: string]: Value
+	export interface Parameters {
+		[key: string]: string | undefined
 	}
 
-	export type DeltaFactory = { [N in string]: ((environment: Environment) => Environment.Value) | Environment.Value } &
-		{ [N in keyof SystemVariables]?: SystemVariables[N] }
-
-	export type SystemMiddleware = {
-		[N in SystemMiddlewareName]: SystemVariables[N]
+	export interface CustomVariables {
+		[key: string]: Value
 	}
 
-	export type SystemMiddlewareName = 'labelMiddleware'
-
-	export const defaultSystemVariables: SystemVariables = {
-		labelMiddleware: label => label,
+	export interface ValuesMapWithFactory {
+		[key: string]:
+			| ((environment: Environment) => Value)
+			| Value
 	}
 
-	export const defaultNameStore: NameStore = {
-		...defaultSystemVariables,
-		dimensions: {},
-	}
+	/** @deprecated */
+	export type DeltaFactory = ValuesMapWithFactory
 }
 
 export { Environment }
