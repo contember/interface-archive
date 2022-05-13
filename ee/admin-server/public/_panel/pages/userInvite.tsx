@@ -5,7 +5,7 @@ export default () => {
 	const project = request.parameters.project!
 
 	const env = useEnvironment()
-	const inviteMethod = env.getValueOrElse('inviteMethod', undefined) as InviteMethod | undefined
+	const inviteMethod = env.getVariable('inviteMethod') as InviteMethod | undefined
 
 	return (
 		<LayoutPage
