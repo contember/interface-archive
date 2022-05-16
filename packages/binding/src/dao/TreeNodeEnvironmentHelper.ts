@@ -7,7 +7,6 @@ import {
 } from '../treeParameters'
 import { QueryLanguage } from '../queryLanguage'
 import { BindingError } from '../BindingError'
-import { Schema } from '../core/schema'
 
 export class TreeNodeEnvironmentHelper {
 	public static createEnvironmentForEntityList(
@@ -15,28 +14,14 @@ export class TreeNodeEnvironmentHelper {
 		environment: Environment,
 	): Environment {
 		const relativeEntityList = QueryLanguage.desugarRelativeEntityList(sugaredRelativeEntityList, environment)
-		const schema = environment.getSchema()
-		const treePosition = environment.getTreePosition()
-		let [entityName, path] = TreeNodeEnvironmentHelper.traverseHasOnePath(
+		const hasOneEnvironment = TreeNodeEnvironmentHelper.traverseHasOnePath(
+			environment,
 			relativeEntityList.hasOneRelationPath,
-			schema,
-			treePosition.nodeEntity,
 		)
 		const hasManyField = relativeEntityList.hasManyRelation.field
-		const relation = schema.getEntityField(entityName, hasManyField)
-		if (!relation) {
-			throw new BindingError(`Field ${hasManyField} does not exist on entity ${entityName} in path ${[...treePosition.nodePath, ...path].join('.')}.`)
-		}
-		if (relation.__typename !== '_Relation' || (relation.type !== 'OneHasMany' && relation.type !== 'ManyHasMany')) {
-			throw new BindingError() // todo
-		}
-		entityName = relation.targetEntity
-		path.push(relativeEntityList.hasManyRelation.field)
+		TreeNodeEnvironmentHelper.assertRelationType(hasOneEnvironment, hasManyField, 'many', false)
 
-		return environment.withTreeNode({
-			nodeEntity: entityName,
-			nodeType: 'list',
-		}, path)
+		return hasOneEnvironment.withTreeChild({ field: hasManyField })
 	}
 
 	public static createEnvironmentForEntity(
@@ -44,53 +29,47 @@ export class TreeNodeEnvironmentHelper {
 		environment: Environment,
 	) {
 		const relativeSingleEntity = QueryLanguage.desugarRelativeSingleEntity(sugaredRelativeSingleEntity, environment)
-		const [entityName, path] = TreeNodeEnvironmentHelper.traverseHasOnePath(
+		return TreeNodeEnvironmentHelper.traverseHasOnePath(
+			environment,
 			relativeSingleEntity.hasOneRelationPath,
-			environment.getSchema(),
-			environment.getTreePosition().nodeEntity,
 		)
-
-		return environment.withTreeNode({
-			nodeEntity: entityName,
-			nodeType: 'entity',
-		}, path)
 	}
-
 
 	public static createEnvironmentForField(
 		sugaredRelativeSingleField: string | SugaredRelativeSingleField,
 		environment: Environment,
 	) {
 		const relativeSingleField = QueryLanguage.desugarRelativeSingleField(sugaredRelativeSingleField, environment)
-		const [entityName, path] = TreeNodeEnvironmentHelper.traverseHasOnePath(
+		const hasOneEnvironment = TreeNodeEnvironmentHelper.traverseHasOnePath(
+			environment,
 			relativeSingleField.hasOneRelationPath,
-			environment.getSchema(),
-			environment.getTreePosition().nodeEntity,
 		)
-
-		return environment.withTreeNode({
-			nodeEntity: entityName,
-			nodeType: 'entity',
-		}, path)
+		return hasOneEnvironment.withTreeChild({ field: relativeSingleField.field })
 	}
 
 	private static traverseHasOnePath(
+		environment: Environment,
 		hasOneRelationPath: HasOneRelation[],
-		schema: Schema,
-		entityName: string,
-	): [string, string[]] {
-		const path = []
+	): Environment {
 		for (const field of hasOneRelationPath) {
-			const relation = schema.getEntityField(entityName, field.field)
-			if (!relation) {
-				throw new BindingError() // todo
-			}
-			if (relation.__typename !== '_Relation' || (relation.type !== 'OneHasOne' && relation.type !== 'ManyHasOne')) {
-				throw new BindingError() // todo
-			}
-			entityName = relation.targetEntity
-			path.push(field.field)
+			TreeNodeEnvironmentHelper.assertRelationType(environment, field.field, 'one', !!field.reducedBy)
+			environment = environment.withTreeChild({ field: field.field })
 		}
-		return [entityName, path]
+		return environment
+	}
+
+	private static assertRelationType(environment: Environment, field: string, type: 'many' | 'one', isReduced: boolean) {
+		const schema = environment.getSchema()
+		const relation = schema.getEntityField(environment.getSubtreeLocation().entity, field)
+		const treeLocation = environment.getSubtreeLocation()
+		if (!relation) {
+			throw new BindingError(`Field ${field} does not exist on entity ${treeLocation.entity} in path ${[...treeLocation.path].join('.')}.`)
+		}
+
+		if (type === 'one' && (relation.type !== 'OneHasOne' && relation.type !== 'ManyHasOne') && !isReduced) {
+			throw new BindingError() // todo
+		} else if (type === 'many' && (relation.type !== 'OneHasMany' && relation.type !== 'ManyHasMany')) {
+			throw new BindingError() // todo
+		}
 	}
 }

@@ -72,10 +72,10 @@ export const EntityListSubTree = Component(
 			const rootWhere = { id: NIL_UUID } as const
 			return oldEnvironment.withVariables(props.variables)
 				.withSubtree({
-					subtreeEntity: entity.entityName,
-					subtreeExpectedCardinality: 'many',
-					subtreeType: 'list',
-					subtreeFilter: whereToFilter(rootWhere),
+					entity: entity.entityName,
+					expectedCardinality: 'many',
+					type: 'list',
+					filter: whereToFilter(rootWhere),
 				})
 		},
 	},

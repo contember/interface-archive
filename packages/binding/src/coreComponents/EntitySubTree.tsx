@@ -81,18 +81,18 @@ export const EntitySubTree = Component(
 				const rootWhere = { id: NIL_UUID } as const
 				const qualifiedSingleEntity = QueryLanguage.desugarUnconstrainedQualifiedSingleEntity(props, newEnvironment)
 				return newEnvironment.withSubtree({
-					subtreeFilter: whereToFilter(rootWhere),
-					subtreeExpectedCardinality: 'zero',
-					subtreeEntity: qualifiedSingleEntity.entityName,
-					subtreeType: 'entity',
+					filter: whereToFilter(rootWhere),
+					expectedCardinality: 'zero',
+					entity: qualifiedSingleEntity.entityName,
+					type: 'entity',
 				})
 			}
 			const qualifiedSingleEntity = QueryLanguage.desugarQualifiedSingleEntity(props, newEnvironment, { missingSetOnCreate: 'fill' })
 			return newEnvironment.withSubtree({
-				subtreeFilter: whereToFilter(qualifiedSingleEntity.where),
-				subtreeExpectedCardinality: qualifiedSingleEntity.setOnCreate ? 'zero-one' : 'one',
-				subtreeEntity: qualifiedSingleEntity.entityName,
-				subtreeType: 'entity',
+				filter: whereToFilter(qualifiedSingleEntity.where),
+				expectedCardinality: qualifiedSingleEntity.setOnCreate ? 'zero-or-one' : 'one',
+				entity: qualifiedSingleEntity.entityName,
+				type: 'entity',
 			})
 		},
 	},
