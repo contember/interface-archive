@@ -19,39 +19,50 @@ class Environment {
 		})
 	}
 
-	public getTreePosition(): Environment.TreePosition {
-		if (!this.options.treePosition) {
+	public getSubtree(): Environment.Subtree {
+		if (!this.options.subtree) {
 			throw new BindingError()
 		}
-		return this.options.treePosition
+		return this.options.subtree
 	}
 
-	public withSubtree(subtree: Pick<Environment.TreePosition, 'subtreeEntity' | 'subtreeExpectedCardinality' | 'subtreeType' | 'subtreeFilter'>) {
+	public getSubtreeLocation(): Environment.SubtreeLocation {
+		if (!this.options.subtreeLocation) {
+			throw new BindingError()
+		}
+		return this.options.subtreeLocation
+	}
+
+	public withSubtree(subtree: Environment.Subtree) {
 		return new Environment({
 			...this.options,
-			treePosition: {
-				...subtree,
-				rootEntity: this.options.treePosition?.rootEntity ?? subtree.subtreeEntity,
-				rootFilter: this.options.treePosition?.rootFilter ?? subtree.subtreeFilter,
-				nodeEntity: subtree.subtreeEntity,
-				nodeType: subtree.subtreeType,
-				nodePath: [],
+			subtree,
+			subtreeLocation: {
+				entity: subtree.entity,
+				path: [],
 			},
 		})
 	}
 
-	public withTreeNode(node: Pick<Environment.TreePosition, 'nodeType' | 'nodeEntity'>, path: string[]) {
-		if (!this.options.treePosition) {
+	public withTreeChild({ field }: { field: string }) {
+		if (!this.options.subtreeLocation) {
 			throw new BindingError()
 		}
+		const schema = this.getSchema()
+		const fieldSchema = schema.getEntityField(this.options.subtreeLocation.entity, field)
+		if (!fieldSchema) {
+			throw new BindingError()
+		}
+		const targetEntity = fieldSchema.__typename === '_Relation'
+			? fieldSchema.targetEntity
+			: this.options.subtreeLocation.entity
 		return new Environment({
 			...this.options,
-			treePosition: {
-				...this.options.treePosition,
-				nodePath: [...this.options.treePosition.nodePath, ...path],
-				nodeEntity: node.nodeEntity,
-				nodeType: node.nodeType,
+			subtreeLocation: {
+				entity: targetEntity,
+				path: [...this.options.subtreeLocation.path, field],
 			},
+			parent: this,
 		})
 	}
 
@@ -127,7 +138,7 @@ class Environment {
 		if (other === this) {
 			return this
 		}
-		if (!equal(this.options.treePosition, other.options.treePosition)) {
+		if (!equal(this.options.subtreeLocation, other.options.subtreeLocation)) {
 			throw new BindingError(`Cannot merge two environments with different tree position.`)
 		}
 		if (!equal(this.options.parameters, other.options.parameters)) {
@@ -156,7 +167,7 @@ class Environment {
 		switch (key) {
 			case 'rootFilter':
 			case 'rootWhereAsFilter':
-				return this.options.treePosition?.rootFilter
+				return this.options.subtree?.filter
 		}
 
 		if (key in this.options.variables) {
@@ -193,6 +204,13 @@ class Environment {
 	public withSchema(schema: Schema): Environment {
 		return new Environment({ ...this.options, schema })
 	}
+
+	get parent(): Environment {
+		if (!this.options.parent) {
+			throw new BindingError()
+		}
+		return this.options.parent
+	}
 }
 
 namespace Environment {
@@ -205,26 +223,26 @@ namespace Environment {
 	export type LabelMiddleware = (label: ReactNode, environment: Environment) => ReactNode
 
 	export interface Options {
-		treePosition?: TreePosition
+		subtree?: Subtree
+		subtreeLocation?: SubtreeLocation
 		schema?: Schema
 		dimensions: SelectedDimensions
 		parameters: Parameters
 		variables: CustomVariables
 		labelMiddleware: LabelMiddleware
+		parent?: Environment
 	}
 
-	export interface TreePosition {
-		rootEntity: string
-		rootFilter: Filter
+	export interface Subtree {
+		entity: string
+		type: 'list' | 'entity'
+		expectedCardinality: 'many' | 'zero' | 'one' | 'zero-or-one'
+		filter: Filter
+	}
 
-		subtreeEntity: string
-		subtreeType: 'list' | 'entity'
-		subtreeExpectedCardinality: 'many' | 'zero' | 'one' | 'zero-one'
-		subtreeFilter: Filter
-
-		nodePath: string[]
-		nodeEntity: string
-		nodeType: 'list' | 'entity'
+	export interface SubtreeLocation {
+		path: string[]
+		entity: string
 	}
 
 
