@@ -1,5 +1,6 @@
 import {
 	AnchorButton,
+	Component,
 	CreatePage,
 	DataGridPage,
 	DeleteEntityButton,
@@ -19,6 +20,9 @@ import {
 	TextField,
 } from '@contember/admin'
 import { DataGridTile } from '../components/DataGridTile'
+import { useMemo } from 'react'
+import { If } from '../../../binding/src'
+import { Collapsible } from '../../../ui/src'
 
 
 const stateOptions = {
@@ -54,8 +58,7 @@ export const List = () => <DataGridPage
 	</GenericCell>
 </DataGridPage>
 
-const articleForm = (
-	<>
+const ArticleForm = Component(() => <>
 		<ImageUploadField
 			label="Image"
 			baseEntity="image"
@@ -65,7 +68,6 @@ const articleForm = (
 			fileSizeField="size"
 			fileTypeField="type"
 		/>
-
 		<MultiSelectField label={'tags'} field={'tags'} options={{
 			fields: 'Tag.locales(locale.code=\'cs\').name',
 			orderBy: 'name desc',
@@ -81,17 +83,21 @@ const articleForm = (
 		<SlugField field={'slug'} label={'Slug'} derivedFrom={'title'} unpersistedHardPrefix={'http://localhost/'} persistedHardPrefix={'bar/'}
 		           persistedSoftPrefix={'lorem/'} linkToExternalUrl />
 		<SelectField field={'state'} label={'State'} options={Object.entries(stateOptions).map(([value, label]) => ({ value, label }))} allowNull />
-	</>
+		<If condition={'[state = removed]'}>
+				<TextField field={'title'} label={'Title'} />
+		</If>
+	</>,
+	'ArticleForm',
 )
 
 export const create = (
 	<CreatePage entity="Article" redirectOnSuccess="article/edit(id: $entity.id)">
-		{articleForm}
+		<ArticleForm/>
 	</CreatePage>
 )
 
 export const edit = (
 	<EditPage entity="Article(id = $id)" rendererProps={{ title: 'Article' }}>
-		{articleForm}
+		<ArticleForm/>
 	</EditPage>
 )
