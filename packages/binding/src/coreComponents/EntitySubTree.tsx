@@ -1,11 +1,10 @@
-import { whereToFilter } from '@contember/client'
 import { useConstantValueInvariant } from '@contember/react-utils'
 import { ReactElement, ReactNode, useCallback } from 'react'
 import { useAccessorUpdateSubscription, useEntitySubTreeParameters, useGetEntitySubTree } from '../accessorPropagation'
 import { SetOrderFieldOnCreate, SetOrderFieldOnCreateOwnProps } from '../accessorSorting'
-import { NIL_UUID, PRIMARY_KEY_NAME } from '../bindingTypes'
+import { PRIMARY_KEY_NAME } from '../bindingTypes'
 import { Environment } from '../dao'
-import { MarkerFactory, QueryLanguage } from '../queryLanguage'
+import { MarkerFactory } from '../queryLanguage'
 import type {
 	SugaredQualifiedSingleEntity,
 	SugaredUnconstrainedQualifiedSingleEntity,
@@ -14,6 +13,7 @@ import type {
 import { Component } from './Component'
 import { Entity } from './Entity'
 import { Field } from './Field'
+import { TreeNodeEnvironmentHelper } from '../dao/TreeNodeEnvironmentHelper'
 
 export interface EntitySubTreeAdditionalProps {
 	variables?: Environment.ValuesMapWithFactory
@@ -75,25 +75,8 @@ export const EntitySubTree = Component(
 			</>
 		),
 		generateEnvironment: (props, oldEnvironment) => {
-			const newEnvironment = oldEnvironment.withVariables(props.variables)
-
-			if (props.isCreating) {
-				const rootWhere = { id: NIL_UUID } as const
-				const qualifiedSingleEntity = QueryLanguage.desugarUnconstrainedQualifiedSingleEntity(props, newEnvironment)
-				return newEnvironment.withSubtree({
-					filter: whereToFilter(rootWhere),
-					expectedCardinality: 'zero',
-					entity: qualifiedSingleEntity.entityName,
-					type: 'entity',
-				})
-			}
-			const qualifiedSingleEntity = QueryLanguage.desugarQualifiedSingleEntity(props, newEnvironment, { missingSetOnCreate: 'fill' })
-			return newEnvironment.withSubtree({
-				filter: whereToFilter(qualifiedSingleEntity.where),
-				expectedCardinality: qualifiedSingleEntity.setOnCreate ? 'zero-or-one' : 'one',
-				entity: qualifiedSingleEntity.entityName,
-				type: 'entity',
-			})
+			const environment = oldEnvironment.withVariables(props.variables)
+			return TreeNodeEnvironmentHelper.createEnvironmentForEntitySubtree(props, environment)
 		},
 	},
 	'EntitySubTree',
