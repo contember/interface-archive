@@ -21,6 +21,7 @@ import type {
 import { CacheStore } from './CacheStore'
 import { QueryLanguageError } from './QueryLanguageError'
 import { tokenList, TokenRegExps, tokens } from './tokenList'
+import { BindingError } from '../BindingError'
 
 /**
  * TODO:
@@ -727,10 +728,30 @@ class Parser extends EmbeddedActionsParser {
 		const variableName = this.CONSUME(tokens.Identifier).image
 
 		return this.ACTION(() => {
-			const value = Parser.environment.resolveValue(variableName)
-			if (value !== undefined) {
-				return value
+			if (import.meta.env.DEV && variableName === 'rootWhereAsFilter') {
+				console.warn('$rootWhereAsFilter is deprecated, use $rootFilter')
 			}
+			switch (variableName) {
+				case 'rootWhereAsFilter':
+				case 'rootFilter':
+					return Parser.environment.getSubtree().filter
+			}
+
+			if (Parser.environment.hasVariable(variableName)) {
+				return Parser.environment.getVariable(variableName)
+			}
+			if (Parser.environment.hasParameter(variableName)) {
+				return Parser.environment.getParameter(variableName)
+			}
+			if (Parser.environment.hasDimension(variableName)) {
+				const dimensionValue = Parser.environment.getDimension(variableName)
+				if (dimensionValue.length > 1) {
+					throw new BindingError(`The variable \$${variableName} resolved to a dimension which exists but contains ${dimensionValue.length} values. It has to contain exactly one. ` +
+						`Perhaps you forgot to set the 'maxItems' prop of your DimensionsSwitcher?`)
+				}
+				return dimensionValue[0]
+			}
+
 			throw new QueryLanguageError(`Undefined variable \$${variableName}.`)
 		})
 	})

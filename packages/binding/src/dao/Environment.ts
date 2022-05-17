@@ -66,38 +66,85 @@ class Environment {
 		})
 	}
 
+
+	public hasVariable(key: string): boolean {
+		return key in this.options.variables
+	}
+
+	public getVariable<F>(key: string, fallback: F): Environment.Value | F
+	public getVariable(key: string): Environment.Value
+	public getVariable<F>(key: string, fallback?: F): Environment.Value | F {
+		if (!(key in this.options.variables)) {
+			if (arguments.length > 1) {
+				return fallback
+			}
+			throw new BindingError(`Variable ${key} not found`)
+		}
+		return this.options.variables[key]
+	}
+
+	/** @deprecated use getVariable */
+	public getValueOrElse<F>(key: string, fallback: F): Environment.Value | F {
+		return this.getVariable(key, fallback)
+	}
+
+
 	public withVariables(variables: Environment.ValuesMapWithFactory | undefined): Environment {
 		if (variables === undefined) {
 			return this
 		}
-		const resolvedVariablesEntries: [string, Environment.Value][] = Object.entries(variables).map(
-			([name, value]) => {
-				if (name === 'labelMiddleware') {
-					throw new BindingError('You cannot pass labelMiddleware to withVariables method. Use withLabelMiddleware instead.')
-				}
-				return [
-					name,
-					typeof value === 'function' ? value(this) : value,
-				]
-			},
-		)
 		const newVariables = { ...this.options.variables }
-		for (const [newName, newValue] of resolvedVariablesEntries) {
-			if (newValue === undefined) {
+		for (const [newName, newValue] of Object.entries(variables)) {
+			if (newName === 'labelMiddleware') {
+				throw new BindingError('You cannot pass labelMiddleware to withVariables method. Use withLabelMiddleware instead.')
+			}
+			const resolvedValue = typeof newValue === 'function' ? newValue(this) : newValue
+			if (resolvedValue === undefined) {
 				delete newVariables[newName]
 			} else {
-				newVariables[newName] = newValue
+				newVariables[newName] = resolvedValue
 			}
 		}
 		return new Environment({ ...this.options, variables: newVariables })
 	}
 
-	public getVariable(key: string): Environment.Value {
-		return this.options.variables[key]
+	public hasParameter(key: string): boolean {
+		return key in this.options.parameters
+	}
+
+	public getParameter<F>(key: string, fallback: F): string | F
+	public getParameter(key: string): string
+	public getParameter<F>(key: string, fallback?: F): string | F {
+		if (!(key in this.options.parameters) || this.options.parameters[key] === undefined) {
+			if (arguments.length > 1) {
+				return fallback as F
+			}
+			throw new BindingError(`Parameter ${key} not found`)
+		}
+		return this.options.parameters[key] as string
 	}
 
 	public withParameters(parameters: Environment.Parameters): Environment {
 		return new Environment({ ...this.options, parameters })
+	}
+
+	public hasDimension(dimensionName: string): boolean {
+		return dimensionName in this.options.dimensions
+	}
+
+	public getDimension<F>(dimensionName: string, fallback: F): string[] | F
+	public getDimension(dimensionName: string): string[]
+	public getDimension<F>(dimensionName: string, fallback?: F): string[] | F {
+		if (!(dimensionName in this.options.dimensions)) {
+			if (arguments.length > 1) {
+				return fallback as F
+			}
+			throw new BindingError(`Dimension ${dimensionName} does not exist.`)
+		}
+		return this.options.dimensions[dimensionName]
+	}
+	public getAllDimensions(): Environment.SelectedDimensions {
+		return this.options.dimensions
 	}
 
 	public withDimensions(dimensions: Environment.SelectedDimensions): Environment {
@@ -105,93 +152,18 @@ class Environment {
 			...this.options.dimensions,
 			...dimensions,
 		}
-		if (JSON.stringify(newDimensions) === JSON.stringify(this.options.dimensions)) {
+		if (equal(newDimensions, this.options.dimensions)) {
 			return this
 		}
 		return new Environment({ ...this.options, dimensions: newDimensions })
-	}
-
-	public hasDimension(dimensionName: string): boolean {
-		return dimensionName in this.options.dimensions
-	}
-
-	public getDimension(dimensionName: string): string[] {
-		if (!(dimensionName in this.options.dimensions)) {
-			throw new BindingError(`Dimension ${dimensionName} does not exist.`)
-		}
-		return this.options.dimensions[dimensionName]
-	}
-
-	public getAllDimensions(): Environment.SelectedDimensions {
-		return this.options.dimensions
-	}
-
-	public withLabelMiddleware(labelMiddleware: Environment.Options['labelMiddleware']) {
-		return new Environment({ ...this.options, labelMiddleware })
 	}
 
 	public applyLabelMiddleware(label: React.ReactNode): React.ReactNode {
 		return this.options['labelMiddleware'](label, this)
 	}
 
-	public merge(other: Environment): Environment {
-		if (other === this) {
-			return this
-		}
-		if (!equal(this.options.subtreeLocation, other.options.subtreeLocation)) {
-			throw new BindingError(`Cannot merge two environments with different tree position.`)
-		}
-		if (!equal(this.options.parameters, other.options.parameters)) {
-			throw new BindingError(`Cannot merge two environments with different parameters.`)
-		}
-		if (!equal(this.options.dimensions, other.options.dimensions)) {
-			throw new BindingError(`Cannot merge two environments with different dimensions.`)
-		}
-		if (equal(this.options.variables, other.options.variables)) {
-			return this
-		}
-		for (const key in other.options.variables) {
-			if (key in this.options.variables && !equal(this.options.variables[key], other.options.variables[key])) {
-				throw new BindingError(`Cannot merge two environments with different value of variable ${key}.`)
-			}
-		}
-
-		return new Environment({
-			...this.options,
-			variables: { ...this.options.variables, ...other.options.variables },
-		})
-	}
-
-
-	public resolveValue(key: string): Environment.ResolvedValue | undefined {
-		switch (key) {
-			case 'rootFilter':
-			case 'rootWhereAsFilter':
-				return this.options.subtree?.filter
-		}
-
-		if (key in this.options.variables) {
-			return this.options.variables[key]
-		}
-		if (key in this.options.parameters) {
-			return this.options.parameters[key]
-		}
-		if (key in this.options.dimensions) {
-			const dimensionValue = this.options.dimensions[key]
-			if (dimensionValue.length > 1) {
-				throw new BindingError(`The variable \$${key} resolved to a dimension which exists but contains ${dimensionValue.length} values. It has to contain exactly one. ` +
-					`Perhaps you forgot to set the 'maxItems' prop of your DimensionsSwitcher?`)
-			}
-			return dimensionValue[0]
-		}
-		return undefined
-	}
-
-	/**
-	 * @deprecated use resolveValue
-	 */
-	public getValueOrElse<F>(key: string, fallback: F): Filter | Environment.Value | F {
-		return this.resolveValue(key) ?? fallback
+	public withLabelMiddleware(labelMiddleware: Environment.Options['labelMiddleware']) {
+		return new Environment({ ...this.options, labelMiddleware })
 	}
 
 	public getSchema(): Schema {
@@ -210,6 +182,37 @@ class Environment {
 			throw new BindingError()
 		}
 		return this.options.parent
+	}
+
+	public merge(other: Environment): Environment {
+		if (other === this) {
+			return this
+		}
+		if (!equal(this.options.subtreeLocation, other.options.subtreeLocation)) {
+			throw new BindingError(`Cannot merge two environments with different tree position.`)
+		}
+		if (this.options.parameters !== other.options.parameters) {
+			throw new BindingError(`Cannot merge two environments with different parameters.`)
+		}
+		if (this.options.dimensions !== other.options.dimensions) {
+			throw new BindingError(`Cannot merge two environments with different dimensions.`)
+		}
+		if (equal(this.options.variables, other.options.variables) && this.options.parent === other.options.parent) {
+			return this
+		}
+		for (const key in other.options.variables) {
+			if (key in this.options.variables && !equal(this.options.variables[key], other.options.variables[key])) {
+				throw new BindingError(`Cannot merge two environments with different value of variable ${key}:\n`
+					+ JSON.stringify(this.options.variables[key]) + '\n'
+					+ JSON.stringify(other.options.variables[key]))
+			}
+		}
+
+		return new Environment({
+			...this.options,
+			parent: this.options.parent && other.options.parent ? this.options.parent.merge(other.options.parent) : undefined,
+			variables: { ...this.options.variables, ...other.options.variables },
+		})
 	}
 }
 
