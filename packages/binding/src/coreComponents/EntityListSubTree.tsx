@@ -13,6 +13,7 @@ import type { SugaredQualifiedEntityList, SugaredUnconstrainedQualifiedEntityLis
 import { Component } from './Component'
 import { EntityList, EntityListBaseProps } from './EntityList'
 import { Field } from './Field'
+import { TreeNodeEnvironmentHelper } from '../dao/TreeNodeEnvironmentHelper'
 
 export interface EntityListSubTreeAdditionalProps {
 	variables?: Environment.ValuesMapWithFactory
@@ -65,18 +66,8 @@ export const EntityListSubTree = Component(
 			</EntityList>
 		),
 		generateEnvironment: (props, oldEnvironment) => {
-			const entity = 'isCreating' in props && props.isCreating
-				? QueryLanguage.desugarUnconstrainedQualifiedEntityList(props, oldEnvironment)
-				: QueryLanguage.desugarQualifiedEntityList(props, oldEnvironment)
-
-			const rootWhere = { id: NIL_UUID } as const
-			return oldEnvironment.withVariables(props.variables)
-				.withSubtree({
-					entity: entity.entityName,
-					expectedCardinality: 'many',
-					type: 'list',
-					filter: whereToFilter(rootWhere),
-				})
+			const environment = oldEnvironment.withVariables(props.variables)
+			return TreeNodeEnvironmentHelper.createEnvironmentForEntityListSubtree(props, environment)
 		},
 	},
 	'EntityListSubTree',
