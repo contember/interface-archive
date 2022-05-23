@@ -39,7 +39,7 @@ export const DataGrid = Component(
 			orderDirections: {},
 			orderBy: [],
 			entities: QueryLanguage.desugarQualifiedEntityList({ entities: props.entities }, environment),
-			filter: {},
+			filter: { and: [{}] },
 		}
 
 		return renderGrid(
