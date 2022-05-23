@@ -21,10 +21,15 @@ export class TreeNodeEnvironmentHelper {
 		sugaredEntityList: SugaredQualifiedEntityList | SugaredUnconstrainedQualifiedEntityList,
 		environment: Environment,
 	): Environment {
-		const entityList = sugaredEntityList.isCreating
-			? QueryLanguage.desugarUnconstrainedQualifiedEntityList(sugaredEntityList, environment)
-			: QueryLanguage.desugarQualifiedEntityList(sugaredEntityList, environment)
-		const rootWhere = { id: NIL_UUID } as const
+		let entityList
+		let rootWhere
+		if (sugaredEntityList.isCreating) {
+			rootWhere = { id: { eq: NIL_UUID } } as const
+			entityList = QueryLanguage.desugarUnconstrainedQualifiedEntityList(sugaredEntityList, environment)
+		} else {
+			entityList = QueryLanguage.desugarQualifiedEntityList(sugaredEntityList, environment)
+			rootWhere = entityList.filter ?? {}
+		}
 		this.assertEntityExists(environment.getSchema(), entityList.entityName, 'entity list')
 
 		return environment
@@ -32,7 +37,7 @@ export class TreeNodeEnvironmentHelper {
 				entity: entityList.entityName,
 				expectedCardinality: 'many',
 				type: 'list',
-				filter: whereToFilter(rootWhere),
+				filter: rootWhere,
 			})
 	}
 
@@ -41,11 +46,11 @@ export class TreeNodeEnvironmentHelper {
 		environment: Environment,
 	): Environment {
 		if (sugaredEntityList.isCreating) {
-			const rootWhere = { id: NIL_UUID } as const
+			const rootWhere = { id: { eq: NIL_UUID } } as const
 			const qualifiedSingleEntity = QueryLanguage.desugarUnconstrainedQualifiedSingleEntity(sugaredEntityList, environment)
 			this.assertEntityExists(environment.getSchema(), qualifiedSingleEntity.entityName, 'entity')
 			return environment.withSubtree({
-				filter: whereToFilter(rootWhere),
+				filter: rootWhere,
 				expectedCardinality: 'zero',
 				entity: qualifiedSingleEntity.entityName,
 				type: 'entity',
@@ -172,7 +177,7 @@ export class TreeNodeEnvironmentHelper {
 		}
 		const entity = schema.getEntity(treeLocation.entity)
 		if (!entity) {
-			throw new BindingError()
+			throw new BindingError(`Entity ${treeLocation.entity} not found.`)
 		}
 		const alternative = this.recommendAlternative(
 			fieldName,

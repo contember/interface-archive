@@ -34,8 +34,9 @@ class Environment {
 	}
 
 	public withSubtree(subtree: Environment.Subtree) {
+		const { parent, ...options } = this.options
 		return new Environment({
-			...this.options,
+			...options,
 			subtree,
 			subtreeLocation: {
 				entity: subtree.entity,
@@ -168,7 +169,7 @@ class Environment {
 
 	public getSchema(): Schema {
 		if (!this.options.schema) {
-			throw new BindingError()
+			throw new BindingError('Schema is not set')
 		}
 		return this.options.schema
 	}
