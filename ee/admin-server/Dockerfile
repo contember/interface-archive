@@ -1,7 +1,7 @@
 FROM node:14-alpine as builder
 WORKDIR /src
 
-RUN npm install -g pnpm
+RUN npm install -g pnpm@6
 
 COPY ./ ./
 
