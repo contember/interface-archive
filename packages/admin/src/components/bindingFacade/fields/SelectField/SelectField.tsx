@@ -3,6 +3,7 @@ import { FieldContainer, FieldContainerProps, FieldErrors } from '@contember/ui'
 import { FunctionComponent, memo } from 'react'
 import type { Props as SelectProps } from 'react-select'
 import AsyncSelect from 'react-select/async'
+import { useLabelMiddleware } from '../../environment/LabelMiddleware'
 import {
 	ChoiceField,
 	ChoiceFieldData,
@@ -82,6 +83,7 @@ export const SelectFieldInner = memo(
 				label={environment.applySystemMiddleware('labelMiddleware', fieldContainerProps.label)}
 			>
 				<AsyncSelect
+					menuPlacement="auto"
 					{...asyncProps}
 					isClearable={allowNull === true}
 					value={data[currentValue]}

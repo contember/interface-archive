@@ -3,6 +3,7 @@ import { FieldContainer, FieldContainerProps, FieldErrors } from '@contember/ui'
 import { FunctionComponent, memo } from 'react'
 import type { Props as SelectProps } from 'react-select'
 import AsyncSelect from 'react-select/async'
+import { useLabelMiddleware } from '../../environment/LabelMiddleware'
 import { ChoiceFieldData, DynamicMultiChoiceField, DynamicMultipleChoiceFieldProps } from '../ChoiceField'
 import { selectStyles } from './commonStyles'
 import { useCommonReactSelectAsyncProps } from './useCommonReactSelectAsyncProps'
@@ -76,6 +77,7 @@ export const MultiSelectFieldInner = memo(
 				label={environment.applySystemMiddleware('labelMiddleware', fieldContainerProps.label)}
 			>
 				<AsyncSelect
+					menuPlacement="auto"
 					{...asyncProps}
 					isMulti
 					isClearable
