@@ -17,7 +17,7 @@ import { useMenuId } from './useMenuId'
 import { useMouseToFocus } from './useMouseToFocus'
 
 
-export function MenuItem<T extends any = any>({ children, ...props }: MenuItemProps<T>) {
+export function MenuItem<T extends any = any>({ children, missingLabelText = 'No title', ...props }: MenuItemProps<T>) {
 	const depth = useContext(DepthContext)
 
 	const { isActive, href, navigate } = useNavigationLink(props.to, props.href)
@@ -184,7 +184,7 @@ export function MenuItem<T extends any = any>({ children, ...props }: MenuItemPr
 								>
 									<Label className={`${componentClassName}-label`}>{props.title}</Label>
 								</span>
-							: (warnAboutA11YIssues ? '⚠️' : undefined)
+							: missingLabelText
 						}
 					</div>
 					{submenu}

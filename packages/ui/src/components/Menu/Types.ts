@@ -15,6 +15,7 @@ export interface MenuProps {
 }
 
 export interface MenuItemProps<T extends any = any> {
+  missingLabelText?: string
 	children?: ReactNode
 	title?: string | ReactNode
 	to?: T
@@ -22,4 +23,3 @@ export interface MenuItemProps<T extends any = any> {
 	external?: boolean
 	expandedByDefault?: boolean
 }
-
