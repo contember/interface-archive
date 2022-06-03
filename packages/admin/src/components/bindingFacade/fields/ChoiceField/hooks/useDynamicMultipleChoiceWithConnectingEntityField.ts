@@ -38,7 +38,7 @@ export const useDynamicMultipleChoiceWithConnectingEntityField = (
 	}, [optionTargetField, sortedConnectingEntities.entities])
 
 
-	const options = useSelectOptions(props, currentlyChosenEntities)
+	const { options, onSearch, isLoading } = useSelectOptions(props, currentlyChosenEntities)
 
 	const currentValues = useCurrentValues(props, currentlyChosenEntities)
 
@@ -85,5 +85,7 @@ export const useDynamicMultipleChoiceWithConnectingEntityField = (
 			}, [onAdd]),
 		}),
 		onMove: sortedConnectingEntities.moveEntity,
+		onSearch,
+		isLoading,
 	}
 }

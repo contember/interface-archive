@@ -27,7 +27,7 @@ export const useDynamicSingleChoiceField = (
 		[currentValueEntity],
 	)
 
-	const options = useSelectOptions(props, currentlyChosenEntities)
+	const { options, onSearch, isLoading } = useSelectOptions(props, currentlyChosenEntities)
 
 	const currentValues = useCurrentValues(props, currentlyChosenEntities)
 	const errors = useAccessorErrors(currentValueEntity)
@@ -48,6 +48,8 @@ export const useDynamicSingleChoiceField = (
 				currentValueParent.connectEntityAtField(currentValueFieldName, entity)
 			}, [currentValueFieldName, currentValueParent]),
 		}),
+		onSearch,
+		isLoading,
 	}
 }
 
