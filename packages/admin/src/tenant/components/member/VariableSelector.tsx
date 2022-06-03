@@ -24,46 +24,48 @@ const GenericVariableEdit = ({ label, value, onChange }: { label?: React.ReactNo
 
 
 	return (
-		<FieldContainer label={label} direction="vertical" gap="small" style={{ margin: '1em' }}>
-			{localValues.map((v, i) => (
-				<Box key={i} padding="no-padding" direction="horizontal" gap="none">
-					<TextInput
-						notNull
-						value={v}
-						distinction="seamless"
-						onChange={newValue => {
-							onChangeCallback(i, newValue ?? '')
-						}}
-						style={{ marginLeft: '0.5em' }}
-					/>
-					<Button
-						distinction="seamless"
-						onClick={() => {
-							onChangeCallback(i, null)
-						}}
-					>
-						<Icon blueprintIcon="trash" />
-					</Button>
-				</Box>
-			))}
-			<Button
-				distinction="seamless"
-				justification="justifyStart"
-				onClick={() => {
-					setLocalValues(prev => [...prev, ''])
-				}}
-			>
-				<Icon
-					blueprintIcon="add"
-					style={{
-						marginRight: '0.2em',
-						position: 'relative',
-						top: '0.05em',
+		<div style={{ margin: '1em' }}>
+			<FieldContainer label={label} direction="vertical" gap="small">
+				{localValues.map((v, i) => (
+					<Box key={i} padding="no-padding" direction="horizontal" gap="none">
+						<TextInput
+							notNull
+							value={v}
+							distinction="seamless"
+							onChange={newValue => {
+								onChangeCallback(i, newValue ?? '')
+							}}
+							style={{ marginLeft: '0.5em' }}
+						/>
+						<Button
+							distinction="seamless"
+							onClick={() => {
+								onChangeCallback(i, null)
+							}}
+						>
+							<Icon blueprintIcon="trash" />
+						</Button>
+					</Box>
+				))}
+				<Button
+					distinction="seamless"
+					justification="justifyStart"
+					onClick={() => {
+						setLocalValues(prev => [...prev, ''])
 					}}
-				/>
-				Add
-			</Button>
-		</FieldContainer>
+				>
+					<Icon
+						blueprintIcon="add"
+						style={{
+							marginRight: '0.2em',
+							position: 'relative',
+							top: '0.05em',
+						}}
+					/>
+					Add
+				</Button>
+			</FieldContainer>
+		</div>
 	)
 }
 
