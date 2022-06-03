@@ -7,12 +7,12 @@ import {
 	useSortedEntities,
 } from '@contember/binding'
 import { useCallback, useMemo } from 'react'
-import { useCurrentValues } from './BaseDynamicChoiceField'
-import type { ChoiceFieldData } from './ChoiceFieldData'
+import type { ChoiceFieldData } from '../ChoiceFieldData'
 import { useSelectOptions } from './useSelectOptions'
-import { useAccessorErrors } from '../../errors'
+import { useAccessorErrors } from '../../../errors'
 import { useOnAddNew } from './useOnAddNew'
 import { DynamicMultipleChoiceFieldProps } from './useDynamicMultipleChoiceField'
+import { useCurrentValues } from './useCurrentValues'
 
 export interface DynamicMultipleChoiceWithConnectingEntityFieldProps {
 	connectingEntityField: string | SugaredRelativeSingleEntity
@@ -40,7 +40,7 @@ export const useDynamicMultipleChoiceWithConnectingEntityField = (
 
 	const options = useSelectOptions(props, currentlyChosenEntities)
 
-	const currentValues = useCurrentValues(currentlyChosenEntities, props)
+	const currentValues = useCurrentValues(props, currentlyChosenEntities)
 
 	const getConnectingEntityValues = connectingEntitiesListAccessor.getAccessor
 
