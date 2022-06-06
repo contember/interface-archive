@@ -20,7 +20,7 @@ export const useNormalizedOptions = (
 				if (renderOption) {
 					label = renderOption(item)
 				} else if (optionLabel) {
-					label = <Entity accessor = { item } > { optionLabel } </Entity>
+					label = <Entity accessor={item} > { optionLabel } </Entity>
 				} else if ('field' in desugaredOptionPath) {
 					label = `${item.getRelativeSingleField(desugaredOptionPath).value ?? ''}`
 				} else {
