@@ -19,6 +19,14 @@ function fromElementValue<E extends HTMLInputElement | HTMLTextAreaElement | HTM
 			: element.value
 }
 
+function hasHTMLInputElementApi(ref: any): ref is RefObject<HTMLInputElement> {
+	return typeof ref === 'object'
+		&& typeof ref?.current === 'object'
+		&& ref.current?.type === 'checkbox'
+		&& typeof ref.current?.indeterminate === 'boolean'
+		&& typeof ref.current?.checked === 'boolean'
+}
+
 export function useNativeInput<E extends HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>({
 	// ControlStateProps
 	active,
@@ -67,7 +75,7 @@ export function useNativeInput<E extends HTMLInputElement | HTMLTextAreaElement 
 	const innerRef = useRef<E>(null)
 	const ref = forwardedRef ?? innerRef
 
-	const isCheckbox = typeof ref === 'object' && ref.current instanceof HTMLInputElement && ref.current.type === 'checkbox'
+	const isCheckbox = hasHTMLInputElementApi(ref)
 
 	const [internalState, setInternalState] = useState<string>(value ?? defaultValue ?? '')
 	const previousValue = useRef<string>(value ?? defaultValue ?? '')
@@ -81,7 +89,7 @@ export function useNativeInput<E extends HTMLInputElement | HTMLTextAreaElement 
 			return
 		}
 
-		if (ref.current instanceof HTMLInputElement && ref.current.type === 'checkbox') {
+		if (hasHTMLInputElementApi(ref)) {
 			ref.current.indeterminate = internalState === ''
 			ref.current.checked = internalState === TRUE
 		}
