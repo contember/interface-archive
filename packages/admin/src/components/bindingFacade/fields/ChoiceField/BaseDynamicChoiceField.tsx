@@ -27,7 +27,7 @@ export type SearchByFields =
 export type BaseDynamicChoiceFieldOptions =
 	| {
 		options: OptionsAsEntityList
-		optionLabel: ReactElement
+		optionLabel: ReactNode
 	}
 	| {
 		options: OptionsAsFieldList
