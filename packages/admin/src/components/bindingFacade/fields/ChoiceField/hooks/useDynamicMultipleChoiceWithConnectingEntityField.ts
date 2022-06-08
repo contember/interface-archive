@@ -26,21 +26,21 @@ export const useDynamicMultipleChoiceWithConnectingEntityField = (
 	const sortedConnectingEntities = useSortedEntities(connectingEntitiesListAccessor, props.sortableBy)
 	const optionTargetField = useDesugaredRelativeSingleEntity(props.connectingEntityField)
 
-	const [currentlyChosenEntities, optionIdToConnectingEntityMap] = useMemo(() => {
-		const optionEntities = []
+	const [currentlyChosenOptions, optionIdToConnectingEntityMap] = useMemo(() => {
+		const currentlyChosenOptions = []
 		const optionIdToConnectingEntityMap = new Map<EntityId, EntityAccessor>()
 		for (const connectingEntity of sortedConnectingEntities.entities) {
 			const optionEntity = connectingEntity.getRelativeSingleEntity(optionTargetField)
-			optionEntities.push(optionEntity)
+			currentlyChosenOptions.push(optionEntity)
 			optionIdToConnectingEntityMap.set(optionEntity.id, connectingEntity)
 		}
-		return [optionEntities, optionIdToConnectingEntityMap]
+		return [currentlyChosenOptions, optionIdToConnectingEntityMap]
 	}, [optionTargetField, sortedConnectingEntities.entities])
 
 
-	const { options, onSearch, isLoading } = useSelectOptions(props, currentlyChosenEntities)
+	const { options, onSearch, isLoading } = useSelectOptions(props, currentlyChosenOptions)
 
-	const currentValues = useCurrentValues(props, currentlyChosenEntities)
+	const currentValues = useCurrentValues(props, currentlyChosenOptions)
 
 	const getConnectingEntityValues = connectingEntitiesListAccessor.getAccessor
 
@@ -56,11 +56,7 @@ export const useDynamicMultipleChoiceWithConnectingEntityField = (
 		sortedConnectingEntities.appendNew(accessor => {
 			const entity = accessor()
 			const hasOne = optionTargetField.hasOneRelationPath
-			const parentEntity = hasOne.length > 1
-				? entity.getRelativeSingleEntity({
-					hasOneRelationPath: hasOne.slice(0, -1),
-				})
-				: entity
+			const parentEntity = entity.getRelativeSingleEntity({ hasOneRelationPath: hasOne.slice(0, -1) })
 			parentEntity.connectEntityAtField(hasOne[hasOne.length - 1].field, option)
 		})
 	}, [optionTargetField.hasOneRelationPath, sortedConnectingEntities])
@@ -80,9 +76,7 @@ export const useDynamicMultipleChoiceWithConnectingEntityField = (
 		}, [optionIdToConnectingEntityMap]),
 		onAddNew: useOnAddNew({
 			...props,
-			connect: useCallback(entity => {
-				onAdd(entity)
-			}, [onAdd]),
+			connect: onAdd,
 		}),
 		onMove: sortedConnectingEntities.moveEntity,
 		onSearch,
