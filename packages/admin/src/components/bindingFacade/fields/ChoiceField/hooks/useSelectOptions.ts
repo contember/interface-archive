@@ -173,11 +173,10 @@ const useOptionsLoader = (
 
 			if (treeRootId && inputRef.current === debouncedInput) {
 				setRenderedState({
-						filter,
-						treeRootId,
-						query: debouncedInput,
-					},
-				)
+					filter,
+					treeRootId,
+					query: debouncedInput,
+				})
 			}
 		})()
 	}, [createFilter, debouncedInput, environment, extendTree, isEmptyInit, optionProps, renderedState.query])
