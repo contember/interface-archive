@@ -22,13 +22,13 @@ export const useCreateOptionsFilter = (
 			return undefined
 		}
 		if (desugaredSearchFields.length) {
-			const and = []
+			const or = []
 			for (const field of desugaredSearchFields) {
-				and.push(wrapFilterInHasOnes(field.hasOneRelationPath, {
+				or.push(wrapFilterInHasOnes(field.hasOneRelationPath, {
 					[field.field]: { containsCI: input },
 				}))
 			}
-			return { and }
+			return { or }
 		}
 		if ('field' in desugaredOptionPath) {
 			return wrapFilterInHasOnes(desugaredOptionPath.hasOneRelationPath, {
