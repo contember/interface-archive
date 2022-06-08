@@ -9,14 +9,21 @@ import {
 	useGetEntityByKey,
 } from '@contember/binding'
 import { useCallback, useMemo } from 'react'
-import { BaseDynamicChoiceField } from '../BaseDynamicChoiceField'
+import { BaseDynamicChoiceField, BaseDynamicChoiceFieldOptions } from '../BaseDynamicChoiceField'
 import type { ChoiceFieldData } from '../ChoiceFieldData'
 import { useSelectOptions } from './useSelectOptions'
 import { useAccessorErrors } from '../../../errors'
 import { useOnAddNew } from './useOnAddNew'
 import { useCurrentValues } from './useCurrentValues'
 
-export type DynamicSingleChoiceFieldProps = SugaredRelativeSingleEntity & BaseDynamicChoiceField
+export type DynamicSingleChoiceFieldProps =
+	& SugaredRelativeSingleEntity
+	& BaseDynamicChoiceField
+
+export type SimpleDynamicSingleChoiceFieldProps =
+	& SugaredRelativeSingleEntity
+	& BaseDynamicChoiceFieldOptions
+	& Pick<DynamicSingleChoiceFieldProps, 'transformOptions'>
 
 export const useDynamicSingleChoiceField = (
 	props: DynamicSingleChoiceFieldProps,

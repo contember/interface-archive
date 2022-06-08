@@ -24,17 +24,18 @@ export type SearchByFields =
 	| SugaredRelativeSingleField['field']
 	| SugaredRelativeSingleField['field'][]
 
+export type BaseDynamicChoiceFieldOptions =
+	| {
+		options: OptionsAsEntityList
+		optionLabel: ReactElement
+	}
+	| {
+		options: OptionsAsFieldList
+	}
+	| LegacyChoiceFieldWithOptionRenderer
+
 export type BaseDynamicChoiceField =
-	& (
-		| {
-				options: OptionsAsEntityList
-				optionLabel: ReactElement
-			}
-		| {
-				options: OptionsAsFieldList
-			}
-		| LegacyChoiceFieldWithOptionRenderer
-	)
+	& BaseDynamicChoiceFieldOptions
 	& SelectFuseOptionsProps<EntityAccessor>
 	& {
 		searchByFields?: SearchByFields
