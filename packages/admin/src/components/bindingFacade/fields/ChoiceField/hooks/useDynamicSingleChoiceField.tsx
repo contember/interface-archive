@@ -4,9 +4,8 @@ import {
 	RelativeSingleEntity,
 	SugaredRelativeSingleEntity,
 	useAccessorUpdateSubscription,
-	useEntityKey,
+	useEntity,
 	useEnvironment,
-	useGetEntityByKey,
 } from '@contember/binding'
 import { useCallback, useMemo } from 'react'
 import { BaseDynamicChoiceField, BaseDynamicChoiceFieldOptions } from '../BaseDynamicChoiceField'
@@ -61,30 +60,27 @@ export const useDynamicSingleChoiceField = (
 }
 
 const useCurrentAccessors = (props: DynamicSingleChoiceFieldProps): [EntityAccessor, EntityAccessor, string] => {
-	const entityKey = useEntityKey()
-	const getEntityByKey = useGetEntityByKey()
 	const environment = useEnvironment()
 
 	const desugaredRelativePath = useMemo<RelativeSingleEntity>(() => {
 		return QueryLanguage.desugarRelativeSingleEntity(props, environment)
 	}, [environment, props])
+	const hasOneRelationPath = desugaredRelativePath.hasOneRelationPath
+	const parentEntity = useEntity()
 
-	const lastHasOneRelation =
-		desugaredRelativePath.hasOneRelationPath[desugaredRelativePath.hasOneRelationPath.length - 1]
+	const lastHasOneRelation = hasOneRelationPath[hasOneRelationPath.length - 1]
 	const currentValueFieldName = lastHasOneRelation.field
 
 	const getCurrentValueParent = useCallback((): EntityAccessor => {
-		const parentEntity = getEntityByKey(entityKey)
-		return desugaredRelativePath.hasOneRelationPath.length > 1
-			? parentEntity.getRelativeSingleEntity({
-				hasOneRelationPath: desugaredRelativePath.hasOneRelationPath.slice(0, -1),
-			})
-			: parentEntity
-	}, [entityKey, desugaredRelativePath, getEntityByKey])
+		return parentEntity.getRelativeSingleEntity({
+			hasOneRelationPath: desugaredRelativePath.hasOneRelationPath.slice(0, -1),
+		})
+	}, [desugaredRelativePath.hasOneRelationPath, parentEntity])
 
 	const currentValueParent = useAccessorUpdateSubscription(getCurrentValueParent)
-	const currentValueEntity = currentValueParent.getRelativeSingleEntity({
-		hasOneRelationPath: [lastHasOneRelation],
-	})
+	const currentValueEntity = useMemo(() => {
+		return currentValueParent.getRelativeSingleEntity({ hasOneRelationPath: [lastHasOneRelation] })
+	}, [currentValueParent, lastHasOneRelation])
+
 	return [currentValueEntity, currentValueParent, currentValueFieldName]
 }
