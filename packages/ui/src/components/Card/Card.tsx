@@ -4,7 +4,7 @@ import { useComponentClassName } from '../../auxiliary'
 import { NativeProps } from '../../types'
 import { toEnumViewClass, toFeatureClass } from '../../utils'
 import { VisuallyDependentControlProps } from '../Forms'
-import { useInputClassName } from '../Forms/useInputClassName'
+import { useInputClassName } from '../Forms/hooks/useInputClassName'
 import { Label } from '../Typography'
 
 const CardInner = ({
