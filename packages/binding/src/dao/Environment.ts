@@ -40,6 +40,7 @@ class Environment {
 		return new Environment({
 			...options,
 			node: SubTree,
+			parent: this,
 		})
 	}
 
@@ -107,7 +108,15 @@ class Environment {
 				newVariables[newName] = resolvedValue
 			}
 		}
-		return new Environment({ ...this.options, variables: newVariables })
+		return new Environment({
+			...this.options,
+			variables: newVariables,
+			parent: this,
+		})
+	}
+
+	public getAllVariables() {
+		return this.options.variables
 	}
 
 	public hasParameter(key: string): boolean {
@@ -125,9 +134,16 @@ class Environment {
 		return this.options.parameters[key] ?? fallback
 	}
 
+	public getAllParameters() {
+		return this.options.parameters
+	}
 
 	public withParameters(parameters: Environment.Parameters): Environment {
-		return new Environment({ ...this.options, parameters })
+		return new Environment({
+			...this.options,
+			parameters,
+			parent: this,
+		})
 	}
 
 	public hasDimension(dimensionName: string): boolean {
@@ -157,7 +173,11 @@ class Environment {
 		if (equal(newDimensions, this.options.dimensions)) {
 			return this
 		}
-		return new Environment({ ...this.options, dimensions: newDimensions })
+		return new Environment({
+			...this.options,
+			dimensions: newDimensions,
+			parent: this,
+		})
 	}
 
 	public getSchema(): Schema {
