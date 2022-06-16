@@ -61,12 +61,14 @@ services:
       replicas: 0
 
     environment:
+      DISPLAY: ${DISPLAY}
       CONTEMBER_API_URL: 'http://contember-engine:4000'
       CONTEMBER_API_TOKEN: '0000000000000000000000000000000000000000'
 
     working_dir: /src/packages/admin
     volumes:
       - .:/src:cached
+      - /tmp/.X11-unix:/tmp/.X11-unix
 
   contember-engine:
     image: contember/engine:1.1.0-beta.4
