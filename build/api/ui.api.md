@@ -753,7 +753,10 @@ export interface EditorCanvasProps<P extends TextareaHTMLAttributes<HTMLDivEleme
 export type EditorCanvasSize = 'large' | Default;
 
 // @public (undocumented)
-export function EditorHeading({ level, isNumbered, attributes, children }: EditorHeadingProps): DetailedReactHTMLElement<    {
+export function EditorHeading({ level, isNumbered, attributes, align, children }: EditorHeadingProps): DetailedReactHTMLElement<    {
+style: {
+textAlign: "start" | "end" | "center" | "justify" | undefined;
+};
 className: string;
 defaultChecked?: boolean | undefined;
 defaultValue?: string | number | readonly string[] | undefined;
@@ -1015,6 +1018,8 @@ onTransitionEndCapture?: TransitionEventHandler<HTMLHeadingElement> | undefined;
 // @public (undocumented)
 export interface EditorHeadingProps {
     // (undocumented)
+    align?: 'start' | 'end' | 'center' | 'justify';
+    // (undocumented)
     attributes: HTMLAttributes<HTMLHeadingElement>;
     // (undocumented)
     children: ReactNode;
@@ -1037,7 +1042,10 @@ export type EditorNonEditableProps = (Omit<HTMLAttributes<HTMLSpanElement>, 'con
 });
 
 // @public (undocumented)
-export function EditorParagraph({ isNumbered, attributes, children }: EditorParagraphProps): DetailedReactHTMLElement<    {
+export function EditorParagraph({ isNumbered, attributes, children, align }: EditorParagraphProps): DetailedReactHTMLElement<    {
+style: {
+textAlign: "start" | "end" | "center" | "justify" | undefined;
+};
 children: ReactNode;
 className: string;
 defaultChecked?: boolean | undefined;
@@ -1298,6 +1306,8 @@ onTransitionEndCapture?: TransitionEventHandler<HTMLParagraphElement> | undefine
 
 // @public (undocumented)
 export interface EditorParagraphProps {
+    // (undocumented)
+    align?: 'start' | 'end' | 'center' | 'justify';
     // (undocumented)
     attributes: HTMLAttributes<HTMLParagraphElement>;
     // (undocumented)
