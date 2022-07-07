@@ -8,6 +8,24 @@
 	&.view-sortable
 		--cui-box-content-padding-left: calc(2 * var(--cui-box-content-padding))
 
+	&.is-compact
+		min-width: max-content
+		&:not(.view-sortable.is-active)
+			border: 0
+			border-radius: 0
+		.#{$cui-conf-globalPrefix}view-direction-vertical > &:first-child
+			border-top-left-radius: var(--cui-control-border-radius)
+			border-top-right-radius: var(--cui-control-border-radius)
+		.#{$cui-conf-globalPrefix}view-direction-vertical > &:last-child
+			border-bottom-left-radius: var(--cui-control-border-radius)
+			border-bottom-right-radius: var(--cui-control-border-radius)
+		.#{$cui-conf-globalPrefix}view-direction-horizontal > &:first-child
+			border-bottom-left-radius: var(--cui-control-border-radius)
+			border-top-left-radius: var(--cui-control-border-radius)
+		.#{$cui-conf-globalPrefix}view-direction-horizontal > &:last-child
+			border-bottom-right-radius: var(--cui-control-border-radius)
+			border-top-right-radius: var(--cui-control-border-radius)
+
 	&-content.view-horizontal
 		min-width: min-content
 		@media (min-width: $breakpoint-min-small)

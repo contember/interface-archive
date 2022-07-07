@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { ComponentType, memo, ReactNode } from 'react'
 import { useClassNamePrefix } from '../../auxiliary'
-import { toViewClass } from '../../utils'
+import { toStateClass, toViewClass } from '../../utils'
 import { Box, BoxOwnProps } from '../Box'
 import { Icon } from '../Icon'
 import { Stack, StackOwnProps } from '../Stack'
@@ -10,6 +10,7 @@ import { Label } from '../Typography/Label'
 export interface RepeaterItemContainerOwnProps {
 	actions?: ReactNode
 	children: ReactNode
+	compact?: boolean
 	direction?: StackOwnProps['direction']
 	dragHandleComponent?: ComponentType<{ children: ReactNode }>
 	label?: ReactNode
@@ -25,6 +26,7 @@ export const RepeaterItemContainer = memo(({
 	actions,
 	children,
 	className,
+	compact,
 	gap = true,
 	direction,
 	dragHandleComponent: Handle,
@@ -40,6 +42,7 @@ export const RepeaterItemContainer = memo(({
 			className={classNames(
 				componentClassName,
 				toViewClass('sortable', !!Handle),
+				toStateClass('compact', compact),
 				className,
 			)}
 		>
