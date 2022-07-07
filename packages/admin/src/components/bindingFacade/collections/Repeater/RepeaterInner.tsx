@@ -91,6 +91,8 @@ export const RepeaterInner = Component<RepeaterInnerProps<any, any>, NonStaticPr
 						<Entity accessor={entity} key={entity.key}>
 							<Item
 								{...props.itemComponentExtraProps!}
+								compact={props.compact}
+								scrollable={props.scrollable}
 								label={label ? `${label} #${i + 1}` : `#${i + 1}`}
 								removalType={removalType}
 								canBeRemoved={itemRemovingEnabled}
@@ -132,6 +134,8 @@ export const RepeaterInner = Component<RepeaterInnerProps<any, any>, NonStaticPr
 							<Entity accessor={entity}>
 								<Item
 									{...props.itemComponentExtraProps!}
+									compact={props.compact}
+									scrollable={props.scrollable}
 									label={label ? `${label} #${i + 1}` : `#${i + 1}`}
 									removalType={removalType}
 									canBeRemoved={itemRemovingEnabled}
