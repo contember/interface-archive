@@ -12,6 +12,8 @@ services:
 
   contember-engine:
     ports: ['3001:4000']
+    environment:
+      DEFAULT_S3_ENDPOINT: 'http://minio:9000/'
 
   adminer:
     ports: ['3002:8080']
