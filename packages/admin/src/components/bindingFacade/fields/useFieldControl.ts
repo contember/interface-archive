@@ -62,7 +62,6 @@ export const useFieldControl = <FieldValue extends Scalar, ControlValue extends 
 	return {
 		ref,
 
-		...props,
 
 		// ControlValueProps
 		defaultValue: format(field.current.defaultValue, field.current) ?? undefined,
