@@ -725,10 +725,10 @@ export const ContemberEditor: {
     }) => boolean;
     hasParentOfType: <Editor extends Editor, Element_3 extends EditorElement>(editor: Editor, nodeEntry: NodeEntry<Node_2>, type: Element_3["type"], suchThat?: Partial<Element_3> | undefined) => boolean;
     isElementType: <Element_4 extends EditorElement>(element: Node_2, type: Element_4["type"], suchThat?: Partial<Element_4> | undefined) => boolean;
-    permissivelyDeserializeNodes: <E_8 extends Editor>(editor: E_8, serializedElement: string, errorMessage?: string | undefined) => (EditorText | EditorElement)[];
+    permissivelyDeserializeNodes: <E_8 extends Editor>(editor: E_8, serializedElement: string, errorMessage?: string | undefined) => (EditorElement | EditorText)[];
     removeMarks: <T_3 extends EditorText, E_9 extends Editor>(editor: E_9, marks: TextSpecifics<T_3>) => void;
-    serializeNodes: <E_10 extends Editor>(editor: E_10, elements: (EditorText | EditorElement)[], errorMessage?: string | undefined) => string;
-    strictlyDeserializeNodes: <E_11 extends Editor>(editor: E_11, serializedElement: string, errorMessage?: string | undefined) => (EditorText | EditorElement)[];
+    serializeNodes: <E_10 extends Editor>(editor: E_10, elements: (EditorElement | EditorText)[], errorMessage?: string | undefined) => string;
+    strictlyDeserializeNodes: <E_11 extends Editor>(editor: E_11, serializedElement: string, errorMessage?: string | undefined) => (EditorElement | EditorText)[];
     textToSpecifics: <Text_1 extends EditorText = EditorText>(textNode: Text_1) => TextSpecifics<Text_1>;
     toLatestFormat: <E_12 extends Editor>(editor: E_12, potentiallyOldNode: SerializableEditorNode) => SerializableEditorNode;
     topLevelNodes: <E_13 extends Editor>(editor: E_13) => Generator<NodeEntry<Node_2>, void, undefined>;
@@ -2726,7 +2726,7 @@ export type MutationRequestState<T> = QueryRequestState<T> | RequestStateUniniti
 export const NativeSelectField: FunctionComponent<NativeSelectFieldProps>;
 
 // @public (undocumented)
-export const NativeSelectFieldInner: MemoExoticComponent<ForwardRefExoticComponent<Pick<NativeSelectFieldInnerProps<any>, "data" | "label" | "style" | "key" | "description" | "className" | "placeholder" | "onSelect" | "size" | "errors" | "direction" | "gap" | "labelDescription" | "labelPosition" | "width" | "required" | "useLabelElement" | "notNull" | "isLoading" | "onSearch" | "currentValue" | "onClear" | "onAddNew" | "allowNull"> & RefAttributes<HTMLSelectElement>>>;
+export const NativeSelectFieldInner: MemoExoticComponent<ForwardRefExoticComponent<Pick<NativeSelectFieldInnerProps<any>, "key" | "data" | "label" | "style" | "className" | "placeholder" | "onSelect" | "direction" | "gap" | "size" | "description" | "labelDescription" | "labelPosition" | "width" | "required" | "useLabelElement" | "errors" | "notNull" | "onSearch" | "isLoading" | "currentValue" | "onClear" | "onAddNew" | "allowNull"> & RefAttributes<HTMLSelectElement>>>;
 
 // @public (undocumented)
 export interface NativeSelectFieldInnerProps<ActualValue> extends ChoiceFieldData.SingleChoiceFieldMetadata<ActualValue>, NativeSelectFieldInnerPublicProps, RefAttributes<HTMLSelectElement> {
