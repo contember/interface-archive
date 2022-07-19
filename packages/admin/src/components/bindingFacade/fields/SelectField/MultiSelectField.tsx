@@ -1,6 +1,6 @@
 import { Component, EntityAccessor } from '@contember/binding'
 import { FieldContainer, FieldContainerProps, FieldErrors, SelectCreateNewWrapper } from '@contember/ui'
-import { ComponentType, FunctionComponent, memo, MouseEventHandler, useCallback } from 'react'
+import { FunctionComponent, memo, MouseEventHandler, useCallback } from 'react'
 import type { MultiValueGenericProps, MultiValueProps, Props as SelectProps } from 'react-select'
 import Select, { ActionMeta, components } from 'react-select'
 import { useLabelMiddleware } from '../../environment/LabelMiddleware'
@@ -13,6 +13,8 @@ import {
 	SortableElement,
 	SortableHandle,
 	SortEndHandler,
+	SortEvent,
+	SortEventWithTag,
 } from 'react-sortable-hoc'
 
 export type MultiSelectFieldProps =
@@ -41,6 +43,11 @@ export interface MultiSelectFieldInnerProps<ActualValue>
 	errors: FieldErrors | undefined
 }
 
+// this allows sortable inside editor (because default cancel handler disallows inside content editable)
+const shouldCancel = (event: SortEvent | SortEventWithTag): boolean => {
+	const interactiveElements = ['INPUT', 'TEXTAREA', 'SELECT', 'OPTION', 'BUTTON']
+	return 'tagName' in event.target && interactiveElements.indexOf(event.target.tagName) !== -1
+}
 const typedMemo: <T>(c: T) => T = memo
 export const MultiSelectFieldInner = typedMemo(
 	<T extends any>({
@@ -69,7 +76,7 @@ export const MultiSelectFieldInner = typedMemo(
 
 		const selectOnChange = useCallback((newValue: unknown, actionMeta: ActionMeta<ChoiceFieldData.SingleOption<T>>) => {
 			if (actionMeta.action === 'select-option') {
-					onAdd(actionMeta.option!)
+				onAdd(actionMeta.option!)
 			} else if (actionMeta.action === 'remove-value') {
 				onRemove(actionMeta.removedValue!)
 			} else if (actionMeta.action === 'pop-value' && currentValues.length > 0) {
@@ -108,13 +115,14 @@ export const MultiSelectFieldInner = typedMemo(
 							distance={4}
 							helperContainer={getHelperContainer}
 							helperClass={'sortable-dragged'}
+							shouldCancelStart={shouldCancel}
 							components={{
 								...selectProps.components,
 								MultiValue: SortableMultiValue,
 								MultiValueLabel: SortableMultiValueLabel,
 							}}
 						/>
-						: <Select {...allSelectProps}/>
+						: <Select {...allSelectProps} />
 					}
 				</SelectCreateNewWrapper>
 			</FieldContainer>
