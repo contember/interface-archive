@@ -1,4 +1,4 @@
-import { GraphQlLiteral } from '../graphQlBuilder'
+import type { GraphQlBuilder } from '../index'
 
 export type Mutations = 'create' | 'update' | 'delete'
 
@@ -44,7 +44,7 @@ export interface WriteRelationOps {
 	update: 'create' | 'connect' | 'delete' | 'disconnect' | 'update' | 'upsert'
 }
 
-export type OrderDirection = GraphQlLiteral<'asc'> | GraphQlLiteral<'desc'>
+export type OrderDirection = GraphQlBuilder.GraphQlLiteral<'asc'> | GraphQlBuilder.GraphQlLiteral<'desc'>
 
 // TODO Silly enums because TS does not support enum extension 🙄
 // https://github.com/Microsoft/TypeScript/issues/17592
