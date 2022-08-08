@@ -1,9 +1,8 @@
-import classnames from 'classnames'
 import { forwardRef, memo, ReactNode } from 'react'
-import { useClassNamePrefix } from '../../auxiliary'
 import type { BoxDistinction, Default, Intent, NativeProps, Size } from '../../types'
-import { toEnumViewClass, toStateClass, toThemeClass } from '../../utils'
+import { toThemeClass } from '../../utils'
 import { Stack, StackProps } from '../Stack'
+import { ComponentStyleSheet, SubComponentsStyleSheet, useResolveStyleSheet } from '../StyleSheet'
 import { Label } from '../Typography/Label'
 
 export interface BoxOwnProps {
@@ -18,14 +17,14 @@ export interface BoxOwnProps {
 	padding?: Default | 'no-padding' | 'with-padding'
 }
 
-export interface BoxProps extends BoxOwnProps, Omit<NativeProps<HTMLDivElement>, 'children'> {}
+export interface BoxProps extends BoxOwnProps, Omit<NativeProps<HTMLDivElement>, 'children'> { }
 
 export const Box = memo(
 	forwardRef<HTMLDivElement, BoxProps>(
 		({
 			actions,
 			children,
-			className,
+			className: classNameProp,
 			direction = 'vertical',
 			distinction,
 			gap = 'small',
@@ -35,27 +34,25 @@ export const Box = memo(
 			padding,
 			...divProps
 		}: BoxProps, ref) => {
-			const componentClassName = `${useClassNamePrefix()}box`
+			const [className, styleSheet] = useResolveStyleSheet(boxStyleSheet, {
+				$active: isActive,
+				$distinction: distinction,
+				$intent: toThemeClass(intent, intent),
+				$padding: padding,
+			}, classNameProp)
 
 			return (
 				<div
 					{...divProps}
-					className={classnames(
-						componentClassName,
-						toStateClass('active', isActive),
-						toEnumViewClass(distinction),
-						toThemeClass(intent, intent),
-						toEnumViewClass(padding),
-						className,
-					)}
+					className={className}
 					ref={ref}
 				>
-					<Stack gap={gap} direction={direction}>
+					<Stack className={styleSheet.inner} gap={gap} direction={direction}>
 						{(heading || actions) && (
-							<div className={`${componentClassName}-header`}>
-								{heading && <Label>{heading}</Label>}
+							<div className={styleSheet.header}>
+								{heading && <Label className={styleSheet.heading}>{heading}</Label>}
 								{actions && (
-									<div className={`${componentClassName}-actions`} contentEditable={false}>
+									<div className={styleSheet.actions} contentEditable={false}>
 										{actions}
 									</div>
 								)}
@@ -69,3 +66,40 @@ export const Box = memo(
 	),
 )
 Box.displayName = 'Box'
+
+type BoxStyleSheet = ComponentStyleSheet<SubComponentsStyleSheet<'inner' | 'header' | 'heading' | 'actions'>> & Partial<{
+	$prefix: string
+	$name: string
+	'${componentClassName}': string
+	'${active}': string
+	'${distinction}': string
+	'${intent}': string
+	'${padding}': string
+	$active: boolean
+	$distinction: BoxDistinction
+	$intent: string
+	$padding: Default | 'no-padding' | 'with-padding'
+}>
+
+const boxStyleSheet: BoxStyleSheet = {
+	...{
+		'${componentClassName}': '$prefix$name',
+		'${active}': 'is-$active',
+		'${distinction}': 'view-$distinction',
+		'${intent}': '$intent',
+		'${padding}': 'view-$padding',
+	},
+	$: [
+		'${componentClassName}',
+		'${active}',
+		'${distinction}',
+		'${intent}',
+		'${padding}',
+	],
+	$prefix: 'cui-',
+	$name: 'box',
+	inner: '${componentClassName}-inner',
+	header: '${componentClassName}-header',
+	heading: '${componentClassName}-heading',
+	actions: '${componentClassName}-actions',
+}
