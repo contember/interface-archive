@@ -1,7 +1,7 @@
-import classNames from 'classnames'
 import { forwardRef, memo } from 'react'
-import { useComponentClassName } from '../../../auxiliary'
-import { toViewClass } from '../../../utils'
+import { useClassNamePrefix } from '../../../auxiliary'
+import { useResolveStyleSheet } from '../../StyleSheet'
+import { useTextBasedInput } from '../hooks/useTextBasedInput'
 import { ColorInput } from './ColorInput'
 import { DateInput } from './DateInput'
 import { DateTimeInput } from './DateTimeInput'
@@ -15,25 +15,43 @@ import { TimeInput } from './TimeInput'
 import type { TextInputProps } from './Types'
 import { UrlInput } from './UrlInput'
 import { WeekInput } from './WeekInput'
-import { useTextBasedInput } from '../hooks/useTextBasedInput'
+
+type TextInputStyleSheet = {
+	'${withTopToolbar}'?: string
+	$withTopToolbar?: boolean
+	$prefix?: string
+	$name?: string
+	$?: string
+}
+
+const textInputStyleSheetTemplates = {
+	'${root}': '$prefix$name',
+	'${withTopToolbar}': 'withTopToolbar-$withTopToolbar',
+}
+
+const textInputStyleSheet: TextInputStyleSheet = {
+	...textInputStyleSheetTemplates,
+	$prefix: 'cui-',
+	$name: 'text-input',
+	$withTopToolbar: false,
+	$: '${root} ${withTopToolbar}',
+}
 
 export const InternalTextInput = memo(
 	forwardRef<HTMLInputElement, TextInputProps>(({
-		className,
 		type,
 		withTopToolbar,
 		...outerProps
 	}, forwardedRed) => {
-		const props = useTextBasedInput<HTMLInputElement>({
-			...outerProps,
-			className: classNames(
-				useComponentClassName('text-input'),
-				toViewClass('withTopToolbar', withTopToolbar),
-				className,
-			),
-		}, forwardedRed)
+		const { className: classNameProp, ...props } = useTextBasedInput<HTMLInputElement>(outerProps, forwardedRed)
 
-		return <input {...props} type="text" />
+		const [className] = useResolveStyleSheet({
+			...textInputStyleSheet,
+			$prefix: useClassNamePrefix(),
+			$withTopToolbar: withTopToolbar,
+		}, classNameProp)
+
+		return <input {...props} className={className} type="text" />
 	}),
 )
 InternalTextInput.displayName = 'InternalTextInput'
@@ -44,7 +62,7 @@ export const TextInput = memo(
 		 * @deprecated Use specific component to address type
 		 */
 		type?: 'color' | 'date' | 'datetime' | 'datetime-local' | 'email' | 'month' | 'password' | 'range' | 'search' | 'tel' | 'time' | 'url' | 'week'
-}>(({ type, ...props }, forwardedRed) => {
+	}>(({ type, ...props }, forwardedRed) => {
 		switch (type) {
 			case 'color': return <ColorInput ref={forwardedRed} {...props} />
 			case 'date': return <DateInput ref={forwardedRed} {...props} />

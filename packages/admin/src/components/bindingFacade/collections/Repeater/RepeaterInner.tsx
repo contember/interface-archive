@@ -13,39 +13,40 @@ import {
 import { ComponentType, Fragment, ReactElement, ReactNode, useCallback } from 'react'
 import type { SortEndHandler } from 'react-sortable-hoc'
 import { useMessageFormatter } from '../../../../i18n'
+import { shouldCancelStart } from '../../helpers/shouldCancelStart'
 import { repeaterDictionary } from './repeaterDictionary'
 import { RepeaterFieldContainer, RepeaterFieldContainerProps, RepeaterFieldContainerPublicProps } from './RepeaterFieldContainer'
 import { RepeaterItem, RepeaterItemProps } from './RepeaterItem'
-import { shouldCancelStart } from '../../helpers/shouldCancelStart'
 import { SortableRepeaterContainer } from './SortableRepeaterContainer'
 import { SortableRepeaterItem } from './SortableRepeaterItem'
 import { SortableRepeaterItemHandle } from './SortableRepeaterItemHandle'
 
 // TODO alt content for collapsing
-export interface RepeaterInnerProps<ContainerExtraProps, ItemExtraProps>
-	extends RepeaterFieldContainerPublicProps,
-		Omit<RepeaterItemProps, 'children' | 'canBeRemoved' | 'label'> {
-	accessor: EntityListAccessor
-	/**
-	 * @deprecated Use label instead
-	 */
-	boxLabel?: ReactNode
-	label: ReactNode
-	children?: ReactNode
+export type RepeaterInnerProps<ContainerExtraProps, ItemExtraProps> =
+	& RepeaterFieldContainerPublicProps
+	& Omit<RepeaterItemProps, 'children' | 'canBeRemoved' | 'label'>
+	& {
+		accessor: EntityListAccessor
+		/**
+		 * @deprecated Use label instead
+		 */
+		boxLabel?: ReactNode
+		label: ReactNode
+		children?: ReactNode
 
-	sortableBy?: SugaredFieldProps['field']
+		sortableBy?: SugaredFieldProps['field']
 
-	enableRemoving?: boolean
+		enableRemoving?: boolean
 
-	containerComponent?: ComponentType<RepeaterFieldContainerProps & ContainerExtraProps>
-	containerComponentExtraProps?: ContainerExtraProps
+		containerComponent?: ComponentType<RepeaterFieldContainerProps & ContainerExtraProps>
+		containerComponentExtraProps?: ContainerExtraProps
 
-	itemComponent?: ComponentType<RepeaterItemProps & ItemExtraProps>
-	itemComponentExtraProps?: ItemExtraProps
+		itemComponent?: ComponentType<RepeaterItemProps & ItemExtraProps>
+		itemComponentExtraProps?: ItemExtraProps
 
-	unstable__sortAxis?: 'x' | 'y' | 'xy'
-	useDragHandle?: boolean
-}
+		unstable__sortAxis?: 'x' | 'y' | 'xy'
+		useDragHandle?: boolean
+	}
 
 type NonStaticPropNames = 'accessor'
 
@@ -96,6 +97,7 @@ export const RepeaterInner = Component<RepeaterInnerProps<any, any>, NonStaticPr
 						<Entity accessor={entity} key={entity.key}>
 							<Item
 								{...props.itemComponentExtraProps!}
+								className={props.className}
 								label={label ? `${label} #${i + 1}` : `#${i + 1}`}
 								removalType={removalType}
 								canBeRemoved={itemRemovingEnabled}
@@ -137,6 +139,7 @@ export const RepeaterInner = Component<RepeaterInnerProps<any, any>, NonStaticPr
 							<Entity accessor={entity}>
 								<Item
 									{...props.itemComponentExtraProps!}
+									className={props.className}
 									label={label ? `${label} #${i + 1}` : `#${i + 1}`}
 									removalType={removalType}
 									canBeRemoved={itemRemovingEnabled}
