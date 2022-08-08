@@ -3327,46 +3327,36 @@ export const RepeaterHandle: React.MemoExoticComponent<() => JSX.Element>;
 export const RepeaterInner: (<ContainerExtraProps, ItemExtraProps>(props: RepeaterInnerProps<ContainerExtraProps, ItemExtraProps>) => ReactElement) & StaticRenderProvider<RepeaterInnerProps<unknown, unknown>, "accessor">;
 
 // @public (undocumented)
-export interface RepeaterInnerProps<ContainerExtraProps, ItemExtraProps> extends RepeaterFieldContainerPublicProps, Omit<RepeaterItemProps, 'children' | 'canBeRemoved' | 'label'> {
-    // (undocumented)
+export type RepeaterInnerProps<ContainerExtraProps, ItemExtraProps> = RepeaterFieldContainerPublicProps & Omit<RepeaterItemProps, 'children' | 'canBeRemoved' | 'label'> & {
     accessor: EntityListAccessor;
-    // @deprecated (undocumented)
     boxLabel?: ReactNode;
-    // (undocumented)
-    children?: ReactNode;
-    // (undocumented)
-    containerComponent?: ComponentType<RepeaterFieldContainerProps & ContainerExtraProps>;
-    // (undocumented)
-    containerComponentExtraProps?: ContainerExtraProps;
-    // (undocumented)
-    enableRemoving?: boolean;
-    // (undocumented)
-    itemComponent?: ComponentType<RepeaterItemProps & ItemExtraProps>;
-    // (undocumented)
-    itemComponentExtraProps?: ItemExtraProps;
-    // (undocumented)
     label: ReactNode;
-    // (undocumented)
+    children?: ReactNode;
     sortableBy?: SugaredFieldProps['field'];
-    // (undocumented)
+    enableRemoving?: boolean;
+    containerComponent?: ComponentType<RepeaterFieldContainerProps & ContainerExtraProps>;
+    containerComponentExtraProps?: ContainerExtraProps;
+    itemComponent?: ComponentType<RepeaterItemProps & ItemExtraProps>;
+    itemComponentExtraProps?: ItemExtraProps;
     unstable__sortAxis?: 'x' | 'y' | 'xy';
-    // (undocumented)
     useDragHandle?: boolean;
-}
+};
 
 // @public (undocumented)
-export const RepeaterItem: React.MemoExoticComponent<({ children, canBeRemoved, label, removalType, dragHandleComponent }: RepeaterItemProps) => JSX.Element>;
+export const RepeaterItem: React.MemoExoticComponent<({ children, className, canBeRemoved, label, removalType, dragHandleComponent }: RepeaterItemProps) => JSX.Element>;
 
 // @public (undocumented)
 export interface RepeaterItemProps {
     // (undocumented)
     canBeRemoved: boolean;
     // (undocumented)
-    children: ReactNode;
+    children: RepeaterItemContainerProps['children'];
+    // (undocumented)
+    className?: RepeaterItemContainerProps['className'];
     // (undocumented)
     dragHandleComponent?: RepeaterItemContainerProps['dragHandleComponent'];
     // (undocumented)
-    label: ReactNode;
+    label: RepeaterItemContainerProps['label'];
     // (undocumented)
     removalType?: RemovalType;
 }
