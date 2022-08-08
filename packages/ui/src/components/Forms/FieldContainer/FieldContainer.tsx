@@ -1,9 +1,9 @@
-import classNames from 'classnames'
 import { memo, ReactNode } from 'react'
 import { useClassNamePrefix } from '../../../auxiliary'
 import type { NativeProps, Size } from '../../../types'
-import { toEnumClass, toEnumViewClass, toThemeClass } from '../../../utils'
+import { toThemeClass } from '../../../utils'
 import { Stack, StackProps } from '../../Stack'
+import { ComponentStyleSheet, SubComponentsStyleSheet, useResolveStyleSheet } from '../../StyleSheet'
 import { Description } from '../../Typography/Description'
 import { Label } from '../../Typography/Label'
 import { ErrorList, ErrorListProps } from '../ErrorList'
@@ -26,7 +26,7 @@ export interface FieldContainerProps extends ErrorListProps, Pick<NativeProps<HT
 export const FieldContainer = memo(
 	({
 		children,
-		className,
+		className: classNameProp,
 		description,
 		direction = 'vertical',
 		errors,
@@ -41,46 +41,43 @@ export const FieldContainer = memo(
 		style,
 	}: FieldContainerProps) => {
 		const LabelElement = useLabelElement ? 'label' : 'div'
-		const componentClassName = `${useClassNamePrefix()}field-container`
-
 		const isLabelInline = labelPosition === 'labelInlineLeft' || labelPosition === 'labelInlineRight'
 
+		const [className, styleSheet] = useResolveStyleSheet(fieldContainerStyleSheet, {
+			$prefix: useClassNamePrefix(),
+			$name: 'field-container',
+			$size: size,
+			$labelPosition: labelPosition,
+			$width: width,
+			$dangerTheme: errors?.length ? toThemeClass(null, 'danger') : null,
+		}, classNameProp)
+
 		return (
-			<div
-				style={style}
-				className={classNames(
-					`${componentClassName}`,
-					toEnumViewClass(size),
-					toEnumViewClass(labelPosition),
-					toEnumClass('width-', width === 'none' ? undefined : width),
-					errors?.length ? toThemeClass(null, 'danger') : null,
-					className,
-				)}
-			>
-				<LabelElement className={`${componentClassName}-label`}>
-					{(label || labelDescription) && <span className={`${componentClassName}-header`}>
-							{label && <Label>
-								{label}
-								<span className={`${componentClassName}-required-asterix ${toThemeClass('danger', 'danger')}`}>{required && '*'}</span>
-							</Label>}
-							{labelDescription && <Description>{labelDescription}</Description>}
-						</span>
+			<div className={className} style={style}>
+				<LabelElement className={styleSheet.label}>
+					{(label || labelDescription) && <span className={styleSheet.header}>
+						{label && <Label className={styleSheet.headerLabel}>
+							{label}
+							<span className={styleSheet.requiredAsterisk}>{required && '*'}</span>
+						</Label>}
+						{labelDescription && <Description>{labelDescription}</Description>}
+					</span>
 					}
-					{(children || (!isLabelInline && description)) && <div className={`${componentClassName}-body`}>
+					{(children || (!isLabelInline && description)) && <div className={styleSheet.body}>
 						{children && <Stack
-							className={`${componentClassName}-body-content`}
+							className={styleSheet.bodyContent}
 							direction={direction}
 							gap={gap}
 						>
 							{children}
 						</Stack>}
-						{!isLabelInline && description && <span className={`${componentClassName}-body-content-description`}>{description}</span>}
+						{!isLabelInline && description && <span className={styleSheet.bodyContentDescription}>{description}</span>}
 					</div>}
 				</LabelElement>
-				{isLabelInline && description && <span className={`${componentClassName}-body-content-description`}>{description}</span>}
+				{isLabelInline && description && <span className={styleSheet.bodyContentDescription}>{description}</span>}
 
 				{!!errors && errors.length > 0 && (
-					<div className={`${componentClassName}-errors`}>
+					<div className={styleSheet.errors}>
 						<ErrorList errors={errors} />
 					</div>
 				)}
@@ -89,3 +86,58 @@ export const FieldContainer = memo(
 	},
 )
 FieldContainer.displayName = 'FieldContainer'
+
+type SubComponents =
+	| 'label'
+	| 'header'
+	| 'headerLabel'
+	| 'requiredAsterisk'
+	| 'body'
+	| 'bodyContent'
+	| 'bodyContentDescription'
+	| 'errors'
+
+type FieldContainerStyleSheet = ComponentStyleSheet<SubComponentsStyleSheet<SubComponents>> & Partial<{
+	'${componentClassName}': string
+	'${size}': string
+	'${labelPosition}': string
+	'${width}': string
+	'$dangerTheme': string | null
+	$prefix: string
+	$name: string
+	$direction: StackProps['direction']
+	$gap: Size | 'none'
+	$labelPosition: FieldContainerLabelPosition
+	$required: boolean
+	$size: Size
+	$width: 'column' | 'fluid' | 'none'
+}>
+
+const fieldContainerStyleSheet: FieldContainerStyleSheet = {
+	...{
+		'${componentClassName}': '$prefix$name',
+		'${size}': 'view-$size',
+		'${labelPosition}': 'view-$labelPosition',
+		'${width}': 'width-$width',
+	},
+	$direction: 'vertical',
+	$gap: 'small',
+	$width: 'column',
+	$prefix: 'cui-',
+	$name: 'field-container',
+	$: [
+		'${componentClassName}',
+		'${size}',
+		'${labelPosition}',
+		'${width}',
+		'$dangerTheme',
+	],
+	label: '${componentClassName}-label',
+	header: '${componentClassName}-header',
+	headerLabel: '${componentClassName}-header-label',
+	requiredAsterisk: ['${componentClassName}-required-asterisk', toThemeClass('danger', 'danger')],
+	body: '${componentClassName}-body',
+	bodyContent: '${componentClassName}-body-content',
+	bodyContentDescription: '${componentClassName}-body-content-description',
+	errors: '${componentClassName}-errors',
+}
