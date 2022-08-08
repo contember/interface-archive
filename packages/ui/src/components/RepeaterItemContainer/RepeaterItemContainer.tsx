@@ -1,14 +1,12 @@
-import classNames from 'classnames'
 import { ComponentType, memo, ReactNode } from 'react'
 import { useClassNamePrefix } from '../../auxiliary'
 import { Size } from '../../types'
-import { toViewClass } from '../../utils'
 import { Box } from '../Box'
 import { Icon } from '../Icon'
 import { Stack } from '../Stack'
+import { ComponentStyleSheet, PropsWithClassName, SubComponentsStyleSheet, useResolveStyleSheet } from '../StyleSheet'
 import { Label } from '../Typography/Label'
-
-export interface RepeaterItemContainerProps {
+export interface RepeaterItemContainerProps extends PropsWithClassName<RepeaterItemContainerStyleSheet> {
 	gap?: Size
 	label?: ReactNode
 	actions?: ReactNode
@@ -16,36 +14,36 @@ export interface RepeaterItemContainerProps {
 	dragHandleComponent?: ComponentType<{ children: ReactNode }>
 }
 
-export const RepeaterItemContainer = memo(({ actions, children, gap, label, dragHandleComponent: Handle }: RepeaterItemContainerProps) => {
-	const componentClassName = `${useClassNamePrefix()}repeater-item-container`
+export const RepeaterItemContainer = memo(({ actions, className: classNameProp, children, gap, label, dragHandleComponent: Handle }: RepeaterItemContainerProps) => {
+	const [className, styleSheet] = useResolveStyleSheet(repeaterItemContainerStyleSheet, {
+		$prefix: useClassNamePrefix(),
+		$sortable: !!Handle,
+	}, classNameProp)
 
 	return (
 		<Box
 			gap={gap}
-			className={classNames(
-				componentClassName,
-				toViewClass('sortable', !!Handle),
-			)}
+			className={className}
 		>
 			{Handle && (
-				<div className={`${componentClassName}-handle`}>
+				<div className={styleSheet.handle}>
 					<Handle>
 						<Icon blueprintIcon="drag-handle-vertical" />
 					</Handle>
 				</div>
 			)}
-			{(label || actions) && <div className={`${componentClassName}-header`}>
+			{(label || actions) && <div className={styleSheet.header}>
 				{label && (
-					<div className={`${componentClassName}-label`}>
+					<div className={styleSheet.label}>
 						<Label>
 							{label}
 						</Label>
 					</div>
 				)}
-				{actions && <div className={`${componentClassName}-actions`}>{actions}</div>}
+				{actions && <div className={styleSheet.actions}>{actions}</div>}
 			</div>}
 			<Stack
-				className={`${componentClassName}-content`}
+				className={styleSheet.content}
 				direction="vertical"
 				gap={gap}
 			>
@@ -55,3 +53,34 @@ export const RepeaterItemContainer = memo(({ actions, children, gap, label, drag
 	)
 })
 RepeaterItemContainer.displayName = 'RepeaterItemContainer'
+
+export type RepeaterItemContainerStyleSheet = ComponentStyleSheet<SubComponentsStyleSheet<
+	| 'handle'
+	| 'header'
+	| 'label'
+	| 'actions'
+	| 'content'
+>> & Partial<{
+	'${&}': string
+	$prefix: string
+	$name: string
+	$sortable: boolean
+}>
+
+const repeaterItemContainerStyleSheetTemplates = {
+	'${&}': '$prefix$name',
+	'${sortable}': 'sortable:$sortable',
+}
+
+const repeaterItemContainerStyleSheet: RepeaterItemContainerStyleSheet = {
+	...repeaterItemContainerStyleSheetTemplates,
+	$: '${&} ${sortable}',
+	$prefix: 'cui-',
+	$name: 'repeater-item-container',
+	$sortable: undefined,
+	handle: '${&}-handle',
+	header: '${&}-header',
+	label: '${&}-label',
+	actions: '${&}-actions',
+	content: '${&}-content',
+}

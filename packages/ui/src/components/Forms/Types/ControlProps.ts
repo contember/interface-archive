@@ -1,10 +1,10 @@
-import { HTMLAttributes } from 'react'
 import { ControlDistinction, Intent, Scheme, Size, ValidationState } from '../../../types'
+import { PropsWithClassName } from '../../StyleSheet'
 
 /**
  * Returns new type where all the properties are required but some of them may be undefined
  */
-type All<T> = {
+export type All<T> = {
 	[P in keyof Required<T>]: Pick<T, P> extends Required<Pick<T, P>> ? T[P] : (T[P] | undefined);
 }
 
@@ -19,8 +19,8 @@ export interface ControlStateProps {
 	loading?: boolean
 	readOnly?: boolean
 	required?: boolean
-  focused?: boolean
-  hovered?: boolean
+	focused?: boolean
+	hovered?: boolean
 }
 
 export interface ControlFocusProps {
@@ -29,8 +29,7 @@ export interface ControlFocusProps {
 	onFocusChange?: (isFocused: boolean) => void
 }
 
-export interface ControlDisplayProps {
-	className?: HTMLAttributes<HTMLElement>['className']
+export interface ControlDisplayProps extends PropsWithClassName {
 	distinction?: ControlDistinction
 	id?: string
 	intent?: Intent
