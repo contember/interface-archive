@@ -1,0 +1,102 @@
+import { Component, Schema } from '@contember/binding'
+import { CheckboxField, DateField, DateTimeField, FloatField, MultiSelectField, NumberField, SelectField, TextareaField, TextField } from '../bindingFacade'
+import { getHumanFriendlyField, resolveConnectingEntity, resolveSortableBy } from './utils'
+import { AutoFields } from './AutoFields'
+import { RoutingLinkTarget } from '../../routing'
+import { AutoLabel } from './AutoLabel'
+
+export type AutoFieldProps = {
+	schema: Schema
+	entityName: string
+	fieldName: string
+	createEditLink?: (entity: string) => RoutingLinkTarget
+}
+
+export const AutoField = Component<AutoFieldProps>(
+	({ schema, entityName, fieldName, createEditLink }) => {
+		const field = schema.getEntityField(entityName, fieldName)!
+
+		if (field.__typename === '_Column') {
+			const common = {
+				field: field.name,
+				label: field.name,
+				required: !field.nullable,
+				defaultValue: field.defaultValue as any,
+			}
+
+			if (field.name === 'id') {
+				return <TextField {...common} readOnly />
+
+			} else if (field.type === 'String') {
+				return <TextareaField {...common} minRows={1} />
+
+			} else if (field.type === 'Uuid') {
+				return <TextField {...common} />
+
+			} else if (field.type === 'Bool') {
+				return <CheckboxField {...common} />
+
+			} else if (field.type === 'Integer') {
+				return <NumberField {...common} />
+
+			} else if (field.type === 'Double') {
+				return <FloatField {...common} />
+
+			} else if (field.type === 'Date') {
+				return <DateField {...common} />
+
+			} else if (field.type === 'DateTime') {
+				return <DateTimeField {...common} />
+
+			} else if (field.type === 'Enum') {
+				const enumValues = Array.from(schema.store.enums.get(field.enumName!)!)
+				const options = enumValues.map(it => ({ value: it, label: it }))
+				return <SelectField {...common} options={options} allowNull={field.nullable} />
+
+			} else {
+				return null
+			}
+
+		} else {
+			const sortableBy = resolveSortableBy(schema, field)
+			const connectingEntity = resolveConnectingEntity(schema, field, sortableBy)
+
+			const targetField = connectingEntity ? connectingEntity.field : field
+			const targetEntity = schema.getEntity(targetField.targetEntity)!
+			const humanFieldName = getHumanFriendlyField(targetEntity)
+			const optionLabel = <AutoLabel field={humanFieldName} createLink={createEditLink} />
+			const otherSide = targetField.side === 'owning' ? targetField.inversedBy : targetField.ownedBy
+			const excludedFields = [otherSide, sortableBy].filter(it => it) as string[]
+
+			if (field.type === 'OneHasOne' || field.type === 'ManyHasOne') {
+				return (
+					<SelectField
+						field={field.name}
+						label={field.name}
+						options={targetEntity.name}
+						optionLabel={optionLabel}
+						searchByFields={[humanFieldName]}
+						createNewForm={<AutoFields excludedFields={excludedFields} createEditLink={createEditLink} />}
+						allowNull={field.nullable === true}
+						lazy
+					/>
+				)
+
+			} else {
+				return (
+					<MultiSelectField
+						field={field.name}
+						label={field.name}
+						options={targetEntity.name}
+						optionLabel={optionLabel}
+						searchByFields={[humanFieldName]}
+						sortableBy={sortableBy}
+						createNewForm={<AutoFields excludedFields={excludedFields} createEditLink={createEditLink} />}
+						connectingEntityField={connectingEntity ? connectingEntity.field.name : undefined}
+						lazy
+					/>
+				)
+			}
+		}
+	},
+)
