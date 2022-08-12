@@ -1,3 +1,5 @@
+export const CLASS_NAME_RESET_STRING = '*:null'
+
 /**
  * Special className object to reset component's internal className
  *
@@ -8,7 +10,7 @@
  * ```
  *
  */
-export const CLASS_NAME_RESET = { $: null }
+export const CLASS_NAME_RESET = { $: [CLASS_NAME_RESET_STRING] }
 
 export {
   createStyleSheet,
@@ -26,8 +28,7 @@ export type {
   ProcessedStyleSheetClassName,
   PropsWithClassName,
   StyleSheetClassName,
-  StyleSheetPlaceholderKey,
-  StyleSheetPlaceholderValue,
+  StyleSheetValueResolver,
   StyleSheetVariableKey,
   StyleSheetVariableValue,
   SubComponentsStyleSheet,

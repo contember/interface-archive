@@ -295,8 +295,11 @@ export type CheckoboxOwnProps = ControlProps<boolean> & {
 
 // @public
 export const CLASS_NAME_RESET: {
-    $: null;
+    $: string[];
 };
+
+// @public (undocumented)
+export const CLASS_NAME_RESET_STRING = "*:null";
 
 // @public (undocumented)
 const clock: string[];
@@ -2035,7 +2038,7 @@ export interface ProcessedError {
 }
 
 // @public (undocumented)
-export type ProcessedStyleSheetClassName = null | string[];
+export type ProcessedStyleSheetClassName = undefined | null | (string | StyleSheetValueResolver)[];
 
 // @public (undocumented)
 export const ProgressBar: MemoExoticComponent<({ progress }: ProgressBarProps) => JSX.Element>;
@@ -2134,7 +2137,7 @@ export interface RepeaterItemContainerProps extends PropsWithClassName<RepeaterI
 
 // @public (undocumented)
 export type RepeaterItemContainerStyleSheet = ComponentStyleSheet<SubComponentsStyleSheet<'handle' | 'header' | 'label' | 'actions' | 'content'>> & Partial<{
-    '${&}': string;
+    '$componentClassName': string;
     $prefix: string;
     $name: string;
     $sortable: boolean;
@@ -2339,19 +2342,18 @@ export const StyleProvider: ({ children }: {
 }) => JSX.Element;
 
 // @public (undocumented)
-export type StyleSheetClassName = string | number | boolean | null | undefined | {};
+export type StyleSheetClassName = (string | StyleSheetValueResolver)[] | StyleSheetValueResolver | string | number | boolean | null | undefined | {
+    [Property in string]: (Property extends StyleSheetVariableKey ? (Property extends '$' ? ProcessedStyleSheetClassName : StyleSheetVariableValue) : StyleSheetClassName);
+};
 
 // @public (undocumented)
-export type StyleSheetPlaceholderKey = `\$\{${string}\}`;
-
-// @public (undocumented)
-export type StyleSheetPlaceholderValue = string;
+export type StyleSheetValueResolver = (variables: Record<StyleSheetVariableKey, StyleSheetVariableValue>) => Exclude<StyleSheetVariableValue, StyleSheetValueResolver>;
 
 // @public (undocumented)
 export type StyleSheetVariableKey = `\$${string}`;
 
 // @public (undocumented)
-export type StyleSheetVariableValue = string | number | boolean | null | undefined;
+export type StyleSheetVariableValue = StyleSheetValueResolver | string | number | boolean | null | undefined;
 
 // @public (undocumented)
 export type SubComponentsStyleSheet<SubComponent extends string> = {
@@ -2651,10 +2653,10 @@ export const toSchemeClass: <T extends Scheme>(scheme?: T | undefined) => string
 export const toStateClass: (name: string, state?: boolean) => string | undefined;
 
 // @public (undocumented)
-export type ToStyleSheet<T> = T extends number | null | undefined ? undefined : T extends string | Iterable<any> ? {
+export type ToStyleSheet<T> = T extends number | null | undefined ? undefined : T extends StyleSheetValueResolver | string | Iterable<any> ? {
     $: ProcessedStyleSheetClassName;
 } : T extends Record<infer K, unknown> ? {
-    [Property in K]: Property extends StyleSheetVariableKey ? Property extends '$' ? ProcessedStyleSheetClassName : Property extends StyleSheetPlaceholderKey ? (T[Property] extends StyleSheetPlaceholderValue ? T[Property] : never) : (T[Property] extends StyleSheetVariableValue ? T[Property] : never) : ToStyleSheet<T[Property]>;
+    [Property in K]: Property extends StyleSheetVariableKey ? (Property extends '$' ? ProcessedStyleSheetClassName : (T[Property] extends StyleSheetVariableValue ? T[Property] : never)) : ToStyleSheet<T[Property]>;
 } : never;
 
 // @public (undocumented)
