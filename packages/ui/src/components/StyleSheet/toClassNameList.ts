@@ -1,12 +1,13 @@
-import { splitStringToStringList, toFlatArrayOfNonEmptyStrings } from './Helpers'
+import { splitStringToStringList, toFlatArrayOfClassNameValues } from './Helpers'
+import { StyleSheetValueResolver } from './Types'
 
-export function toClassNameList(value: Exclude<any, null>): string[] {
-  if (value === null) {
-    throw new Error(`'null' should be kept intact`)
-  } else if (typeof value === 'string') {
+export function toClassNameList(value: any): (string | StyleSheetValueResolver)[] {
+  if (typeof value === 'string') {
     return splitStringToStringList(value)
+  } else if (typeof value === 'function') {
+    return [value]
   } else if (Array.isArray(value)) {
-    return toFlatArrayOfNonEmptyStrings(value)
+    return toFlatArrayOfClassNameValues(value)
   } else {
     return []
   }

@@ -1,35 +1,52 @@
-export type ProcessedStyleSheetClassName = null | string[]
-export type StyleSheetClassName = string | number | boolean | null | undefined | {}
+import { Alpha, NotArray } from "@contember/react-utils"
 
-export type StyleSheetPlaceholderKey = `\$\{${string}\}`
-export type StyleSheetPlaceholderValue = string
+export type StyleSheetVariableKey = `\$${Alpha}${string}`
+export type StyleSheetVariableValue = StyleSheetValueResolver | string | number | boolean | null | undefined
 
-export type StyleSheetVariableKey = `\$${string}`
-export type StyleSheetVariableValue = string | number | boolean | null | undefined
+export type StyleSheetVariableValueResolved = string | number | boolean | null | undefined
+export type StyleSheetValueResolver = (variables: Record<StyleSheetVariableKey, StyleSheetVariableValueResolved>) => StyleSheetVariableValueResolved
+
+export type UnprocessedClassNameListValue = StyleSheetValueResolver | string | null | false | undefined
+export type ProcessedClassNameListValue = (string | StyleSheetValueResolver)[]
+
+export type StyleSheetClassNameObject = NotArray<{
+  [key: `${Alpha}${string}`]: StyleSheetClassName,
+  [key: StyleSheetVariableKey]: StyleSheetVariableValue,
+  $?: UnprocessedClassNameListValue | Iterable<UnprocessedClassNameListValue>
+}>
+
+export type StyleSheetClassName =
+  | Iterable<UnprocessedClassNameListValue>
+  | UnprocessedClassNameListValue
+  | StyleSheetClassNameObject
 
 export type ToStyleSheet<T> =
-  T extends number | null | undefined ? undefined :
-  T extends string | Iterable<any> ? { $: ProcessedStyleSheetClassName } :
-  T extends Record<infer K, unknown> ? {
-    [Property in K]:
-    Property extends StyleSheetVariableKey ? Property extends '$' ? ProcessedStyleSheetClassName :
-    Property extends StyleSheetPlaceholderKey
-    ? (T[Property] extends StyleSheetPlaceholderValue ? T[Property] : never)
-    : (T[Property] extends StyleSheetVariableValue ? T[Property] : never)
+  T extends number | boolean | null | undefined ? undefined :
+  T extends StyleSheetValueResolver | string | Iterable<any> ? { $: ProcessedClassNameListValue } :
+  T extends object
+  ? { [Property in keyof T]:
+    Property extends `\$${string}`
+    ? (
+      Property extends '$'
+      ? ProcessedClassNameListValue
+      : (
+        T[Property] extends StyleSheetVariableValue
+        ? T[Property]
+        : never
+      )
+    )
     : ToStyleSheet<T[Property]>
   }
   : never
 
 export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (k: infer I) => void ? I : never
 
-export type ObjectExceptArray = { join?: never, [key: string]: any }
-
 export type SubComponentsStyleSheet<SubComponent extends string> = {
   [key in SubComponent]: StyleSheetClassName
 }
 
-export type ComponentStyleSheet<T extends ObjectExceptArray = {}> = T | { [key: string]: any }
+export type ComponentStyleSheet<S extends StyleSheetClassNameObject = {}> = S & StyleSheetClassNameObject
 
-export type PropsWithClassName<T extends ObjectExceptArray = {}> = {
-  className?: ComponentStyleSheet<T>
+export type PropsWithClassName<T extends StyleSheetClassName = StyleSheetClassName> = {
+  className?: T
 }

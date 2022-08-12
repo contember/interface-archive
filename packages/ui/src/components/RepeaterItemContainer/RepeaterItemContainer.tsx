@@ -61,26 +61,22 @@ export type RepeaterItemContainerStyleSheet = ComponentStyleSheet<SubComponentsS
 	| 'actions'
 	| 'content'
 >> & Partial<{
-	'${&}': string
+	'$componentClassName': string
 	$prefix: string
 	$name: string
 	$sortable: boolean
 }>
 
-const repeaterItemContainerStyleSheetTemplates = {
-	'${&}': '$prefix$name',
-	'${sortable}': 'sortable:$sortable',
-}
-
 const repeaterItemContainerStyleSheet: RepeaterItemContainerStyleSheet = {
-	...repeaterItemContainerStyleSheetTemplates,
-	$: '${&} ${sortable}',
+	$sortableClassName: 'sortable:$sortable',
+	$componentClassName: '$prefix$name',
+	$: '$componentClassName $sortableClassName',
 	$prefix: 'cui-',
 	$name: 'repeater-item-container',
 	$sortable: undefined,
-	handle: '${&}-handle',
-	header: '${&}-header',
-	label: '${&}-label',
-	actions: '${&}-actions',
-	content: '${&}-content',
+	handle: '$componentClassName-handle',
+	header: '$componentClassName-header',
+	label: '$componentClassName-label',
+	actions: '$componentClassName-actions',
+	content: '$componentClassName-content',
 }
