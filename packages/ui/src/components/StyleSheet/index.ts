@@ -1,3 +1,5 @@
+export const CLASS_NAME_RESET_STRING = '*:null'
+
 /**
  * Special className object to reset component's internal className
  *
@@ -8,29 +10,28 @@
  * ```
  *
  */
-export const CLASS_NAME_RESET = { $: null }
+export const CLASS_NAME_RESET = { $: [CLASS_NAME_RESET_STRING] }
 
-export {
-  createStyleSheet,
-  extendStyleSheet,
-  useCreateStyleSheet,
-  useExtendStyleSheet,
-} from './extendStyleSheet'
 export {
   resolveStyleSheet,
   useResolveStyleSheet,
 } from './resolveStyleSheet'
+export {
+  toClassName,
+  useToClassName,
+} from './toClassName'
 export type {
   ComponentStyleSheet,
-  ObjectExceptArray,
-  ProcessedStyleSheetClassName,
+  ProcessedClassNameListValue,
   PropsWithClassName,
   StyleSheetClassName,
-  StyleSheetPlaceholderKey,
-  StyleSheetPlaceholderValue,
+  StyleSheetValueResolver,
   StyleSheetVariableKey,
   StyleSheetVariableValue,
   SubComponentsStyleSheet,
+  StyleSheetClassNameObject,
+  StyleSheetVariableValueResolved,
   ToStyleSheet,
   UnionToIntersection,
+  UnprocessedClassNameListValue,
 } from './Types'

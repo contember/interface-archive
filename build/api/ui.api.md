@@ -7,6 +7,7 @@
 /// <reference types="react" />
 
 import { AllHTMLAttributes } from 'react';
+import { Alpha } from '@contember/react-utils';
 import { AnimationEventHandler } from 'react';
 import { AriaRole } from 'react';
 import { ClipboardEventHandler } from 'react';
@@ -30,6 +31,7 @@ import { MemoExoticComponent } from 'react';
 import { MouseEvent as MouseEvent_2 } from 'react';
 import { MouseEventHandler } from 'react';
 import { NamedExoticComponent } from 'react';
+import { NotArray } from '@contember/react-utils';
 import { PointerEventHandler } from 'react';
 import { PropsWithChildren } from 'react';
 import { ReactChild } from 'react';
@@ -125,7 +127,7 @@ export const BaseButton: MemoExoticComponent<ForwardRefExoticComponent<BaseButto
 export type BlueprintIconName = IconName;
 
 // @public (undocumented)
-export const Box: MemoExoticComponent<ForwardRefExoticComponent<Pick<BoxProps, "children" | "isActive" | "slot" | "style" | "title" | "key" | "defaultChecked" | "defaultValue" | "suppressContentEditableWarning" | "suppressHydrationWarning" | "accessKey" | "className" | "contentEditable" | "contextMenu" | "dir" | "draggable" | "hidden" | "id" | "lang" | "placeholder" | "spellCheck" | "tabIndex" | "translate" | "radioGroup" | "role" | "about" | "datatype" | "inlist" | "prefix" | "property" | "resource" | "typeof" | "vocab" | "autoCapitalize" | "autoCorrect" | "autoSave" | "color" | "itemProp" | "itemScope" | "itemType" | "itemID" | "itemRef" | "results" | "security" | "unselectable" | "inputMode" | "is" | "aria-activedescendant" | "aria-atomic" | "aria-autocomplete" | "aria-busy" | "aria-checked" | "aria-colcount" | "aria-colindex" | "aria-colspan" | "aria-controls" | "aria-current" | "aria-describedby" | "aria-details" | "aria-disabled" | "aria-dropeffect" | "aria-errormessage" | "aria-expanded" | "aria-flowto" | "aria-grabbed" | "aria-haspopup" | "aria-hidden" | "aria-invalid" | "aria-keyshortcuts" | "aria-label" | "aria-labelledby" | "aria-level" | "aria-live" | "aria-modal" | "aria-multiline" | "aria-multiselectable" | "aria-orientation" | "aria-owns" | "aria-placeholder" | "aria-posinset" | "aria-pressed" | "aria-readonly" | "aria-relevant" | "aria-required" | "aria-roledescription" | "aria-rowcount" | "aria-rowindex" | "aria-rowspan" | "aria-selected" | "aria-setsize" | "aria-sort" | "aria-valuemax" | "aria-valuemin" | "aria-valuenow" | "aria-valuetext" | "dangerouslySetInnerHTML" | "onCopy" | "onCopyCapture" | "onCut" | "onCutCapture" | "onPaste" | "onPasteCapture" | "onCompositionEnd" | "onCompositionEndCapture" | "onCompositionStart" | "onCompositionStartCapture" | "onCompositionUpdate" | "onCompositionUpdateCapture" | "onFocus" | "onFocusCapture" | "onBlur" | "onBlurCapture" | "onChange" | "onChangeCapture" | "onBeforeInput" | "onBeforeInputCapture" | "onInput" | "onInputCapture" | "onReset" | "onResetCapture" | "onSubmit" | "onSubmitCapture" | "onInvalid" | "onInvalidCapture" | "onLoad" | "onLoadCapture" | "onError" | "onErrorCapture" | "onKeyDown" | "onKeyDownCapture" | "onKeyPress" | "onKeyPressCapture" | "onKeyUp" | "onKeyUpCapture" | "onAbort" | "onAbortCapture" | "onCanPlay" | "onCanPlayCapture" | "onCanPlayThrough" | "onCanPlayThroughCapture" | "onDurationChange" | "onDurationChangeCapture" | "onEmptied" | "onEmptiedCapture" | "onEncrypted" | "onEncryptedCapture" | "onEnded" | "onEndedCapture" | "onLoadedData" | "onLoadedDataCapture" | "onLoadedMetadata" | "onLoadedMetadataCapture" | "onLoadStart" | "onLoadStartCapture" | "onPause" | "onPauseCapture" | "onPlay" | "onPlayCapture" | "onPlaying" | "onPlayingCapture" | "onProgress" | "onProgressCapture" | "onRateChange" | "onRateChangeCapture" | "onSeeked" | "onSeekedCapture" | "onSeeking" | "onSeekingCapture" | "onStalled" | "onStalledCapture" | "onSuspend" | "onSuspendCapture" | "onTimeUpdate" | "onTimeUpdateCapture" | "onVolumeChange" | "onVolumeChangeCapture" | "onWaiting" | "onWaitingCapture" | "onAuxClick" | "onAuxClickCapture" | "onClick" | "onClickCapture" | "onContextMenu" | "onContextMenuCapture" | "onDoubleClick" | "onDoubleClickCapture" | "onDrag" | "onDragCapture" | "onDragEnd" | "onDragEndCapture" | "onDragEnter" | "onDragEnterCapture" | "onDragExit" | "onDragExitCapture" | "onDragLeave" | "onDragLeaveCapture" | "onDragOver" | "onDragOverCapture" | "onDragStart" | "onDragStartCapture" | "onDrop" | "onDropCapture" | "onMouseDown" | "onMouseDownCapture" | "onMouseEnter" | "onMouseLeave" | "onMouseMove" | "onMouseMoveCapture" | "onMouseOut" | "onMouseOutCapture" | "onMouseOver" | "onMouseOverCapture" | "onMouseUp" | "onMouseUpCapture" | "onSelect" | "onSelectCapture" | "onTouchCancel" | "onTouchCancelCapture" | "onTouchEnd" | "onTouchEndCapture" | "onTouchMove" | "onTouchMoveCapture" | "onTouchStart" | "onTouchStartCapture" | "onPointerDown" | "onPointerDownCapture" | "onPointerMove" | "onPointerMoveCapture" | "onPointerUp" | "onPointerUpCapture" | "onPointerCancel" | "onPointerCancelCapture" | "onPointerEnter" | "onPointerEnterCapture" | "onPointerLeave" | "onPointerLeaveCapture" | "onPointerOver" | "onPointerOverCapture" | "onPointerOut" | "onPointerOutCapture" | "onGotPointerCapture" | "onGotPointerCaptureCapture" | "onLostPointerCapture" | "onLostPointerCaptureCapture" | "onScroll" | "onScrollCapture" | "onWheel" | "onWheelCapture" | "onAnimationStart" | "onAnimationStartCapture" | "onAnimationEnd" | "onAnimationEndCapture" | "onAnimationIteration" | "onAnimationIterationCapture" | "onTransitionEnd" | "onTransitionEndCapture" | "direction" | "gap" | "padding" | "heading" | "actions" | "distinction" | "intent"> & RefAttributes<HTMLDivElement>>>;
+export const Box: MemoExoticComponent<ForwardRefExoticComponent<Pick<BoxProps, "key" | "direction" | "children" | "defaultChecked" | "defaultValue" | "suppressContentEditableWarning" | "suppressHydrationWarning" | "accessKey" | "className" | "contentEditable" | "contextMenu" | "dir" | "draggable" | "hidden" | "id" | "lang" | "placeholder" | "slot" | "spellCheck" | "style" | "tabIndex" | "title" | "translate" | "radioGroup" | "role" | "about" | "datatype" | "inlist" | "prefix" | "property" | "resource" | "typeof" | "vocab" | "autoCapitalize" | "autoCorrect" | "autoSave" | "color" | "itemProp" | "itemScope" | "itemType" | "itemID" | "itemRef" | "results" | "security" | "unselectable" | "inputMode" | "is" | "aria-activedescendant" | "aria-atomic" | "aria-autocomplete" | "aria-busy" | "aria-checked" | "aria-colcount" | "aria-colindex" | "aria-colspan" | "aria-controls" | "aria-current" | "aria-describedby" | "aria-details" | "aria-disabled" | "aria-dropeffect" | "aria-errormessage" | "aria-expanded" | "aria-flowto" | "aria-grabbed" | "aria-haspopup" | "aria-hidden" | "aria-invalid" | "aria-keyshortcuts" | "aria-label" | "aria-labelledby" | "aria-level" | "aria-live" | "aria-modal" | "aria-multiline" | "aria-multiselectable" | "aria-orientation" | "aria-owns" | "aria-placeholder" | "aria-posinset" | "aria-pressed" | "aria-readonly" | "aria-relevant" | "aria-required" | "aria-roledescription" | "aria-rowcount" | "aria-rowindex" | "aria-rowspan" | "aria-selected" | "aria-setsize" | "aria-sort" | "aria-valuemax" | "aria-valuemin" | "aria-valuenow" | "aria-valuetext" | "dangerouslySetInnerHTML" | "onCopy" | "onCopyCapture" | "onCut" | "onCutCapture" | "onPaste" | "onPasteCapture" | "onCompositionEnd" | "onCompositionEndCapture" | "onCompositionStart" | "onCompositionStartCapture" | "onCompositionUpdate" | "onCompositionUpdateCapture" | "onFocus" | "onFocusCapture" | "onBlur" | "onBlurCapture" | "onChange" | "onChangeCapture" | "onBeforeInput" | "onBeforeInputCapture" | "onInput" | "onInputCapture" | "onReset" | "onResetCapture" | "onSubmit" | "onSubmitCapture" | "onInvalid" | "onInvalidCapture" | "onLoad" | "onLoadCapture" | "onError" | "onErrorCapture" | "onKeyDown" | "onKeyDownCapture" | "onKeyPress" | "onKeyPressCapture" | "onKeyUp" | "onKeyUpCapture" | "onAbort" | "onAbortCapture" | "onCanPlay" | "onCanPlayCapture" | "onCanPlayThrough" | "onCanPlayThroughCapture" | "onDurationChange" | "onDurationChangeCapture" | "onEmptied" | "onEmptiedCapture" | "onEncrypted" | "onEncryptedCapture" | "onEnded" | "onEndedCapture" | "onLoadedData" | "onLoadedDataCapture" | "onLoadedMetadata" | "onLoadedMetadataCapture" | "onLoadStart" | "onLoadStartCapture" | "onPause" | "onPauseCapture" | "onPlay" | "onPlayCapture" | "onPlaying" | "onPlayingCapture" | "onProgress" | "onProgressCapture" | "onRateChange" | "onRateChangeCapture" | "onSeeked" | "onSeekedCapture" | "onSeeking" | "onSeekingCapture" | "onStalled" | "onStalledCapture" | "onSuspend" | "onSuspendCapture" | "onTimeUpdate" | "onTimeUpdateCapture" | "onVolumeChange" | "onVolumeChangeCapture" | "onWaiting" | "onWaitingCapture" | "onAuxClick" | "onAuxClickCapture" | "onClick" | "onClickCapture" | "onContextMenu" | "onContextMenuCapture" | "onDoubleClick" | "onDoubleClickCapture" | "onDrag" | "onDragCapture" | "onDragEnd" | "onDragEndCapture" | "onDragEnter" | "onDragEnterCapture" | "onDragExit" | "onDragExitCapture" | "onDragLeave" | "onDragLeaveCapture" | "onDragOver" | "onDragOverCapture" | "onDragStart" | "onDragStartCapture" | "onDrop" | "onDropCapture" | "onMouseDown" | "onMouseDownCapture" | "onMouseEnter" | "onMouseLeave" | "onMouseMove" | "onMouseMoveCapture" | "onMouseOut" | "onMouseOutCapture" | "onMouseOver" | "onMouseOverCapture" | "onMouseUp" | "onMouseUpCapture" | "onSelect" | "onSelectCapture" | "onTouchCancel" | "onTouchCancelCapture" | "onTouchEnd" | "onTouchEndCapture" | "onTouchMove" | "onTouchMoveCapture" | "onTouchStart" | "onTouchStartCapture" | "onPointerDown" | "onPointerDownCapture" | "onPointerMove" | "onPointerMoveCapture" | "onPointerUp" | "onPointerUpCapture" | "onPointerCancel" | "onPointerCancelCapture" | "onPointerEnter" | "onPointerEnterCapture" | "onPointerLeave" | "onPointerLeaveCapture" | "onPointerOver" | "onPointerOverCapture" | "onPointerOut" | "onPointerOutCapture" | "onGotPointerCapture" | "onGotPointerCaptureCapture" | "onLostPointerCapture" | "onLostPointerCaptureCapture" | "onScroll" | "onScrollCapture" | "onWheel" | "onWheelCapture" | "onAnimationStart" | "onAnimationStartCapture" | "onAnimationEnd" | "onAnimationEndCapture" | "onAnimationIteration" | "onAnimationIterationCapture" | "onTransitionEnd" | "onTransitionEndCapture" | "actions" | "distinction" | "gap" | "heading" | "isActive" | "intent" | "padding"> & RefAttributes<HTMLDivElement>>>;
 
 // @public (undocumented)
 export type BoxDepth = 1 | 2 | 3 | 4 | 5 | 6;
@@ -295,8 +297,11 @@ export type CheckoboxOwnProps = ControlProps<boolean> & {
 
 // @public
 export const CLASS_NAME_RESET: {
-    $: null;
+    $: string[];
 };
+
+// @public (undocumented)
+export const CLASS_NAME_RESET_STRING = "*:null";
 
 // @public (undocumented)
 const clock: string[];
@@ -346,9 +351,7 @@ export type CommonCardProps = VisuallyDependentControlProps & {
 };
 
 // @public (undocumented)
-export type ComponentStyleSheet<T extends ObjectExceptArray = {}> = T | {
-    [key: string]: any;
-};
+export type ComponentStyleSheet<S extends StyleSheetClassNameObject = {}> = S & StyleSheetClassNameObject;
 
 // @public (undocumented)
 const composedBlock: string[];
@@ -466,9 +469,6 @@ export interface ControlValueProps<V> {
     // (undocumented)
     value?: V | null;
 }
-
-// @public (undocumented)
-export function createStyleSheet<T extends StyleSheetClassName[]>(...styles: T): UnionToIntersection<ToStyleSheet<T[number]>>;
 
 // @public (undocumented)
 export const DateInput: MemoExoticComponent<ForwardRefExoticComponent<ControlDisplayProps & ValidationStateProps & ControlStateProps & ControlFocusProps & ControlConstraintProps<string> & ControlValueProps<string> & {
@@ -1447,9 +1447,6 @@ export interface ErrorListProps {
 export type ErrorType = Error | unknown;
 
 // @public (undocumented)
-export function extendStyleSheet<T extends StyleSheetClassName[]>(...styles: T): UnionToIntersection<ToStyleSheet<T[number]>>;
-
-// @public (undocumented)
 export const FieldContainer: MemoExoticComponent<({ children, className: classNameProp, description, direction, errors, gap, label, labelDescription, labelPosition, width, required, size, useLabelElement, style, }: FieldContainerProps) => JSX.Element>;
 
 // @public (undocumented)
@@ -1968,12 +1965,6 @@ withTopToolbar?: boolean | undefined;
 export type NumberInputProps = TextInputProps<number>;
 
 // @public (undocumented)
-export type ObjectExceptArray = {
-    join?: never;
-    [key: string]: any;
-};
-
-// @public (undocumented)
 export type OpenDialog<Result> = (options: DialogSettings<Result>) => Promise<Result | undefined>;
 
 // @public @deprecated (undocumented)
@@ -2025,6 +2016,9 @@ export interface PortalProps {
 }
 
 // @public (undocumented)
+export type ProcessedClassNameListValue = (string | StyleSheetValueResolver)[];
+
+// @public (undocumented)
 export interface ProcessedError {
     // (undocumented)
     cause?: ProcessedError;
@@ -2033,9 +2027,6 @@ export interface ProcessedError {
     // (undocumented)
     parsedStackStrace?: ParsedStackTrace;
 }
-
-// @public (undocumented)
-export type ProcessedStyleSheetClassName = null | string[];
 
 // @public (undocumented)
 export const ProgressBar: MemoExoticComponent<({ progress }: ProgressBarProps) => JSX.Element>;
@@ -2047,8 +2038,8 @@ export interface ProgressBarProps {
 }
 
 // @public (undocumented)
-export type PropsWithClassName<T extends ObjectExceptArray = {}> = {
-    className?: ComponentStyleSheet<T>;
+export type PropsWithClassName<T extends StyleSheetClassName = StyleSheetClassName> = {
+    className?: T;
 };
 
 // @public (undocumented)
@@ -2134,7 +2125,7 @@ export interface RepeaterItemContainerProps extends PropsWithClassName<RepeaterI
 
 // @public (undocumented)
 export type RepeaterItemContainerStyleSheet = ComponentStyleSheet<SubComponentsStyleSheet<'handle' | 'header' | 'label' | 'actions' | 'content'>> & Partial<{
-    '${&}': string;
+    '$componentClassName': string;
     $prefix: string;
     $name: string;
     $sortable: boolean;
@@ -2339,19 +2330,26 @@ export const StyleProvider: ({ children }: {
 }) => JSX.Element;
 
 // @public (undocumented)
-export type StyleSheetClassName = string | number | boolean | null | undefined | {};
+export type StyleSheetClassName = Iterable<UnprocessedClassNameListValue> | UnprocessedClassNameListValue | StyleSheetClassNameObject;
 
 // @public (undocumented)
-export type StyleSheetPlaceholderKey = `\$\{${string}\}`;
+export type StyleSheetClassNameObject = NotArray<{
+    [key: `${Alpha}${string}`]: StyleSheetClassName;
+    [key: StyleSheetVariableKey]: StyleSheetVariableValue;
+    $?: UnprocessedClassNameListValue | Iterable<UnprocessedClassNameListValue>;
+}>;
 
 // @public (undocumented)
-export type StyleSheetPlaceholderValue = string;
+export type StyleSheetValueResolver = (variables: Record<StyleSheetVariableKey, StyleSheetVariableValueResolved>) => StyleSheetVariableValueResolved;
 
 // @public (undocumented)
-export type StyleSheetVariableKey = `\$${string}`;
+export type StyleSheetVariableKey = `\$${Alpha}${string}`;
 
 // @public (undocumented)
-export type StyleSheetVariableValue = string | number | boolean | null | undefined;
+export type StyleSheetVariableValue = StyleSheetValueResolver | string | number | boolean | null | undefined;
+
+// @public (undocumented)
+export type StyleSheetVariableValueResolved = string | number | boolean | null | undefined;
 
 // @public (undocumented)
 export type SubComponentsStyleSheet<SubComponent extends string> = {
@@ -2506,7 +2504,7 @@ export type TextareaInputProps = ControlProps<string> & TextareaInputOwnProps & 
 
 // @public (undocumented)
 export const TextInput: MemoExoticComponent<ForwardRefExoticComponent<Omit<TextInputProps<string>, "type"> & {
-type?: "search" | "time" | "color" | "range" | "tel" | "url" | "email" | "date" | "datetime-local" | "month" | "password" | "week" | "datetime" | undefined;
+type?: "search" | "color" | "time" | "tel" | "url" | "email" | "date" | "datetime-local" | "month" | "password" | "range" | "week" | "datetime" | undefined;
 } & RefAttributes<HTMLInputElement>>>;
 
 // @public (undocumented)
@@ -2592,6 +2590,9 @@ export type ToastId = string;
 export type ToastType = 'success' | 'error' | 'warning' | 'info';
 
 // @public (undocumented)
+export function toClassName<T extends StyleSheetClassName[]>(...styles: T): UnionToIntersection<ToStyleSheet<T[number]>>;
+
+// @public (undocumented)
 export function toDate(value?: any): Date | null;
 
 // @public (undocumented)
@@ -2651,10 +2652,10 @@ export const toSchemeClass: <T extends Scheme>(scheme?: T | undefined) => string
 export const toStateClass: (name: string, state?: boolean) => string | undefined;
 
 // @public (undocumented)
-export type ToStyleSheet<T> = T extends number | null | undefined ? undefined : T extends string | Iterable<any> ? {
-    $: ProcessedStyleSheetClassName;
-} : T extends Record<infer K, unknown> ? {
-    [Property in K]: Property extends StyleSheetVariableKey ? Property extends '$' ? ProcessedStyleSheetClassName : Property extends StyleSheetPlaceholderKey ? (T[Property] extends StyleSheetPlaceholderValue ? T[Property] : never) : (T[Property] extends StyleSheetVariableValue ? T[Property] : never) : ToStyleSheet<T[Property]>;
+export type ToStyleSheet<T> = T extends number | boolean | null | undefined ? undefined : T extends StyleSheetValueResolver | string | Iterable<any> ? {
+    $: ProcessedClassNameListValue;
+} : T extends object ? {
+    [Property in keyof T]: Property extends `\$${string}` ? (Property extends '$' ? ProcessedClassNameListValue : (T[Property] extends StyleSheetVariableValue ? T[Property] : never)) : ToStyleSheet<T[Property]>;
 } : never;
 
 // @public (undocumented)
@@ -2688,6 +2689,9 @@ export interface UnderlyingElementProps extends Omit<AllHTMLAttributes<HTMLTextA
 
 // @public (undocumented)
 export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (k: infer I) => void ? I : never;
+
+// @public (undocumented)
+export type UnprocessedClassNameListValue = StyleSheetValueResolver | string | null | false | undefined;
 
 // @public (undocumented)
 export const UploadProgress: FunctionComponent<UploadProgressProps>;
@@ -2737,16 +2741,10 @@ export const useCloseOnEscape: ({ isOpen, close }: {
 export const useComponentClassName: (className: string) => string;
 
 // @public (undocumented)
-export function useCreateStyleSheet<T extends StyleSheetClassName[]>(...styles: T): UnionToIntersection<ToStyleSheet<T[number]>>;
-
-// @public (undocumented)
 export const useDialog: <Result>() => DialogOptions<Result>;
 
 // @public (undocumented)
 export function useElementTopOffset(ref?: RefObject<HTMLElement>): number | undefined;
-
-// @public (undocumented)
-export function useExtendStyleSheet<T extends StyleSheetClassName[]>(...styles: T): UnionToIntersection<ToStyleSheet<T[number]>>;
 
 // @public (undocumented)
 export function useFallbackRef<E extends HTMLDivElement>(forwardedRef?: ForwardedRef<E>): ((instance: E | null) => void) | RefObject<E>;
@@ -2801,6 +2799,9 @@ export const useShowToast: () => (toast: ToastData) => void;
 
 // @public (undocumented)
 export const UseTableElementContext: Context<boolean>;
+
+// @public (undocumented)
+export function useToClassName<T extends StyleSheetClassName[]>(...styles: T): UnionToIntersection<ToStyleSheet<T[number]>>;
 
 // @public (undocumented)
 export type ValidationState = Default | 'valid' | 'invalid';

@@ -1,7 +1,7 @@
-import { entriesFromObject, excludeFromArray, objectFromEntries, splitStringToStringList, toFlatArrayOfNonEmptyStrings } from './Helpers'
+import { entriesFromObject, excludeFromArray, objectFromEntries, splitStringToStringList, toFlatArrayOfClassNameValues } from './Helpers'
 import { toClassNameList } from './toClassNameList'
-import { isPlaceholderKey, isPlaceholderValue, isRegularKey, isVariableKey, isVariableValue } from './TypePredicates'
-import { ProcessedStyleSheetClassName, StyleSheetPlaceholderKey, StyleSheetPlaceholderValue, StyleSheetVariableKey, StyleSheetVariableValue, ToStyleSheet } from './Types'
+import { isRegularKey, isVariableKey, isVariableValue } from './TypePredicates'
+import { ProcessedClassNameListValue, StyleSheetClassName, StyleSheetVariableKey, StyleSheetVariableValue, ToStyleSheet } from './Types'
 
 export function variableEntries(entries: [string, any][]): [StyleSheetVariableKey, StyleSheetVariableValue][] {
   return excludeFromArray(null, entries.map(
@@ -11,22 +11,6 @@ export function variableEntries(entries: [string, any][]): [StyleSheetVariableKe
           return [key, value]
         } else if (import.meta.env.DEV) {
           throw new Error(`Unexpected '${key}' variable value: ${JSON.stringify(value)}. Use 'string', 'number', 'boolean', 'null' or 'undefined' value type.`)
-        }
-      }
-
-      return null
-    },
-  ))
-}
-
-export function placeholderEntries(entries: [string, any][]): [StyleSheetPlaceholderKey, StyleSheetPlaceholderValue][] {
-  return excludeFromArray(null, entries.map(
-    ([key, value]) => {
-      if (isPlaceholderKey(key)) {
-        if (isPlaceholderValue(value)) {
-          return [key, value]
-        } else if (import.meta.env.DEV) {
-          throw new Error(`Unexpected '${key}' placeholder template value: ${JSON.stringify(value)}. Use 'string' instead.`)
         }
       }
 
@@ -46,42 +30,30 @@ export function subComponentEntries(entries: [string, any][]): [string, any][] {
 function toStyleSheetFromObject<T extends { [key: string]: any }>(value: T extends Iterable<any> ? never : T) {
   const entries = entriesFromObject<string, any>(value)
 
-  const $: { $?: ProcessedStyleSheetClassName } = value.hasOwnProperty('$') ? { $: value.$ === null ? null : toClassNameList(value.$) } : {}
-
+  const $: { $?: ProcessedClassNameListValue } = value.hasOwnProperty('$') ? { $: toClassNameList(value.$) } : {}
   const variables: [StyleSheetVariableKey, StyleSheetVariableValue][] = variableEntries(entries)
-  const placeholders: [StyleSheetPlaceholderKey, StyleSheetPlaceholderValue][] = placeholderEntries(entries)
   const subComponents: [string, any][] = subComponentEntries(entries)
 
   return {
     ...$,
     ...objectFromEntries(variables),
-    ...objectFromEntries(placeholders),
     ...objectFromEntries(subComponents),
   }
 }
 
-export function toStyleSheet<T extends null>(value: T): ToStyleSheet<T>; // undefined;
-export function toStyleSheet<T extends number>(value: T): ToStyleSheet<T>; // undefined;
-export function toStyleSheet<T extends undefined>(value: T): ToStyleSheet<T>; // undefined;
-export function toStyleSheet<T extends string>(value: T): ToStyleSheet<T> // { $: ProcessedStyleSheetClassName };
-export function toStyleSheet<T extends Object | Array<any>>(value: T extends Iterable<any> ? (string | null | undefined)[] : T): ToStyleSheet<T> // { $: ProcessedStyleSheetClassName };
-export function toStyleSheet<T extends
-  | Object | Array<any>
-  | string
-  | number
-  | null
-  | undefined
->(value: T): ToStyleSheet<T> {
-  if (typeof value === 'number' || value === null || value === undefined) {
+export function toStyleSheet<T extends StyleSheetClassName>(value: T): ToStyleSheet<T> {
+  if (typeof value === 'number' || value === null || value === undefined || typeof value === 'boolean') {
     return undefined as ToStyleSheet<T>
   } else if (typeof value === 'string') {
     return { $: splitStringToStringList(value) } as ToStyleSheet<T>
   } else if (Array.isArray(value)) {
-    return { $: toFlatArrayOfNonEmptyStrings(value) } as ToStyleSheet<T>
+    return { $: toFlatArrayOfClassNameValues(value) } as ToStyleSheet<T>
+  } else if (typeof value === 'function') {
+    return { $: [value] } as ToStyleSheet<T>
   } else if (typeof value === 'object') {
-    return toStyleSheetFromObject(value) as ToStyleSheet<T>
+    return toStyleSheetFromObject(value as object) as ToStyleSheet<T>
   } else {
-    const _exhastiveCheck: never = value
+    const _exhaustiveCheck: never = value
     return undefined as ToStyleSheet<T>
   }
 }

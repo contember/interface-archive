@@ -70,11 +70,11 @@ Box.displayName = 'Box'
 type BoxStyleSheet = ComponentStyleSheet<SubComponentsStyleSheet<'inner' | 'header' | 'heading' | 'actions'>> & Partial<{
 	$prefix: string
 	$name: string
-	'${componentClassName}': string
-	'${active}': string
-	'${distinction}': string
-	'${intent}': string
-	'${padding}': string
+	$componentClassName: string
+	$activeClassName: string
+	$distinctionClassName: string
+	$intentClassName: string
+	$paddingClassName: string
 	$active: boolean
 	$distinction: BoxDistinction
 	$intent: string
@@ -82,24 +82,22 @@ type BoxStyleSheet = ComponentStyleSheet<SubComponentsStyleSheet<'inner' | 'head
 }>
 
 const boxStyleSheet: BoxStyleSheet = {
-	...{
-		'${componentClassName}': '$prefix$name',
-		'${active}': 'is-$active',
-		'${distinction}': 'view-$distinction',
-		'${intent}': '$intent',
-		'${padding}': 'view-$padding',
-	},
+	$componentClassName: '$prefix$name',
+	$activeClassName: 'is-$active',
+	$distinctionClassName: 'view-$distinction',
+	$intentClassName: '$intent',
+	$paddingClassName: 'view-$padding',
 	$: [
-		'${componentClassName}',
-		'${active}',
-		'${distinction}',
-		'${intent}',
-		'${padding}',
+		'$componentClassName',
+		'$activeClassName',
+		'$distinctionClassName',
+		'$intentClassName',
+		'$paddingClassName',
 	],
 	$prefix: 'cui-',
 	$name: 'box',
-	inner: '${componentClassName}-inner',
-	header: '${componentClassName}-header',
-	heading: '${componentClassName}-heading',
-	actions: '${componentClassName}-actions',
+	inner: '$componentClassName-inner',
+	header: '$componentClassName-header',
+	heading: '$componentClassName-heading',
+	actions: '$componentClassName-actions',
 }
