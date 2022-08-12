@@ -49,7 +49,7 @@ export const FieldContainer = memo(
 			$size: size,
 			$labelPosition: labelPosition,
 			$width: width,
-			$dangerTheme: errors?.length ? toThemeClass(null, 'danger') : null,
+			$error: !!(errors?.length),
 		}, classNameProp)
 
 		return (
@@ -98,11 +98,12 @@ type SubComponents =
 	| 'errors'
 
 type FieldContainerStyleSheet = ComponentStyleSheet<SubComponentsStyleSheet<SubComponents>> & Partial<{
-	'${componentClassName}': string
-	'${size}': string
-	'${labelPosition}': string
-	'${width}': string
-	'$dangerTheme': string | null
+	$componentClassName: string
+	$sizeClassName: string
+	$labelPositionClassName: string
+	$widthClassName: string
+	$errorClassName: (variables: Record<string, any>) => string | undefined
+	$error: boolean
 	$prefix: string
 	$name: string
 	$direction: StackProps['direction']
@@ -114,30 +115,29 @@ type FieldContainerStyleSheet = ComponentStyleSheet<SubComponentsStyleSheet<SubC
 }>
 
 const fieldContainerStyleSheet: FieldContainerStyleSheet = {
-	...{
-		'${componentClassName}': '$prefix$name',
-		'${size}': 'view-$size',
-		'${labelPosition}': 'view-$labelPosition',
-		'${width}': 'width-$width',
-	},
+	$componentClassName: '$prefix$name',
+	$sizeClassName: 'view-$size',
+	$labelPositionClassName: 'view-$labelPosition',
+	$widthClassName: 'width-$width',
+	$errorClassName: ({ $error }) => $error === true ? toThemeClass(null, 'danger') : undefined,
 	$direction: 'vertical',
 	$gap: 'small',
 	$width: 'column',
 	$prefix: 'cui-',
 	$name: 'field-container',
 	$: [
-		'${componentClassName}',
-		'${size}',
-		'${labelPosition}',
-		'${width}',
-		'$dangerTheme',
+		'$componentClassName',
+		'$sizeClassName',
+		'$labelPositionClassName',
+		'$widthClassName',
+		'$errorClassName',
 	],
-	label: '${componentClassName}-label',
-	header: '${componentClassName}-header',
-	headerLabel: '${componentClassName}-header-label',
-	requiredAsterisk: ['${componentClassName}-required-asterisk', toThemeClass('danger', 'danger')],
-	body: '${componentClassName}-body',
-	bodyContent: '${componentClassName}-body-content',
-	bodyContentDescription: '${componentClassName}-body-content-description',
-	errors: '${componentClassName}-errors',
+	label: '$componentClassName-label',
+	header: '$componentClassName-header',
+	headerLabel: '$componentClassName-header-label',
+	requiredAsterisk: ['$componentClassName-required-asterisk', toThemeClass('danger', 'danger')],
+	body: '$componentClassName-body',
+	bodyContent: '$componentClassName-body-content',
+	bodyContentDescription: '$componentClassName-body-content-description',
+	errors: '$componentClassName-errors',
 }

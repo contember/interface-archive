@@ -17,7 +17,7 @@ import { UrlInput } from './UrlInput'
 import { WeekInput } from './WeekInput'
 
 type TextInputStyleSheet = {
-	'${withTopToolbar}'?: string
+	$withTopToolbarClassName?: string
 	$withTopToolbar?: boolean
 	$prefix?: string
 	$name?: string
@@ -25,8 +25,8 @@ type TextInputStyleSheet = {
 }
 
 const textInputStyleSheetTemplates = {
-	'${root}': '$prefix$name',
-	'${withTopToolbar}': 'withTopToolbar-$withTopToolbar',
+	$rootClassName: '$prefix$name',
+	$withTopToolbarClassName: 'withTopToolbar-$withTopToolbar',
 }
 
 const textInputStyleSheet: TextInputStyleSheet = {
@@ -34,7 +34,7 @@ const textInputStyleSheet: TextInputStyleSheet = {
 	$prefix: 'cui-',
 	$name: 'text-input',
 	$withTopToolbar: false,
-	$: '${root} ${withTopToolbar}',
+	$: '$rootClassName $withTopToolbarClassName',
 }
 
 export const InternalTextInput = memo(

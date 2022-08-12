@@ -1,21 +1,42 @@
-export type ProcessedStyleSheetClassName = null | string[]
-export type StyleSheetClassName = string | number | boolean | null | undefined | {}
-
-export type StyleSheetPlaceholderKey = `\$\{${string}\}`
-export type StyleSheetPlaceholderValue = string
-
 export type StyleSheetVariableKey = `\$${string}`
-export type StyleSheetVariableValue = string | number | boolean | null | undefined
+export type StyleSheetVariableValue = StyleSheetValueResolver | string | number | boolean | null | undefined
+
+export type StyleSheetValueResolver = (variables: Record<StyleSheetVariableKey, StyleSheetVariableValue>) => Exclude<StyleSheetVariableValue, StyleSheetValueResolver>
+
+export type ProcessedStyleSheetClassName = undefined | null | (string | StyleSheetValueResolver)[]
+
+export type StyleSheetClassName =
+  | (string | StyleSheetValueResolver)[]
+  | StyleSheetValueResolver
+  | string
+  | number
+  | boolean
+  | null
+  | undefined
+  | { [Property in string]: (
+    Property extends StyleSheetVariableKey
+    ? (Property extends '$'
+      ? ProcessedStyleSheetClassName
+      : StyleSheetVariableValue
+    )
+    : StyleSheetClassName
+  ) }
 
 export type ToStyleSheet<T> =
   T extends number | null | undefined ? undefined :
-  T extends string | Iterable<any> ? { $: ProcessedStyleSheetClassName } :
-  T extends Record<infer K, unknown> ? {
-    [Property in K]:
-    Property extends StyleSheetVariableKey ? Property extends '$' ? ProcessedStyleSheetClassName :
-    Property extends StyleSheetPlaceholderKey
-    ? (T[Property] extends StyleSheetPlaceholderValue ? T[Property] : never)
-    : (T[Property] extends StyleSheetVariableValue ? T[Property] : never)
+  T extends StyleSheetValueResolver | string | Iterable<any> ? { $: ProcessedStyleSheetClassName } :
+  T extends Record<infer K, unknown>
+  ? { [Property in K]:
+    Property extends StyleSheetVariableKey
+    ? (
+      Property extends '$'
+      ? ProcessedStyleSheetClassName
+      : (
+        T[Property] extends StyleSheetVariableValue
+        ? T[Property]
+        : never
+      )
+    )
     : ToStyleSheet<T[Property]>
   }
   : never

@@ -1,20 +1,21 @@
 import { useMemo } from 'react'
 import { extendStyleSheet } from './extendStyleSheet'
-import { entriesFromObject, excludeFromArray, objectFromEntries } from './Helpers'
+import { entriesFromObject, excludeFromArray, filterResetClassNames, objectFromEntries, REMOVE_RESET_CLASS_NAME } from './Helpers'
 import { toClassNameList } from './toClassNameList'
-import { placeholderEntries, subComponentEntries, variableEntries } from './toStyleSheet'
-import { StyleSheetClassName, ToStyleSheet, UnionToIntersection } from './Types'
+import { subComponentEntries, variableEntries } from './toStyleSheet'
+import { isValueResolver } from './TypePredicates'
+import { StyleSheetClassName, StyleSheetValueResolver, StyleSheetVariableKey, StyleSheetVariableValue, ToStyleSheet, UnionToIntersection } from './Types'
 
-type ReplacementScalar = string | number | boolean | null | undefined
-
-type VariableReplacements = [RegExp, ReplacementScalar][]
+type VariableReplacements = [RegExp, StyleSheetVariableValue][]
 
 function replacePlaceholders(value: string, replacements: VariableReplacements, iterations: number = 2) {
   for (let i = 0; i < iterations; i++) {
     replacements.forEach(
       ([from, to]) => {
         if (to !== null && to !== undefined) {
-          value = value.replace(from, `${to}`)
+          if (typeof to !== 'function') {
+            value = value.replace(from, `${to}`)
+          }
         }
       },
     )
@@ -23,70 +24,104 @@ function replacePlaceholders(value: string, replacements: VariableReplacements, 
   return value
 }
 
-type PlaceholderReplacements = [RegExp, string][]
-
-function toGlobRegExpPattern(pattern: string): RegExp {
-  return new RegExp(pattern.replace(/([^a-zA-Z0-9])/g, '\\$1'), 'g')
-}
-
-function toPlaceholderReplacements(placeholders: Record<string, string>): PlaceholderReplacements {
-  return Object.entries(placeholders).map(
-    ([key, value]) => [toGlobRegExpPattern(key), value],
-  )
-}
-
 function toRegExp(from: string): RegExp {
   return new RegExp(`\\${from}\\b`)
 }
 
-function toVariableReplacements(value: Record<string, ReplacementScalar>): VariableReplacements {
+function toVariableReplacements(value: Record<string, StyleSheetVariableValue>): VariableReplacements {
   return Object.entries(value).map(
     ([key, value]) => [toRegExp(key), value],
   )
 }
 
-const UNREPLACED_VARIABLE = /\$[\w_]+/
+function resolveCallableVariablesEntries(entries: [StyleSheetVariableKey, StyleSheetVariableValue][]): [StyleSheetVariableKey, StyleSheetVariableValue][] {
+  const allEntriesCount = entries.length
 
-function unreplaced(value: string): boolean {
-  return !value.match(UNREPLACED_VARIABLE)
+  const resolvedEntries = entries.filter(
+    ([, value]) => !isValueResolver(value),
+  )
+
+  const resolvedEntriesCountBefore = resolvedEntries.length
+
+  if (resolvedEntriesCountBefore === allEntriesCount) {
+    return entries
+  }
+
+  const resolved = objectFromEntries(resolvedEntries)
+
+  const processed: [StyleSheetVariableKey, StyleSheetVariableValue][] = entries.map(
+    ([key, value]) => {
+      if (isValueResolver(value)) {
+        const maybeResolved = value(resolved)
+
+        if (maybeResolved !== undefined) {
+          return [key, maybeResolved]
+        }
+      }
+
+      return [key, value]
+    })
+
+  const resolvedEntriesCountAfter = processed.filter(
+    ([, value]) => !isValueResolver(value),
+  ).length
+
+  if (resolvedEntriesCountAfter > resolvedEntriesCountBefore) {
+    return resolveCallableVariablesEntries(processed)
+  } else {
+    return processed
+  }
 }
 
-function resolveArray(value: string[], placeholders: Record<string, string>, variables: Record<string, ReplacementScalar>): string[] & string {
-  const replaced = value.map(
-    v => replacePlaceholders(
-      replacePlaceholders(v, toPlaceholderReplacements(placeholders)),
-      toVariableReplacements(variables),
+const UNREPLACED_VARIABLE = /\$[\w_]+/
+
+function isReplaced(value: unknown): boolean {
+  return !(typeof value === 'string' && value.match(UNREPLACED_VARIABLE))
+}
+
+function resolveArray(value: (string | StyleSheetValueResolver)[], variables: Record<`$${string}`, StyleSheetVariableValue>): string[] & string {
+  variables = objectFromEntries(
+    resolveCallableVariablesEntries(
+      variableEntries(
+        entriesFromObject(variables),
+      ),
     ),
   )
 
+  const replaced = value.map(
+    v => typeof v === 'function' ? v(variables) : v,
+  ).map(
+    v => typeof v === 'string'
+      ? replacePlaceholders(v, toVariableReplacements(variables))
+      : typeof v === 'function' ? undefined : v,
+  )
+
   replaced.toString = function toString(): string {
-    return this.filter(unreplaced).join(' ')
+    return this.filter(isReplaced).join(' ')
   }
 
   return replaced as string[] & string
 }
 
 export function resolveStyleSheet<T extends StyleSheetClassName[]>(...styles: T): [(string[] & string) | undefined, Omit<UnionToIntersection<ToStyleSheet<T[number]>>, '$'>] {
-  const merged: Record<string, any> = extendStyleSheet(...styles) as any
+  const merged: Record<string, any> = extendStyleSheet(...styles) ?? {} as any
   const entries = entriesFromObject(merged as Record<string, any>)
-
-  const rootPlaceholders = objectFromEntries(placeholderEntries(entries))
   const rootVariables = objectFromEntries(variableEntries(entries))
 
-  const $ = merged.$ !== null ? resolveArray(toClassNameList(merged.$), rootPlaceholders, rootVariables) : undefined
+  const $ = resolveArray(filterResetClassNames(toClassNameList(merged.$), REMOVE_RESET_CLASS_NAME), rootVariables)
+
   const subComponents: [string, any][] = excludeFromArray(null, subComponentEntries(entries).map(
     ([key, value]) => {
       if (value) {
         value.$ = value.$ !== null
           ? resolveArray(
             toClassNameList(value.$),
-            { ...rootPlaceholders, ...objectFromEntries(placeholderEntries(entriesFromObject(value))) },
             { ...rootVariables, ...objectFromEntries(variableEntries(entriesFromObject(value))) },
           )
           : null
 
         value.toString = function toString(): string {
-          return Array.isArray(this?.$) ? `${this.$}` : this?.$
+          return Array.isArray(this?.$) ? `${filterResetClassNames(this.$, REMOVE_RESET_CLASS_NAME)}` : this?.$
         }
 
         return [key, value]
