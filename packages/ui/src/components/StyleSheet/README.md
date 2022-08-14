@@ -1,22 +1,134 @@
 # StyleSheets
 
-## Why:
+> ✨ Keep in mind this tool internal and experimental.
 
-1. Allows targeting sub-component using single `className`;
-2. Allows customization of generated `className` with variables and callbacks;
-3. Allows total override of the component's (and its sub-components) `className` when needed.
+**[Contember](https://github.com/contember) UI uses semantic CSS classes in [Admin](https://github.com/contember/admin). As any system grows in complexity combining semantic classes to targe specific cases increases specificity and is harder to override to extend.**
 
-## 1. `StyleSheet` anatomy
+To support complex UIs being easily overridden as well by users and by internal team too (and to keep our stack at minimum) we created this _**"merge class names tool"**_.
 
-`StyleSheet` objects consist of 3 parts:
+_**Features:**_
 
-1. **\$** – special key, a string representation of the root component; when style sheet is being extended with `string` or `string[]`, values are appended to this property;
-2. **\$variables** – keys start with a `$` followed by a word character, e.g. `$componentName`
-3. other keys representing sub-component style sheets;
+1. Support string class names (current and default state);
+2. Support array of class names (without extra package, e.g. `classnames`);
+3. Support for customization of component's internal state classes with `$variables` for simple use-cases or `$callback()` for more complex use-cases;
+4. Support for nested stylesheet objects to target underlying sub-components and combinations of all of the above.
 
-> ! Extending style sheet with an object declaring the `$` property will drop previous value (except for arrays which are always merged) of `$` during the merge. It is handy to totally override how the `className` will gets resolved.
 
-## 2. Example of UI components using `StyleSheet`
+_**Table of contents:**_
+
+- [1. StyleSheet anatomy](#1-stylesheet-anatomy)
+- [2. Writing UI components](#2-writing-ui-components)
+- [3. Understanding resolving](#3-understanding-resolving)
+- [4. StyleSheet API](#4-api)
+- [Appendix: React Hooks](#appendix-react-hooks)
+
+
+---
+
+## 1. StyleSheet anatomy
+
+A stylesheet can be:
+
+- [a single `string` or even `callback()` or an arrays of those](#11-base-stylesheet-types);
+- [complex `StyleSheet` objects with `$variables`](#12-complex-stylesheet-type).
+
+### 1.1 Base stylesheet types
+
+| Type                                       | Description                                       | Example                                                                      |
+| ------------------------------------------ | ------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `string`                                   | Space separated CSS classes string.               | `<span className="cui-spinner is-loading" />`                                |
+| `StyleSheetValueResolver`                  | Callback that returns a value (or CSS class name) | `<span className={({ $loading }) => $loading ? 'is-loading' : undefined} />` |
+| `Array<string \| StyleSheetValueResolver>` | Array of CSS classes or callbacks, even nested.   | `<span className={['cui-spinner', ['is-loading']]]} />`                      |
+
+> **💡 TIP:** Use [`toClassName()`](#41-extendstylesheetstyles-style) function to combine various types of stylesheet types.
+
+```ts
+const styleSHeet = toClassName(
+	// string:
+	'cui-spinner',
+	// array of strings:
+	['font-bold', 'view-small'],
+	// value resolver callback:
+	({ $loading }) => $loading ? 'is-loading' : undefined,
+	// ...
+)
+```
+
+### 1.2 Complex stylesheet type
+
+`StyleSheet` objects properties can furthermore [bare base stylesheet types for the component](#11-base-stylesheet-types), but also for it's [sub-components](#123-sub-component-properties) and carry [`$variables`](#122-variable-properties) of those sub-components.
+
+| Property        | Description                                                                                        |
+| --------------- | -------------------------------------------------------------------------------------------------- |
+| `$`             | [Carries the value of the current component class name &rarr;](#121-special--property)             |
+| `$[a-zA-Z0-9_]` | [Variables that carry scalar values or `StyleSheetValueResolver` &rarr;](#122-variable-properties) |
+| `string`        | [Nested stylesheet object or base stylesheet type &rarr;](#123-sub-component-properties)           |
+
+
+> **💡 TIP:**: Use [`toClassName()`](#41-toclassnamestyles-style) to convert any of these types to an object stylesheet. Don't write or use the `$` prop directly.
+
+```ts
+const styleSheet = toClassName({
+	// Variables:
+	$gap: 1,
+	$component: 'cui-box',
+	// Plain string value for body sub-component:
+	body: '$component-body',
+	// Mixed string and sub-component values for header and its nested sub-component:
+	header: toClassName(
+		'$component-header',
+		{
+			heading: '$component-header-heading',
+		},
+	),
+	// Mixed array values for the footer sub-component:
+	footer: [
+		'$component-footer',
+		// This callback is replaceable with a simple string value 'gap:$gap'
+		// That would resolve just the same way, but callback gives you more
+		// customization power when desired:
+		({ $gap }) => `gap:${$gap}`,
+	],
+})
+
+```
+
+### 1.2.1 Special `$` property
+
+Special private key, a string representation of the root component; when stylesheet is being extended with `string`, `callback()` or `(string | StyleSheetValueResolver)[]`, values are being appended to this property.
+
+Extending stylesheet with an object declaring the `$` property will drop previous value of `$` during the merge in all cases except for arrays. Arrays are always merged with previous values. This behavior is used to override component `className` when needed.
+
+In most cases you might want to `import { CLASS_NAME_RESET } from '@contember/admin'` that will [handle the reset](#25-resetting-all-internal-class-names) for you in black-box fashion.
+
+> **💬 Is the `CLASS_NAME_RESET` required to override component class name?**<br>
+> _No, the UI components should not require `CLASS_NAME_RESET` to be overriden. However, it is there if needed._
+
+_**Allowed values:**_
+
+- `string`;
+- `callback()` (`StyleSheetValueResolver` type);
+- `(string | callback())[]`;
+- `null` and `undefined` are being ignored.
+
+> **IMPORTANT:** You might want to use `toClassName()` of `toClassName()` instead of handcrafting stylesheet object your-self.
+### 1.2.2 `$variable` properties
+
+Keys starting with a `$` followed by a word character, e.g. `$gap` or `$size`. Variables object is passed to the `StyleSheetValueResolver` as the first argument. If the value is dependant on some unresolved value, the callback should return `undefined` to be resolved in the next pass.
+
+_**Allowed values:**_
+
+- `string`;
+- `false`;
+- `callback()` (`StyleSheetValueResolver` type);
+- `null` or `undefined`
+
+### 1.2.3 Sub-component properties
+
+Representing sub-component style sheets consisting of simple [1.1 base stylesheet types](#11-base-stylesheet-types) or complex objects, see: [1.2.1](#121-special--property) and [1.2.2](#122-variable-properties).
+
+
+## 2. Writing UI components
 
 - [2.1 Default rendering](#21-default-rendering)
 - [2.2 Extra string class name](#22-extra-string-class-name)
@@ -29,7 +141,7 @@
 
 ```tsx
 // file: FieldContainer.tsx
-import { createStyleSheet, useResolveStyleSheet, PropsWithClassName } from '@contember/admin'
+import { toClassName, useResolveStyleSheet, PropsWithClassName } from '@contember/admin'
 
 /**
  * Example FieldContainer React component
@@ -63,7 +175,7 @@ function FieldContainer({
 	)
 }
 
-const fieldContainerStyleSheet = createStyleSheet({
+const fieldContainerStyleSheet = toClassName({
 	// Variables:
 	$componentClassName: '$prefix$root',
 	$errorClassName: ({ $error }) => $error ? 'has-error' : 'no-error',
@@ -125,10 +237,10 @@ const fieldContainerStyleSheet = createStyleSheet({
 ### 2.3 Override root and target sub-components
 
 ```tsx
-<FieldContainer className={{
+<FieldContainer className={toClassName({
 	$prefix: 'next-',
 	body: { $prefix: 'cui-', $gap: 3 }
-}} />
+})} />
 ```
 &darr;
 
@@ -145,9 +257,9 @@ const fieldContainerStyleSheet = createStyleSheet({
 ### 2.4 Resetting internal and pass extra class names
 
 ```tsx
-import { CLASS_NAME_RESET, extendStyleSheet } from '@contember/admin'
+import { CLASS_NAME_RESET, toClassName } from '@contember/admin'
 
-<FieldContainer className={extendStyleSheet(CLASS_NAME_RESET, 'extra-class', {
+<FieldContainer className={useToClassName(CLASS_NAME_RESET, 'extra-class', {
 	$prefix: 'next-',
 	body: { $prefix: 'cui-', $gap: 3 }
 })} />
@@ -167,12 +279,12 @@ import { CLASS_NAME_RESET, extendStyleSheet } from '@contember/admin'
 ### 2.5 Resetting all internal class names
 
 ```tsx
-import { CLASS_NAME_RESET, extendStyleSheet } from '@contember/admin'
+import { CLASS_NAME_RESET, toClassName } from '@contember/admin'
 
-<FieldContainer className={extendStyleSheet(CLASS_NAME_RESET, 'extra-class', {
-	header: extendStyleSheet(CLASS_NAME_RESET, 'my-header'),
-	body: extendStyleSheet(CLASS_NAME_RESET, 'my-body'),
-	footer: extendStyleSheet(CLASS_NAME_RESET, 'my-footer'),
+<FieldContainer className={useToClassName(CLASS_NAME_RESET, 'extra-class', {
+	header: toClassName(CLASS_NAME_RESET, 'my-header'),
+	body: toClassName(CLASS_NAME_RESET, 'my-body'),
+	footer: toClassName(CLASS_NAME_RESET, 'my-footer'),
 })} />
 ```
 &darr;
@@ -192,9 +304,9 @@ import { CLASS_NAME_RESET, extendStyleSheet } from '@contember/admin'
 ```tsx
 <FieldContainer
 	errors={[ new Error('Please fill the input') ]}
-	className={{
+	className={useCreateClassName({
 		$errorClassName: ({ $error }) => $error ? 'text-red-500' : undefined,
-	}}
+	})}
 />
 ```
 &darr;
@@ -209,22 +321,24 @@ import { CLASS_NAME_RESET, extendStyleSheet } from '@contember/admin'
 
 ^ [Back](#2-example-of-ui-components-using-stylesheet)
 
-## 3. Understanding how resolving of class names works
+## 3. Understanding resolving
 
-1. every `$variable` property then gets replaced with its value cast as string, e.g. when `{ '$variable': true }`, then `['var-is-$variable']` resolves as `'var-is-true'` className string;
-2. Class names are *enhanced* with `toString()` – method that joins all the previous `$` class list values. So it's possible to pass styles where strings are expected but also keeping the underlying structure to be processed by another component.
+1. every `$variable` used in class name string gets replaced with a string representation, e.g.: when `{ '$variable': true }` then:
+   2. `'var-is-$variable'` resolves as `'var-is-true'` className string;
+   3. `({ $variable })=> $variable ? 'var-is-on' : 'var-is-off'` uses on-off instead of simple string case.
+2. Class names are internally stored as arrays, later *enhanced* with `toString()` method during the `resolveStyleSheet()` call that joins all the classes into one space separated list. It is possible to pass styles where strings are expected but also keeps the underlying structure to be processed by another sub-component when needed.
 
 > *Extending vs. Resolving styles:*
 >
-> - Use `extendStyleSheet()` when you need to merge your extra class name data forward with received class name data;
+> - Use `toClassName()` when you need to merge your extra class name data forward with received class name data;
 > - Use `resolveStyleSheet()` same as extend, but prepares the data to be used inside of the component.
 
 
 ```ts
-import { createStyleSheet, extendStyleSheet } from '@contember/admin'
+import { toClassName, toClassName } from '@contember/admin'
 
-// Pass 1:  Create basic style sheet
-const baseClassName = createStyleSheet('$variableClassName', {
+// Pass 1:  Create basic stylesheet
+const baseClassName = toClassName('$variableClassName', {
 	$variable: undefined,
 	$variableClassName: 'bar-$variable',
 })
@@ -237,14 +351,14 @@ const baseClassName = createStyleSheet('$variableClassName', {
 '' + resolveStyleSheet(baseClassName, { $variable: undefined })[0]).toBe('' // true
 
 // Pass 2: Change resolving of $variableClassName.
-const overriddenClassName = extendStyleSheet(baseClassName, {
+const overriddenClassName = toClassName(baseClassName, {
 	$variableClassName: ({ $variable }) => $variable === null
 		? 'no-foo' : $variable === undefined ? undefined
 		: `foo--${$variable}`
 });
 
 // Pass 3: Extended with variable values and resolve in the same step.
-// Same as calling `extendStyleSheet()` and `resolveStyleSheet()` in sequence.
+// Same as calling `toClassName()` and `resolveStyleSheet()` in sequence.
 '' + resolveStyleSheet(overriddenClassName, { $variable: true }) === 'foo--true'; // true
 '' + resolveStyleSheet(overriddenClassName, { $variable: false }) === 'foo--false'; // true
 '' + resolveStyleSheet(overriddenClassName, { $variable: 123 }) === 'foo--123'; // true
@@ -253,38 +367,34 @@ const overriddenClassName = extendStyleSheet(baseClassName, {
 '' + resolveStyleSheet(overriddenClassName, { $variable: undefined }) === ''; // true
 ```
 
-## 4. API
+## 4. StyleSheet API
 
 `style` can be almost any unprocessed (or previously processed class name) value:
-- `string`, e.g. `"some space separated class name string"`
-- `string[]`, e.g. `["class", "names", "separated", "as", "words"]`
-- `function(variables) => `
+- `string`, e.g. `"some space separated class name list string"`
+- `StyleSheetValueResolver`, e.g. `({ $margin }) => 'm-' + $margin`
+- `(string | StyleSheetValueResolver)[]`, e.g. `["class", "names", "separated", "as", "words"]`
 - `object`
 
 Pass `CLASS_NAME_RESET` object to ignore any previous classNames, useful for overriding purposes.
 
 **Methods:**
 
-### 4.1 `extendStyleSheet(...styles[]: style`
+### 4.1 `toClassName(...styles[]: style`
 - Reduces passed style sheets to single style;
 - When passing parameter as:
-	- `string` or `string[]` – value merged into `$` with its previous value into `string[]`
+	- `string` or `StyleSheetValueResolver` or `(string | StyleSheetValueResolver)[]` – value merged into `$` with its previous value into `(string | StyleSheetValueResolver)[]`
 	- `object` — incoming properties replace previous, except arrays are merged, `undefined` are skipped.
 
 ---
-### 4.2 `createStyleSheet(...styles[]): style`
-- Uses `extendStyleSheet()` under the hood.
-
----
-### 4.3 `resolveStyleSheet(...styles[]): style`
-- Uses `extendStyleSheet()` under the hood.
+### 4.2 `resolveStyleSheet(...styles[]): style`
+- Uses `toClassName()` under the hood.
 - Resolves placeholders and variables of the root component and sub-components.
 	- Adds `toString()` method to className arrays.
 
 ## Appendix: React Hooks
 
-Memoized versions of API.
+Always use memoized versions of API inside of the React functional components.
 
-- `useExtendStyleSheet()`
+- `useToClassName()`
 - `useCreateStyleSheet()`
 - `useResolveStyleSheet()`
