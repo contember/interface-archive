@@ -8,7 +8,7 @@ import { useDynamicMultipleChoiceWithConnectingEntityField } from './hooks/useDy
 export const DynamicMultiChoiceField: FunctionComponent<DynamicMultipleChoiceFieldProps & ChoiceFieldData.MultiChoiceFieldProps<EntityAccessor>> =
 	Component(
 		props => {
-			const choiceFieldMetadata = 'connectingEntityField' in props
+			const choiceFieldMetadata = 'connectingEntityField' in props && props.connectingEntityField
 				? useDynamicMultipleChoiceWithConnectingEntityField(props)
 				: useDynamicMultipleChoiceField(props)
 			return props.children(choiceFieldMetadata)
@@ -16,7 +16,7 @@ export const DynamicMultiChoiceField: FunctionComponent<DynamicMultipleChoiceFie
 		(props, environment) => {
 			let { subTree, renderedOption } = renderDynamicChoiceFieldStatic(props, environment)
 
-			if ('connectingEntityField' in props) {
+			if ('connectingEntityField' in props && props.connectingEntityField) {
 				const hasOneProps = typeof props.connectingEntityField === 'string'
 					? { field: props.connectingEntityField }
 					: props.connectingEntityField
