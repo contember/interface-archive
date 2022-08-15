@@ -23,7 +23,7 @@ export const DynamicMultiChoiceField: FunctionComponent<DynamicMultipleChoiceFie
 
 				renderedOption = <>
 					{props.sortableBy && <SugaredField field={props.sortableBy} />}
-					<HasOne {...hasOneProps}>
+					<HasOne {...hasOneProps} expectedMutation={'connectOrDisconnect'}>
 						{renderedOption}
 					</HasOne>
 				</>
@@ -32,7 +32,11 @@ export const DynamicMultiChoiceField: FunctionComponent<DynamicMultipleChoiceFie
 			return (
 				<>
 					{subTree}
-					<HasMany field={props.field} expectedMutation="connectOrDisconnect" initialEntityCount={0}>
+					<HasMany
+						field={props.field}
+						expectedMutation={'connectingEntityField' in props ? 'anyMutation' : 'connectOrDisconnect'}
+						initialEntityCount={0}
+					>
 						{renderedOption}
 					</HasMany>
 				</>
