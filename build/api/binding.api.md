@@ -14,6 +14,7 @@ import { v4 as generateUuid } from 'uuid';
 import { GraphQlBuilder } from '@contember/client';
 import type { GraphQlClient } from '@contember/client';
 import type { GraphQlClientFailedRequestMetadata } from '@contember/client';
+import type { GraphQlClientRequestOptions } from '@contember/client';
 import { GraphQlLiteral } from '@contember/client';
 import { Input } from '@contember/client';
 import { NamedExoticComponent } from 'react';
@@ -98,6 +99,26 @@ export interface AsyncBatchUpdatesOptions extends BatchUpdatesOptions {
     systemClient: GraphQlClient;
     // (undocumented)
     tenantClient: GraphQlClient;
+}
+
+// @public (undocumented)
+export interface BaseRelation {
+    // (undocumented)
+    __typename: '_Relation';
+    // (undocumented)
+    name: FieldName;
+    // (undocumented)
+    nullable: boolean | null;
+    // (undocumented)
+    onDelete: 'restrict' | 'cascade' | 'setNull' | null;
+    // (undocumented)
+    orderBy: SchemaRelationOrderBy[] | null;
+    // (undocumented)
+    orphanRemoval: boolean | null;
+    // (undocumented)
+    targetEntity: EntityName;
+    // (undocumented)
+    type: 'OneHasOne' | 'OneHasMany' | 'ManyHasOne' | 'ManyHasMany';
 }
 
 // @public (undocumented)
@@ -683,8 +704,6 @@ export class Environment {
     getParameterOrElse<F>(key: string, fallback: F): string | number | F;
     // (undocumented)
     getParent(): Environment;
-    // Warning: (ae-forgotten-export) The symbol "Schema" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     getSchema(): Schema;
     // (undocumented)
@@ -735,8 +754,6 @@ export namespace Environment {
     export interface ColumnNode {
         // (undocumented)
         entity: SchemaEntity;
-        // Warning: (ae-forgotten-export) The symbol "SchemaColumn" needs to be exported by the entry point index.d.ts
-        //
         // (undocumented)
         field: SchemaColumn;
         // (undocumented)
@@ -764,8 +781,6 @@ export namespace Environment {
     export interface EntityNode {
         // (undocumented)
         entity: SchemaEntity;
-        // Warning: (ae-forgotten-export) The symbol "SchemaRelation" needs to be exported by the entry point index.d.ts
-        //
         // (undocumented)
         field: SchemaRelation;
         // (undocumented)
@@ -820,8 +835,6 @@ export namespace Environment {
     }
     // (undocumented)
     export interface SubTreeEntityNode {
-        // Warning: (ae-forgotten-export) The symbol "SchemaEntity" needs to be exported by the entry point index.d.ts
-        //
         // (undocumented)
         entity: SchemaEntity;
         // (undocumented)
@@ -1344,6 +1357,16 @@ export interface InvalidResponseResult {
 }
 
 // @public (undocumented)
+export interface InverseRelation extends BaseRelation {
+    // (undocumented)
+    inversedBy?: never;
+    // (undocumented)
+    ownedBy: FieldName;
+    // (undocumented)
+    side: 'inverse';
+}
+
+// @public (undocumented)
 export interface JsonArray<Ext = never> extends Array<JsonValue<Ext>> {
 }
 
@@ -1559,6 +1582,16 @@ export type OptionallyVariableFieldValue = FieldValue | VariableFieldValue;
 
 // @public (undocumented)
 export type OrderBy = Input.OrderBy<CrudQueryBuilder.OrderDirection>[];
+
+// @public (undocumented)
+export interface OwningRelation extends BaseRelation {
+    // (undocumented)
+    inversedBy: FieldName | null;
+    // (undocumented)
+    ownedBy?: never;
+    // (undocumented)
+    side: 'owning';
+}
 
 // @public (undocumented)
 export const ParentEntity: React.NamedExoticComponent<ParentEntityProps>;
@@ -1879,6 +1912,100 @@ export type ScheduleAnotherPersist = (options?: ScheduleAnotherPersistOptions) =
 export interface ScheduleAnotherPersistOptions {
     // (undocumented)
     proposedBackoff?: number;
+}
+
+// @public (undocumented)
+export class Schema {
+    constructor(store: SchemaStore);
+    // (undocumented)
+    getEntity(entityName: EntityName): SchemaEntity | undefined;
+    // (undocumented)
+    getEntityField(entityName: EntityName, field: FieldName): SchemaField | undefined;
+    // (undocumented)
+    readonly store: SchemaStore;
+}
+
+// @public (undocumented)
+export interface SchemaColumn {
+    // (undocumented)
+    __typename: '_Column';
+    // (undocumented)
+    defaultValue: string | number | boolean | null;
+    // (undocumented)
+    enumName: SchemaEnumName | null;
+    // (undocumented)
+    name: FieldName;
+    // (undocumented)
+    nullable: boolean;
+    // (undocumented)
+    type: SchemaColumnType;
+}
+
+// @public (undocumented)
+export type SchemaColumnType = SchemaKnownColumnType | string;
+
+// @public (undocumented)
+export type SchemaEntities = Map<EntityName, SchemaEntity>;
+
+// @public (undocumented)
+export interface SchemaEntity {
+    // (undocumented)
+    customPrimaryAllowed: boolean;
+    // (undocumented)
+    fields: SchemaFields;
+    // (undocumented)
+    name: EntityName;
+    // (undocumented)
+    unique: SchemaUniqueConstraint[];
+}
+
+// @public (undocumented)
+export type SchemaEnumName = string;
+
+// @public (undocumented)
+export type SchemaEnums = Map<SchemaEnumName, SchemaEnumValues>;
+
+// @public (undocumented)
+export type SchemaEnumValues = Set<string>;
+
+// @public (undocumented)
+export type SchemaField = SchemaRelation | SchemaColumn;
+
+// @public (undocumented)
+export type SchemaFields = Map<FieldName, SchemaField>;
+
+// @public (undocumented)
+export type SchemaKnownColumnType = 'Bool' | 'Date' | 'DateTime' | 'Double' | 'Enum' | 'Integer' | 'String' | 'Uuid';
+
+// @public (undocumented)
+export class SchemaLoader {
+    // (undocumented)
+    static loadSchema(client: GraphQlClient, options?: GraphQlClientRequestOptions): Promise<Schema>;
+}
+
+// @public (undocumented)
+export type SchemaRelation = OwningRelation | InverseRelation;
+
+// @public (undocumented)
+export interface SchemaRelationOrderBy {
+    // (undocumented)
+    direction: 'asc' | 'desc';
+    // (undocumented)
+    path: string[];
+}
+
+// @public (undocumented)
+export interface SchemaStore {
+    // (undocumented)
+    entities: SchemaEntities;
+    // (undocumented)
+    enums: SchemaEnums;
+}
+
+// @public (undocumented)
+export interface SchemaUniqueConstraint {
+    // (undocumented)
+    fields: Set<FieldName>;
 }
 
 // @public (undocumented)
