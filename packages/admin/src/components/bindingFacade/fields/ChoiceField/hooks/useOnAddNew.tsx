@@ -2,8 +2,10 @@ import {
 	AccessorTree,
 	Entity,
 	EntityAccessor,
-	NIL_UUID,
+	EntityListSubTree, TreeRootIdProvider,
 	useAccessorTreeState,
+	useEnvironment,
+	useExtendTree,
 	useGetEntityListSubTree,
 } from '@contember/binding'
 import { Button, Stack, useDialog } from '@contember/ui'
@@ -12,12 +14,15 @@ import { useMessageFormatter } from '../../../../../i18n'
 import { BaseDynamicChoiceField } from '../BaseDynamicChoiceField'
 import { choiceFieldDictionary } from '../choiceFieldDictionary'
 import { useDesugaredOptionPath } from './useDesugaredOptionPath'
+import { renderDynamicChoiceFieldStatic } from '../renderDynamicChoiceFieldStatic'
 
 export const useOnAddNew = ({ createNewForm, connect, ...props }: BaseDynamicChoiceField & { connect: (entity: EntityAccessor) => void }) => {
 	const desugaredOptionPath = useDesugaredOptionPath(props, undefined)
 	const getSubTree = useGetEntityListSubTree()
 	const dialog = useDialog<true>()
 	const localization = useMessageFormatter(choiceFieldDictionary)
+	const extendTree = useExtendTree()
+	const environment = useEnvironment()
 
 	const accessorTreeState = useAccessorTreeState()
 	return useMemo(() => {
@@ -25,12 +30,28 @@ export const useOnAddNew = ({ createNewForm, connect, ...props }: BaseDynamicCho
 				return undefined
 			}
 			return async () => {
+				const { renderedOption } = renderDynamicChoiceFieldStatic(props, environment)
+
+				const treeRootId = await extendTree(<>
+					<EntityListSubTree entities={{
+						entityName: desugaredOptionPath.entityName,
+					}} limit={0} expectedMutation={'none'}>
+						{createNewForm}
+						{renderedOption}
+					</EntityListSubTree>
+				</>)
+
+				if (!treeRootId) {
+					return
+				}
+
 				const subTree = getSubTree({
 					entities: {
 						entityName: desugaredOptionPath.entityName,
-						filter: { id: { eq: NIL_UUID } },
 					},
-				})
+					limit: 0,
+				}, treeRootId)
+
 				const newEntityId = subTree.createNewEntity()
 				const entity = subTree.getChildEntityById(newEntityId.value)
 
@@ -39,7 +60,9 @@ export const useOnAddNew = ({ createNewForm, connect, ...props }: BaseDynamicCho
 					content: contentProps => (
 						<Stack direction="vertical">
 							<AccessorTree state={accessorTreeState}>
-								<Entity accessor={entity}>{createNewForm}</Entity>
+								<TreeRootIdProvider treeRootId={treeRootId}>
+									<Entity accessor={entity}>{createNewForm}</Entity>
+								</TreeRootIdProvider>
 							</AccessorTree>
 							<Stack direction="horizontal" evenly>
 								<Button onClick={() => contentProps.resolve()} distinction="default" elevation="none">{localization('choiceField.createNew.cancelButtonText')}</Button>
@@ -55,6 +78,6 @@ export const useOnAddNew = ({ createNewForm, connect, ...props }: BaseDynamicCho
 					entity.deleteEntity()
 				}
 			}
-		}, [createNewForm, getSubTree, desugaredOptionPath.entityName, dialog, accessorTreeState, localization, connect],
+		}, [createNewForm, props, environment, extendTree, desugaredOptionPath.entityName, getSubTree, dialog, localization, accessorTreeState, connect],
 	)
 }
