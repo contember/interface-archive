@@ -3,10 +3,16 @@
 .#{$cui-conf-globalPrefix}containerSpinner
 	+absolute(0)
 	+size(100%)
-	z-index: 10
+	align-items: center
 	display: flex
 	justify-content: center
-	align-items: center
+	transition: background-color var(--cui-transition-duration)
+	z-index: 10
+
+	&.#{$cui-conf-globalPrefix}aether
+		background-color: transparent
+		&.is-dimmed
+			background-color: var(--cui-background-color--highlighted)
 
 	@each $name, $size in $cui-containerSpinner-sizes
 		$view: toView($name)
