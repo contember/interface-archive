@@ -287,6 +287,10 @@ export class EntityAccessor implements Errorable {
     getEntityList(entityList: SugaredRelativeEntityList | string): EntityListAccessor;
     getField<Value extends FieldValue = FieldValue>(field: SugaredRelativeSingleField | string): FieldAccessor<Value>;
     // (undocumented)
+    getMarker(): HasOneRelationMarker | HasManyRelationMarker | EntityListSubTreeMarker | EntitySubTreeMarker;
+    // (undocumented)
+    getParent(): EntityAccessor | EntityListAccessor | undefined;
+    // (undocumented)
     getRelativeEntityList(entityList: RelativeEntityList): EntityListAccessor;
     // (undocumented)
     getRelativeSingleEntity(relativeSingleEntity: RelativeSingleEntity): EntityAccessor;
