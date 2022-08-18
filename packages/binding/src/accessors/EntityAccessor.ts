@@ -26,6 +26,7 @@ import type { FieldAccessor } from './FieldAccessor'
 import type { PersistErrorOptions } from './PersistErrorOptions'
 import type { PersistSuccessOptions } from './PersistSuccessOptions'
 import type { EntityRealmState } from '../core/state'
+import { getEntityMarker } from '../core/state'
 
 class EntityAccessor implements Errorable {
 	public constructor(
@@ -142,6 +143,18 @@ class EntityAccessor implements Errorable {
 		return this.getRelativeSingleEntity(entityList).getAccessorByPlaceholder(
 			PlaceholderGenerator.getHasManyRelationPlaceholder(entityList.hasManyRelation),
 		) as EntityListAccessor
+	}
+
+	public getParent(): EntityAccessor | EntityListAccessor | undefined {
+		const blueprint = this.stateKey.blueprint
+		if (blueprint.type === 'subTree') {
+			return undefined
+		}
+		return blueprint.parent.getAccessor()
+	}
+
+	public getMarker() {
+		return getEntityMarker(this.stateKey)
 	}
 
 	private getAccessorByPlaceholder(placeholderName: FieldName): EntityAccessor.NestedAccessor {
