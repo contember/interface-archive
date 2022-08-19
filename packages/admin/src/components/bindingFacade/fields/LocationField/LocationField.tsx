@@ -66,9 +66,8 @@ export const LocationField: FunctionComponent<LocationFieldProps> = Component(
 						onclick={moveMarker}
 					>
 						<TileLayer
-							url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 							attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-							{...(tileLayerProps ?? {})}
+							{...(tileLayerProps ?? { url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' })}
 						/>
 						{latitude.value !== null && longitude.value !== null && (
 							<Marker
