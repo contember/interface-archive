@@ -1,6 +1,6 @@
 /* eslint-disable quote-props */
 import { describe, expect, test } from 'vitest'
-import { CLASS_NAME_RESET, CLASS_NAME_RESET_STRING, ComponentStyleSheet, createStyleSheet, extendStyleSheet, ProcessedStyleSheetClassName, PropsWithClassName, resolveStyleSheet, StyleSheetClassName, ToStyleSheet } from '../../src'
+import { CLASS_NAME_RESET, CLASS_NAME_RESET_STRING, ComponentStyleSheet, ProcessedClassNameListValue, PropsWithClassName, resolveStyleSheet, StyleSheetClassName, toClassName, ToStyleSheet } from '../../src'
 import { StyleSheetValueResolver } from '../../src/components/StyleSheet'
 import { deepMerge, excludeFromArray, filterResetClassNames, REMOVE_RESET_CLASS_NAME, toFlatArrayOfClassNameValues } from '../../src/components/StyleSheet/Helpers'
 import { toClassNameList } from '../../src/components/StyleSheet/toClassNameList'
@@ -41,8 +41,8 @@ describe('StyleSheet module', () => {
 			? 'no-foo' : $variable === undefined ? undefined
 				: `foo--${$variable}`
 
-		const handCrafted = createStyleSheet({ '$': '$variableClassName', '$variableClassName': 'bar--$variable' })
-		const baseClassName = extendStyleSheet('$variableClassName', { '$variableClassName': 'bar--$variable' })
+		const handCrafted = toClassName({ '$': '$variableClassName', '$variableClassName': 'bar--$variable' })
+		const baseClassName = toClassName('$variableClassName', { '$variableClassName': 'bar--$variable' })
 		//    ^?
 
 		expect(baseClassName).toEqual(handCrafted)
@@ -54,7 +54,7 @@ describe('StyleSheet module', () => {
 		expect('' + resolveStyleSheet(baseClassName, { $variable: null })[0]).toBe('')
 		expect('' + resolveStyleSheet(baseClassName, { $variable: undefined })[0]).toBe('')
 
-		const overriddenClassName = extendStyleSheet(baseClassName, {
+		const overriddenClassName = toClassName(baseClassName, {
 			$variableClassName: f,
 		})
 
@@ -67,7 +67,7 @@ describe('StyleSheet module', () => {
 	})
 
 	test('resolveStyleSheet(): Targeting sub-components README example to string render', () => {
-		const styleSheet = createStyleSheet('$componentClassName', {
+		const styleSheet = toClassName('$componentClassName', {
 			$componentClassName: '$prefix-$componentName',
 			$prefix: 'cui',
 			$componentName: 'box',
@@ -95,7 +95,7 @@ describe('StyleSheet module', () => {
 		expect('' + overriddenResolvedStyleSheet.body).toBe('next-box-body gap-size-1')
 	})
 
-	const fieldContainerStyleSheet = createStyleSheet({
+	const fieldContainerStyleSheet = toClassName({
 		// Variables:
 		$componentClassName: '$prefix$root',
 		$errorClassName: ({ $error }) => $error ? 'has-error' : 'no-error',
@@ -170,7 +170,7 @@ describe('StyleSheet module', () => {
 
 	test('resolveStyleSheet(): README 2.4 Resetting internal and pass extra class names', () => {
 		// Resolve as inside of the component
-		const classNameProp = extendStyleSheet(CLASS_NAME_RESET, 'extra-class', {
+		const classNameProp = toClassName(CLASS_NAME_RESET, 'extra-class', {
 			$prefix: 'next-',
 			body: { $prefix: 'cui-', $gap: 3 },
 		})
@@ -189,10 +189,10 @@ describe('StyleSheet module', () => {
 
 	test('resolveStyleSheet(): README 2.5 Resetting all internal class names', () => {
 		// Resolve as inside of the component
-		const classNameProp = extendStyleSheet(CLASS_NAME_RESET, 'extra-class', {
-			header: extendStyleSheet(CLASS_NAME_RESET, 'my-header'),
-			body: extendStyleSheet(CLASS_NAME_RESET, 'my-body'),
-			footer: extendStyleSheet(CLASS_NAME_RESET, 'my-footer'),
+		const classNameProp = toClassName(CLASS_NAME_RESET, 'extra-class', {
+			header: toClassName(CLASS_NAME_RESET, 'my-header'),
+			body: toClassName(CLASS_NAME_RESET, 'my-body'),
+			footer: toClassName(CLASS_NAME_RESET, 'my-footer'),
 		})
 		const [className, styleSheet] = resolveStyleSheet(fieldContainerStyleSheet, classNameProp)
 
@@ -233,7 +233,7 @@ describe('StyleSheet module', () => {
 			CLASS_NAME_RESET,
 			{ $: 'next-base' },
 			'mx-10',
-			{ $: [''], a: 1, c: null },
+			{ $: [''], a: undefined, c: null },
 			{ b: 'gap:2', c: null },
 		)
 
@@ -291,12 +291,12 @@ describe('StyleSheet module', () => {
 	})
 
 	test('resolveStyleSheet(): render box > field-container', () => {
-		type FieldContainerStyleSheet = ComponentStyleSheet<never> & {
+		type FieldContainerStyleSheet = ComponentStyleSheet<{
 			$ampersand?: string
 			$gap?: number | null
 			$prefix?: string,
 			$root?: string,
-		}
+		}>
 
 		const fieldContainerStyleSheet: FieldContainerStyleSheet = {
 			...{
@@ -315,13 +315,12 @@ describe('StyleSheet module', () => {
 			return `<div class="${className}">{children}</div>`
 		}
 
-		type BoxStyleSheet = {
+		type BoxStyleSheet = ComponentStyleSheet<{
 			$ampersand?: string
-			$?: string,
 			$prefix?: string,
 			$root?: string,
 			fieldContainer?: FieldContainerStyleSheet
-		}
+		}>
 
 		const boxStyleSheet: BoxStyleSheet = {
 			$ampersand: '$prefix$root',
@@ -340,6 +339,17 @@ describe('StyleSheet module', () => {
 
 		function Box({ className: _className }: PropsWithClassName<BoxStyleSheet> = {}) {
 			const [className, styleSheet] = resolveStyleSheet(boxStyleSheet, _className)
+			//                ^?
+
+			const aa: BoxStyleSheet = boxStyleSheet
+			//    ^?
+			const bb: BoxStyleSheet | undefined = _className
+			//    ^?
+
+			const a = resolveStyleSheet(boxStyleSheet)
+			//    ^?
+			const b = resolveStyleSheet(_className)
+			//    ^?
 
 			return `<div class="${className}">${FieldContainer({ className: styleSheet?.fieldContainer })}</div>`
 		}
@@ -352,9 +362,9 @@ describe('StyleSheet module', () => {
 		})).toBe('<div class="old-cui-box"><div class="cui-field-container gap:2">{children}</div></div>')
 
 		expect(Box({ className: CLASS_NAME_RESET })).toBe('<div class=""><div class="cui-field-container gap:1">{children}</div></div>')
-		expect(Box({ className: extendStyleSheet(CLASS_NAME_RESET) })).toBe('<div class=""><div class="cui-field-container gap:1">{children}</div></div>')
+		expect(Box({ className: toClassName(CLASS_NAME_RESET) })).toBe('<div class=""><div class="cui-field-container gap:1">{children}</div></div>')
 		expect(Box({
-			className: extendStyleSheet(CLASS_NAME_RESET, {
+			className: toClassName(CLASS_NAME_RESET, {
 				fieldContainer: CLASS_NAME_RESET,
 			}),
 		})).toBe('<div class=""><div class="">{children}</div></div>')
@@ -370,32 +380,32 @@ describe('StyleSheet module', () => {
 		function Repeater({ className: _className }: PropsWithClassName = {}) {
 			const [className, stylesheet] = resolveStyleSheet(repeaterStyleSheet, _className)
 
-			return Box({ className: extendStyleSheet(className, stylesheet.box) })
+			return Box({ className: toClassName(className, stylesheet.box) })
 		}
 
 		expect(Repeater()).toBe('<div class="cui-box cui-repeater"><div class="cui-field-container gap:1">{children}</div></div>')
 		expect(Repeater({ className: CLASS_NAME_RESET })).toBe('<div class="cui-box"><div class="cui-field-container gap:1">{children}</div></div>')
-		expect(Repeater({ className: extendStyleSheet(CLASS_NAME_RESET, { box: CLASS_NAME_RESET }) })).toBe('<div class=""><div class="cui-field-container gap:1">{children}</div></div>')
+		expect(Repeater({ className: toClassName(CLASS_NAME_RESET, { box: CLASS_NAME_RESET }) })).toBe('<div class=""><div class="cui-field-container gap:1">{children}</div></div>')
 		expect(Repeater({
-			className: extendStyleSheet(CLASS_NAME_RESET, {
-				box: extendStyleSheet(CLASS_NAME_RESET, {
+			className: toClassName(CLASS_NAME_RESET, {
+				box: toClassName(CLASS_NAME_RESET, {
 					fieldContainer: CLASS_NAME_RESET,
 				}),
 			}),
 		})).toBe('<div class=""><div class="">{children}</div></div>')
 	})
 
-	test('extendStyleSheet(): Typescript', () => {
-		expect(extendStyleSheet('one', 'two')).toEqual({ $: ['one', 'two'] })
-		const extendedStyleSheet1: { $: ProcessedStyleSheetClassName } = extendStyleSheet('one', 'two')
-		expect(extendStyleSheet('one', '')).toEqual({ $: ['one'] })
-		const extendedStyleSheet2: { $: ProcessedStyleSheetClassName } = extendStyleSheet('one', '')
-		expect(extendStyleSheet('one', null)).toEqual({ $: ['one'] })
-		const extendedStyleSheet3: { $: ProcessedStyleSheetClassName } = extendStyleSheet('one', null)
-		expect(extendStyleSheet('one', { header: 'some' })).toEqual({ $: ['one'], header: { $: ['some'] } })
-		const extendedStyleSheet4: { $: ProcessedStyleSheetClassName; header: { $: ProcessedStyleSheetClassName } } = extendStyleSheet('one', { header: 'some' })
-		expect(extendStyleSheet('one', { header: { headerLabel: 'some' } })).toEqual({ '$': ['one'], 'header': { 'headerLabel': { '$': ['some'] } } })
-		const extendedStyleSheet5: { $: ProcessedStyleSheetClassName; header: { headerLabel: { $: ProcessedStyleSheetClassName } } } = extendStyleSheet('one', { header: { headerLabel: 'some' } })
+	test('toClassName(): Typescript', () => {
+		expect(toClassName('one', 'two')).toEqual({ $: ['one', 'two'] })
+		const extendedStyleSheet1: { $: ProcessedClassNameListValue } = toClassName('one', 'two')
+		expect(toClassName('one', '')).toEqual({ $: ['one'] })
+		const extendedStyleSheet2: { $: ProcessedClassNameListValue } = toClassName('one', '')
+		expect(toClassName('one', null)).toEqual({ $: ['one'] })
+		const extendedStyleSheet3: { $: ProcessedClassNameListValue } = toClassName('one', null)
+		expect(toClassName('one', { header: 'some' })).toEqual({ $: ['one'], header: { $: ['some'] } })
+		const extendedStyleSheet4: { $: ProcessedClassNameListValue; header: { $: ProcessedClassNameListValue } } = toClassName('one', { header: 'some' })
+		expect(toClassName('one', { header: { headerLabel: 'some' } })).toEqual({ '$': ['one'], 'header': { 'headerLabel': { '$': ['some'] } } })
+		const extendedStyleSheet5: { $: ProcessedClassNameListValue; header: { headerLabel: { $: ProcessedClassNameListValue } } } = toClassName('one', { header: { headerLabel: 'some' } })
 
 		extendedStyleSheet5
 		// ^?
@@ -407,45 +417,48 @@ describe('StyleSheet module', () => {
 		//                                     ^?
 	})
 
-	test('extendStyleSheet: empty', () => {
-		expect(extendStyleSheet()).toEqual(undefined)
-		expect(extendStyleSheet('')).toEqual({ $: [] })
-		expect(extendStyleSheet(null)).toEqual(undefined)
-		expect(extendStyleSheet(undefined)).toEqual(undefined)
-		expect(extendStyleSheet(false)).toEqual(undefined)
-		expect(extendStyleSheet(true)).toEqual(undefined)
-		expect(extendStyleSheet(0)).toEqual(undefined)
-		expect(extendStyleSheet(999)).toEqual(undefined)
+	test('toClassName: empty', () => {
+		expect(toClassName()).toEqual(undefined)
+		expect(toClassName('')).toEqual({ $: [] })
+		expect(toClassName(null)).toEqual(undefined)
+		expect(toClassName(undefined)).toEqual(undefined)
+		expect(toClassName(false)).toEqual(undefined)
+		// @ts-expect-error: Argument of type 'true' is not assignable to parameter of type 'StyleSheetClassName'.
+		expect(toClassName(true)).toEqual(undefined)
+		// @ts-expect-error: Argument of type '999' is not assignable to parameter of type 'StyleSheetClassName'.
+		expect(toClassName(0)).toEqual(undefined)
+		// @ts-expect-error: Argument of type '999' is not assignable to parameter of type 'StyleSheetClassName'.
+		expect(toClassName(999)).toEqual(undefined)
 	})
 
-	test('extendStyleSheet: string & string[]', () => {
-		expect(extendStyleSheet('lorem ipsum dolor sit amet')).toEqual({ $: ['lorem', 'ipsum', 'dolor', 'sit', 'amet'] })
-		expect(extendStyleSheet(['lorem', 'ipsum', 'dolor', 'sit', 'amet'])).toEqual({ $: ['lorem', 'ipsum', 'dolor', 'sit', 'amet'] })
-		expect(extendStyleSheet('lorem ipsum', null, 'dolor sit amet')).toEqual({ $: ['lorem', 'ipsum', 'dolor', 'sit', 'amet'] })
-		expect(extendStyleSheet('lorem ipsum', ['dolor', 'sit', 'amet'])).toEqual({ $: ['lorem', 'ipsum', 'dolor', 'sit', 'amet'] })
-		expect(extendStyleSheet(['lorem', 'ipsum'], 'dolor', ['sit', 'amet'])).toEqual({ $: ['lorem', 'ipsum', 'dolor', 'sit', 'amet'] })
+	test('toClassName: string & string[]', () => {
+		expect(toClassName('lorem ipsum dolor sit amet')).toEqual({ $: ['lorem', 'ipsum', 'dolor', 'sit', 'amet'] })
+		expect(toClassName(['lorem', 'ipsum', 'dolor', 'sit', 'amet'])).toEqual({ $: ['lorem', 'ipsum', 'dolor', 'sit', 'amet'] })
+		expect(toClassName('lorem ipsum', null, 'dolor sit amet')).toEqual({ $: ['lorem', 'ipsum', 'dolor', 'sit', 'amet'] })
+		expect(toClassName('lorem ipsum', ['dolor', 'sit', 'amet'])).toEqual({ $: ['lorem', 'ipsum', 'dolor', 'sit', 'amet'] })
+		expect(toClassName(['lorem', 'ipsum'], 'dolor', ['sit', 'amet'])).toEqual({ $: ['lorem', 'ipsum', 'dolor', 'sit', 'amet'] })
 	})
 
-	test('extendStyleSheet: reset', () => {
-		expect(extendStyleSheet(['lorem', 'ipsum'], 'dolor', ['sit', 'amet'], CLASS_NAME_RESET)).toEqual(CLASS_NAME_RESET)
-		expect(extendStyleSheet(['lorem', 'ipsum'], 'dolor', ['sit', 'amet'], CLASS_NAME_RESET, 'new start')).toEqual({ $: [CLASS_NAME_RESET_STRING, 'new', 'start'] })
-		expect(extendStyleSheet(['lorem', 'ipsum'], 'dolor', ['sit', 'amet'], CLASS_NAME_RESET, ['next-${&}', 'new start'])).toEqual({ $: [CLASS_NAME_RESET_STRING, 'next-${&}', 'new', 'start'] })
+	test('toClassName: reset', () => {
+		expect(toClassName(['lorem', 'ipsum'], 'dolor', ['sit', 'amet'], CLASS_NAME_RESET)).toEqual(CLASS_NAME_RESET)
+		expect(toClassName(['lorem', 'ipsum'], 'dolor', ['sit', 'amet'], CLASS_NAME_RESET, 'new start')).toEqual({ $: [CLASS_NAME_RESET_STRING, 'new', 'start'] })
+		expect(toClassName(['lorem', 'ipsum'], 'dolor', ['sit', 'amet'], CLASS_NAME_RESET, ['next-${&}', 'new start'])).toEqual({ $: [CLASS_NAME_RESET_STRING, 'next-${&}', 'new', 'start'] })
 
 		expect(
-			extendStyleSheet(CLASS_NAME_RESET, { fieldContainer: CLASS_NAME_RESET }),
+			toClassName(CLASS_NAME_RESET, { fieldContainer: CLASS_NAME_RESET }),
 		).toEqual(
 			{ $: [CLASS_NAME_RESET_STRING], fieldContainer: { $: [CLASS_NAME_RESET_STRING] } },
 		)
 	})
 
-	test('extendStyleSheet: mixed', () => {
-		const varStyleSheet = createStyleSheet('$varTemplate $unusedVarTemplate', {
+	test('toClassName: mixed', () => {
+		const varStyleSheet = toClassName('$varTemplate $unusedVarTemplate', {
 			$unusedVarTemplate: '$unusedVar',
 			$varTemplate: 'foo--$value',
 			$value: 2,
 		})
 
-		expect(extendStyleSheet(varStyleSheet)).toEqual({
+		expect(toClassName(varStyleSheet)).toEqual({
 			'$': [
 				'$varTemplate',
 				'$unusedVarTemplate',
@@ -455,7 +468,7 @@ describe('StyleSheet module', () => {
 			$unusedVarTemplate: '$unusedVar',
 		})
 
-		expect(extendStyleSheet(varStyleSheet, {
+		expect(toClassName(varStyleSheet, {
 			$value: 1,
 		})).toEqual({
 			'$': [
@@ -468,25 +481,25 @@ describe('StyleSheet module', () => {
 		})
 	})
 
-	test('extendStyleSheet: skip undefined values', () => {
-		expect(extendStyleSheet({ $var: 1 }, { $var: undefined })).toEqual({ $var: 1 })
+	test('toClassName: skip undefined values', () => {
+		expect(toClassName({ $var: 1 }, { $var: undefined })).toEqual({ $var: 1 })
 	})
 
-	test('extendStyleSheet: null-ify with values', () => {
-		expect(extendStyleSheet({ $var: 1 }, { $var: null })).toEqual({ $var: null })
+	test('toClassName: null-ify with values', () => {
+		expect(toClassName({ $var: 1 }, { $var: null })).toEqual({ $var: null })
 	})
 
 	test('toStyleSheet()', () => {
 		expect(toStyleSheet(null)).toEqual(undefined)
 		const expectType1: ToStyleSheet<null> = undefined
+		// @ts-expect-error: Argument of type '1' is not assignable to parameter of type 'StyleSheetClassName'.
 		expect(toStyleSheet(1)).toEqual(undefined)
 		const expectType2: ToStyleSheet<1> = undefined
 		expect(toStyleSheet(undefined)).toEqual(undefined)
 		const expectType3: ToStyleSheet<undefined> = undefined
 		expect(toStyleSheet('mx-10 p-20')).toEqual({ $: ['mx-10', 'p-20'] })
 		const expectType4: ToStyleSheet<'mx-10 p-20'> = { $: ['mx-10', 'p-20'] }
-		// @ts-expect-error: Type 'boolean' is not assignable to type 'string'.
-		expect(toStyleSheet(['mx-10', 1, null, undefined, false, 'p-20'])).toEqual({ $: ['mx-10', 'p-20'] })
+		expect(toStyleSheet(['mx-10', null, undefined, false, 'p-20'])).toEqual({ $: ['mx-10', 'p-20'] })
 		const expectType5: ToStyleSheet<['mx-10', 1, null, undefined, false, 'p-20']> = { $: ['mx-10', 'p-20'] }
 		expect(toStyleSheet(['mx-10', '', null, undefined, 'p-20'])).toEqual({ $: ['mx-10', 'p-20'] })
 		const expectType6: ToStyleSheet<['mx-10', '', null, undefined, 'p-20']> = { $: ['mx-10', 'p-20'] }
@@ -496,21 +509,26 @@ describe('StyleSheet module', () => {
 		const expectType8: ToStyleSheet<typeof CLASS_NAME_RESET> = CLASS_NAME_RESET
 		expect(toStyleSheet({ $: 'string' })).toEqual({ $: ['string'] })
 		const expectType9: ToStyleSheet<{ $: 'string' }> = { $: ['string'] }
+		// @ts-expect-error: Type 'number' is not assignable to type 'UnprocessedClassNameListValue | Iterable<UnprocessedClassNameListValue>'.
 		expect(toStyleSheet({ $: 1 })).toEqual({ $: [] })
 		const expectType10: ToStyleSheet<{ $: 1 }> = { $: [] }
+		// @ts-expect-error: Type 'true' is not assignable to type 'UnprocessedClassNameListValue | Iterable<UnprocessedClassNameListValue>'.
 		expect(toStyleSheet({ $: true })).toEqual({ $: [] })
 		const expectType11: ToStyleSheet<{ $: true }> = { $: [] }
 		expect(toStyleSheet({ $: false })).toEqual({ $: [] })
 		const expectType12: ToStyleSheet<{ $: false }> = { $: [] }
 		expect(toStyleSheet({ $: undefined })).toEqual({ $: [] })
 		const expectType13: ToStyleSheet<{ $: undefined }> = { $: [] }
+		expect(toStyleSheet({ $: null })).toEqual({ $: [] })
+		const expectType14: ToStyleSheet<{ $: null }> = { $: [] }
 		expect(toStyleSheet({ $a: 1 })).toEqual({ $a: 1 })
-		const expectType14: ToStyleSheet<{ $a: 1 }> = { $a: 1 }
+		const expectType15: ToStyleSheet<{ $a: 1 }> = { $a: 1 }
 		expect(toStyleSheet({ $a: null })).toEqual({ $a: null })
-		const expectType15: ToStyleSheet<{ $a: null }> = { $a: null }
+		const expectType16: ToStyleSheet<{ $a: null }> = { $a: null }
 		expect(toStyleSheet({ $a: undefined })).toEqual({ a: undefined })
-		const expectType16: ToStyleSheet<{ $a: undefined }> = { $a: undefined }
+		const expectType17: ToStyleSheet<{ $a: undefined }> = { $a: undefined }
 
+		// @ts-expect-error: Type 'null[]' is not assignable to type 'StyleSheetVariableValue'.
 		expect(() => toStyleSheet({ $a: [null] })).toThrowError(`Unexpected '$a' variable value: [null]. Use 'string', 'number', 'boolean', 'null' or 'undefined' value type.`)
 	})
 
@@ -563,7 +581,7 @@ describe('StyleSheet module', () => {
 			expect(toClassNameList(-1)).toEqual([])
 			expect(toClassNameList(0)).toEqual([])
 			expect(toClassNameList(1)).toEqual([])
-			expect(() => toClassNameList(null)).toThrowError(`'null' should be kept intact`)
+			expect(toClassNameList(null)).toEqual([])
 			expect(toClassNameList(undefined)).toEqual([])
 			expect(toClassNameList('')).toEqual([])
 			expect(toClassNameList('string')).toEqual(['string'])
@@ -575,6 +593,7 @@ describe('StyleSheet module', () => {
 		test('toStyleSheet()', () => {
 			expect(toStyleSheet({})).toEqual({})
 			expect(toStyleSheet({ $: 'some string' })).toEqual({ $: ['some', 'string'] })
+			// @ts-expect-error: Type 'number' is not assignable to type 'UnprocessedClassNameListValue | Iterable<UnprocessedClassNameListValue>'.
 			expect(toStyleSheet({ $: 1 })).toEqual({ $: [] })
 			expect(toStyleSheet({ $var: 1 })).toEqual({ $var: 1 })
 			expect(toStyleSheet({ $var: 1, $gap: true })).toEqual({ $var: 1, $gap: true })
@@ -583,7 +602,7 @@ describe('StyleSheet module', () => {
 
 	describe('toFlatArrayOfClassNameValues()', () => {
 		test('toFlatArrayOfClassNameValues()', () => {
-			const f = () => { }
+			const f = () => undefined
 			expect(toFlatArrayOfClassNameValues(['string', 'spaced string', null, 1, 2, undefined, f])).toEqual(['string', 'spaced', 'string', f])
 		})
 	})

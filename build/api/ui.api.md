@@ -2038,7 +2038,7 @@ export interface ProcessedError {
 }
 
 // @public (undocumented)
-export type ProcessedStyleSheetClassName = undefined | null | (string | StyleSheetValueResolver)[];
+export type ProcessedClassNameListValue = undefined | null | (string | StyleSheetValueResolver)[];
 
 // @public (undocumented)
 export const ProgressBar: MemoExoticComponent<({ progress }: ProgressBarProps) => JSX.Element>;
@@ -2343,7 +2343,7 @@ export const StyleProvider: ({ children }: {
 
 // @public (undocumented)
 export type StyleSheetClassName = (string | StyleSheetValueResolver)[] | StyleSheetValueResolver | string | number | boolean | null | undefined | {
-    [Property in string]: (Property extends StyleSheetVariableKey ? (Property extends '$' ? ProcessedStyleSheetClassName : StyleSheetVariableValue) : StyleSheetClassName);
+    [Property in string]: (Property extends StyleSheetVariableKey ? (Property extends '$' ? ProcessedClassNameListValue : StyleSheetVariableValue) : StyleSheetClassName);
 };
 
 // @public (undocumented)
@@ -2654,9 +2654,9 @@ export const toStateClass: (name: string, state?: boolean) => string | undefined
 
 // @public (undocumented)
 export type ToStyleSheet<T> = T extends number | null | undefined ? undefined : T extends StyleSheetValueResolver | string | Iterable<any> ? {
-    $: ProcessedStyleSheetClassName;
+    $: ProcessedClassNameListValue;
 } : T extends Record<infer K, unknown> ? {
-    [Property in K]: Property extends StyleSheetVariableKey ? (Property extends '$' ? ProcessedStyleSheetClassName : (T[Property] extends StyleSheetVariableValue ? T[Property] : never)) : ToStyleSheet<T[Property]>;
+    [Property in K]: Property extends StyleSheetVariableKey ? (Property extends '$' ? ProcessedClassNameListValue : (T[Property] extends StyleSheetVariableValue ? T[Property] : never)) : ToStyleSheet<T[Property]>;
 } : never;
 
 // @public (undocumented)

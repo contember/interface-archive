@@ -13,19 +13,17 @@ export const CLASS_NAME_RESET_STRING = '*:null'
 export const CLASS_NAME_RESET = { $: [CLASS_NAME_RESET_STRING] }
 
 export {
-  createStyleSheet,
-  extendStyleSheet,
-  useCreateStyleSheet,
-  useExtendStyleSheet,
-} from './extendStyleSheet'
-export {
   resolveStyleSheet,
   useResolveStyleSheet,
 } from './resolveStyleSheet'
+export {
+  toClassName,
+  useToClassName,
+} from './toClassName'
 export type {
   ComponentStyleSheet,
   ObjectExceptArray,
-  ProcessedStyleSheetClassName,
+  ProcessedClassNameListValue,
   PropsWithClassName,
   StyleSheetClassName,
   StyleSheetValueResolver,

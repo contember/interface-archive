@@ -48,7 +48,7 @@ export function splitStringToStringList(value: string): string[] {
 
 const REASONABLE_ARRAY_FLAT_DEPTH = 9
 
-export function toFlatArrayOfClassNameValues(value: any[]): (string | StyleSheetValueResolver)[] {
+export function toFlatArrayOfClassNameValues(value: (StyleSheetValueResolver | string | number | boolean | null | undefined)[]): (string | StyleSheetValueResolver)[] {
   return excludeFromArray(null, value.flat(REASONABLE_ARRAY_FLAT_DEPTH).map(
     value => isNonEmptyString(value) ? splitStringToStringList(value) : typeof value === 'function' ? value : null,
   )).flat(1)
