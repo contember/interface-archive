@@ -1,10 +1,10 @@
 import { useMemo } from 'react'
-import { extendStyleSheet } from './extendStyleSheet'
 import { entriesFromObject, excludeFromArray, filterResetClassNames, objectFromEntries, REMOVE_RESET_CLASS_NAME } from './Helpers'
+import { toClassName } from './toClassName'
 import { toClassNameList } from './toClassNameList'
 import { subComponentEntries, variableEntries } from './toStyleSheet'
-import { isValueResolver } from './TypePredicates'
-import { StyleSheetClassName, StyleSheetValueResolver, StyleSheetVariableKey, StyleSheetVariableValue, ToStyleSheet, UnionToIntersection } from './Types'
+import { isResolvedValue, isValueResolver } from './TypePredicates'
+import { StyleSheetClassName, StyleSheetValueResolver, StyleSheetVariableKey, StyleSheetVariableValue, StyleSheetVariableValueResolved, ToStyleSheet, UnionToIntersection } from './Types'
 
 type VariableReplacements = [RegExp, StyleSheetVariableValue][]
 
@@ -34,13 +34,16 @@ function toVariableReplacements(value: Record<string, StyleSheetVariableValue>):
   )
 }
 
+function onlyResolvedEntries(entries: [StyleSheetVariableKey, StyleSheetVariableValue][]): [StyleSheetVariableKey, StyleSheetVariableValueResolved][] {
+  return excludeFromArray(null, entries.map(
+    ([key, value]) => isResolvedValue(value) ? [key, value] : null,
+  ))
+}
+
 function resolveCallableVariablesEntries(entries: [StyleSheetVariableKey, StyleSheetVariableValue][]): [StyleSheetVariableKey, StyleSheetVariableValue][] {
   const allEntriesCount = entries.length
 
-  const resolvedEntries = entries.filter(
-    ([, value]) => !isValueResolver(value),
-  )
-
+  const resolvedEntries = onlyResolvedEntries(entries)
   const resolvedEntriesCountBefore = resolvedEntries.length
 
   if (resolvedEntriesCountBefore === allEntriesCount) {
@@ -80,19 +83,21 @@ function isReplaced(value: unknown): boolean {
 }
 
 function resolveArray(value: (string | StyleSheetValueResolver)[], variables: Record<`$${string}`, StyleSheetVariableValue>): string[] & string {
-  variables = objectFromEntries(
-    resolveCallableVariablesEntries(
-      variableEntries(
-        entriesFromObject(variables),
+  const resolvedVariables = objectFromEntries(
+    onlyResolvedEntries(
+      resolveCallableVariablesEntries(
+        variableEntries(
+          entriesFromObject(variables),
+        ),
       ),
     ),
   )
 
   const replaced = value.map(
-    v => typeof v === 'function' ? v(variables) : v,
+    v => typeof v === 'function' ? v(resolvedVariables) : v,
   ).map(
     v => typeof v === 'string'
-      ? replacePlaceholders(v, toVariableReplacements(variables))
+      ? replacePlaceholders(v, toVariableReplacements(resolvedVariables))
       : typeof v === 'function' ? undefined : v,
   )
 
@@ -104,7 +109,7 @@ function resolveArray(value: (string | StyleSheetValueResolver)[], variables: Re
 }
 
 export function resolveStyleSheet<T extends StyleSheetClassName[]>(...styles: T): [(string[] & string) | undefined, Omit<UnionToIntersection<ToStyleSheet<T[number]>>, '$'>] {
-  const merged: Record<string, any> = extendStyleSheet(...styles) ?? {} as any
+  const merged: Record<string, any> = toClassName(...styles) ?? {} as any
   const entries = entriesFromObject(merged as Record<string, any>)
   const rootVariables = objectFromEntries(variableEntries(entries))
 
