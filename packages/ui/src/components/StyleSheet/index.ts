@@ -22,7 +22,6 @@ export {
 } from './toClassName'
 export type {
   ComponentStyleSheet,
-  ObjectExceptArray,
   ProcessedClassNameListValue,
   PropsWithClassName,
   StyleSheetClassName,
@@ -30,6 +29,9 @@ export type {
   StyleSheetVariableKey,
   StyleSheetVariableValue,
   SubComponentsStyleSheet,
+  StyleSheetClassNameObject,
+  StyleSheetVariableValueResolved,
   ToStyleSheet,
   UnionToIntersection,
+  UnprocessedClassNameListValue,
 } from './Types'

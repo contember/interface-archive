@@ -1,6 +1,4 @@
-type AlphaLower = 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z'
-type AlphaUpper = Uppercase<AlphaLower>
-type Alpha = AlphaLower | AlphaUpper
+import { Alpha, NotArray } from "@contember/react-utils"
 
 export type StyleSheetVariableKey = `\$${Alpha}${string}`
 export type StyleSheetVariableValue = StyleSheetValueResolver | string | number | boolean | null | undefined
@@ -10,8 +8,6 @@ export type StyleSheetValueResolver = (variables: Record<StyleSheetVariableKey, 
 
 export type UnprocessedClassNameListValue = StyleSheetValueResolver | string | null | false | undefined
 export type ProcessedClassNameListValue = (string | StyleSheetValueResolver)[]
-
-type NotArray<T extends object & { [Symbol.iterator]?: never }> = T
 
 export type StyleSheetClassNameObject = NotArray<{
   [key: `${Alpha}${string}`]: StyleSheetClassName,
@@ -44,8 +40,6 @@ export type ToStyleSheet<T> =
   : never
 
 export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (k: infer I) => void ? I : never
-
-export type ObjectExceptArray = object & { [Symbol.iterator]?: never }
 
 export type SubComponentsStyleSheet<SubComponent extends string> = {
   [key in SubComponent]: StyleSheetClassName
