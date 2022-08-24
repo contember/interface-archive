@@ -2842,7 +2842,7 @@ export type MutationRequestState<T> = QueryRequestState<T> | RequestStateUniniti
 export const NativeSelectField: FunctionComponent<NativeSelectFieldProps>;
 
 // @public (undocumented)
-export const NativeSelectFieldInner: React.MemoExoticComponent<React.ForwardRefExoticComponent<Pick<NativeSelectFieldInnerProps<any>, "data" | "label" | "style" | "className" | "placeholder" | "onSelect" | "size" | "key" | "direction" | "gap" | "description" | "labelDescription" | "labelPosition" | "width" | "required" | "useLabelElement" | "errors" | "notNull" | "isLoading" | "onSearch" | "currentValue" | "onClear" | "onAddNew" | "allowNull"> & RefAttributes<HTMLSelectElement>>>;
+export const NativeSelectFieldInner: React.MemoExoticComponent<React.ForwardRefExoticComponent<Pick<NativeSelectFieldInnerProps<any>, "data" | "label" | "style" | "key" | "className" | "placeholder" | "onSelect" | "size" | "errors" | "description" | "direction" | "gap" | "labelDescription" | "labelPosition" | "width" | "required" | "useLabelElement" | "notNull" | "isLoading" | "onSearch" | "currentValue" | "onClear" | "onAddNew" | "allowNull"> & RefAttributes<HTMLSelectElement>>>;
 
 // @public (undocumented)
 export interface NativeSelectFieldInnerProps<ActualValue> extends ChoiceFieldData.SingleChoiceFieldMetadata<ActualValue>, NativeSelectFieldInnerPublicProps, RefAttributes<HTMLSelectElement> {
