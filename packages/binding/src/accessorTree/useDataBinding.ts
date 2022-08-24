@@ -17,8 +17,9 @@ import { TreeStore } from '../core/TreeStore'
 import { useIsMounted } from '@contember/react-utils'
 
 export const useDataBinding = ({
-	nodeTree,
-	refreshOnPersist = false,
+	children,
+	refreshOnPersist,
+	skipStateUpdateAfterPersist,
 }: AccessorTreeStateOptions): AccessorTreeState => {
 	const contentClient = useCurrentContentGraphQlClient()
 	const systemClient = useCurrentSystemGraphQlClient()
@@ -51,7 +52,9 @@ export const useDataBinding = ({
 			currentTreeStore.current = new TreeStore(environment.getSchema())
 		}
 
-		const binding = new DataBinding(contentClient, systemClient, tenantClient, currentTreeStore.current, environment, onUpdate, onError, onPersistSuccess)
+		const binding = new DataBinding(contentClient, systemClient, tenantClient, currentTreeStore.current, environment, onUpdate, onError, onPersistSuccess, {
+			skipStateUpdateAfterPersist: skipStateUpdateAfterPersist ?? false,
+		})
 		dispatch({ type: 'reset', binding, environment })
 	}, [contentClient, systemClient, tenantClient, isMountedRef, refreshOnPersist])
 
@@ -73,8 +76,8 @@ export const useDataBinding = ({
 	}, [resetDataBinding, schema, environment])
 
 	useEffect(() => {
-		state.binding?.extendTree(nodeTree)
-	}, [nodeTree, state.binding])
+		state.binding?.extendTree(children)
+	}, [children, state.binding])
 
 	return state
 }
