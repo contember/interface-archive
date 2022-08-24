@@ -8,6 +8,15 @@ import { DispatchWithoutAction } from 'react';
 import { MutableRefObject } from 'react';
 
 // @public (undocumented)
+export type Alpha = AlphaLower | AlphaUpper;
+
+// @public (undocumented)
+export type AlphaLower = 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z';
+
+// @public (undocumented)
+export type AlphaUpper = Uppercase<AlphaLower>;
+
+// @public (undocumented)
 export const emptyArray: any[];
 
 // @public (undocumented)
@@ -18,6 +27,11 @@ export const identityFunction: <Value>(value: Value) => Value;
 
 // @public (undocumented)
 export const noop: () => undefined;
+
+// @public (undocumented)
+export type NotArray<T extends object & {
+    [Symbol.iterator]?: never;
+}> = T;
 
 // @public (undocumented)
 export const returnFalse: () => boolean;
