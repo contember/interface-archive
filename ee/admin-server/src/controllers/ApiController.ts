@@ -1,8 +1,9 @@
 import { IncomingMessage, OutgoingHttpHeaders, request as httpRequest, ServerResponse } from 'http'
 import { request as httpsRequest, RequestOptions } from 'https'
-import { BaseController } from './BaseController'
+import { TLSSocket } from 'tls'
 import { ApiEndpointResolver } from '../services/ApiEndpointResolver'
 import { readAuthCookie, writeAuthCookie } from '../utils/cookies'
+import { BaseController } from './BaseController'
 
 export const LOGIN_TOKEN_PLACEHOLDER = '__LOGIN_TOKEN__'
 export const SESSION_TOKEN_PLACEHOLDER = '__SESSION_TOKEN__'
@@ -112,6 +113,13 @@ export class ApiController extends BaseController<ApiParams> {
 		if (post && req.headers['content-type'] !== undefined) {
 			outHeaders['Content-Type'] = req.headers['content-type']
 		}
+
+		outHeaders['X-Forwarded-For'] = req.headers['x-forwarded-for'] !== undefined
+			? `${req.headers['x-forwarded-for']},${req.socket.remoteAddress}`
+			: req.socket.remoteAddress
+
+		outHeaders['X-Forwarded-Port'] = req.headers['x-forwarded-port'] ?? req.socket.remotePort
+		outHeaders['X-Forwarded-Proto'] = req.headers['x-forwarded-proto'] ?? (req.socket instanceof TLSSocket && req.socket.encrypted ? 'https' : 'http')
 
 		return outHeaders
 	}
