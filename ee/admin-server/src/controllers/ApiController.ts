@@ -82,6 +82,10 @@ export class ApiController extends BaseController<ApiParams> {
 			res.end(JSON.stringify(jsonBody))
 		})
 
+		innerReq.setTimeout(60 * 1000, () => {
+			innerReq.end()
+		})
+
 		req.pipe(innerReq)
 
 		return new Promise((resolve, reject) => {
