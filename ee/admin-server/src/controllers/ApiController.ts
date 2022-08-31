@@ -82,6 +82,12 @@ export class ApiController extends BaseController<ApiParams> {
 			res.end(JSON.stringify(jsonBody))
 		})
 
+		innerReq.setTimeout(60 * 1000, () => {
+			const { aborted, destroyed, writable, shouldKeepAlive } = innerReq
+			console.log(`ApiController: inner request has timeouted`, { aborted, destroyed, writable, shouldKeepAlive })
+			innerReq.end()
+		})
+
 		req.pipe(innerReq)
 
 		return new Promise((resolve, reject) => {
