@@ -114,7 +114,7 @@ const OnlyKeepSubTrees = Component<{ children: ReactNode }>(
 			const emptyFields = MarkerFactory.createEntityFieldMarkersContainer(undefined)
 
 			if (fields instanceof EntityFieldMarkersContainer) {
-				return emptyFields
+				return new EntityFieldsWithHoistablesMarker(emptyFields, new Map(), undefined)
 			}
 			return new EntityFieldsWithHoistablesMarker(emptyFields, fields.subTrees, undefined)
 		},

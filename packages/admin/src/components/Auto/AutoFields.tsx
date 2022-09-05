@@ -5,7 +5,6 @@ import { RoutingLinkTarget } from '../../routing'
 export type AutoFieldsProps = {
 	createEditLink?: (entity: string) => RoutingLinkTarget
 	excludedFields?: string[]
-	excludedEntities?: string[]
 }
 
 export const AutoFields = Component<AutoFieldsProps>(
@@ -21,7 +20,6 @@ export const AutoFields = Component<AutoFieldsProps>(
 				entityName={entity.name}
 				fieldName={field.name}
 				createEditLink={props.createEditLink}
-				excludedEntities={[entity.name, ...(props.excludedEntities ?? [])]}
 			/>
 		))
 
