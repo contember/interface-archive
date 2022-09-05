@@ -1,10 +1,21 @@
-import { Component, DeferredSubTrees, Field, Schema } from '@contember/binding'
+import {
+	Component, Entity, EntityAccessor,
+	EntityListSubTree,
+	Field,
+	Schema,
+	TreeRootIdProvider,
+	useEntity,
+	useExtendTree,
+	useGetEntityListSubTree,
+} from '@contember/binding'
 import { CheckboxField, DateField, DateTimeField, FloatField, MultiSelectField, NumberField, SelectField, TextareaField, TextField } from '../bindingFacade'
 import { getHumanFriendlyField, resolveConnectingEntity, resolveSortableBy } from './utils'
 import { AutoFields } from './AutoFields'
 import { RoutingLinkTarget } from '../../routing'
 import { AutoLabel } from './AutoLabel'
 import { FieldContainer, Spinner } from '@contember/ui'
+import { ReactNode, useEffect, useMemo, useState } from 'react'
+import { useIsMounted } from '@contember/react-utils'
 
 export type AutoFieldProps = {
 	schema: Schema
@@ -73,9 +84,9 @@ export const AutoField = Component<AutoFieldProps>(
 			const excludedFields = [otherSide, sortableBy].filter(it => it) as string[]
 
 			const createNewForm = (
-				<DeferredSubTrees fallback={<Spinner />}>
+				<Deferred fallback={<Spinner />}>
 					<AutoFields excludedFields={excludedFields} createEditLink={createEditLink} />
-				</DeferredSubTrees>
+				</Deferred>
 			)
 
 			if (field.type === 'OneHasOne' || field.type === 'ManyHasOne') {
@@ -110,4 +121,51 @@ export const AutoField = Component<AutoFieldProps>(
 			}
 		}
 	},
+)
+
+type Deferred = {
+	children: ReactNode
+	fallback: ReactNode
+}
+
+const Deferred = Component<Deferred>(
+	({ children, fallback }, env) => {
+		const entityName = useEntity().name
+		const extendTree = useExtendTree()
+		const getSubTree = useGetEntityListSubTree()
+
+		const [tree, setTree] = useState<string>()
+		const [entity, setEntity] = useState<EntityAccessor>()
+
+		const subTreeNode = useMemo(
+			() => <EntityListSubTree entities={{ entityName }} limit={0} expectedMutation="none">{children}</EntityListSubTree>,
+			[entityName, children],
+		)
+
+		useEffect(
+			() => {
+				(async () => {
+					const treeId = await extendTree(subTreeNode)
+
+					if (!treeId) {
+						return
+					}
+
+					const subTreeAccessor = getSubTree({ entities: entityName, limit: 0, expectedMutation: 'none' }, treeId)
+					const entityId = subTreeAccessor.createNewEntity()
+					const entity = subTreeAccessor.getChildEntityById(entityId.value)
+					setTree(treeId)
+					setEntity(entity)
+				})()
+			},
+			[extendTree, env, subTreeNode, getSubTree, entityName],
+		)
+
+		if (tree === undefined || entity === undefined) {
+			return <>{fallback}</>
+		}
+
+		return <TreeRootIdProvider treeRootId={tree}><Entity accessor={entity}>{children}</Entity></TreeRootIdProvider>
+	},
+	props => <>{props.fallback}</>,
 )
