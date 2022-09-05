@@ -112,11 +112,8 @@ const OnlyKeepSubTrees = Component<{ children: ReactNode }>(
 		generateBranchMarker: (props, fields) => {
 			// This is the complement of the equivalent method above: this time we're only keeping the sub trees.
 			const emptyFields = MarkerFactory.createEntityFieldMarkersContainer(undefined)
-
-			if (fields instanceof EntityFieldMarkersContainer) {
-				return emptyFields
-			}
-			return new EntityFieldsWithHoistablesMarker(emptyFields, fields.subTrees, undefined)
+			const subTrees = fields instanceof EntityFieldMarkersContainer ? new Map<never, never>() : fields.subTrees
+			return new EntityFieldsWithHoistablesMarker(emptyFields, subTrees, undefined)
 		},
 	},
 	'OnlyKeepSubTrees',

@@ -394,7 +394,6 @@ export type AutoFieldProps = {
     entityName: string;
     fieldName: string;
     createEditLink?: (entity: string) => RoutingLinkTarget;
-    excludedEntities?: string[];
 };
 
 // @public (undocumented)
@@ -404,7 +403,6 @@ export const AutoFields: React.NamedExoticComponent<AutoFieldsProps>;
 export type AutoFieldsProps = {
     createEditLink?: (entity: string) => RoutingLinkTarget;
     excludedFields?: string[];
-    excludedEntities?: string[];
 };
 
 // @public (undocumented)
