@@ -20,8 +20,8 @@ import {
 	TextCell,
 	TextField,
 } from '@contember/admin'
-import { CategoryForm } from './categories'
 import { DataGridTile } from '../components/DataGridTile'
+import { CategoryForm } from './categories'
 
 
 const stateOptions = {
@@ -58,88 +58,88 @@ export const List = () => <DataGridPage
 </DataGridPage>
 
 const ArticleForm = Component(() => <>
+	<TextField field={'title'} label={'Title'} />
+	<SlugField field={'slug'} label={'Slug'} derivedFrom={'title'} unpersistedHardPrefix={'http://localhost/'} persistedHardPrefix={'bar/'}
+		persistedSoftPrefix={'lorem/'} linkToExternalUrl />
+	<RichTextField field={'content'} label={'Content'} />
+	<ImageUploadField
+		label="Image"
+		baseEntity="image"
+		urlField="url"
+		widthField="width"
+		heightField="height"
+		fileSizeField="size"
+		fileTypeField="type"
+	/>
+
+	<If condition={'[state = removed]'}>
 		<TextField field={'title'} label={'Title'} />
-		<SlugField field={'slug'} label={'Slug'} derivedFrom={'title'} unpersistedHardPrefix={'http://localhost/'} persistedHardPrefix={'bar/'}
-		           persistedSoftPrefix={'lorem/'} linkToExternalUrl />
-		<RichTextField field={'content'} label={'Content'} />
-		<ImageUploadField
-			label="Image"
-			baseEntity="image"
-			urlField="url"
-			widthField="width"
-			heightField="height"
-			fileSizeField="size"
-			fileTypeField="type"
-		/>
-
-		<If condition={'[state = removed]'}>
-				<TextField field={'title'} label={'Title'} />
-		</If>
+	</If>
 
 
 
-	</>,
+</>,
 	'ArticleForm',
 )
 const CategoryOptionItem = Component(() => {
 	return <>
-		<Field field={'name'}/>, locales:
+		<Field field={'name'} />, locales:
 		<HasMany field={'locales'}>
 			<Field field={'name'} />
 		</HasMany>
 	</>
 })
 const ArticleSidebarForm = Component(() => <>
-		<SelectField field={'state'} label={'State'} options={Object.entries(stateOptions).map(([value, label]) => ({ value, label }))} allowNull />
-		{/*<MultiSelectField*/}
-		{/*	label={'tags'}*/}
-		{/*	field={'tags'}*/}
-		{/*	options={{*/}
-		{/*		fields: 'Tag.name',*/}
-		{/*		orderBy: 'name desc',*/}
-		{/*	}}*/}
-		{/*	createNewForm={<TextField field={'name'} label={'Name'} />}*/}
-		{/*/>*/}
-		<MultiSelectField
-			label={'tags'}
-			field={'tags'}
-			options={`Tag.locales(locale.code = 'cs').name`}
-			lazy
-		/>
-		<MultiSelectField
-			label={'Sortable tags'}
-			field={'sortedTags'}
-			options={{
-				fields: 'Tag.name',
-				orderBy: 'name desc',
-			}}
-			createNewForm={<TextField field={'name'} label={'Name'} />}
+	<SelectField field={'state'} label={'State'} options={Object.entries(stateOptions).map(([value, label]) => ({ value, label }))} allowNull />
+	{/*<MultiSelectField*/}
+	{/*	label={'tags'}*/}
+	{/*	field={'tags'}*/}
+	{/*	options={{*/}
+	{/*		fields: 'Tag.name',*/}
+	{/*		orderBy: 'name desc',*/}
+	{/*	}}*/}
+	{/*	createNewForm={<TextField field={'name'} label={'Name'} />}*/}
+	{/*/>*/}
+	<MultiSelectField
+		label={'tags'}
+		field={'tags'}
+		options={`Tag.locales(locale.code = 'cs').name`}
+		lazy
+	/>
+	<MultiSelectField
+		label={'Sortable tags'}
+		field={'sortedTags'}
+		options={{
+			fields: 'Tag.name',
+			orderBy: 'name desc',
+		}}
+		createNewForm={<TextField field={'name'} label={'Name'} />}
 
-			connectingEntityField={'tag'}
-			sortableBy={'order'}
-			lazy
-		/>
+		connectingEntityField={'tag'}
+		sortableBy={'order'}
+		lazy
+	/>
 
-		<SelectField
-			label={'category'}
-			field={'category'}
-			createNewForm={<CategoryForm />}
-			searchByFields={'name'}
-			options={{
-				entities: 'Category',
-				orderBy: 'name desc',
-			}}
-			optionLabel={<CategoryOptionItem />}
-			lazy
-		/>
+	<SelectField
+		label={'category'}
+		field={'category'}
+		createNewForm={<CategoryForm />}
+		searchByFields={'name'}
+		options={{
+			entities: 'Category',
+			orderBy: 'name desc',
+		}}
+		optionLabel={<CategoryOptionItem />}
+		lazy
+	/>
 
-	</>,
+</>,
 	'ArticleSidebarForm',
 )
 
 export const create = (
 	<CreatePage entity="Article" redirectOnSuccess="article/edit(id: $entity.id)" rendererProps={{ side: <ArticleSidebarForm /> }}>
-		<ArticleForm/>
+		<ArticleForm />
 	</CreatePage>
 )
 
@@ -148,6 +148,6 @@ export const edit = (
 		title: 'Article',
 		side: <ArticleSidebarForm />,
 	}}>
-		<ArticleForm/>
+		<ArticleForm />
 	</EditPage>
 )
