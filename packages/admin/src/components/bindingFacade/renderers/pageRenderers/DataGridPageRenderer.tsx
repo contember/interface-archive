@@ -7,29 +7,31 @@ export type DataGridPageRendererProps =
 	& DataGridContainerProps
 
 export const DataGridPageRenderer = Component(({
-		children,
+	children,
 
-		side,
-		title,
-		navigation,
-		headingProps,
-		actions,
-		layout,
-		afterTitle,
+	side,
+	title,
+	navigation,
+	headingProps,
+	actions,
+	layout,
+	pageContentLayout,
+	afterTitle,
 
-		...entityListProps
-	}: DataGridPageRendererProps) => (
-		<LayoutRenderer
-			side={side}
-			title={title}
-			afterTitle={afterTitle}
-			navigation={navigation}
-			actions={actions}
-			headingProps={headingProps}
-			layout={layout}
-		>
-			<DataGridContainer {...entityListProps}>{children}</DataGridContainer>
-		</LayoutRenderer>
-	),
+	...entityListProps
+}: DataGridPageRendererProps) => (
+	<LayoutRenderer
+		side={side}
+		title={title}
+		afterTitle={afterTitle}
+		navigation={navigation}
+		actions={actions}
+		headingProps={headingProps}
+		layout={layout}
+		pageContentLayout={pageContentLayout}
+	>
+		<DataGridContainer {...entityListProps}>{children}</DataGridContainer>
+	</LayoutRenderer>
+),
 	'ListRenderer',
 )
