@@ -2,17 +2,22 @@
 // Note: Does not work with pages containing content editor
 // import './wdyr' // THIS MUST BE THE FIRST IMPORT!
 
-import { ApplicationEntrypoint, PageModule, Pages, runReactApp } from '@contember/admin'
+import { ApplicationEntrypoint, errorHandler, PageModule, Pages } from '@contember/admin'
+import React from 'react'
+import { createRoot } from 'react-dom/client'
 import { Layout } from './components/Layout'
 import './index.sass'
 
-runReactApp(
-	<ApplicationEntrypoint
-		apiBaseUrl={import.meta.env.VITE_CONTEMBER_ADMIN_API_BASE_URL as string}
-		sessionToken={import.meta.env.VITE_CONTEMBER_ADMIN_SESSION_TOKEN as string}
-		project={'admin-sandbox'}
-		stage={'live'}
-		basePath={import.meta.env.BASE_URL}
-		children={<Pages layout={Layout} children={import.meta.glob<PageModule>('./pages/**/*.tsx')} />}
-	/>,
-)
+errorHandler(() => {
+	const root = createRoot(document.body.appendChild(document.createElement('div')))
+	root.render(
+			<ApplicationEntrypoint
+				apiBaseUrl={import.meta.env.VITE_CONTEMBER_ADMIN_API_BASE_URL as string}
+				sessionToken={import.meta.env.VITE_CONTEMBER_ADMIN_SESSION_TOKEN as string}
+				project={'admin-sandbox'}
+				stage={'live'}
+				basePath={import.meta.env.BASE_URL}
+				children={<Pages layout={Layout} children={import.meta.glob<PageModule>('./pages/**/*.tsx')} />}
+			/>,
+	)
+})

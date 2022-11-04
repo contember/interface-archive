@@ -1,6 +1,8 @@
 import { ReactElement } from 'react'
-import { createErrorHandler } from './errorHandling'
+import { errorHandler } from './errorHandling'
 import * as ReactDOM from 'react-dom'
+
+export { errorHandler }
 
 export const runReactApp = (
 	reactElement: ReactElement,
@@ -12,6 +14,6 @@ export const runReactApp = (
 		? document.querySelector<HTMLElement>(domRoot)
 		: document.body.appendChild(document.createElement('div'))
 
-	const handler = createErrorHandler()
-	handler(() => ReactDOM.render(reactElement, rootEl))
+	errorHandler(() => ReactDOM.render(reactElement, rootEl))
 }
+

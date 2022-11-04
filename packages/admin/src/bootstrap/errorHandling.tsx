@@ -80,3 +80,5 @@ export const createErrorHandler = () => {
 		return prodErrorHandler()
 	}
 }
+
+export const errorHandler = createErrorHandler()
