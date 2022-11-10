@@ -1,6 +1,7 @@
 import * as ReactDOM from 'react-dom'
 import { DevErrorManager, ErrorBus } from '../components/Dev'
 import { Buffer } from 'buffer'
+import { ReactRenderer } from './render'
 
 const getErrorContainer = () => {
 	const errorElementId = '__contember__dev__error__container__element'
@@ -18,7 +19,7 @@ const getErrorContainer = () => {
 	return errorContainer
 }
 
-const devErrorHandler = (): TryRun => {
+const devErrorHandler = (renderer: ReactRenderer): TryRun => {
 	const errorBus = new ErrorBus()
 
 	;(window as any).Buffer = Buffer
@@ -41,8 +42,7 @@ const devErrorHandler = (): TryRun => {
 			}
 		}
 	}
-
-	ReactDOM.render(<DevErrorManager bus={errorBus} />, getErrorContainer())
+	renderer(getErrorContainer(), <DevErrorManager bus={errorBus} />)
 
 	return async cb => {
 		try {
@@ -54,9 +54,9 @@ const devErrorHandler = (): TryRun => {
 }
 
 type TryRun = <T>(cb: () => T | Promise<T>) => void
-const prodErrorHandler = (): TryRun => {
+const prodErrorHandler = (renderer: ReactRenderer): TryRun => {
 	const renderError = () => {
-		ReactDOM.render(<h1>Fatal error</h1>, getErrorContainer())
+		renderer(getErrorContainer(), <h1>Fatal error</h1>)
 	}
 
 	window.addEventListener('error', renderError)
@@ -73,10 +73,10 @@ const prodErrorHandler = (): TryRun => {
 }
 
 
-export const createErrorHandler = () => {
+export const createErrorHandler = (renderer: ReactRenderer) => {
 	if (import.meta.env.DEV) {
-		return devErrorHandler()
+		return devErrorHandler(renderer)
 	} else {
-		return prodErrorHandler()
+		return prodErrorHandler(renderer)
 	}
 }

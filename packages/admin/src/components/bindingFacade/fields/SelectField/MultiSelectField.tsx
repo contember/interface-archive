@@ -116,7 +116,7 @@ export const MultiSelectFieldInner = typedMemo(
 								...selectProps.components,
 								MultiValue: SortableMultiValue,
 								MultiValueLabel: SortableMultiValueLabel,
-							}}
+							} as any}
 						/>
 						: <Select menuPortalTarget={getPortalRoot()} {...allSelectProps} />
 					}

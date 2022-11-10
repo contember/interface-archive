@@ -1,4 +1,4 @@
-import { ComponentType, createElement, memo, ReactElement, ReactNode } from 'react'
+import { ComponentType, createElement, memo, ReactElement, ReactNode, StrictMode } from 'react'
 import { AccessorTree, AccessorTreeState, AccessorTreeStateOptions, useDataBinding } from '../accessorTree'
 
 export type DataBindingProviderBaseProps  =
