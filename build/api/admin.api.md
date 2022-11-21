@@ -1645,7 +1645,13 @@ export interface EmptyMessageProps {
 export const EnumCell: React.NamedExoticComponent<EnumCellProps>;
 
 // @public (undocumented)
-export type EnumCellProps = DataGridColumnPublicProps & {
+export type EnumCellArtifacts = {
+    values: string[];
+    nullCondition: boolean;
+};
+
+// @public (undocumented)
+export type EnumCellProps = DataGridColumnPublicProps & FieldFallbackViewPublicProps & NullConditionFilterPublicProps & {
     field: SugaredFieldProps['field'];
     options: Record<string, string>;
     format?: (value: string | null) => ReactNode;
@@ -2943,10 +2949,28 @@ export const NotFoundWrapper: React.NamedExoticComponent<{
 }>;
 
 // @public (undocumented)
+export type NullConditionArtifacts = {
+    nullCondition: boolean;
+};
+
+// @public (undocumented)
+export const NullConditionFilter: <FA extends NullConditionArtifacts>({ filter, setFilter, field, environment, showNullConditionFilter }: NullConditionFilterProps<FA>) => JSX.Element | null;
+
+// @public (undocumented)
+export type NullConditionFilterProps<FA extends NullConditionArtifacts> = FilterRendererProps<FA> & NullConditionFilterPublicProps & {
+    field: SugaredFieldProps['field'];
+};
+
+// @public (undocumented)
+export type NullConditionFilterPublicProps = {
+    showNullConditionFilter?: boolean;
+};
+
+// @public (undocumented)
 export const NumberCell: FunctionComponent<NumberCellProps>;
 
 // @public (undocumented)
-export type NumberCellProps<Persisted extends FieldValue = FieldValue> = DataGridHeaderCellPublicProps & DataGridCellPublicProps & FieldFallbackViewPublicProps & SugaredRelativeSingleField & {
+export type NumberCellProps<Persisted extends FieldValue = FieldValue> = DataGridHeaderCellPublicProps & DataGridCellPublicProps & FieldFallbackViewPublicProps & SugaredRelativeSingleField & NullConditionFilterPublicProps & {
     disableOrder?: boolean;
     initialOrder?: DataGridOrderDirection;
     format?: (value: Persisted) => ReactNode;
@@ -2962,6 +2986,7 @@ export type NumberFieldProps = SimpleRelativeSingleFieldProps & ControlProps<num
 export type NumberFilterArtifacts = {
     mode: 'eq' | 'gte' | 'lte';
     query: number | null;
+    nullCondition: boolean;
 };
 
 // @public (undocumented)
