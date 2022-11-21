@@ -18,7 +18,6 @@ export type NumberCellProps<Persisted extends FieldValue = FieldValue> =
 		format?: (value: Persisted) => ReactNode
 	}
 
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type NumberFilterArtifacts = {
 	mode: 'eq' | 'gte' | 'lte'
 	query: number | null
