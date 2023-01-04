@@ -22,6 +22,7 @@ const inviteVariables = {
 	email: GQLVariable.Required(GQLVariable.String),
 	memberships: GQLVariable.Required(GQLVariable.List(MembershipInput)),
 	method: GQLVariable.Enum<InviteMethod>('InviteMethod'),
+	mailVariant: GQLVariable.String,
 }
 
 type InviteErrorCodes =
