@@ -15,7 +15,7 @@ export default () => {
 			>
 				<UsersList
 					project={project}
-					editUserLink={'identityEdit(identity: $identityId, project: $projectSlug)'}
+					createUserEditLink={identity => ({ pageName: 'identityEdit', parameters: { project, identity } })}
 				/>
 			</Section>
 
@@ -25,7 +25,7 @@ export default () => {
 			>
 				<ApiKeyList
 					project={project}
-					editApiKeyLink={'identityEdit(identity: $identityId, project: $projectSlug)'}
+					createApiKeyEditLink={identity => ({ pageName: 'identityEdit', parameters: { project, identity } })}
 				/>
 			</Section>
 		</LayoutPage>

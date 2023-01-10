@@ -48,7 +48,6 @@ export const csCZ: AdminDictionary = {
 		},
 	},
 	dataGridCells: {
-		includeNull: 'Zahrnout neznámé',
 		booleanCell: {
 			includeTrue: 'Ano',
 			includeFalse: 'Ne',

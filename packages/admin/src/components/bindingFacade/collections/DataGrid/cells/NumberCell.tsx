@@ -6,24 +6,22 @@ import { useMessageFormatter } from '../../../../../i18n'
 import { FieldFallbackView, FieldFallbackViewPublicProps } from '../../../fieldViews'
 import { DataGridCellPublicProps, DataGridColumn, DataGridHeaderCellPublicProps, DataGridOrderDirection } from '../base'
 import { dataGridCellsDictionary } from './dataGridCellsDictionary'
-import { NullConditionFilter, NullConditionFilterPublicProps } from './NullConditionFilter'
 
 export type NumberCellProps =
 	& DataGridHeaderCellPublicProps
 	& DataGridCellPublicProps
 	& FieldFallbackViewPublicProps
 	& SugaredRelativeSingleField
-	& NullConditionFilterPublicProps
 	& {
 		disableOrder?: boolean
 		initialOrder?: DataGridOrderDirection
 		format?: (value: number) => ReactNode
 	}
 
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type NumberFilterArtifacts = {
 	mode: 'eq' | 'gte' | 'lte'
 	query: number | null
-	nullCondition: boolean
 }
 
 export const NumberCell: FunctionComponent<NumberCellProps> = Component(props => {
@@ -35,7 +33,7 @@ export const NumberCell: FunctionComponent<NumberCellProps> = Component(props =>
 				newDirection ? QueryLanguage.desugarOrderBy(`${props.field as string} ${newDirection}`, environment) : undefined
 			}
 			getNewFilter={(filter, { environment }) => {
-				if (filter.query === null && !filter.nullCondition) {
+				if (filter.query === null) {
 					return undefined
 				}
 
@@ -45,27 +43,20 @@ export const NumberCell: FunctionComponent<NumberCellProps> = Component(props =>
 					lte: 'lte',
 				}
 
-				const conditions: Input.Condition[] = []
-				if (filter.query !== null) {
-					conditions.push({
-						[baseOperators[filter.mode]]: filter.query,
-					})
-				}
-				if (filter.nullCondition) {
-					conditions.push({ isNull: true })
+				const condition: Input.Condition = {
+					[baseOperators[filter.mode]]: filter.query,
 				}
 
 				const desugared = QueryLanguage.desugarRelativeSingleField(props, environment)
 				return wrapFilterInHasOnes(desugared.hasOneRelationPath, {
-					[desugared.field]: { or: conditions },
+					[desugared.field]: condition,
 				})
 			}}
 			emptyFilter={{
 				mode: 'eq',
 				query: null,
-				nullCondition: false,
 			}}
-			filterRenderer={({ filter, setFilter, environment }) => {
+			filterRenderer={({ filter, setFilter }) => {
 				const formatMessage = useMessageFormatter(dataGridCellsDictionary)
 				const options: Array<{
 					value: NumberFilterArtifacts['mode']
@@ -76,36 +67,33 @@ export const NumberCell: FunctionComponent<NumberCellProps> = Component(props =>
 						{ value: 'lte', label: formatMessage('dataGridCells.numberCell.lessThan') },
 					]
 				return (
-					<>
-						<Stack direction="horizontal">
-							<Select
-								notNull
-								value={filter.mode}
-								options={options}
-								onChange={value => {
-									if (!value) {
-										return
-									}
+					<Stack direction="horizontal">
+						<Select
+							notNull
+							value={filter.mode}
+							options={options}
+							onChange={value => {
+								if (!value) {
+									return
+								}
 
-									setFilter({
-										...filter,
-										mode: value,
-									})
-								}}
-							/>
-							<NumberInput
-								value={filter.query}
-								placeholder="Value"
-								onChange={value => {
-									setFilter({
-										...filter,
-										query: value ?? null,
-									})
-								}}
-							/>
-						</Stack>
-						<NullConditionFilter filter={filter} setFilter={setFilter} environment={environment} field={props.field} showNullConditionFilter={props.showNullConditionFilter} />
-					</>
+								setFilter({
+									...filter,
+									mode: value,
+								})
+							}}
+						/>
+						<NumberInput
+							value={filter.query}
+							placeholder="Value"
+							onChange={value => {
+								setFilter({
+									...filter,
+									query: value ?? null,
+								})
+							}}
+						/>
+					</Stack>
 				)
 			}}
 		>
