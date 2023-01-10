@@ -1,7 +1,8 @@
 import { Checkbox, FieldContainer } from '@contember/ui'
 import { useMemo } from 'react'
 import { useMessageFormatter } from '../../../../../i18n'
-import { BaseDynamicChoiceField, ChoiceFieldData, MultiSelectFieldInner } from '../../../fields'
+import { ChoiceFieldData, MultiSelectFieldInner } from '../../../fields'
+import { BaseDynamicChoiceField } from '../../../fields/ChoiceField/BaseDynamicChoiceField'
 import { useSelectOptions } from '../../../fields/ChoiceField/hooks/useSelectOptions'
 import { FilterRendererProps } from '../base'
 import { dataGridCellsDictionary } from './dataGridCellsDictionary'
@@ -9,6 +10,7 @@ import { EntityAccessor, EntityId } from '@contember/binding'
 import { useCurrentlyChosenEntities } from '../../../fields/ChoiceField/hooks/useCurrentlyChosenEntities'
 
 
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type SelectCellArtifacts = {
 	id: EntityId[]
 	nullCondition: boolean

@@ -316,9 +316,9 @@ export interface ApiKeyListProps {
     // (undocumented)
     children?: undefined;
     // (undocumented)
-    createRoleRenderer?: RoleRendererFactory;
+    createApiKeyEditLink: (id: string) => RoutingLinkTarget;
     // (undocumented)
-    editApiKeyLink: RoutingLinkTarget;
+    createRoleRenderer?: RoleRendererFactory;
     // (undocumented)
     project: string;
 }
@@ -1427,20 +1427,10 @@ export type DynamicRequestParameters = RequestParameters<RoutingParameter>;
 // @public (undocumented)
 export type DynamicSingleChoiceFieldProps = SugaredRelativeSingleEntity & BaseDynamicChoiceField;
 
+// Warning: (ae-forgotten-export) The symbol "EditUserProps" needs to be exported by the entry point index.d.ts
+//
 // @public (undocumented)
-export const EditIdentity: FC<EditIdentityProps>;
-
-// @public (undocumented)
-export interface EditIdentityProps {
-    // (undocumented)
-    identityId: string;
-    // (undocumented)
-    project: string;
-    // (undocumented)
-    rolesConfig?: RolesConfig;
-    // (undocumented)
-    userListLink: RoutingLinkTarget;
-}
+export const EditIdentity: FC<EditUserProps>;
 
 // @public (undocumented)
 export const EditMembership: FC<EditMembershipProps>;
@@ -1568,18 +1558,11 @@ export type EditPageProps = SugaredQualifiedSingleEntity & EntitySubTreeAddition
     skipBindingStateUpdateAfterPersist?: boolean;
 };
 
-// @public @deprecated (undocumented)
-export const EditUserInProject: FC<EditUserPageProps>;
-
 // @public (undocumented)
-export const EditUserPage: FC<EditUserPageProps>;
-
-// @public (undocumented)
-export type EditUserPageProps = {
+export const EditUserInProject: FC<{
+    rolesConfig: RolesConfig;
     identityId: string;
-    rolesConfig?: RolesConfig;
-    userListLink?: RoutingLinkTarget;
-};
+}>;
 
 // @public (undocumented)
 export const ejectHeadingElement: (editor: Editor_2, elementPath: Path) => void;
@@ -1665,13 +1648,7 @@ export interface EmptyMessageProps {
 export const EnumCell: React.NamedExoticComponent<EnumCellProps>;
 
 // @public (undocumented)
-export type EnumCellArtifacts = {
-    values: string[];
-    nullCondition: boolean;
-};
-
-// @public (undocumented)
-export type EnumCellProps = DataGridColumnPublicProps & FieldFallbackViewPublicProps & NullConditionFilterPublicProps & {
+export type EnumCellProps = DataGridColumnPublicProps & {
     field: SugaredFieldProps['field'];
     options: Record<string, string>;
     format?: (value: string | null) => ReactNode;
@@ -2265,20 +2242,16 @@ export interface I18nProviderProps {
 
 // @public (undocumented)
 export interface Identity {
-    // @deprecated (undocumented)
-    email?: string;
     // (undocumented)
-    id: string;
-    // @deprecated (undocumented)
-    otpEnabled?: boolean;
+    email: string;
+    // (undocumented)
+    otpEnabled: boolean;
     // (undocumented)
     permissions: {
         canCreateProject: boolean;
     };
     // (undocumented)
-    person?: Person;
-    // @deprecated (undocumented)
-    personId?: string;
+    personId: string;
     // (undocumented)
     projects: IdentityProject[];
 }
@@ -2510,33 +2483,15 @@ export interface InternalFileKind<UploadResult = unknown, AcceptArtifacts = unkn
 // @public (undocumented)
 export type InviteMethod = 'CREATE_PASSWORD' | 'RESET_PASSWORD';
 
+// Warning: (ae-forgotten-export) The symbol "InviteUserProps" needs to be exported by the entry point index.d.ts
+//
 // @public (undocumented)
 export const InviteUser: FC<InviteUserProps>;
 
 // @public (undocumented)
-export const InviteUserPage: FC<InviteUserPageProps>;
-
-// @public (undocumented)
-export type InviteUserPageProps = {
-    rolesConfig?: RolesConfig;
-    userListLink?: RoutingLinkTarget;
-    method?: InviteMethod;
-};
-
-// @public (undocumented)
-export interface InviteUserProps {
-    // (undocumented)
-    method?: InviteMethod;
-    // (undocumented)
-    project: string;
-    // (undocumented)
-    rolesConfig?: RolesConfig;
-    // (undocumented)
-    userListLink: RoutingLinkTarget;
-}
-
-// @public @deprecated (undocumented)
-export const InviteUserToProject: FC<InviteUserPageProps>;
+export const InviteUserToProject: FC<{
+    rolesConfig: RolesConfig;
+}>;
 
 // @public (undocumented)
 export const isAnchorElement: (element: Node_2) => element is AnchorElement;
@@ -2804,9 +2759,9 @@ export interface MemberListProps {
     // (undocumented)
     children?: undefined;
     // (undocumented)
-    createRoleRenderer?: RoleRendererFactory;
+    createEditIdentityLink: (id: string) => RoutingLinkTarget;
     // (undocumented)
-    editIdentityLink: RoutingLinkTarget;
+    createRoleRenderer?: RoleRendererFactory;
     // (undocumented)
     Identity: ComponentType<{
         identity: MemberIdentity;
@@ -2993,28 +2948,10 @@ export const NotFoundWrapper: React.NamedExoticComponent<{
 }>;
 
 // @public (undocumented)
-export type NullConditionArtifacts = {
-    nullCondition: boolean;
-};
-
-// @public (undocumented)
-export const NullConditionFilter: <FA extends NullConditionArtifacts>({ filter, setFilter, field, environment, showNullConditionFilter }: NullConditionFilterProps<FA>) => JSX.Element | null;
-
-// @public (undocumented)
-export type NullConditionFilterProps<FA extends NullConditionArtifacts> = FilterRendererProps<FA> & NullConditionFilterPublicProps & {
-    field: SugaredFieldProps['field'];
-};
-
-// @public (undocumented)
-export type NullConditionFilterPublicProps = {
-    showNullConditionFilter?: boolean;
-};
-
-// @public (undocumented)
 export const NumberCell: FunctionComponent<NumberCellProps>;
 
 // @public (undocumented)
-export type NumberCellProps = DataGridHeaderCellPublicProps & DataGridCellPublicProps & FieldFallbackViewPublicProps & SugaredRelativeSingleField & NullConditionFilterPublicProps & {
+export type NumberCellProps = DataGridHeaderCellPublicProps & DataGridCellPublicProps & FieldFallbackViewPublicProps & SugaredRelativeSingleField & {
     disableOrder?: boolean;
     initialOrder?: DataGridOrderDirection;
     format?: (value: number) => ReactNode;
@@ -3030,7 +2967,6 @@ export type NumberFieldProps = SimpleRelativeSingleFieldProps & ControlProps<num
 export type NumberFilterArtifacts = {
     mode: 'eq' | 'gte' | 'lte';
     query: number | null;
-    nullCondition: boolean;
 };
 
 // @public (undocumented)
@@ -3206,16 +3142,6 @@ export interface PersistWithFeedbackOptions extends PersistOptions {
     successDuration?: number;
     // (undocumented)
     successMessage?: string;
-}
-
-// @public (undocumented)
-export interface Person {
-    // (undocumented)
-    email: string;
-    // (undocumented)
-    id: string;
-    // (undocumented)
-    otpEnabled: boolean;
 }
 
 // @public (undocumented)
@@ -4545,27 +4471,7 @@ password: GQLVariableType<string, true>;
 }>, TenantMutationResponse<never, PasswordResetErrors>>;
 
 // @public (undocumented)
-export const UserListPage: <T extends {}>(props: UserListPageProps<T>) => JSX.Element;
-
-// @public (undocumented)
-export type UserListPageProps<T> = UseRoleRendererFactoryProps<T> & {
-    addUserLink?: RoutingLinkTarget;
-    editUserLink?: RoutingLinkTarget;
-};
-
-// @public (undocumented)
 export const useRoleRenderer: (roleRendererFactory: RoleRendererFactory | undefined, query: QueryRequestState<ListMembersQuery>) => RoleRenderer | undefined;
-
-// @public (undocumented)
-export const useRoleRendererFactory: <T extends {}>({ rolesDataQuery, roleRenderers }: UseRoleRendererFactoryProps<T>) => RoleRendererFactory;
-
-// @public (undocumented)
-export interface UseRoleRendererFactoryProps<T> {
-    // (undocumented)
-    roleRenderers?: RoleRenderers<T>;
-    // (undocumented)
-    rolesDataQuery?: string;
-}
 
 // @public (undocumented)
 export const useRouting: () => RoutingContextValue;
@@ -4586,13 +4492,15 @@ export interface UsersListProps {
     // (undocumented)
     createRoleRenderer?: RoleRendererFactory;
     // (undocumented)
-    editUserLink: RoutingLinkTarget;
+    createUserEditLink: (id: string) => RoutingLinkTarget;
     // (undocumented)
     project: string;
 }
 
-// @public @deprecated (undocumented)
-export const UsersManagement: <T extends {}>(props: UserListPageProps<T>) => JSX.Element;
+// Warning: (ae-forgotten-export) The symbol "UsersManagementProps" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export const UsersManagement: FC<UsersManagementProps<any>>;
 
 // @public (undocumented)
 export const useSignIn: () => TenantMutationExecutor<GQLVariableValues<    {
@@ -4822,7 +4730,7 @@ export * from "@contember/ui";
 // src/components/bindingFacade/richText/blockEditor/embed/index.ts:5:27 - (ae-forgotten-export) The symbol "SoundCloudEmbedHandler" needs to be exported by the entry point index.d.ts
 // src/components/bindingFacade/richText/blockEditor/embed/index.ts:5:27 - (ae-forgotten-export) The symbol "SpotifyEmbedHandler" needs to be exported by the entry point index.d.ts
 // src/components/pageRouting/pageComponents/CreatePage.tsx:22:3 - (ae-forgotten-export) The symbol "RedirectOnSuccessTarget" needs to be exported by the entry point index.d.ts
-// src/tenant/queries/me.ts:63:47 - (ae-forgotten-export) The symbol "MeResponse" needs to be exported by the entry point index.d.ts
+// src/tenant/queries/me.ts:61:47 - (ae-forgotten-export) The symbol "MeResponse" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

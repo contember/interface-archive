@@ -83,7 +83,7 @@ export const LoginEntrypoint = (props: LoginEntrypointProps) => {
 										<p>
 											Please follow the link in e-mail or copy the reset token here:
 										</p>
-										<FillResetPasswordTokenForm resetLink={`${passwordResetPageName}(token: $token)`} />
+										<FillResetPasswordTokenForm resetLink={token => ({ pageName: passwordResetPageName, parameters: { token } })} />
 									</MiscPageLayout>
 								</Page>
 								<Page name={passwordResetPageName}>

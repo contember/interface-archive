@@ -1,43 +1,56 @@
-import { useCurrentContentGraphQlClient } from '@contember/react-client'
-import { memo, useCallback } from 'react'
-import { RoutingLinkTarget } from '../../../routing'
+import { useCurrentContentGraphQlClient, useProjectSlug } from '@contember/react-client'
+import { LayoutPage } from '@contember/ui'
+import { FC, memo, useCallback } from 'react'
+import { LinkButton, RoutingLinkTarget } from '../../../routing'
 import { MemberList, RoleRendererFactory, RoleRenderers } from '../member'
 
 export interface UsersListProps {
 	project: string
 	children?: undefined
 	createRoleRenderer?: RoleRendererFactory
-	editUserLink: RoutingLinkTarget
+	createUserEditLink: (id: string) => RoutingLinkTarget
 }
 
-export const UsersList = memo<UsersListProps>(({ editUserLink, ...props }) => (
+export const UsersList = memo<UsersListProps>(({ createUserEditLink, ...props }) => (
 	<MemberList
 		{...props}
-		editIdentityLink={editUserLink}
+		createEditIdentityLink={createUserEditLink}
 		memberType={'PERSON'}
 		Identity={({ identity }) => <>{identity.person ? identity.person.email : '?'}</>}
 	/>
 ))
 
-
-export interface UseRoleRendererFactoryProps<T> {
-	rolesDataQuery?: string
-	roleRenderers?: RoleRenderers<T>
+interface UsersManagementProps<T> {
+	rolesDataQuery: string
+	roleRenderers: RoleRenderers<T>
 }
 
-export const useRoleRendererFactory = <T extends {}>({ rolesDataQuery, roleRenderers }: UseRoleRendererFactoryProps<T>) => {
+export const UsersManagement: FC<UsersManagementProps<any>> = <T extends {}>(props: UsersManagementProps<T>) => {
+	const project = useProjectSlug()
 	const contentClient = useCurrentContentGraphQlClient()
-	return useCallback<RoleRendererFactory>(async () => {
-		const rolesData = rolesDataQuery ? await contentClient.sendRequest(rolesDataQuery) : undefined
+	const roleRendererFactory: RoleRendererFactory = useCallback(async () => {
+		const rolesData = await contentClient.sendRequest(props.rolesDataQuery)
 		return ({ role, variables }) => {
-			if (!roleRenderers) {
-				return <>{role}</>
-			}
-			const Renderer = roleRenderers?.[role]
+			const Renderer = props.roleRenderers[role]
 			if (!Renderer) {
 				return <>Unknown role {role}</>
 			}
 			return <Renderer rolesData={rolesData} variables={variables} />
 		}
-	}, [contentClient, roleRenderers, rolesDataQuery])
+	}, [contentClient, props.roleRenderers, props.rolesDataQuery])
+	if (project) {
+		return (
+			<LayoutPage
+				actions={<LinkButton to={'tenantInviteUser'}>Add a user</LinkButton>}
+				title="Users in project"
+			>
+				<UsersList
+					project={project}
+					createRoleRenderer={roleRendererFactory}
+					createUserEditLink={id => ({ pageName: 'tenantEditUser', parameters: { id } })}
+				/>
+			</LayoutPage>
+		)
+	}
+	return null
 }

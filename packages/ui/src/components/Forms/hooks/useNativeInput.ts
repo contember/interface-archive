@@ -29,18 +29,13 @@ export function useNativeInput<E extends HTMLInputElement | HTMLTextAreaElement 
 	defaultValue,
 	id,
 	name,
+	max,
+	min,
 	onChange,
 	notNull,
 	placeholder,
 	type,
 	value,
-
-	// ControlConstraintProps
-	max,
-	maxLength,
-	min,
-	minLength,
-	pattern,
 
 	// ValidationStateProps
 	onValidationStateChange,
@@ -120,11 +115,8 @@ export function useNativeInput<E extends HTMLInputElement | HTMLTextAreaElement 
 		placeholder: placeholder ?? undefined,
 		readOnly: readOnly || loading,
 		required,
-		max: typeof max === 'number' || typeof max === 'string' ? max : undefined,
-		maxLength,
-		min: typeof min === 'number' || typeof min === 'string' ? min : undefined,
-		minLength,
-		pattern,
+		max: max !== null && max !== undefined ? String(max) : undefined,
+		min: min !== null && min !== undefined ? String(min) : undefined,
 	}
 }
 

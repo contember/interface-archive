@@ -9,25 +9,13 @@ import { EnvironmentExtensionProvider } from '@contember/binding'
 import { identityEnvironmentExtension } from './IdentityEnvironmentExtension'
 
 export interface Identity {
-	id: string
-	person?: Person
+	email: string
+	otpEnabled: boolean
+	personId: string
 	projects: IdentityProject[]
 	permissions: {
 		canCreateProject: boolean
 	}
-
-	/** @deprecated use person.email */
-	email?: string
-	/** @deprecated use person.otpEnabled */
-	otpEnabled?: boolean
-	/** @deprecated use person.id */
-	personId?: string
-}
-
-export interface Person {
-	id: string
-	email: string
-	otpEnabled: boolean
 }
 
 export interface IdentityProject {
@@ -80,18 +68,15 @@ export const IdentityProvider: React.FC<IdentityProviderProps> = ({ children, on
 			setIdentityState({
 				state: 'success',
 				identity: {
-					id: response.data.me.id,
-					person: person ?? undefined,
+					email: person.email,
+					otpEnabled: person.otpEnabled,
+					personId: person.id,
 					projects: projects.map(it => ({
 						name: it.project.name,
 						slug: it.project.slug,
 						roles: it.memberships.map(it => it.role),
 					})),
 					permissions,
-
-					email: person?.email ?? undefined,
-					otpEnabled: person?.otpEnabled ?? undefined,
-					personId: person?.id ?? undefined,
 				},
 			})
 		} catch (e) {

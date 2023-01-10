@@ -6,13 +6,13 @@ export interface ApiKeyListProps {
 	project: string
 	children?: undefined
 	createRoleRenderer?: RoleRendererFactory
-	editApiKeyLink: RoutingLinkTarget
+	createApiKeyEditLink: (id: string) => RoutingLinkTarget
 }
 
-export const ApiKeyList = memo<ApiKeyListProps>(({ editApiKeyLink, ...props }) => (
+export const ApiKeyList = memo<ApiKeyListProps>(({ createApiKeyEditLink, ...props }) => (
 	<MemberList
 		{...props}
-		editIdentityLink={editApiKeyLink}
+		createEditIdentityLink={createApiKeyEditLink}
 		memberType={'API_KEY'}
 		Identity={({ identity }) => <>{identity.description ?? 'unknown key'}</>}
 	/>
