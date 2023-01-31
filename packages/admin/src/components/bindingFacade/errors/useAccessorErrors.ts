@@ -1,4 +1,4 @@
-import type { ErrorAccessor } from '@contember/binding'
+import type { ErrorAccessor } from '@contember/react-binding'
 import { useMessageFormatter } from '../../../i18n'
 import { errorCodeDictionary } from './errorCodeDictionary'
 import { useCallback, useMemo } from 'react'

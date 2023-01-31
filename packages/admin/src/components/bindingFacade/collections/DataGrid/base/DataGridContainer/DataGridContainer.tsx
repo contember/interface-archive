@@ -1,4 +1,4 @@
-import { Component } from '@contember/binding'
+import { Component } from '@contember/react-binding'
 import { Stack, useComponentClassName } from '@contember/ui'
 import { FunctionComponent } from 'react'
 import { useMessageFormatter } from '../../../../../../i18n'

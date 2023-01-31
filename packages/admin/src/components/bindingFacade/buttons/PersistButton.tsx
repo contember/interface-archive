@@ -1,4 +1,4 @@
-import { useDirtinessState, useMutationState } from '@contember/binding'
+import { useDirtinessState, useMutationState } from '@contember/react-binding'
 import { SaveButton, SaveButtonProps } from '@contember/ui'
 import { forwardRef, memo, useCallback } from 'react'
 import { usePersistWithFeedback } from '../../ui'

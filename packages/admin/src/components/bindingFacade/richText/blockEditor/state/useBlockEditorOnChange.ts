@@ -9,7 +9,7 @@ import {
 	SugaredRelativeEntityList,
 	useDesugaredRelativeEntityList,
 	useDesugaredRelativeSingleField,
-} from '@contember/binding'
+} from '@contember/react-binding'
 import { useGetParentEntityRef } from '../useGetParentEntityRef'
 import { BlockElementCache } from './useBlockElementCache'
 

@@ -24,6 +24,7 @@ export const list = {
 		'client',
 		'interface-tester',
 		'layout',
+		'react-binding',
 		'react-client',
 		'react-multipass-rendering',
 		'react-utils',

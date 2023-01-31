@@ -5,7 +5,7 @@ import { ContainerSpinner, Message } from '@contember/ui'
 import { MiscPageLayout } from '../MiscPageLayout'
 import { InvalidIdentityFallback } from './InvalidIdentityFallback'
 import { useLogout } from './useLogout'
-import { EnvironmentExtensionProvider } from '@contember/binding'
+import { EnvironmentExtensionProvider } from '@contember/react-binding'
 import { identityEnvironmentExtension } from './IdentityEnvironmentExtension'
 
 export interface Identity {

@@ -1,7 +1,7 @@
 import { MessageFormatter } from '../../../../../i18n'
 import { UploadDictionary } from '../../uploadDictionary'
 import { ComponentType, ReactNode, useCallback, useMemo, useState } from 'react'
-import { EntityId } from '@contember/binding'
+import { EntityId } from '@contember/react-binding'
 import { Button, DialogModal, Heading, useChildrenAsLabel } from '@contember/ui'
 import { EntityConnector } from '../hooks/useConnectSelectedEntities'
 

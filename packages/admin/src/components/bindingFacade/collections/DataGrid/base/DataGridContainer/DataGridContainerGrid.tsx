@@ -1,4 +1,4 @@
-import { Entity } from '@contember/binding'
+import { Entity } from '@contember/react-binding'
 import { Grid, useComponentClassName } from '@contember/ui'
 import { memo } from 'react'
 import { DataGridContainerProps } from './Types'

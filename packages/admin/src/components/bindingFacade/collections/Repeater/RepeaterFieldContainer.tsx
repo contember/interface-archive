@@ -1,4 +1,4 @@
-import type { EntityAccessor, EntityListAccessor } from '@contember/binding'
+import type { EntityAccessor, EntityListAccessor } from '@contember/react-binding'
 import { FieldContainer, Stack } from '@contember/ui'
 import { memo, ReactNode } from 'react'
 import type { MessageFormatter } from '../../../../i18n'

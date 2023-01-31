@@ -1,4 +1,4 @@
-import { Environment, EnvironmentContext, EnvironmentExtensionProvider } from '@contember/binding'
+import { Environment, EnvironmentContext, EnvironmentExtensionProvider } from '@contember/react-binding'
 import { ContemberClient, ContemberClientProps } from '@contember/react-client'
 import { DialogProvider, SectionTabsProvider, StyleProvider, Toaster, ToasterProvider } from '@contember/ui'
 import { ReactNode } from 'react'

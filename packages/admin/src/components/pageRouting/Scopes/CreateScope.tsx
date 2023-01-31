@@ -4,7 +4,7 @@ import {
 	EntitySubTreeAdditionalCreationProps,
 	EntitySubTreeAdditionalProps,
 	SugaredUnconstrainedQualifiedSingleEntity,
-} from '@contember/binding'
+} from '@contember/react-binding'
 import { ComponentType, ReactNode, memo } from 'react'
 import { FeedbackRenderer } from '../../bindingFacade'
 import { RedirectOnSuccessTarget } from '../useEntityRedirectOnPersistSuccess'

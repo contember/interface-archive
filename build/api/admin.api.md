@@ -6,12 +6,12 @@
 
 /// <reference types="react" />
 
-import type { AccessorTreeState } from '@contember/binding';
+import type { AccessorTreeState } from '@contember/react-binding';
 import type { AllControlProps } from '@contember/ui';
 import { Ancestor } from 'slate';
 import { AnchorButtonProps } from '@contember/ui';
 import { AnchorHTMLAttributes } from 'react';
-import type { AsyncBatchUpdatesOptions } from '@contember/binding';
+import type { AsyncBatchUpdatesOptions } from '@contember/react-binding';
 import { BaseEditor } from 'slate';
 import { BaseSyntheticEvent } from 'react';
 import { BoxOwnProps } from '@contember/ui';
@@ -22,7 +22,7 @@ import { ColorInputProps } from '@contember/ui';
 import { ComponentType } from 'react';
 import { ContemberClientProps } from '@contember/react-client';
 import { ControlProps } from '@contember/ui';
-import { DataBindingStateComponentProps } from '@contember/binding';
+import { DataBindingStateComponentProps } from '@contember/react-binding';
 import { DateInputProps } from '@contember/ui';
 import { DateTimeInputProps } from '@contember/ui';
 import { Default } from '@contember/ui';
@@ -37,26 +37,26 @@ import { EditorInterface } from 'slate';
 import { Transforms as EditorTransforms } from 'slate';
 import { Element as Element_2 } from 'slate';
 import { EmailInputProps } from '@contember/ui';
-import { EntityAccessor } from '@contember/binding';
-import { EntityId } from '@contember/binding';
-import { EntityListAccessor } from '@contember/binding';
-import { EntityListBaseProps } from '@contember/binding';
-import { EntityListSubTreeAdditionalProps } from '@contember/binding';
-import { EntityName } from '@contember/binding';
-import { EntitySubTreeAdditionalCreationProps } from '@contember/binding';
-import { EntitySubTreeAdditionalProps } from '@contember/binding';
-import { Environment } from '@contember/binding';
-import type { ErrorAccessor } from '@contember/binding';
+import { EntityAccessor } from '@contember/react-binding';
+import { EntityId } from '@contember/react-binding';
+import { EntityListAccessor } from '@contember/react-binding';
+import { EntityListBaseProps } from '@contember/react-binding';
+import { EntityListSubTreeAdditionalProps } from '@contember/react-binding';
+import { EntityName } from '@contember/react-binding';
+import { EntitySubTreeAdditionalCreationProps } from '@contember/react-binding';
+import { EntitySubTreeAdditionalProps } from '@contember/react-binding';
+import { Environment } from '@contember/react-binding';
+import type { ErrorAccessor } from '@contember/react-binding';
 import { ErrorListProps } from '@contember/ui';
 import { FC } from 'react';
-import { FieldAccessor } from '@contember/binding';
-import { FieldBasicProps } from '@contember/binding';
+import { FieldAccessor } from '@contember/react-binding';
+import { FieldBasicProps } from '@contember/react-binding';
 import { FieldContainerProps } from '@contember/ui';
 import { FieldErrors } from '@contember/ui';
-import { FieldValue } from '@contember/binding';
+import { FieldValue } from '@contember/react-binding';
 import type { FileUploader } from '@contember/client';
 import type { FileUploadError } from '@contember/client';
-import { Filter } from '@contember/binding';
+import { Filter } from '@contember/react-binding';
 import type { FocusEvent as FocusEvent_2 } from 'react';
 import { FunctionComponent } from 'react';
 import { default as Fuse_2 } from 'fuse.js';
@@ -71,8 +71,9 @@ import { HTMLVideoElementProps } from '@contember/ui';
 import { IconProps } from '@contember/ui';
 import { IconSourceSpecification } from '@contember/ui';
 import { InputHTMLAttributes } from 'react';
-import { JsonObject } from '@contember/binding';
+import { JsonObject } from '@contember/react-binding';
 import { JsonValue } from '@contember/binding';
+import { JsonValue as JsonValue_2 } from '@contember/react-binding';
 import { Justification } from '@contember/ui';
 import type { KeyboardEvent as KeyboardEvent_2 } from 'react';
 import { LayoutPageProps } from '@contember/ui';
@@ -83,17 +84,17 @@ import { MouseEvent as MouseEvent_2 } from 'react';
 import type { NamedExoticComponent } from 'react';
 import { Node as Node_2 } from 'slate';
 import { NodeEntry } from 'slate';
-import { OptionallyVariableFieldValue } from '@contember/binding';
-import { OrderBy } from '@contember/binding';
+import { OptionallyVariableFieldValue } from '@contember/react-binding';
+import { OrderBy } from '@contember/react-binding';
 import { Path } from 'slate';
 import { PathRef } from 'slate';
-import { PersistOptions } from '@contember/binding';
-import type { PersistSuccessOptions } from '@contember/binding';
+import { PersistOptions } from '@contember/react-binding';
+import type { PersistSuccessOptions } from '@contember/react-binding';
 import { Point } from 'slate';
 import type { Props } from 'react-select';
 import { PublicCommonReactSelectStylesProps } from '@contember/ui';
 import { PureComponent } from 'react';
-import { QualifiedEntityList } from '@contember/binding';
+import { QualifiedEntityList } from '@contember/react-binding';
 import type { RadioProps } from '@contember/ui';
 import { Range as Range_2 } from 'slate';
 import { ReactChild } from 'react';
@@ -102,15 +103,15 @@ import { ReactElement } from 'react';
 import { ReactNode } from 'react';
 import { Ref } from 'react';
 import { RefObject } from 'react';
-import { RelativeSingleField } from '@contember/binding';
-import { RemovalType } from '@contember/binding';
+import { RelativeSingleField } from '@contember/react-binding';
+import { RemovalType } from '@contember/react-binding';
 import { RenderElementProps } from 'slate-react';
 import { RenderLeafProps } from 'slate-react';
 import { RepeaterItemContainerProps } from '@contember/ui';
 import type { S3FileUploader } from '@contember/client';
 import { SaveButtonProps } from '@contember/ui';
-import type { Scalar } from '@contember/binding';
-import { Schema } from '@contember/binding';
+import type { Scalar } from '@contember/react-binding';
+import { Schema } from '@contember/react-binding';
 import { Scheme } from '@contember/ui';
 import { SearchInputProps } from '@contember/ui';
 import { Selection as Selection_2 } from 'slate';
@@ -120,19 +121,19 @@ import { Size } from '@contember/ui';
 import * as Slate from 'slate';
 import { SortableContainerProps } from 'react-sortable-hoc';
 import { SortableElementProps } from 'react-sortable-hoc';
-import { StaticRenderProvider } from '@contember/binding';
-import { SuccessfulPersistResult } from '@contember/binding';
-import { SugarableRelativeSingleField } from '@contember/binding';
-import { SugaredFieldProps } from '@contember/binding';
-import type { SugaredFilter } from '@contember/binding';
-import type { SugaredOrderBy } from '@contember/binding';
-import { SugaredQualifiedEntityList } from '@contember/binding';
-import { SugaredQualifiedFieldList } from '@contember/binding';
-import { SugaredQualifiedSingleEntity } from '@contember/binding';
-import { SugaredRelativeEntityList } from '@contember/binding';
-import { SugaredRelativeSingleEntity } from '@contember/binding';
-import { SugaredRelativeSingleField } from '@contember/binding';
-import { SugaredUnconstrainedQualifiedSingleEntity } from '@contember/binding';
+import { StaticRenderProvider } from '@contember/react-binding';
+import { SuccessfulPersistResult } from '@contember/react-binding';
+import { SugarableRelativeSingleField } from '@contember/react-binding';
+import { SugaredFieldProps } from '@contember/react-binding';
+import type { SugaredFilter } from '@contember/react-binding';
+import type { SugaredOrderBy } from '@contember/react-binding';
+import { SugaredQualifiedEntityList } from '@contember/react-binding';
+import { SugaredQualifiedFieldList } from '@contember/react-binding';
+import { SugaredQualifiedSingleEntity } from '@contember/react-binding';
+import { SugaredRelativeEntityList } from '@contember/react-binding';
+import { SugaredRelativeSingleEntity } from '@contember/react-binding';
+import { SugaredRelativeSingleField } from '@contember/react-binding';
+import { SugaredUnconstrainedQualifiedSingleEntity } from '@contember/react-binding';
 import { SyntheticEvent } from 'react';
 import { TableProps } from '@contember/ui';
 import { TableRowProps } from '@contember/ui';
@@ -140,7 +141,7 @@ import { Text as Text_2 } from 'slate';
 import { TextareaInputOwnProps } from '@contember/ui';
 import { TileLayerProps } from 'react-leaflet';
 import { TimeInputProps } from '@contember/ui';
-import { UnsugarableSingleEntityEventListeners } from '@contember/binding';
+import { UnsugarableSingleEntityEventListeners } from '@contember/react-binding';
 import { UrlInputProps } from '@contember/ui';
 
 // @public (undocumented)
@@ -2241,7 +2242,7 @@ export const getVideoFileDataExtractor: (props: VideoFileDataExtractorProps) => 
 // @public (undocumented)
 export namespace GQLVariable {
     const // (undocumented)
-    Json: GQLVariableType<JsonValue<undefined>, false>;
+    Json: GQLVariableType<JsonValue_2<undefined>, false>;
     const // (undocumented)
     String: GQLVariableType<string, false>;
     const // (undocumented)
@@ -3847,15 +3848,6 @@ export type RadioFieldProps = RadioFieldInnerPublicProps & (StaticSingleChoiceFi
 
 // @public (undocumented)
 export type ReactRenderer = (domElement: Element, reactElement: ReactElement, onRecoverableError: (e: any) => void) => void;
-
-// @public (undocumented)
-export function readEventStream(lines: AsyncIterable<string>): AsyncIterable<{
-    data: string;
-    lastEventId?: string;
-}>;
-
-// @public (undocumented)
-export function readLines(reader: ReadableStreamDefaultReader): AsyncIterable<string>;
 
 // @public (undocumented)
 export type RedirectOnSuccessHandler = (currentState: PageRequest<any>, persistedId: EntityId, entity: EntityAccessor, options: PersistSuccessOptions) => IncompleteRequestState;
@@ -5533,7 +5525,7 @@ export const withTables: <E extends Editor>(editor: E) => E;
 export const withUnderline: <E extends Editor>(editor: E) => E;
 
 
-export * from "@contember/binding";
+export * from "@contember/react-binding";
 export * from "@contember/react-client";
 export * from "@contember/ui";
 

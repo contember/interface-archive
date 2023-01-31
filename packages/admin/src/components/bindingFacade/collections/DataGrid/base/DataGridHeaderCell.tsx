@@ -1,4 +1,4 @@
-import type { Environment } from '@contember/binding'
+import type { Environment } from '@contember/react-binding'
 import { ActionableBox, Box, Dropdown, DropdownProps, Icon, Justification, TableHeaderCell } from '@contember/ui'
 import { ComponentType, createElement, ReactElement, ReactNode, useMemo } from 'react'
 import type { FilterRendererProps } from './DataGridColumn'

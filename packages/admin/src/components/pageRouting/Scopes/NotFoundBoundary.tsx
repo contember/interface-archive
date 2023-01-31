@@ -1,4 +1,4 @@
-import { Component, useEntity } from '@contember/binding'
+import { Component, useEntity } from '@contember/react-binding'
 import { Message } from '@contember/ui'
 import { ReactNode } from 'react'
 

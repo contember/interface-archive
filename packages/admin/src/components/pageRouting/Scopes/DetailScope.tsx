@@ -3,10 +3,9 @@ import {
 	EntitySubTree,
 	EntitySubTreeAdditionalProps,
 	SugaredQualifiedSingleEntity,
-} from '@contember/binding'
+} from '@contember/react-binding'
 import { ComponentType, ReactNode, memo } from 'react'
 import { FeedbackRenderer } from '../../bindingFacade'
-import type { PageProvider } from '../Pages'
 import { NotFoundBoundary } from './NotFoundBoundary'
 
 export type DetailScopeProps =

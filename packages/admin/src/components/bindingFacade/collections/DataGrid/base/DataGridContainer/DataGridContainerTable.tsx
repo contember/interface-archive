@@ -1,4 +1,4 @@
-import { Entity, EntityId } from '@contember/binding'
+import { Entity, EntityId } from '@contember/react-binding'
 import { Table, TableCell, TableRow, useComponentClassName } from '@contember/ui'
 import { memo, useMemo } from 'react'
 import { useMessageFormatter } from '../../../../../../i18n'

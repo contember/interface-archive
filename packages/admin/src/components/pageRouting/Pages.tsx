@@ -3,7 +3,7 @@ import {
 	DataBindingStateComponentProps,
 	EnvironmentContext,
 	useEnvironment,
-} from '@contember/binding'
+} from '@contember/react-binding'
 import { ContainerSpinner, Message } from '@contember/ui'
 import {
 	ComponentType,

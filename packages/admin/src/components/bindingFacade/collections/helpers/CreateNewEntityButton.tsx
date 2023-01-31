@@ -1,4 +1,4 @@
-import { EntityAccessor, useMutationState } from '@contember/binding'
+import { EntityAccessor, useMutationState } from '@contember/react-binding'
 import { Button, ButtonProps, Icon, IconProps, useClassNamePrefix } from '@contember/ui'
 import { ComponentType, memo, ReactNode } from 'react'
 

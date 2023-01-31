@@ -1,9 +1,9 @@
-import type { EntityName, Filter } from '@contember/binding'
+import type { EntityName, Filter } from '@contember/react-binding'
 import { GraphQlBuilder } from '@contember/client'
 import { useContentApiRequest } from '@contember/react-client'
 import { useEffect } from 'react'
 import { useAbortController } from '@contember/react-utils'
-import { DataBindingExtendAborted } from '@contember/binding'
+import { DataBindingExtendAborted } from '@contember/react-binding'
 
 export const useDataGridTotalCount = (entityName: EntityName, filter: Filter | undefined): number | undefined => {
 	const [queryState, sendQuery] = useContentApiRequest<{

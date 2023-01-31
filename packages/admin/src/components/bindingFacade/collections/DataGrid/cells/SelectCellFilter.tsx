@@ -5,7 +5,7 @@ import { BaseDynamicChoiceField, ChoiceFieldData, MultiSelectFieldInner } from '
 import { useSelectOptions } from '../../../fields/ChoiceField/hooks/useSelectOptions'
 import { FilterRendererProps } from '../base'
 import { dataGridCellsDictionary } from './dataGridCellsDictionary'
-import { EntityAccessor, EntityId } from '@contember/binding'
+import { EntityAccessor, EntityId } from '@contember/react-binding'
 import { useCurrentlyChosenEntities } from '../../../fields/ChoiceField/hooks/useCurrentlyChosenEntities'
 
 

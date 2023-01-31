@@ -1,4 +1,4 @@
-import { Component, QueryLanguage, Schema } from '@contember/binding'
+import { Component, QueryLanguage, Schema } from '@contember/react-binding'
 import { DataGrid, DataGridContainerPublicProps, DataGridProps, DeleteEntityButton, GenericCell } from '../bindingFacade'
 import { LinkButton, RoutingLinkTarget } from '../../routing'
 import { AutoCell } from './AutoCell'

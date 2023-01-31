@@ -1,5 +1,5 @@
 import { FilterRendererProps } from '../base'
-import { QueryLanguage, SugaredFieldProps } from '@contember/binding'
+import { QueryLanguage, SugaredFieldProps } from '@contember/react-binding'
 import { Checkbox, FieldContainer } from '@contember/ui'
 import { useMessageFormatter } from '../../../../../i18n'
 import { dataGridCellsDictionary } from './dataGridCellsDictionary'

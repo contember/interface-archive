@@ -1,4 +1,4 @@
-import type { Environment } from '@contember/binding'
+import type { Environment } from '@contember/react-binding'
 import { Box, Button, ButtonGroup, Dropdown, DropdownProps, Icon, Table, TableCell, TableHeaderCell, TableRow } from '@contember/ui'
 import { createElement, Fragment, ReactElement, useMemo } from 'react'
 import type { MessageFormatter } from '../../../../../i18n'

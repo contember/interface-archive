@@ -29,6 +29,7 @@ export default defineConfig({
 			{ find: '@contember/admin-sandbox', replacement: `${packagesDir}/admin-sandbox/src` },
 			{ find: '@contember/binding', replacement: `${packagesDir}/binding/src` },
 			{ find: '@contember/client', replacement: `${packagesDir}/client/src` },
+			{ find: '@contember/react-binding', replacement: `${packagesDir}/react-binding/src` },
 			{ find: '@contember/react-client', replacement: `${packagesDir}/react-client/src` },
 			{ find: '@contember/react-multipass-rendering', replacement: `${packagesDir}/react-multipass-rendering/src` },
 			{ find: '@contember/react-utils', replacement: `${packagesDir}/react-utils/src` },

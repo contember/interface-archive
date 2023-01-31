@@ -1,4 +1,4 @@
-import { Component, Field, FieldValue, QueryLanguage, SugaredRelativeSingleField, wrapFilterInHasOnes } from '@contember/binding'
+import { Component, Field, FieldValue, QueryLanguage, SugaredRelativeSingleField, wrapFilterInHasOnes } from '@contember/react-binding'
 import { Input } from '@contember/client'
 import { NumberInput, Select, Stack } from '@contember/ui'
 import type { FunctionComponent, ReactElement, ReactNode } from 'react'

@@ -1,6 +1,6 @@
 import { ReactNode, useMemo } from 'react'
 import { DataGridColumn, DataGridColumnPublicProps } from '../base'
-import { Component, QueryLanguage, SugaredField, SugaredFieldProps, wrapFilterInHasOnes } from '@contember/binding'
+import { Component, QueryLanguage, SugaredField, SugaredFieldProps, wrapFilterInHasOnes } from '@contember/react-binding'
 import { GraphQlLiteral, Input } from '@contember/client'
 import { FieldFallbackView, FieldFallbackViewPublicProps } from '../../../fieldViews'
 import { Checkbox, FieldContainer } from '@contember/ui'

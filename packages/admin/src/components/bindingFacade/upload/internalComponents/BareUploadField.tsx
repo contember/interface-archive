@@ -1,4 +1,4 @@
-import { Component, EntityAccessor, useEntity } from '@contember/binding'
+import { Component, EntityAccessor, useEntity } from '@contember/react-binding'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useMessageFormatter } from '../../../../i18n'
 import { uploadDictionary } from '../uploadDictionary'

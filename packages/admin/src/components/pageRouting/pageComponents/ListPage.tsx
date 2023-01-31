@@ -3,8 +3,8 @@ import {
 	EntityListSubTree,
 	EntityListSubTreeAdditionalProps,
 	SugaredQualifiedEntityList,
-} from '@contember/binding'
-import { memo, ReactNode } from 'react'
+} from '@contember/react-binding'
+import { ReactNode } from 'react'
 import {
 	FeedbackRenderer,
 	ImmutableEntityListPageRenderer,

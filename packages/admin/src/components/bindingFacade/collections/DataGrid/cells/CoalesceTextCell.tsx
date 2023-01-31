@@ -1,5 +1,5 @@
 import { CoalesceFieldView, CoalesceFieldViewProps, FieldFallbackViewPublicProps } from '../../../fieldViews'
-import { Component, FieldValue, Filter, QueryLanguage, wrapFilterInHasOnes } from '@contember/binding'
+import { Component, FieldValue, Filter, QueryLanguage, wrapFilterInHasOnes } from '@contember/react-binding'
 import { DataGridColumn, DataGridColumnPublicProps } from '../base'
 import { FC, ReactElement } from 'react'
 import { createGenericTextCellFilterCondition, GenericTextCellFilter } from './GenericTextCellFilter'

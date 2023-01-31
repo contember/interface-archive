@@ -3,7 +3,7 @@ import {
 	EntityListSubTree,
 	EntityListSubTreeAdditionalProps,
 	SugaredQualifiedEntityList,
-} from '@contember/binding'
+} from '@contember/react-binding'
 import { ReactElement, ReactNode, memo } from 'react'
 import { FeedbackRenderer, ImmutableEntityListRenderer, ImmutableEntityListRendererProps } from '../../bindingFacade'
 
