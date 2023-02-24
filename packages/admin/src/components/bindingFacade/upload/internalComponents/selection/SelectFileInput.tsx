@@ -73,7 +73,7 @@ export const SelectFileInput = Component(
 				),
 			})
 			if (selectedEntities !== undefined) {
-				onSelectConfirm(selectedEntities)
+				onSelectConfirm(selectedEntities.reverse())
 			}
 		}, [accessorTree, fileSelection, formatMessage, insertSelectedText, isMultiple, onSelectConfirm, openDialog, selectButtonText])
 
