@@ -797,15 +797,15 @@ export const ContemberEditor: {
     canToggleMark: <T_1 extends EditorText, E_1 extends Editor>(editor: E_1, markName: string, markValue?: unknown) => boolean;
     closest: <E_2 extends Editor>(editor: E_2, options: {
         at?: Location_2 | undefined;
-        match: (node: Editor | EditorElement) => boolean;
-    }) => NodeEntry<Editor | EditorElement> | undefined;
+        match: (node: EditorElement | Editor) => boolean;
+    }) => NodeEntry<EditorElement | Editor> | undefined;
     closestBlockEntry: <E_3 extends Editor>(editor: E_3, options?: {
         at?: Location_2 | undefined;
         match?: ((node: EditorElement) => boolean) | undefined;
-    } | undefined) => NodeEntry<Editor | EditorElement> | undefined;
+    } | undefined) => NodeEntry<EditorElement | Editor> | undefined;
     closestViableBlockContainerEntry: <E_4 extends Editor>(editor: E_4, options?: {
         at?: Location_2 | undefined;
-    } | undefined) => NodeEntry<Editor | EditorElement> | undefined;
+    } | undefined) => NodeEntry<EditorElement | Editor> | undefined;
     ejectElement: <E_5 extends Editor>(editor: E_5, path: Path) => void;
     elementToSpecifics: <Element_1 extends EditorElement = EditorElement>(element: Element_1) => Partial<Element_1>;
     getElementDataAttributes: <Element_2 extends EditorElement = EditorElement>(element: Element_2, attributeNamePrefix?: string) => ElementDataAttributes;
