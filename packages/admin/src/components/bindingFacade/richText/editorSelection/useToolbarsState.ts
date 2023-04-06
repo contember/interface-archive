@@ -20,11 +20,18 @@ function updateToolbarStyle(container: HTMLDivElement, selectionState: EditorSel
 				document
 					.caretRangeFromPoint(selectionState.finishEvent.clientX, selectionState.finishEvent.clientY)
 					?.getBoundingClientRect() || undefined
-		} else if (document.caretPositionFromPoint) {
-			domRangeRect =
+		} else if ('caretPositionFromPoint' in document && document.caretPositionFromPoint) {
+			// TODO: remove type overrides when types are provided for caretPositionFromPoint
+			//
+			// Sources:
+			// https://developer.mozilla.org/en-US/docs/Web/API/document/caretPositionFromPoint
+			// returns a CaretPosition object with getClientRect() method
+			// https://developer.mozilla.org/en-US/docs/Web/API/CaretPosition
+			domRangeRect = (
 				document
-					.caretPositionFromPoint(selectionState.finishEvent.clientX, selectionState.finishEvent.clientY)
-					?.getClientRect() || undefined
+					.caretPositionFromPoint as (x: number, y: number) => { getClientRect: () => DOMRect }
+			)(selectionState.finishEvent.clientX, selectionState.finishEvent.clientY)
+				?.getClientRect() || undefined
 		}
 	}
 
