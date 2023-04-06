@@ -4,6 +4,7 @@ export * from './DateFieldView'
 export * from './FieldFallbackView'
 export * from './FileUrlFieldView'
 export * from './ImageFieldView'
+export * from './TextFieldView'
 export * from './VideoFieldView'
 
 export type { FieldViewDictionary } from './fieldViewDictionary'
