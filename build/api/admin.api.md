@@ -4250,6 +4250,31 @@ export type TextFieldProps = SimpleRelativeSingleFieldProps & ControlProps<strin
 };
 
 // @public (undocumented)
+export const TextFieldView: <FV extends FieldValue = string>(props: TextFieldViewProps<FV>) => ReactElement;
+
+// @public (undocumented)
+export type TextFieldViewProps<FV extends FieldValue = string> = {
+    field: SugaredFieldProps['field'];
+} & (TextFieldViewPropsWithRenderer<FV> | {
+    children?: never;
+    formatValue?: FieldValueFormatter<FV, string>;
+} & ({
+    fallback: FieldFallbackViewProps['fallback'];
+    fallbackStyle?: never;
+} | {
+    fallback?: never;
+    fallbackStyle: FieldFallbackViewProps['fallbackStyle'];
+}));
+
+// @public (undocumented)
+export type TextFieldViewPropsWithRenderer<FV extends FieldValue = string> = {
+    children: FieldValueRenderer<FV>;
+    fallback?: never;
+    fallbackStyle?: never;
+    formatValue?: never;
+};
+
+// @public (undocumented)
 export type TextFilterArtifacts = {
     mode: 'matches' | 'matchesExactly' | 'startsWith' | 'endsWith' | 'doesNotMatch';
     query: string;
@@ -4896,6 +4921,7 @@ export * from "@contember/ui";
 // Warnings were encountered during analysis:
 //
 // src/components/bindingFacade/environment/SideDimensions.tsx:88:81 - (ae-forgotten-export) The symbol "LabelMiddleware" needs to be exported by the entry point index.d.ts
+// src/components/bindingFacade/fieldViews/TextFieldView.tsx:8:3 - (ae-forgotten-export) The symbol "FieldValueRenderer" needs to be exported by the entry point index.d.ts
 // src/components/bindingFacade/fields/SlugField.tsx:23:3 - (ae-forgotten-export) The symbol "SlugPrefix" needs to be exported by the entry point index.d.ts
 // src/components/bindingFacade/richText/ContemberEditor/index.ts:24:29 - (ae-forgotten-export) The symbol "ElementDataAttributes" needs to be exported by the entry point index.d.ts
 // src/components/bindingFacade/richText/blockEditor/BlockEditor.tsx:323:25 - (ae-forgotten-export) The symbol "ContentOutletProps" needs to be exported by the entry point index.d.ts
