@@ -1,0 +1,12 @@
+{
+  "extends": "../../../tsconfig.settings.json",
+  "compilerOptions": {
+    "outDir": "../dist/types",
+		// TODO: Remove this once PR #488 is merged
+		"types": ["vite/client"],
+  },
+	"references": [
+		{ "path": "../../../packages/admin/src" },
+		{ "path": "../../../packages/ui/src" },
+	]
+}
