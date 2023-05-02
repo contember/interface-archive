@@ -16,6 +16,7 @@ export const list = {
 		'cms-layout',
 	],
 	packages: [
+		'--template',
 		'admin',
 		'admin-i18n',
 		'admin-sandbox',
