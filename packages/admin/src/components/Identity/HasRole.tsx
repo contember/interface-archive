@@ -10,6 +10,10 @@ export interface HasRoleProps {
 	children?: ReactNode
 	role: RoleCondition
 }
+
+/**
+ * @group Logic Components
+ */
 export const HasRole = Component<HasRoleProps>(({ children, role }) => {
 	const projectRoles = useProjectUserRoles()
 

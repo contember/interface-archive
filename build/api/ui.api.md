@@ -13,7 +13,6 @@ import { ComponentType } from 'react';
 import { CompositionEventHandler } from 'react';
 import { Context } from 'react';
 import { CSSProperties } from 'react';
-import { DetailedHTMLProps } from 'react';
 import { DetailedReactHTMLElement } from 'react';
 import { DragEventHandler } from 'react';
 import { FocusEventHandler } from 'react';
@@ -51,24 +50,25 @@ import { TransitionEventHandler } from 'react';
 import { UIEventHandler } from 'react';
 import { WheelEventHandler } from 'react';
 
-// @public (undocumented)
-export const ActionableBox: MemoExoticComponent<({ className, children, editContents, onRemove }: ActionableBoxProps) => JSX.Element>;
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
+export const ActionableBox: NamedExoticComponent<ActionableBoxProps>;
 
 // @public (undocumented)
-export interface ActionableBoxProps extends HTMLAttributes<HTMLDivElement> {
-    // (undocumented)
-    children: ReactNode;
-    // (undocumented)
+export type ActionableBoxProps = {
     editContents?: ReactNode;
-    // (undocumented)
     onRemove?: (e: MouseEvent_2<HTMLButtonElement>) => void;
-}
+    children: ReactNode;
+} & HTMLDivElementProps;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const Aether: MemoExoticComponent<({ children, className, ...divProps }: AetherProps) => JSX.Element>;
 
 // @public (undocumented)
-export type AetherProps = JSX.IntrinsicElements['div'];
+export type AetherProps = HTMLDivElementProps;
 
 // @public (undocumented)
 export type Alignment = Default | 'alignStart' | 'alignCenter' | 'alignEnd';
@@ -81,14 +81,14 @@ export type AllControlProps<V> = Omit<All<ControlProps<V>>, 'type'>;
 // @public (undocumented)
 export type AllVisuallyDependentControlProps = Omit<All<VisuallyDependentControlProps>, 'type'>;
 
-// Warning: (ae-forgotten-export) The symbol "PropBlackList" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
-export interface AnchorBasedProps extends Omit<JSX.IntrinsicElements['a'], PropBlackList> {
+export interface AnchorBasedProps extends Omit<HTMLAnchorElementProps, 'ref' | 'size'> {
     // (undocumented)
     Component: 'a';
 }
 
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
 // @public (undocumented)
 export const AnchorButton: MemoExoticComponent<ForwardRefExoticComponent<ButtonOwnProps & Omit<AnchorBasedProps, "Component"> & RefAttributes<HTMLAnchorElement>>>;
 
@@ -124,8 +124,10 @@ export const BaseButton: MemoExoticComponent<ForwardRefExoticComponent<BaseButto
 // @public (undocumented)
 export type BlueprintIconName = IconName;
 
-// @public (undocumented)
-export const Box: MemoExoticComponent<ForwardRefExoticComponent<Omit<BoxProps, "ref"> & RefAttributes<HTMLDivElement>>>;
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
+export const Box: MemoExoticComponent<ForwardRefExoticComponent<BoxOwnProps & HTMLDivElementProps & RefAttributes<HTMLDivElement>>>;
 
 // @public (undocumented)
 export type BoxDepth = 1 | 2 | 3 | 4 | 5 | 6;
@@ -156,10 +158,11 @@ export interface BoxOwnProps {
 }
 
 // @public (undocumented)
-export interface BoxProps extends BoxOwnProps, Omit<NativeProps<HTMLDivElement>, 'children'> {
-}
+export type BoxProps = BoxOwnProps & HTMLDivElementProps;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const Breadcrumbs: NamedExoticComponent<BreadcrumbsProps>;
 
 // @public (undocumented)
@@ -168,11 +171,13 @@ export interface BreadcrumbsProps {
     items: ReactNode[];
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const Button: MemoExoticComponent<ForwardRefExoticComponent<ButtonOwnProps & Omit<ButtonBasedProps, "Component"> & RefAttributes<HTMLButtonElement>>>;
 
 // @public (undocumented)
-export interface ButtonBasedProps extends Omit<JSX.IntrinsicElements['button'], PropBlackList> {
+export interface ButtonBasedProps extends Omit<HTMLButtonElementProps, 'ref' | 'size'> {
     // (undocumented)
     Component: 'button';
 }
@@ -186,7 +191,9 @@ export type ButtonElevation = Default | 'none';
 // @public (undocumented)
 export type ButtonFlow = Default | 'circular' | 'squarish' | 'generous' | 'block' | 'generousBlock';
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const ButtonGroup: MemoExoticComponent<({ size, flow, orientation, isTopToolbar, children }: ButtonGroupProps) => JSX.Element>;
 
 // @public (undocumented)
@@ -209,7 +216,9 @@ export interface ButtonGroupProps {
     size?: Size;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const ButtonList: MemoExoticComponent<({ children, flow, orientation, size }: ButtonListProps) => JSX.Element>;
 
 // @public (undocumented)
@@ -258,22 +267,28 @@ export interface ButtonOwnProps {
 // @public (undocumented)
 export type ButtonProps = ButtonOwnProps & Omit<ButtonBasedProps, 'Component'>;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const Card: NamedExoticComponent<CardProps>;
 
 // @public (undocumented)
-export type CardProps = Omit<CommonCardProps, 'type'> & Omit<NativeProps<HTMLDivElement>, 'onClick'> & {
+export type CardProps = Omit<CommonCardProps, 'type'> & Omit<HTMLDivElementProps, 'onClick'> & {
     href?: never;
     onClick?: () => void;
 };
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const Checkbox: MemoExoticComponent<ForwardRefExoticComponent<ControlDisplayProps & ValidationStateProps & ControlStateProps & ControlFocusProps & ControlConstraintProps<boolean> & ControlValueProps<boolean> & {
 CheckboxButtonComponent?: (({ id, name, placeholder, checked, indeterminate, ...props }: CheckboxButtonProps) => JSX.Element) | undefined;
 children?: undefined;
 } & RestHTMLCheckboxProps & RefAttributes<HTMLInputElement>>>;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const CheckboxButton: ({ id, name, placeholder, checked, indeterminate, ...props }: CheckboxButtonProps) => JSX.Element;
 
 // @public (undocumented)
@@ -293,7 +308,9 @@ export type CheckoboxOwnProps = ControlProps<boolean> & {
     children?: never;
 };
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const Collapsible: MemoExoticComponent<(props: CollapsibleProps) => JSX.Element>;
 
 // @public (undocumented)
@@ -315,7 +332,9 @@ export interface CollapsibleProps {
 // @public (undocumented)
 export type CollapsibleTransition = Default | 'topInsert' | 'leftInsert' | 'rightInsert' | 'bottomInsert' | 'fade';
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const ColorInput: MemoExoticComponent<ForwardRefExoticComponent<ControlDisplayProps & ValidationStateProps & ControlStateProps & ControlFocusProps & ControlConstraintProps<string> & ControlValueProps<string> & {
 withTopToolbar?: boolean | undefined;
 } & RestHTMLTextInputProps & RefAttributes<HTMLInputElement>>>;
@@ -342,7 +361,9 @@ export type CommonReactSelectStylesProps = PublicCommonReactSelectStylesProps & 
     isInvalid?: boolean;
 };
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const ContainerSpinner: MemoExoticComponent<({ size }: ContainerSpinnerProps) => JSX.Element>;
 
 // @public (undocumented)
@@ -393,7 +414,7 @@ export interface ControlConstraintProps<V> {
 // @public (undocumented)
 export interface ControlDisplayProps {
     // (undocumented)
-    className?: HTMLAttributes<HTMLElement>['className'];
+    className?: string;
     // (undocumented)
     distinction?: ControlDistinction;
     // (undocumented)
@@ -461,7 +482,9 @@ export interface ControlValueProps<V> {
     value?: V | null;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const DateInput: MemoExoticComponent<ForwardRefExoticComponent<ControlDisplayProps & ValidationStateProps & ControlStateProps & ControlFocusProps & ControlConstraintProps<string> & ControlValueProps<string> & {
 withTopToolbar?: boolean | undefined;
 } & RestHTMLTextInputProps & RefAttributes<HTMLInputElement>>>;
@@ -475,7 +498,9 @@ export type DateInputString = string;
 // @public (undocumented)
 export const DateInputStringRegExp: RegExp;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const DateTimeInput: MemoExoticComponent<ForwardRefExoticComponent<ControlDisplayProps & ValidationStateProps & ControlStateProps & ControlFocusProps & ControlConstraintProps<string> & ControlValueProps<string> & {
 withTopToolbar?: boolean | undefined;
 } & RestHTMLTextInputProps & RefAttributes<HTMLInputElement>>>;
@@ -497,7 +522,9 @@ export const DateTimeInputStringRegExp: RegExp;
 // @public (undocumented)
 export type Default = 'default';
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const Description: MemoExoticComponent<({ className, children }: DescriptionProps) => JSX.Element>;
 
 // @public (undocumented)
@@ -551,34 +578,25 @@ export interface DevErrorProps extends DevErrorInnerProps {
     source: string;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const DialogModal: MemoExoticComponent<({ bodyClassName, bodyProps, children, className, dividers, footer, footerClassName, footerProps, header, headerClassName, headerProps, layout, onClose, ...rest }: DialogModalProps) => JSX.Element>;
 
 // @public (undocumented)
-export interface DialogModalProps extends NativeProps<HTMLDivElement> {
-    // (undocumented)
+export type DialogModalProps = {
     bodyClassName?: string;
-    // (undocumented)
-    bodyProps?: Partial<Omit<StackProps, 'ref'>>;
-    // (undocumented)
     dividers?: boolean;
-    // (undocumented)
     footer?: ReactNode;
-    // (undocumented)
-    footerClassName?: string;
-    // (undocumented)
     footerProps?: Partial<Omit<StackProps, 'ref'>>;
-    // (undocumented)
+    bodyProps?: Partial<Omit<StackProps, 'ref'>>;
     header?: ReactNode;
-    // (undocumented)
-    headerClassName?: string;
-    // (undocumented)
     headerProps?: Partial<Omit<StackProps, 'ref'>>;
-    // (undocumented)
+    headerClassName?: string;
+    footerClassName?: string;
     layout?: 'fit-content' | 'wide' | 'expanded';
-    // (undocumented)
     onClose: () => void;
-}
+} & HTMLDivElementProps;
 
 // @public (undocumented)
 export interface DialogOptions<Result> {
@@ -640,16 +658,19 @@ export interface DimensionSwitcherValue {
     }[];
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const Divider: MemoExoticComponent<({ className, gap, ...rest }: DividerProps) => JSX.Element>;
 
 // @public (undocumented)
-export interface DividerProps extends Omit<NativeProps<HTMLDivElement>, 'children'> {
-    // (undocumented)
+export type DividerProps = {
     gap?: Size | 'xlarge' | 'none';
-}
+} & Omit<HTMLDivElementProps, 'children'>;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const Dropdown: MemoExoticComponent<(props: DropdownProps) => JSX.Element>;
 
 // @public (undocumented)
@@ -732,7 +753,7 @@ export interface EditorBlockProps {
 
 // @public (undocumented)
 export const EditorCanvas: {
-    <P extends TextareaHTMLAttributes<HTMLDivElement>>(props: EditorCanvasProps<P>): ReactElement;
+    <P extends HTMLTextAreaDivTargetProps>(props: EditorCanvasProps<P>): ReactElement;
     displayName?: string | undefined;
 };
 
@@ -740,7 +761,7 @@ export const EditorCanvas: {
 export type EditorCanvasDistinction = 'seamless' | 'seamless-with-padding' | Default;
 
 // @public (undocumented)
-export interface EditorCanvasProps<P extends TextareaHTMLAttributes<HTMLDivElement>> {
+export interface EditorCanvasProps<P extends HTMLTextAreaDivTargetProps> {
     // (undocumented)
     children?: ReactNode;
     // (undocumented)
@@ -816,7 +837,7 @@ is?: string | undefined;
 'aria-colindex'?: number | undefined;
 'aria-colspan'?: number | undefined;
 'aria-controls'?: string | undefined;
-'aria-current'?: boolean | "time" | "page" | "false" | "true" | "step" | "location" | "date" | undefined;
+'aria-current'?: boolean | "time" | "page" | "false" | "true" | "date" | "step" | "location" | undefined;
 'aria-describedby'?: string | undefined;
 'aria-details'?: string | undefined;
 'aria-disabled'?: (boolean | "false" | "true") | undefined;
@@ -1028,7 +1049,7 @@ export interface EditorHeadingProps {
     // (undocumented)
     align?: 'start' | 'end' | 'center' | 'justify';
     // (undocumented)
-    attributes: HTMLAttributes<HTMLHeadingElement>;
+    attributes: HTMLHeadingElementProps;
     // (undocumented)
     children: ReactNode;
     // (undocumented)
@@ -1041,10 +1062,10 @@ export interface EditorHeadingProps {
 export const EditorNonEditable: ComponentType<EditorNonEditableProps>;
 
 // @public (undocumented)
-export type EditorNonEditableProps = (Omit<HTMLAttributes<HTMLSpanElement>, 'contentEditable'> & {
+export type EditorNonEditableProps = (Omit<HTMLSpanElementProps, 'contentEditable'> & {
     children: ReactNode;
     inline: true;
-}) | (Omit<HTMLAttributes<HTMLDivElement>, 'contentEditable'> & {
+}) | (Omit<HTMLDivElementProps, 'contentEditable'> & {
     children: ReactNode;
     inline?: false;
 });
@@ -1108,7 +1129,7 @@ is?: string | undefined;
 'aria-colindex'?: number | undefined;
 'aria-colspan'?: number | undefined;
 'aria-controls'?: string | undefined;
-'aria-current'?: boolean | "time" | "page" | "false" | "true" | "step" | "location" | "date" | undefined;
+'aria-current'?: boolean | "time" | "page" | "false" | "true" | "date" | "step" | "location" | undefined;
 'aria-describedby'?: string | undefined;
 'aria-details'?: string | undefined;
 'aria-disabled'?: (boolean | "false" | "true") | undefined;
@@ -1319,7 +1340,7 @@ export interface EditorParagraphProps {
     // (undocumented)
     align?: 'start' | 'end' | 'center' | 'justify';
     // (undocumented)
-    attributes: HTMLAttributes<HTMLParagraphElement>;
+    attributes: HTMLParagraphElementProps;
     // (undocumented)
     children: ReactNode;
     // (undocumented)
@@ -1417,7 +1438,9 @@ export interface EditorToolbarProps {
     showLabels?: boolean;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const EmailInput: MemoExoticComponent<ForwardRefExoticComponent<ControlDisplayProps & ValidationStateProps & ControlStateProps & ControlFocusProps & ControlConstraintProps<string> & ControlValueProps<string> & {
 withTopToolbar?: boolean | undefined;
 } & RestHTMLTextInputProps & RefAttributes<HTMLInputElement>>>;
@@ -1425,7 +1448,9 @@ withTopToolbar?: boolean | undefined;
 // @public (undocumented)
 export type EmailInputProps = TextInputProps;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const ErrorList: MemoExoticComponent<({ errors }: ErrorListProps) => JSX.Element | null>;
 
 // @public (undocumented)
@@ -1437,37 +1462,30 @@ export interface ErrorListProps {
 // @public (undocumented)
 export type ErrorType = Error | unknown;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const FieldContainer: MemoExoticComponent<({ children, className, description, direction, errors, gap, label, labelDescription, labelPosition, width, required, size, useLabelElement, style, }: FieldContainerProps) => JSX.Element>;
 
 // @public (undocumented)
 export type FieldContainerLabelPosition = Default | 'labelLeft' | 'labelRight' | 'labelInlineLeft' | 'labelInlineRight';
 
 // @public (undocumented)
-export interface FieldContainerProps extends ErrorListProps, Pick<NativeProps<HTMLDivElement>, 'className' | 'style'> {
-    // (undocumented)
+export type FieldContainerProps = {
     children: ReactNode;
-    // (undocumented)
     description?: ReactNode;
-    // (undocumented)
     direction?: StackProps['direction'];
-    // (undocumented)
     gap?: Size | 'none';
-    // (undocumented)
     label: ReactNode;
-    // (undocumented)
     labelDescription?: ReactNode;
-    // (undocumented)
     labelPosition?: FieldContainerLabelPosition;
-    // (undocumented)
-    required?: boolean;
-    // (undocumented)
-    size?: Size;
-    // (undocumented)
-    useLabelElement?: boolean;
-    // (undocumented)
     width?: 'column' | 'fluid' | 'none';
-}
+    required?: boolean;
+    size?: Size;
+    useLabelElement?: boolean;
+    style?: CSSProperties;
+    className?: string;
+} & ErrorListProps;
 
 // @public (undocumented)
 export interface FieldError {
@@ -1478,7 +1496,9 @@ export interface FieldError {
 // @public (undocumented)
 export type FieldErrors = FieldError[];
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const FieldSet: NamedExoticComponent<FieldSetProps>;
 
 // @public (undocumented)
@@ -1492,25 +1512,29 @@ export interface FieldSetOwnProps {
 }
 
 // @public (undocumented)
-export interface FieldSetProps extends FieldSetOwnProps, Omit<NativeProps<HTMLDivElement>, 'children'> {
-}
+export type FieldSetProps = FieldSetOwnProps & HTMLDivElementProps;
+
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
+export const FileDropZone: MemoExoticComponent<ForwardRefExoticComponent<    {
+isActive?: boolean | undefined;
+isAccepting?: boolean | undefined;
+isRejecting?: boolean | undefined;
+children?: ReactNode;
+} & HTMLDivElementProps & RefAttributes<HTMLDivElement>>>;
 
 // @public (undocumented)
-export const FileDropZone: MemoExoticComponent<ForwardRefExoticComponent<FileDropZoneProps & RefAttributes<HTMLDivElement>>>;
-
-// @public (undocumented)
-export interface FileDropZoneProps extends HTMLAttributes<HTMLDivElement> {
-    // (undocumented)
-    children?: ReactNode;
-    // (undocumented)
-    isAccepting?: boolean;
-    // (undocumented)
+export type FileDropZoneProps = {
     isActive?: boolean;
-    // (undocumented)
+    isAccepting?: boolean;
     isRejecting?: boolean;
-}
+    children?: ReactNode;
+} & HTMLDivElementProps;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const FilePreview: MemoExoticComponent<({ actions, children, isActive, overlay }: FilePreviewProps) => JSX.Element>;
 
 // @public (undocumented)
@@ -1528,7 +1552,9 @@ export interface FilePreviewProps {
 // @public (undocumented)
 export function flipValue<V = any, T = boolean, F = boolean>(value: V, truthy?: T, falsy?: F): boolean | NonNullable<T> | NonNullable<F> | undefined;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const FloatInput: MemoExoticComponent<ForwardRefExoticComponent<ControlDisplayProps & ValidationStateProps & ControlStateProps & ControlFocusProps & ControlConstraintProps<number> & ControlValueProps<number> & {
 withTopToolbar?: boolean | undefined;
 } & RestHTMLTextInputProps & RefAttributes<HTMLInputElement>>>;
@@ -1542,8 +1568,10 @@ export const forceReflow: (element: HTMLElement | null) => void;
 // @public (undocumented)
 export function getPortalRoot(): HTMLElement;
 
-// @public (undocumented)
-export const Grid: MemoExoticComponent<ForwardRefExoticComponent<Omit<GridProps, "ref"> & RefAttributes<HTMLDivElement>>>;
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
+export const Grid: MemoExoticComponent<ForwardRefExoticComponent<GridOwnProps & HTMLDivElementProps & RefAttributes<HTMLDivElement>>>;
 
 // @public (undocumented)
 export interface GridOwnProps {
@@ -1552,11 +1580,16 @@ export interface GridOwnProps {
 }
 
 // @public (undocumented)
-export interface GridProps extends GridOwnProps, NativeProps<HTMLDivElement> {
-}
+export type GridProps = GridOwnProps & HTMLDivElementProps;
 
-// @public (undocumented)
-export const Heading: MemoExoticComponent<ForwardRefExoticComponent<HeadingProps & RefAttributes<HTMLHeadingElement>>>;
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
+export const Heading: MemoExoticComponent<ForwardRefExoticComponent<    {
+distinction?: HeadingDistinction | undefined;
+depth?: HeadingDepth | undefined;
+size?: "small" | "default" | undefined;
+} & Omit<HTMLHeadingElementProps, "ref"> & RefAttributes<HTMLHeadingElement>>>;
 
 // @public (undocumented)
 export type HeadingDepth = 1 | 2 | 3 | 4 | 5 | 6;
@@ -1565,18 +1598,17 @@ export type HeadingDepth = 1 | 2 | 3 | 4 | 5 | 6;
 export type HeadingDistinction = Default | 'subtle';
 
 // @public (undocumented)
-export interface HeadingProps extends Omit<DetailedHTMLProps<HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement>, 'ref'> {
-    // (undocumented)
-    depth?: HeadingDepth;
-    // (undocumented)
+export type HeadingProps = {
     distinction?: HeadingDistinction;
-    // (undocumented)
+    depth?: HeadingDepth;
     size?: {
         [S in Size]: S;
     }['small' | 'default'];
-}
+} & Omit<HTMLHeadingElementProps, 'ref'>;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const HiddenInput: MemoExoticComponent<ForwardRefExoticComponent<ControlDisplayProps & ValidationStateProps & ControlStateProps & ControlFocusProps & ControlConstraintProps<string> & ControlValueProps<string> & {
 withTopToolbar?: boolean | undefined;
 } & RestHTMLTextInputProps & RefAttributes<HTMLInputElement>>>;
@@ -1600,12 +1632,54 @@ export interface HoveringToolbarProps {
 export type HoveringToolbarScope = 'contextual' | Default;
 
 // @public (undocumented)
+export interface HTMLAnchorElementProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+}
+
+// @public (undocumented)
+export interface HTMLButtonElementProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+}
+
+// @public (undocumented)
+export interface HTMLDivElementProps extends React.HTMLAttributes<HTMLDivElement> {
+}
+
+// @public (undocumented)
+export interface HTMLHeadingElementProps extends React.HTMLAttributes<HTMLHeadingElement> {
+}
+
+// @public (undocumented)
+export interface HTMLImageElementProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+}
+
+// @public (undocumented)
+export interface HTMLInputElementProps extends React.InputHTMLAttributes<HTMLInputElement> {
+}
+
+// @public (undocumented)
+export interface HTMLParagraphElementProps extends React.HTMLAttributes<HTMLParagraphElement> {
+}
+
+// @public (undocumented)
 export type HTMLReactSelectElement<V> = SelectInstance<SelectOption<V>, false, never>;
 
 // @public (undocumented)
 export type HTMLReactSelectElementWithKey<V> = SelectInstance<SelectOptionWithKey<V>, false, never>;
 
 // @public (undocumented)
+export interface HTMLSpanElementProps extends React.HTMLAttributes<HTMLSpanElement> {
+}
+
+// @public (undocumented)
+export interface HTMLTextAreaDivTargetProps extends TextareaHTMLAttributes<HTMLDivElement> {
+}
+
+// @public (undocumented)
+export interface HTMLVideoElementProps extends React.VideoHTMLAttributes<HTMLVideoElement> {
+}
+
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const Icon: MemoExoticComponent<ForwardRefExoticComponent<IconProps & RefAttributes<HTMLElement>>>;
 
 // @public (undocumented)
@@ -1649,7 +1723,9 @@ export const isSpecialLinkClick: (e: MouseEvent) => boolean;
 // @public (undocumented)
 export type Justification = Default | 'justifyStart' | 'justifyCenter' | 'justifyEnd';
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const Label: MemoExoticComponent<({ className, isDisabled, isActive, isFocused, isHover, children, size, weight, }: LabelProps) => JSX.Element>;
 
 // @public (undocumented)
@@ -1671,13 +1747,22 @@ export interface LabelOwnProps {
 }
 
 // @public (undocumented)
-export interface LabelProps extends Omit<LabelOwnProps, 'children'>, NativeProps<HTMLSpanElement> {
-}
+export type LabelProps = LabelOwnProps & HTMLSpanElementProps;
 
-// @public (undocumented)
+// Warning: (tsdoc-html-tag-missing-string) The HTML element has an invalid attribute: Expecting an HTML string starting with a single-quote or double-quote character
+// Warning: (tsdoc-malformed-inline-tag) Expecting a TSDoc tag starting with "{@"
+// Warning: (tsdoc-escape-greater-than) The ">" character should be escaped using a backslash to avoid confusion with an HTML tag
+// Warning: (tsdoc-malformed-html-name) Invalid HTML element: An HTML name must be an ASCII letter followed by zero or more letters, digits, or hyphens
+// Warning: (tsdoc-escape-right-brace) The "}" character should be escaped using a backslash to avoid confusion with a TSDoc inline tag
+// Warning: (tsdoc-escape-greater-than) The ">" character should be escaped using a backslash to avoid confusion with an HTML tag
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const Layout: MemoExoticComponent<({ className, children, sidebarHeader, sidebarFooter, switchers, navigation, scheme, theme, themeContent, themeControls, pageScheme, pageTheme, pageThemeContent, pageThemeControls, titleScheme, titleTheme, titleThemeContent, titleThemeControls, }: LayoutProps) => JSX.Element>;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const LayoutChrome: MemoExoticComponent<({ children, navigation, pageScheme, pageTheme, pageThemeContent, pageThemeControls, scheme, sidebarFooter, sidebarHeader, switchers, theme, themeContent, themeControls, titleScheme, titleTheme, titleThemeContent, titleThemeControls, }: LayoutChromeProps) => JSX.Element>;
 
 // Warning: (ae-forgotten-export) The symbol "ThemeScheme" needs to be exported by the entry point index.d.ts
@@ -1712,22 +1797,24 @@ export interface LayoutChromeProps extends ThemeScheme {
     titleThemeControls?: Intent;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const LayoutPage: MemoExoticComponent<({ actions, afterTitle, children, fit, headingProps, layout, navigation, pageContentLayout, side, title, ...props }: LayoutPageProps) => JSX.Element>;
 
-// @public (undocumented)
-export const LayoutPageAside: MemoExoticComponent<({ children }: NativeProps<HTMLDivElement>) => JSX.Element>;
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
+export const LayoutPageAside: MemoExoticComponent<({ children }: HTMLDivElementProps) => JSX.Element>;
 
 // @public (undocumented)
 export const LayoutPageContent: MemoExoticComponent<({ children, layout, pageContentLayout }: LayoutPageContentProps) => JSX.Element>;
 
 // @public (undocumented)
-export interface LayoutPageContentProps extends NativeProps<HTMLDivElement> {
-    // @deprecated (undocumented)
+export type LayoutPageContentProps = {
     layout?: 'default' | 'full-width';
-    // (undocumented)
     pageContentLayout?: 'center' | 'start' | 'end' | 'stretch';
-}
+} & HTMLDivElementProps;
 
 // @public (undocumented)
 export interface LayoutPageProps extends Omit<TitleBarProps, 'after' | 'children'>, ThemeScheme {
@@ -1747,10 +1834,17 @@ export interface LayoutPageProps extends Omit<TitleBarProps, 'after' | 'children
     title?: ReactNode;
 }
 
-// Warning: (ae-forgotten-export) The symbol "LayoutPageStickyContainerProps" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
 export const LayoutPageStickyContainer: MemoExoticComponent<({ bottom, className: classNameProp, children, left, right, style: styleProp, top, ...rest }: LayoutPageStickyContainerProps) => JSX.Element>;
+
+// @public (undocumented)
+export type LayoutPageStickyContainerProps = {
+    bottom?: CSSProperties['bottom'];
+    children?: ReactNode;
+    left?: CSSProperties['left'];
+    right?: CSSProperties['right'];
+    top?: CSSProperties['top'];
+} & HTMLDivElementProps;
 
 // @public (undocumented)
 export interface LayoutProps extends LayoutChromeProps {
@@ -1758,15 +1852,19 @@ export interface LayoutProps extends LayoutChromeProps {
     className?: string;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const LinkCard: NamedExoticComponent<LinkCardProps>;
 
 // Warning: (ae-forgotten-export) The symbol "LinkCompatibleProps" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
-export type LinkCardProps = Omit<CommonCardProps, 'active' | 'type'> & Omit<NativeProps<HTMLAnchorElement>, 'href' | 'onClick'> & LinkCompatibleProps;
+export type LinkCardProps = Omit<CommonCardProps, 'active' | 'type'> & Omit<HTMLAnchorElementProps, 'href' | 'onClick'> & LinkCompatibleProps;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export function Logo({ children, image, size }: LogoProps): JSX.Element;
 
 // @public (undocumented)
@@ -1775,7 +1873,9 @@ export namespace Logo {
     displayName: string;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const LogoLabel: MemoExoticComponent<({ className, children, size }: LogoLabelProps) => JSX.Element>;
 
 // @public (undocumented)
@@ -1798,7 +1898,9 @@ export interface LogoProps {
     size?: Size | number;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const LogoSymbol: MemoExoticComponent<({ className, children, size }: LogoSymbolProps) => JSX.Element>;
 
 // @public (undocumented)
@@ -1811,6 +1913,10 @@ export interface LogoSymbolProps {
     size?: Size | number;
 }
 
+// Warning: (tsdoc-escape-greater-than) The ">" character should be escaped using a backslash to avoid confusion with an HTML tag
+// Warning: (tsdoc-malformed-html-name) Invalid HTML element: An HTML name must be an ASCII letter followed by zero or more letters, digits, or hyphens
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
 // @public (undocumented)
 export const Menu: MemoExoticComponent<(props: PropsWithChildren<MenuProps>) => JSX.Element> & {
     Item: <T>(props: MenuItemProps<T>) => JSX.Element;
@@ -1836,8 +1942,10 @@ export interface MenuProps {
     showCaret?: boolean;
 }
 
-// @public (undocumented)
-export const Message: MemoExoticComponent<({ className, children, intent, size, flow, distinction, type, lifted, action }: MessageProps) => JSX.Element>;
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
+export const Message: MemoExoticComponent<({ className, children, intent, size, flow, distinction, type, lifted, action, ...props }: MessageProps) => JSX.Element>;
 
 // @public (undocumented)
 export type MessageDistinction = Default | 'striking';
@@ -1846,26 +1954,20 @@ export type MessageDistinction = Default | 'striking';
 export type MessageFlow = Default | 'generous' | 'block' | 'generousBlock';
 
 // @public (undocumented)
-export interface MessageProps extends HTMLAttributes<HTMLDivElement> {
-    // (undocumented)
-    action?: ReactNode;
-    // (undocumented)
-    children?: ReactNode;
-    // (undocumented)
-    distinction?: MessageDistinction;
-    // (undocumented)
-    flow?: MessageFlow;
-    // (undocumented)
+export type MessageProps = {
     intent?: Intent;
-    // (undocumented)
-    lifted?: boolean;
-    // (undocumented)
-    size?: Size;
-    // (undocumented)
     type?: 'prop is deprecated, use intent';
-}
+    size?: Size;
+    flow?: MessageFlow;
+    distinction?: MessageDistinction;
+    lifted?: boolean;
+    children?: ReactNode;
+    action?: ReactNode;
+} & HTMLDivElementProps;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const MonthInput: MemoExoticComponent<ForwardRefExoticComponent<ControlDisplayProps & ValidationStateProps & ControlStateProps & ControlFocusProps & ControlConstraintProps<string> & ControlValueProps<string> & {
 withTopToolbar?: boolean | undefined;
 } & RestHTMLTextInputProps & RefAttributes<HTMLInputElement>>>;
@@ -1885,9 +1987,6 @@ export function MouseMoveProvider<E extends HTMLElement = HTMLElement>({ element
     children?: ReactNode;
 }): JSX.Element;
 
-// @public (undocumented)
-export type NativeProps<El extends Element> = DetailedHTMLProps<HTMLAttributes<El>, El>;
-
 // Warning: (ae-forgotten-export) The symbol "NavigationLinkProps" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
@@ -1899,7 +1998,9 @@ export const NavigationContext: Context<NavigationContext>;
 // @public (undocumented)
 export function noop(): void;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const NumberInput: MemoExoticComponent<ForwardRefExoticComponent<ControlDisplayProps & ValidationStateProps & ControlStateProps & ControlFocusProps & ControlConstraintProps<number> & ControlValueProps<number> & {
 withTopToolbar?: boolean | undefined;
 } & RestHTMLTextInputProps & RefAttributes<HTMLInputElement>>>;
@@ -1930,7 +2031,9 @@ export interface ParsedStackFrame {
 // @public (undocumented)
 export type ParsedStackTrace = ParsedStackFrame[];
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const PasswordInput: MemoExoticComponent<ForwardRefExoticComponent<ControlDisplayProps & ValidationStateProps & ControlStateProps & ControlFocusProps & ControlConstraintProps<string> & ControlValueProps<string> & {
 withTopToolbar?: boolean | undefined;
 } & RestHTMLTextInputProps & RefAttributes<HTMLInputElement>>>;
@@ -1962,7 +2065,9 @@ export interface ProcessedError {
     parsedStackStrace?: ParsedStackTrace;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const ProgressBar: MemoExoticComponent<({ progress }: ProgressBarProps) => JSX.Element>;
 
 // @public (undocumented)
@@ -1976,7 +2081,9 @@ export type PublicCommonReactSelectStylesProps = {
     menuZIndex?: number;
 };
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const Radio: MemoExoticComponent<(props: RadioProps) => JSX.Element>;
 
 // @public (undocumented)
@@ -2018,7 +2125,9 @@ export interface RadioProps {
 // @public (undocumented)
 export const randomId: () => string;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const RangeInput: MemoExoticComponent<ForwardRefExoticComponent<ControlDisplayProps & ValidationStateProps & ControlStateProps & ControlFocusProps & ControlConstraintProps<string> & ControlValueProps<string> & {
 withTopToolbar?: boolean | undefined;
 } & RestHTMLTextInputProps & RefAttributes<HTMLInputElement>>>;
@@ -2059,20 +2168,23 @@ export interface RestHTMLCheckboxProps extends Omit<AllHTMLAttributes<HTMLInputE
 export interface RestHTMLTextInputProps extends Omit<AllHTMLAttributes<HTMLInputElement>, ControlPropsKeys<string>> {
 }
 
-// @public (undocumented)
-export const SaveButton: MemoExoticComponent<ForwardRefExoticComponent<SaveButtonProps & RefAttributes<HTMLButtonElement>>>;
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
+export const SaveButton: MemoExoticComponent<ForwardRefExoticComponent<    {
+isPrimary?: boolean | undefined;
+labelSave?: string | undefined;
+labelSaved?: string | undefined;
+isDirty: boolean;
+} & ButtonOwnProps & Omit<ButtonBasedProps, "Component"> & RefAttributes<HTMLButtonElement>>>;
 
 // @public (undocumented)
-export interface SaveButtonProps extends ButtonProps {
-    // (undocumented)
-    isDirty: boolean;
-    // (undocumented)
+export type SaveButtonProps = {
     isPrimary?: boolean;
-    // (undocumented)
     labelSave?: string;
-    // (undocumented)
     labelSaved?: string;
-}
+    isDirty: boolean;
+} & ButtonProps;
 
 // @public (undocumented)
 export type Scheme = 'system' | 'light' | 'light-above' | 'light-below' | 'dark' | 'dark-above' | 'dark-below';
@@ -2104,7 +2216,9 @@ export interface SeamlessDropdownProps {
     label: ReactNode;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const SearchInput: MemoExoticComponent<ForwardRefExoticComponent<ControlDisplayProps & ValidationStateProps & ControlStateProps & ControlFocusProps & ControlConstraintProps<string> & ControlValueProps<string> & {
 withTopToolbar?: boolean | undefined;
 } & RestHTMLTextInputProps & RefAttributes<HTMLInputElement>>>;
@@ -2112,8 +2226,10 @@ withTopToolbar?: boolean | undefined;
 // @public (undocumented)
 export type SearchInputProps = TextInputProps;
 
-// @public (undocumented)
-export const Section: MemoExoticComponent<ForwardRefExoticComponent<Omit<SectionProps, "ref"> & RefAttributes<HTMLElement>>>;
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
+export const Section: MemoExoticComponent<ForwardRefExoticComponent<SectionOwnProps & HTMLDivElementProps & RefAttributes<HTMLElement>>>;
 
 // @public (undocumented)
 export interface SectionOwnProps {
@@ -2130,8 +2246,7 @@ export interface SectionOwnProps {
 }
 
 // @public (undocumented)
-export interface SectionProps extends SectionOwnProps, Omit<NativeProps<HTMLElement>, 'children'> {
-}
+export type SectionProps = SectionOwnProps & HTMLDivElementProps;
 
 // @public (undocumented)
 export const SectionTabs: MemoExoticComponent<() => JSX.Element | null>;
@@ -2141,7 +2256,9 @@ export const SectionTabs: MemoExoticComponent<() => JSX.Element | null>;
 // @public (undocumented)
 export const SectionTabsProvider: MemoExoticComponent<({ children }: SectionTabsProps) => JSX.Element>;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const Select: <V = unknown>(props: Omit<ControlProps<V>, "type" | keyof ControlConstraintProps<any>> & {
     options: SelectOption<V>[];
     rows?: undefined;
@@ -2182,7 +2299,9 @@ export type SelectProps<V> = Omit<ControlProps<V>, 'type' | keyof ControlConstra
 // @public (undocumented)
 export type Size = Default | 'small' | 'large';
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const SlugInput: MemoExoticComponent<ForwardRefExoticComponent<ControlDisplayProps & ValidationStateProps & ControlStateProps & ControlFocusProps & ControlConstraintProps<string> & ControlValueProps<string> & {
 withTopToolbar?: boolean | undefined;
 } & RestHTMLTextInputProps & {
@@ -2200,23 +2319,28 @@ export type SlugInputProps = TextInputProps & {
     onOverlayClick?: () => void;
 };
 
-// @public (undocumented)
-export const Spacer: NamedExoticComponent<SpacerProps>;
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
+export const Spacer: MemoExoticComponent<({ className, gap, ...rest }: SpacerProps) => JSX.Element>;
 
 // @public (undocumented)
-export interface SpacerProps extends Omit<NativeProps<HTMLDivElement>, 'children'> {
-    // (undocumented)
+export type SpacerProps = {
     gap?: Size | 'xlarge' | 'none';
-}
+} & Omit<HTMLDivElementProps, 'ref'>;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const Spinner: MemoExoticComponent<() => JSX.Element>;
 
 // @public (undocumented)
 export function splitDatetime(datetime: string | null | undefined): string[];
 
-// @public (undocumented)
-export const Stack: MemoExoticComponent<ForwardRefExoticComponent<Omit<StackProps, "ref"> & RefAttributes<HTMLDivElement>>>;
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
+export const Stack: MemoExoticComponent<ForwardRefExoticComponent<StackOwnProps & HTMLDivElementProps & RefAttributes<HTMLDivElement>>>;
 
 // @public (undocumented)
 export interface StackOwnProps {
@@ -2239,14 +2363,13 @@ export interface StackOwnProps {
     // (undocumented)
     shrink?: boolean | CSSProperties['flexShrink'];
     // (undocumented)
-    style?: NativeProps<HTMLDivElement>['style'];
+    style?: CSSProperties;
     // (undocumented)
     wrap?: boolean | 'reverse';
 }
 
 // @public (undocumented)
-export interface StackProps extends StackOwnProps, Omit<NativeProps<HTMLDivElement>, 'children'> {
-}
+export type StackProps = StackOwnProps & HTMLDivElementProps;
 
 // @public (undocumented)
 export const StyleProvider: ({ children }: {
@@ -2262,18 +2385,21 @@ export const TAB_INDEX_NEVER_FOCUSABLE = -2;
 // @public (undocumented)
 export const TAB_INDEX_TEMPORARY_UNFOCUSABLE = -1;
 
-// @public (undocumented)
-export const TabButton: MemoExoticComponent<ForwardRefExoticComponent<TabButtonProps & RefAttributes<HTMLButtonElement>>>;
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
+export const TabButton: MemoExoticComponent<ForwardRefExoticComponent<    {
+isSelected?: boolean | undefined;
+isDisabled?: boolean | undefined;
+children: ReactNode;
+} & Omit<HTMLButtonElementProps, "ref"> & RefAttributes<HTMLButtonElement>>>;
 
 // @public (undocumented)
-export interface TabButtonProps extends HTMLAttributes<HTMLElement> {
-    // (undocumented)
-    children: ReactNode;
-    // (undocumented)
-    isDisabled?: boolean;
-    // (undocumented)
+export type TabButtonProps = {
     isSelected?: boolean;
-}
+    isDisabled?: boolean;
+    children: ReactNode;
+} & Omit<HTMLButtonElementProps, 'ref'>;
 
 // @public (undocumented)
 export interface TabItem {
@@ -2285,10 +2411,14 @@ export interface TabItem {
     label: ReactNode;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const Table: MemoExoticComponent<({ bare, className: classNameProp, ...props }: TableProps) => JSX.Element>;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const TableCell: MemoExoticComponent<({ shrunk, numeric, ...props }: TableCellProps) => JSX.Element>;
 
 // @public (undocumented)
@@ -2307,7 +2437,9 @@ export interface TableCellProps {
     shrunk?: boolean;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const TableHeaderCell: MemoExoticComponent<({ shrunk, ...props }: TableHeaderCellProps) => JSX.Element>;
 
 // @public (undocumented)
@@ -2342,7 +2474,9 @@ export interface TableProps {
     tableHead?: ReactNode;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const TableRow: MemoExoticComponent<({ active, children, id, justification, onClick: onClickProp }: TableRowProps) => JSX.Element>;
 
 // @public (undocumented)
@@ -2359,7 +2493,9 @@ export interface TableRowProps {
     onClick?: (id: number | string) => void;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const Tag: NamedExoticComponent<TagProps>;
 
 // @public (undocumented)
@@ -2370,7 +2506,9 @@ export interface TagProps {
     onRemove?: () => void;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const TelInput: MemoExoticComponent<ForwardRefExoticComponent<ControlDisplayProps & ValidationStateProps & ControlStateProps & ControlFocusProps & ControlConstraintProps<string> & ControlValueProps<string> & {
 withTopToolbar?: boolean | undefined;
 } & RestHTMLTextInputProps & RefAttributes<HTMLInputElement>>>;
@@ -2378,7 +2516,9 @@ withTopToolbar?: boolean | undefined;
 // @public (undocumented)
 export type TelInputProps = TextInputProps;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const TextareaInput: MemoExoticComponent<ForwardRefExoticComponent<ControlDisplayProps & ValidationStateProps & ControlStateProps & ControlFocusProps & ControlConstraintProps<string> & ControlValueProps<string> & TextareaInputOwnProps & UnderlyingElementProps & {
 style?: TextareaAutosizeProps['style'];
 } & RefAttributes<HTMLTextAreaElement>>>;
@@ -2396,7 +2536,9 @@ export type TextareaInputProps = ControlProps<string> & TextareaInputOwnProps & 
     style?: TextareaAutosizeProps['style'];
 };
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const TextInput: MemoExoticComponent<ForwardRefExoticComponent<Omit<TextInputProps, "type"> & {
 type?: "search" | "time" | "color" | "range" | "tel" | "url" | "email" | "date" | "datetime-local" | "month" | "password" | "week" | "datetime" | undefined;
 } & RefAttributes<HTMLInputElement>>>;
@@ -2410,6 +2552,13 @@ export type TextInputOwnProps<V extends string | number = string> = ControlProps
 export type TextInputProps<V extends string | number = string> = TextInputOwnProps<V> & RestHTMLTextInputProps;
 
 // @public (undocumented)
+export type TextInputPropsWithDeprecated = Omit<TextInputProps, 'type'> & {
+    type?: 'color' | 'date' | 'datetime' | 'datetime-local' | 'email' | 'month' | 'password' | 'range' | 'search' | 'tel' | 'time' | 'url' | 'week';
+};
+
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const TimeInput: MemoExoticComponent<ForwardRefExoticComponent<ControlDisplayProps & ValidationStateProps & ControlStateProps & ControlFocusProps & ControlConstraintProps<string> & ControlValueProps<string> & {
 withTopToolbar?: boolean | undefined;
 } & RestHTMLTextInputProps & {
@@ -2427,7 +2576,9 @@ export type TimeInputString = string;
 // @public (undocumented)
 export const TimeInputStringRegExp: RegExp;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const TitleBar: MemoExoticComponent<({ after, navigation, children, headingProps, actions, ...props }: TitleBarProps) => JSX.Element>;
 
 // @public (undocumented)
@@ -2567,7 +2718,9 @@ export namespace Trio {
 export interface UnderlyingElementProps extends Omit<AllHTMLAttributes<HTMLTextAreaElement>, ControlPropsKeys<string>> {
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const UploadProgress: FunctionComponent<UploadProgressProps>;
 
 // @public (undocumented)
@@ -2578,7 +2731,9 @@ export interface UploadProgressProps {
     progress?: string | number;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const UrlInput: MemoExoticComponent<ForwardRefExoticComponent<ControlDisplayProps & ValidationStateProps & ControlStateProps & ControlFocusProps & ControlConstraintProps<string> & ControlValueProps<string> & {
 withTopToolbar?: boolean | undefined;
 } & RestHTMLTextInputProps & RefAttributes<HTMLInputElement>>>;
@@ -2646,14 +2801,10 @@ export function useNativeInput<E extends HTMLInputElement | HTMLTextAreaElement 
 // @public (undocumented)
 export function usePreventCloseContext(): () => void;
 
-// @public (undocumented)
-export function UserMiniControl({ name, note, avatarUrl }: UserMiniControlProps): JSX.Element;
-
-// @public (undocumented)
-export namespace UserMiniControl {
-    var // (undocumented)
-    displayName: string;
-}
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
+export const UserMiniControl: FunctionComponent<UserMiniControlProps>;
 
 // @public (undocumented)
 export interface UserMiniControlProps {
@@ -2697,7 +2848,9 @@ export interface ValidationStateProps {
 // @public (undocumented)
 export type VisuallyDependentControlProps = ControlStateProps & ControlDisplayProps & Pick<ValidationStateProps, 'validationState'>;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const WeekInput: MemoExoticComponent<ForwardRefExoticComponent<ControlDisplayProps & ValidationStateProps & ControlStateProps & ControlFocusProps & ControlConstraintProps<string> & ControlValueProps<string> & {
 withTopToolbar?: boolean | undefined;
 } & RestHTMLTextInputProps & RefAttributes<HTMLInputElement>>>;
@@ -2710,6 +2863,10 @@ export type WeekInputString = string;
 
 // @public (undocumented)
 export const WeekInputStringRegExp: RegExp;
+
+// Warnings were encountered during analysis:
+//
+// src/components/Forms/Radio/RadioButton.tsx:16:4 - (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
 
 // (No @packageDocumentation comment for this package)
 

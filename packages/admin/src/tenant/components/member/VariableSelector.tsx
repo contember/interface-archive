@@ -67,6 +67,9 @@ const GenericVariableEdit = ({ label, value, onChange }: { label?: React.ReactNo
 	)
 }
 
+/**
+ * @group Tenant
+ */
 export const VariableSelector: FC<VariableSelectorProps> = ({ rolesConfig, membership, variable, onChange }) => {
 	const innerOnChange = useCallback(
 		(newValues: string[]) => {

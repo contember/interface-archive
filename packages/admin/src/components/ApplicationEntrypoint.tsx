@@ -27,6 +27,9 @@ const validateProps = (props: Partial<ApplicationEntrypointProps>) => {
 	}
 }
 
+/**
+ * @group Entrypoints
+ */
 export const ApplicationEntrypoint = (props: ApplicationEntrypointProps) => {
 	validateProps(props)
 	const projectSlug = props.project === '__PROJECT_SLUG__'

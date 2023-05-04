@@ -30,6 +30,14 @@ export type TextFilterArtifacts = {
 	nullCondition: boolean
 }
 
+/**
+ * DataGrid cell for displaying a content of text field.
+ *
+ * @example
+ * <NumberCell field="author.name" header="Author name" />
+ *
+ * @group Data grid
+ */
 export const TextCell: FunctionComponent<TextCellProps> = Component(props => {
 	return (
 		<DataGridColumn<TextFilterArtifacts>
