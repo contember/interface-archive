@@ -1,4 +1,3 @@
-import { HTMLAttributes } from 'react'
 import { ControlDistinction, Intent, Scheme, Size, ValidationState } from '../../../types'
 
 /**
@@ -30,7 +29,7 @@ export interface ControlFocusProps {
 }
 
 export interface ControlDisplayProps {
-	className?: HTMLAttributes<HTMLElement>['className']
+	className?: string
 	distinction?: ControlDistinction
 	id?: string
 	intent?: Intent

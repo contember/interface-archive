@@ -31,6 +31,9 @@ const useNormalizedPrefix = (value?: SlugPrefix) => {
 	return useMemo(() => typeof value === 'function' ? value(environment) : value ?? '', [value, environment])
 }
 
+/**
+ * @group Form Fields
+ */
 export const SlugField = Component<SlugFieldProps>(
 	props => <SlugFieldInner {...props}/>,
 	props => <>

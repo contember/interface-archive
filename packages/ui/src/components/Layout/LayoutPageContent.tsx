@@ -1,14 +1,16 @@
 import classNames from 'classnames'
 import { memo } from 'react'
 import { useComponentClassName } from '../../auxiliary'
-import { NativeProps } from '../../types'
+import { HTMLDivElementProps } from '../../types'
 import { toEnumClass } from '../../utils'
 
-export interface LayoutPageContentProps extends NativeProps<HTMLDivElement> {
-	/** @deprecated Use `pageContentLayout` instead */
-	layout?: 'default' | 'full-width'
-	pageContentLayout?: 'center' | 'start' | 'end' | 'stretch'
-}
+export type LayoutPageContentProps =
+	& {
+		/** @deprecated Use `pageContentLayout` instead */
+		layout?: 'default' | 'full-width'
+		pageContentLayout?: 'center' | 'start' | 'end' | 'stretch'
+	}
+	& HTMLDivElementProps
 
 export const LayoutPageContent = memo(({ children, layout, pageContentLayout = 'center' }: LayoutPageContentProps) => {
 	const componentClassName = useComponentClassName('layout-page-content')

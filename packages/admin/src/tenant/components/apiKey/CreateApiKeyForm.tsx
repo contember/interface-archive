@@ -16,6 +16,9 @@ const initialValues = {
 	description: '',
 }
 
+/**
+ * @group Tenant
+ */
 export const CreateApiKeyForm: FC<CreateApiKeyFormProps> = ({ project, rolesConfig, apiKeyListLink }) => {
 	const { register, values } = useForm(initialValues)
 	const redirect = useRedirect()

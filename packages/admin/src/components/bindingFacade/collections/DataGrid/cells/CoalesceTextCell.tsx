@@ -15,6 +15,14 @@ type CoalesceTextFilterArtifacts = {
 	query: string
 }
 
+/**
+ * DataGrid cells with for text fields with a fallback support.
+ *
+ * @example
+ * <CoalesceTextCell fields={['email', 'user.email']} header="E-mail" />
+ *
+ * @group Data grid
+ */
 export const CoalesceTextCell: FC<CoalesceTextCellProps> = Component(props => {
 	return (
 		<DataGridColumn<CoalesceTextFilterArtifacts>

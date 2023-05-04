@@ -1,13 +1,19 @@
 import classNames from 'classnames'
 import { memo } from 'react'
 import { useClassNamePrefix } from '../../auxiliary'
-import { NativeProps, Size } from '../../types'
+import { HTMLDivElementProps, Size } from '../../types'
 import { toEnumViewClass } from '../../utils'
 
-export interface SpacerProps extends Omit<NativeProps<HTMLDivElement>, 'children'> {
-  gap?: Size | 'xlarge' | 'none'
-}
+export type SpacerProps =
+	& {
+		gap?: Size | 'xlarge' | 'none'
+	}
+	& Omit<HTMLDivElementProps, 'ref'>
 
+
+/**
+ * @group UI
+ */
 export const Spacer = memo(({ className, gap, ...rest }: SpacerProps) => {
   const componentClassName = `${useClassNamePrefix()}spacer`
 

@@ -19,6 +19,9 @@ interface RadioProps {
 	size?: Size
 }
 
+/**
+ * @group Forms UI
+ */
 export const RadioControl = memo(({ RadioButtonComponent, description, size, validationState, ...props }: RadioProps) => {
 	const { children, value } = props
 

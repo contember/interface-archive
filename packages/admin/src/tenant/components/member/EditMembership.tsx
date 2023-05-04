@@ -29,6 +29,9 @@ export interface EditMembershipProps {
 	rolesConfig?: RolesConfig
 }
 
+/**
+ * @group Tenant
+ */
 export const EditMembership: FC<EditMembershipProps> = ({ project, memberships, setMemberships, rolesConfig }) => {
 	const { state: roleDefinitionState } = useListRolesQuery(project)
 

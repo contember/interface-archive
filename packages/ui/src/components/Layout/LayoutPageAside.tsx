@@ -1,6 +1,6 @@
 import { memo, useLayoutEffect, useRef } from 'react'
 import { useClassNamePrefix } from '../../auxiliary'
-import { NativeProps } from '../../types'
+import { HTMLDivElementProps } from '../../types'
 import { useSectionTabsRegistration } from '../SectionTabs'
 import { Stack } from '../Stack'
 
@@ -10,7 +10,10 @@ const metaTab = {
 	isMeta: true,
 }
 
-export const LayoutPageAside = memo(({ children }: NativeProps<HTMLDivElement>) => {
+/**
+ * @group Layout UI
+ */
+export const LayoutPageAside = memo(({ children }: HTMLDivElementProps) => {
 	const componentClassName = `${useClassNamePrefix()}layout-page-aside`
 	const [registerTab, unregisterTab] = useSectionTabsRegistration()
 	const element = useRef<HTMLDivElement>(null)

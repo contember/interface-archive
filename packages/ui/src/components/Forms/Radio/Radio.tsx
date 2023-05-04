@@ -35,6 +35,9 @@ function deriveAriaValidationState(validationState?: ValidationState): 'valid' |
 	return undefined
 }
 
+/**
+ * @group Forms UI
+ */
 export const Radio = memo((props: RadioProps) => {
 	const { name, options, orientation, size, validationState, RadioButtonComponent } = props
 
