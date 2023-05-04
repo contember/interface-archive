@@ -1,15 +1,17 @@
 import classNames from 'classnames'
 import { CSSProperties, memo, ReactNode, useMemo } from 'react'
 import { useComponentClassName } from '../../auxiliary'
-import { NativeProps } from '../../types'
+import { HTMLDivElementProps } from '../../types'
 
-interface LayoutPageStickyContainerProps extends NativeProps<HTMLDivElement> {
-	bottom?: CSSProperties['bottom'],
-	children?: ReactNode,
-	left?: CSSProperties['left'],
-	right?: CSSProperties['right'],
-	top?: CSSProperties['top'],
-}
+export type LayoutPageStickyContainerProps =
+	& {
+		bottom?: CSSProperties['bottom'],
+		children?: ReactNode,
+		left?: CSSProperties['left'],
+		right?: CSSProperties['right'],
+		top?: CSSProperties['top'],
+	}
+	& HTMLDivElementProps
 
 export const LayoutPageStickyContainer = memo(({
 	bottom,

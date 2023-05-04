@@ -26,6 +26,14 @@ export type NumberFilterArtifacts = {
 	nullCondition: boolean
 }
 
+/**
+ * DataGrid cell for displaying a content of number field.
+ *
+ * @example
+ * <NumberCell field="viewCount" header="View count" />
+ *
+ * @group Data grid
+ */
 export const NumberCell: FunctionComponent<NumberCellProps> = Component(props => {
 	return (
 		<DataGridColumn<NumberFilterArtifacts>

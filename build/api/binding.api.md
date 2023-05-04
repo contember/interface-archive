@@ -27,14 +27,13 @@ import type { TreeFilter } from '@contember/client';
 // @public (undocumented)
 export function AccessorProvider(props: EntityProviderProps): JSX.Element;
 
-// @public (undocumented)
-export function AccessorTree({ state, children }: AccessorTreeProps): JSX.Element;
-
-// @public (undocumented)
-export namespace AccessorTree {
-    var // (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
+export const AccessorTree: {
+    ({ state, children }: AccessorTreeProps): JSX.Element;
     displayName: string;
-}
+};
 
 // @public (undocumented)
 export interface AccessorTreeProps {
@@ -212,7 +211,13 @@ export class DataBinding {
 // @public (undocumented)
 export const DataBindingExtendAborted: unique symbol;
 
-// @public (undocumented)
+// Warning: (tsdoc-escape-greater-than) The ">" character should be escaped using a backslash to avoid confusion with an HTML tag
+// Warning: (tsdoc-escape-right-brace) The "}" character should be escaped using a backslash to avoid confusion with a TSDoc inline tag
+// Warning: (tsdoc-html-tag-missing-string) The HTML element has an invalid attribute: Expecting an HTML string starting with a single-quote or double-quote character
+// Warning: (tsdoc-malformed-inline-tag) Expecting a TSDoc tag starting with "{@"
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const DataBindingProvider: <StateProps>(props: DataBindingProviderProps<StateProps>) => ReactElement;
 
 // @public (undocumented)
@@ -232,7 +237,9 @@ export interface DataBindingStateComponentProps {
     children?: ReactNode;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const DeferredSubTrees: React.NamedExoticComponent<DeferredSubTreesProps>;
 
 // @public (undocumented)
@@ -246,7 +253,9 @@ export interface DeferredSubTreesProps {
 // @public (undocumented)
 export const DirtinessContext: React.Context<boolean>;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const Entity: React.NamedExoticComponent<EntityBaseProps>;
 
 // @public (undocumented)
@@ -436,7 +445,9 @@ export interface EntityKeyProviderProps {
     entityKey: string;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const EntityList: <ListProps>(props: EntityListProps<ListProps>) => ReactElement;
 
 // @public (undocumented)
@@ -589,7 +600,9 @@ export type EntityListProps<ListProps> = EntityListBaseProps & ({} | {
     listProps?: ListProps;
 });
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const EntityListSubTree: <ListProps, EntityProps>(props: EntityListSubTreeProps<ListProps, EntityProps>) => ReactElement;
 
 // @public (undocumented)
@@ -639,7 +652,9 @@ export interface EntityProviderProps {
 // @public (undocumented)
 export type EntityRealmKey = string;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const EntitySubTree: <EntityProps>(pros: EntitySubTreeProps<EntityProps>) => ReactElement;
 
 // @public (undocumented)
@@ -672,7 +687,9 @@ export type EntitySubTreeProps<EntityProps> = {
     children?: ReactNode;
 } & EntitySubTreeAdditionalProps & (SugaredQualifiedSingleEntity | (SugaredUnconstrainedQualifiedSingleEntity & EntitySubTreeAdditionalCreationProps));
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export function EntityView(props: EntityViewProps): JSX.Element;
 
 // @public (undocumented)
@@ -1031,7 +1048,9 @@ export interface ExtendTreeOptions {
     signal?: AbortSignal;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const Field: <Persisted extends FieldValue = FieldValue>(props: FieldProps<Persisted>) => ReactElement;
 
 // @public (undocumented)
@@ -1132,6 +1151,9 @@ export interface FieldEventListeners {
 // @public (undocumented)
 export type FieldEventListenerStore<Value extends FieldValue = FieldValue> = EventListenersStore<keyof Events_3<Value>, Partial<Events_3<Value>>>;
 
+// @public (undocumented)
+export type FieldEventListenerValue<E extends keyof FieldAccessor.FieldEventListenerMap, Persisted extends FieldValue = FieldValue> = Events_3<Persisted>[E] | Set<Events_3<Persisted>[E]>;
+
 // @public
 export class FieldMarker {
     constructor(fieldName: FieldName, defaultValue?: FieldValue | undefined, isNonbearing?: boolean);
@@ -1169,7 +1191,20 @@ export interface FieldRuntimeProps<Persisted extends FieldValue = FieldValue> {
 // @public (undocumented)
 export type FieldValue = JsonValue;
 
-// @public (undocumented)
+// Warning: (tsdoc-html-tag-missing-string) The HTML element has an invalid attribute: Expecting an HTML string starting with a single-quote or double-quote character
+// Warning: (tsdoc-escape-greater-than) The ">" character should be escaped using a backslash to avoid confusion with an HTML tag
+// Warning: (tsdoc-escape-greater-than) The ">" character should be escaped using a backslash to avoid confusion with an HTML tag
+// Warning: (tsdoc-escape-greater-than) The ">" character should be escaped using a backslash to avoid confusion with an HTML tag
+// Warning: (tsdoc-escape-right-brace) The "}" character should be escaped using a backslash to avoid confusion with a TSDoc inline tag
+// Warning: (tsdoc-escape-right-brace) The "}" character should be escaped using a backslash to avoid confusion with a TSDoc inline tag
+// Warning: (tsdoc-malformed-html-name) Invalid HTML element: Expecting an HTML name
+// Warning: (tsdoc-malformed-html-name) Expecting an HTML element name: Expecting an HTML name
+// Warning: (tsdoc-malformed-inline-tag) Expecting a TSDoc tag starting with "{@"
+// Warning: (tsdoc-malformed-inline-tag) Expecting a TSDoc tag starting with "{@"
+// Warning: (tsdoc-escape-greater-than) The ">" character should be escaped using a backslash to avoid confusion with an HTML tag
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const FieldView: {
     <FV1 extends FieldValue>(props: FieldViewCommonProps & {
         field: SRSF;
@@ -1228,7 +1263,9 @@ export interface GqlError {
     type: 'gqlError';
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const HasMany: <ListProps, EntityProps>(props: HasManyProps<ListProps, EntityProps>) => ReactElement;
 
 // @public (undocumented)
@@ -1259,7 +1296,9 @@ export class HasManyRelationMarker {
     readonly placeholderName: string;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const HasOne: <EntityProps extends {}>(props: HasOneProps<EntityProps>) => ReactElement;
 
 // @public (undocumented)
@@ -1289,7 +1328,9 @@ export class HasOneRelationMarker {
     readonly placeholderName: string;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const If: React.NamedExoticComponent<IfProps>;
 
 // @public (undocumented)
@@ -1598,7 +1639,9 @@ export interface OwningRelation extends BaseRelation {
     side: 'owning';
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const ParentEntity: React.NamedExoticComponent<ParentEntityProps>;
 
 // @public (undocumented)
@@ -1758,10 +1801,9 @@ export const QualifiedEntityParametersDefaults: {
 };
 
 // @public (undocumented)
-export interface QualifiedFieldList extends EntityListParameters, QualifiedEntityParameters, AnyField, LeafField {
-    // (undocumented)
+export type QualifiedFieldList = EntityListParameters & QualifiedEntityParameters & AnyField & LeafField & {
     hasOneRelationPath: HasOneRelation[];
-}
+};
 
 // @public (undocumented)
 export interface QualifiedSingleEntity extends QualifiedSingleEntityParameters, SingleEntityParameters, QualifiedEntityParameters, EntityCreationParameters, SingleEntityEventListeners {
@@ -1876,10 +1918,9 @@ export interface RelativeSingleEntity {
 }
 
 // @public (undocumented)
-export interface RelativeSingleField extends AnyField, LeafField {
-    // (undocumented)
+export type RelativeSingleField = AnyField & LeafField & {
     hasOneRelationPath: HasOneRelation[];
-}
+};
 
 // @public (undocumented)
 export type RemovalType = 'disconnect' | 'delete';
@@ -2084,7 +2125,9 @@ export interface SortedEntities {
 // @public (undocumented)
 export const sortEntities: (entities: EntityAccessor[], sortByField: RelativeSingleField | undefined) => EntityAccessor[];
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const StaticRender: React.NamedExoticComponent<StaticRenderProps>;
 
 // @public (undocumented)
@@ -2148,10 +2191,9 @@ export interface SugarableQualifiedEntityParameters {
 }
 
 // @public (undocumented)
-export interface SugarableQualifiedFieldList extends SugarableEntityListParameters, SugarableQualifiedEntityParameters, SugarableAnyField {
-    // (undocumented)
+export type SugarableQualifiedFieldList = SugarableEntityListParameters & SugarableQualifiedEntityParameters & SugarableAnyField & {
     hasOneRelationPath?: SugarableHasOneRelation[] | SugarableHasOneRelation;
-}
+};
 
 // @public (undocumented)
 export interface SugarableQualifiedSingleEntity extends SugarableQualifiedSingleEntityParameters, SugarableSingleEntityParameters, SugarableQualifiedEntityParameters {
@@ -2184,10 +2226,9 @@ export interface SugarableRelativeSingleEntity {
 }
 
 // @public (undocumented)
-export interface SugarableRelativeSingleField extends SugarableAnyField {
-    // (undocumented)
+export type SugarableRelativeSingleField = SugarableAnyField & {
     hasOneRelationPath?: SugarableHasOneRelation[] | SugarableHasOneRelation;
-}
+};
 
 // @public (undocumented)
 export interface SugarableSingleEntityParameters {
@@ -2207,7 +2248,9 @@ export interface SugarableUnconstrainedQualifiedSingleEntity extends SugarableQu
     hasOneRelationPath?: SugarableHasOneRelation[] | SugarableHasOneRelation;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const SugaredField: <Persisted extends FieldValue = FieldValue>(props: SugaredFieldProps<Persisted>) => ReactElement;
 
 // @public (undocumented)
@@ -2233,10 +2276,9 @@ export interface SugaredQualifiedEntityList extends UnsugarableQualifiedEntityLi
 }
 
 // @public (undocumented)
-export interface SugaredQualifiedFieldList extends UnsugarableQualifiedFieldList {
-    // (undocumented)
+export type SugaredQualifiedFieldList = UnsugarableQualifiedFieldList & {
     fields: string | SugarableQualifiedFieldList;
-}
+};
 
 // @public (undocumented)
 export interface SugaredQualifiedSingleEntity extends UnsugarableQualifiedSingleEntity {
@@ -2257,10 +2299,9 @@ export interface SugaredRelativeSingleEntity extends UnsugarableRelativeSingleEn
 }
 
 // @public (undocumented)
-export interface SugaredRelativeSingleField extends UnsugarableRelativeSingleField {
-    // (undocumented)
+export type SugaredRelativeSingleField = UnsugarableRelativeSingleField & {
     field: string | SugarableRelativeSingleField;
-}
+};
 
 // @public (undocumented)
 export type SugaredSetOnCreate = SugaredUniqueWhere | SugaredUniqueWhere[] | Exclude<SetOnCreate, undefined>;
@@ -2461,8 +2502,10 @@ export interface UnsugarableEntityListPreferences {
 }
 
 // @public (undocumented)
-export type UnsugarableFieldEventListeners<Persisted extends FieldValue = FieldValue, Produced extends Persisted = Persisted> = {
-    [EventName in keyof Events_3 & string as `on${Capitalize<EventName>}`]?: Events_3[EventName] | Set<Events_3[EventName]>;
+export type UnsugarableFieldEventListeners<Persisted extends FieldValue = FieldValue> = {
+    onInitialize?: FieldEventListenerValue<'initialize', Persisted>;
+    onBeforeUpdate?: FieldEventListenerValue<'beforeUpdate', Persisted>;
+    onUpdate?: FieldEventListenerValue<'update', Persisted>;
 };
 
 // @public (undocumented)
@@ -2474,12 +2517,10 @@ export interface UnsugarableHasOneRelation extends UnsugarableRelation, Unsugara
 }
 
 // @public (undocumented)
-export interface UnsugarableLeafField extends UnsugarableFieldEventListeners {
-    // (undocumented)
-    defaultValue?: OptionallyVariableFieldValue;
-    // (undocumented)
+export type UnsugarableLeafField = UnsugarableFieldEventListeners & {
     isNonbearing?: boolean;
-}
+    defaultValue?: OptionallyVariableFieldValue;
+};
 
 // @public (undocumented)
 export interface UnsugarableParentEntityParameters extends UnsugarableSingleEntityEventListeners {
@@ -2500,8 +2541,7 @@ export interface UnsugarableQualifiedEntityParameters {
 }
 
 // @public (undocumented)
-export interface UnsugarableQualifiedFieldList extends UnsugarableEntityListParameters, UnsugarableQualifiedEntityParameters, UnsugarableLeafField {
-}
+export type UnsugarableQualifiedFieldList = UnsugarableEntityListParameters & UnsugarableQualifiedEntityParameters & UnsugarableLeafField;
 
 // @public (undocumented)
 export interface UnsugarableQualifiedSingleEntity extends UnsugarableQualifiedEntityParameters, UnsugarableEntityCreationParameters, UnsugarableSingleEntityEventListeners {
@@ -2524,8 +2564,7 @@ export interface UnsugarableRelativeSingleEntity extends UnsugarableHasOneRelati
 }
 
 // @public (undocumented)
-export interface UnsugarableRelativeSingleField extends UnsugarableLeafField {
-}
+export type UnsugarableRelativeSingleField = UnsugarableLeafField;
 
 // @public (undocumented)
 export type UnsugarableSingleEntityEventListeners = {
@@ -2753,11 +2792,11 @@ export const wrapFilterInHasOnes: (path: HasOneRelation[], filter: Filter) => Fi
 
 // Warnings were encountered during analysis:
 //
-// src/helperComponents/FieldView.tsx:34:23 - (ae-forgotten-export) The symbol "FieldViewCommonProps" needs to be exported by the entry point index.d.ts
-// src/helperComponents/FieldView.tsx:34:23 - (ae-forgotten-export) The symbol "REN" needs to be exported by the entry point index.d.ts
-// src/helperComponents/FieldView.tsx:36:1 - (ae-forgotten-export) The symbol "SRSF" needs to be exported by the entry point index.d.ts
-// src/helperComponents/FieldView.tsx:95:33 - (ae-forgotten-export) The symbol "RN" needs to be exported by the entry point index.d.ts
-// src/helperComponents/FieldView.tsx:128:1 - (ae-forgotten-export) The symbol "FieldViewProps" needs to be exported by the entry point index.d.ts
+// src/helperComponents/FieldView.tsx:45:23 - (ae-forgotten-export) The symbol "FieldViewCommonProps" needs to be exported by the entry point index.d.ts
+// src/helperComponents/FieldView.tsx:45:23 - (ae-forgotten-export) The symbol "REN" needs to be exported by the entry point index.d.ts
+// src/helperComponents/FieldView.tsx:47:1 - (ae-forgotten-export) The symbol "SRSF" needs to be exported by the entry point index.d.ts
+// src/helperComponents/FieldView.tsx:106:33 - (ae-forgotten-export) The symbol "RN" needs to be exported by the entry point index.d.ts
+// src/helperComponents/FieldView.tsx:139:1 - (ae-forgotten-export) The symbol "FieldViewProps" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

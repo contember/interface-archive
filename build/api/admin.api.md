@@ -64,9 +64,11 @@ import { GraphQlClientRequestOptions } from '@contember/react-client';
 import { GraphQlClientVariables } from '@contember/react-client';
 import { GraphQlClientVariables as GraphQlClientVariables_2 } from '@contember/client';
 import { HistoryEditor } from 'slate-history';
+import { HTMLAnchorElementProps } from '@contember/ui';
+import { HTMLImageElementProps } from '@contember/ui';
+import { HTMLVideoElementProps } from '@contember/ui';
 import { IconProps } from '@contember/ui';
 import { IconSourceSpecification } from '@contember/ui';
-import type { ImgHTMLAttributes } from 'react';
 import { InputHTMLAttributes } from 'react';
 import { JsonObject } from '@contember/binding';
 import { JsonValue } from '@contember/binding';
@@ -138,7 +140,6 @@ import { TileLayerProps } from 'react-leaflet';
 import { TimeInputProps } from '@contember/ui';
 import { UnsugarableSingleEntityEventListeners } from '@contember/binding';
 import { UrlInputProps } from '@contember/ui';
-import type { VideoHTMLAttributes } from 'react';
 
 // @public (undocumented)
 export const acceptAnyFile: () => boolean;
@@ -219,10 +220,14 @@ export interface AddEntityButtonProps {
     addButtonText?: ReactNode;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "AddNewBlockButton" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export const AddNewBlockButton: React.NamedExoticComponent<AddNewBlockButtonProps>;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "AddNewBlockButtonInner" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export const AddNewBlockButtonInner: React.NamedExoticComponent<AddNewBlockButtonInnerProps>;
 
 // @public (undocumented)
@@ -288,13 +293,17 @@ export interface AnchorRendererProps extends Omit<RenderElementProps, 'element'>
 // @public (undocumented)
 export const anchorToolbarButton: ElementToolbarButton<AnchorElement>;
 
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
 // @public (undocumented)
 export const AnyFileRepeater: <AcceptArtifacts = unknown, SFExtraProps extends {} = {}>(props: AnyFileRepeaterProps<AcceptArtifacts, SFExtraProps>) => ReactElement | null;
 
 // @public (undocumented)
-export type AnyFileRepeaterProps<AcceptArtifacts = unknown, SFExtraProps extends {} = {}> = PublicSingleKindFileRepeaterProps<AcceptArtifacts, SFExtraProps> & StockAnyFileKindProps<AcceptArtifacts>;
+export type AnyFileRepeaterProps<AcceptArtifacts = unknown, SFExtraProps extends {} = {}> = PublicSingleKindFileRepeaterProps<AcceptArtifacts, SFExtraProps>;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const AnyFiles: <AcceptArtifacts = unknown>(props: AnyFilesProps<AcceptArtifacts, {}>) => ReactElement | null;
 
 // @public (undocumented)
@@ -302,13 +311,17 @@ export type AnyFilesProps<AcceptArtifacts = unknown, SFExtraProps extends {} = {
     discriminateBy: SugaredDiscriminateBy;
 };
 
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
 // @public (undocumented)
 export const AnyUploadField: <AcceptArtifacts = unknown, SFExtraProps extends {} = {}>(props: AnyUploadFieldProps<AcceptArtifacts, SFExtraProps>) => ReactElement | null;
 
 // @public (undocumented)
-export type AnyUploadFieldProps<AcceptArtifacts = unknown, SFExtraProps extends {} = {}> = PublicSingleKindUploadFieldProps<AcceptArtifacts, SFExtraProps> & StockAnyFileKindProps<AcceptArtifacts>;
+export type AnyUploadFieldProps<AcceptArtifacts = unknown, SFExtraProps extends {} = {}> = PublicSingleKindUploadFieldProps<AcceptArtifacts, SFExtraProps>;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const ApiKeyList: React.NamedExoticComponent<ApiKeyListProps>;
 
 // @public (undocumented)
@@ -323,7 +336,9 @@ export interface ApiKeyListProps {
     project: string;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const ApplicationEntrypoint: (props: ApplicationEntrypointProps) => JSX.Element;
 
 // @public (undocumented)
@@ -354,13 +369,17 @@ export interface AudioFileDataExtractorProps {
     durationField?: SugaredFieldProps['field'];
 }
 
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
 // @public (undocumented)
 export const AudioFileRepeater: <AcceptArtifacts = unknown, SFExtraProps extends {} = {}>(props: AudioFileRepeaterProps<AcceptArtifacts, SFExtraProps>) => ReactElement | null;
 
 // @public (undocumented)
-export type AudioFileRepeaterProps<AcceptArtifacts = unknown, SFExtraProps extends {} = {}> = PublicSingleKindFileRepeaterProps<AcceptArtifacts, SFExtraProps> & StockAudioFileKindProps<AcceptArtifacts>;
+export type AudioFileRepeaterProps<AcceptArtifacts = unknown, SFExtraProps extends {} = {}> = PublicSingleKindFileRepeaterProps<AcceptArtifacts, SFExtraProps> & AudioFileDataExtractorProps;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const AudioFiles: <AcceptArtifacts = unknown>(props: AudioFilesProps<AcceptArtifacts, {}>) => ReactElement | null;
 
 // @public (undocumented)
@@ -368,13 +387,17 @@ export type AudioFilesProps<AcceptArtifacts = unknown, SFExtraProps extends {} =
     discriminateBy: SugaredDiscriminateBy;
 };
 
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
 // @public (undocumented)
 export const AudioUploadField: <AcceptArtifacts = unknown, SFExtraProps extends {} = {}>(props: AudioUploadFieldProps<AcceptArtifacts, SFExtraProps>) => ReactElement | null;
 
 // @public (undocumented)
-export type AudioUploadFieldProps<AcceptArtifacts = unknown, SFExtraProps extends {} = {}> = PublicSingleKindUploadFieldProps<AcceptArtifacts, SFExtraProps> & StockAudioFileKindProps<AcceptArtifacts>;
+export type AudioUploadFieldProps<AcceptArtifacts = unknown, SFExtraProps extends {} = {}> = PublicSingleKindUploadFieldProps<AcceptArtifacts, SFExtraProps> & AudioFileDataExtractorProps;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const AutoCell: React.NamedExoticComponent<AutoCellProps>;
 
 // @public (undocumented)
@@ -385,7 +408,9 @@ export type AutoCellProps = {
     createEntityLink?: (entity: string) => RoutingLinkTarget;
 };
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const AutoField: React.NamedExoticComponent<AutoFieldProps>;
 
 // @public (undocumented)
@@ -397,7 +422,9 @@ export type AutoFieldProps = {
     excludedEntities?: string[];
 };
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const AutoFields: React.NamedExoticComponent<AutoFieldsProps>;
 
 // @public (undocumented)
@@ -407,7 +434,9 @@ export type AutoFieldsProps = {
     excludedEntities?: string[];
 };
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const AutoForm: React.NamedExoticComponent<AutoFormProps>;
 
 // @public (undocumented)
@@ -418,7 +447,9 @@ export type AutoFormProps = {
     createEditLink?: (entity: string) => RoutingLinkTarget;
 };
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const AutoGrid: React.NamedExoticComponent<AutoGridProps>;
 
 // @public (undocumented)
@@ -428,7 +459,9 @@ export type AutoGridProps = DataGridContainerPublicProps & {
     createEditLinkTarget?: (entity: string) => RoutingLinkTarget;
 };
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const AutoLabel: React.NamedExoticComponent<AutoLabelProps>;
 
 // @public (undocumented)
@@ -437,7 +470,9 @@ export type AutoLabelProps = {
     createLink?: (entity: string) => RoutingLinkTarget;
 };
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const Avatar: FunctionComponent<AvatarProps>;
 
 // @public (undocumented)
@@ -461,20 +496,19 @@ export type BaseDynamicChoiceField = BaseDynamicChoiceFieldOptions & SelectFuseO
 };
 
 // @public (undocumented)
-export type BaseDynamicChoiceFieldOptions = {
-    options: ChoiceFieldOptionsAsEntityList;
-    optionLabel: ReactNode;
-} | {
-    options: ChoiceFieldOptionsAsFieldList;
-} | LegacyChoiceFieldWithOptionRenderer;
+export type BaseDynamicChoiceFieldOptions = DynamicChoiceFieldOptionProps | DynamicChoiceFieldWithCustomLabelProps | LegacyChoiceFieldWithOptionRenderer;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const Block: FunctionComponent<BlockProps>;
 
 // @public (undocumented)
 export const blockAnalyzer: ChildrenAnalyzer<BlockProps, never, Environment>;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const BlockEditor: FunctionComponent<BlockEditorProps> & {
     ContentOutlet: (props: ContentOutletProps) => ReactElement | null;
 };
@@ -544,13 +578,14 @@ export interface BlockProps {
     children?: ReactNode;
     // (undocumented)
     description?: ReactNode;
-    // (undocumented)
     discriminateBy: SugaredDiscriminateBy;
     // (undocumented)
     label?: ReactNode;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const BlockRepeater: FunctionComponent<BlockRepeaterProps>;
 
 // @public (undocumented)
@@ -566,15 +601,16 @@ export const blockRepeaterDictionary: {
 };
 
 // @public (undocumented)
-export interface BlockRepeaterProps extends Omit<RepeaterProps<unknown, unknown>, 'containerComponent' | 'containerComponentExtraProps' | 'itemComponent' | 'itemComponentExtraProps'> {
-    // (undocumented)
+export type BlockRepeaterProps = {
     discriminationField: SugaredFieldProps['field'];
-}
+} & Omit<RepeaterProps<unknown, unknown>, 'containerComponent' | 'containerComponentExtraProps' | 'itemComponent' | 'itemComponentExtraProps'>;
 
 // @public (undocumented)
 export const boldToolbarButton: ToolbarButtonSpec;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const BooleanCell: FunctionComponent<BooleanCellProps>;
 
 // @public (undocumented)
@@ -583,7 +619,9 @@ export type BooleanCellProps = DataGridColumnPublicProps & BooleanFieldViewProps
     initialOrder?: DataGridOrderDirection;
 };
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const BooleanFieldView: FunctionComponent<BooleanFieldViewProps>;
 
 // @public (undocumented)
@@ -593,10 +631,14 @@ export type BooleanFieldViewProps = {
     format?: (date: boolean) => ReactNode;
 } & FieldFallbackViewPublicProps;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const ChangePassword: FC<{}>;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const CheckboxField: React.NamedExoticComponent<CheckboxFieldProps>;
 
 // @public (undocumented)
@@ -695,10 +737,14 @@ export type ChoiceFieldProps = (ChoiceFieldData.SingleChoiceFieldProps<FieldValu
 // @public (undocumented)
 export type ChoiceFieldSearchByFields = SugaredRelativeSingleField['field'] | SugaredRelativeSingleField['field'][];
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const ClearFieldButton: React.NamedExoticComponent<ClearFieldButtonProps>;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "ClearFieldButtonInner" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export const ClearFieldButtonInner: (props: ClearFieldButtonInnerProps) => JSX.Element;
 
 // @public (undocumented)
@@ -716,9 +762,11 @@ export type ClearFieldButtonInnerProps = ClearFieldButtonInnerPublicProps & Clea
 export type ClearFieldButtonInnerPublicProps = ButtonProps;
 
 // @public (undocumented)
-export type ClearFieldButtonProps = Omit<ClearFieldButtonInnerPublicProps, 'defaultValue'> & SimpleRelativeSingleFieldProps;
+export type ClearFieldButtonProps = SimpleRelativeSingleFieldProps & ClearFieldButtonInnerPublicProps;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const CoalesceFieldView: <Persisted extends FieldValue = FieldValue>(props: CoalesceFieldViewProps<Persisted>) => ReactElement;
 
 // @public (undocumented)
@@ -729,7 +777,13 @@ export interface CoalesceFieldViewProps<Persisted extends FieldValue = FieldValu
     format?: (value: Persisted) => ReactNode;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-escape-greater-than) The ">" character should be escaped using a backslash to avoid confusion with an HTML tag
+// Warning: (tsdoc-escape-right-brace) The "}" character should be escaped using a backslash to avoid confusion with a TSDoc inline tag
+// Warning: (tsdoc-html-tag-missing-string) The HTML element has an invalid attribute: Expecting an HTML string starting with a single-quote or double-quote character
+// Warning: (tsdoc-malformed-inline-tag) Expecting a TSDoc tag starting with "{@"
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const CoalesceTextCell: FC<CoalesceTextCellProps>;
 
 // @public (undocumented)
@@ -738,7 +792,9 @@ export type CoalesceTextCellProps<Persisted extends FieldValue = FieldValue> = D
 // @public (undocumented)
 export const codeToolbarButton: ToolbarButtonSpec;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const ColorField: React.NamedExoticComponent<ColorFieldProps>;
 
 // @public (undocumented)
@@ -757,7 +813,9 @@ export interface CommonToolbarButton extends IconSourceSpecification {
     title?: string;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const ConcealableField: React.MemoExoticComponent<({ buttonProps, concealTimeout, renderConcealedValue, isExtended, children }: ConcealableFieldProps) => JSX.Element>;
 
 // @public (undocumented)
@@ -825,7 +883,18 @@ export const ContemberEditor: {
     topLevelNodes: <E_13 extends Editor>(editor: E_13) => Generator<NodeEntry<Node_2>, void, undefined>;
 };
 
-// @public (undocumented)
+// Warning: (tsdoc-malformed-inline-tag) Expecting a TSDoc tag starting with "{@"
+// Warning: (tsdoc-escape-right-brace) The "}" character should be escaped using a backslash to avoid confusion with a TSDoc inline tag
+// Warning: (tsdoc-escape-greater-than) The ">" character should be escaped using a backslash to avoid confusion with an HTML tag
+// Warning: (tsdoc-malformed-inline-tag) Expecting a TSDoc tag starting with "{@"
+// Warning: (tsdoc-escape-right-brace) The "}" character should be escaped using a backslash to avoid confusion with a TSDoc inline tag
+// Warning: (tsdoc-escape-greater-than) The ">" character should be escaped using a backslash to avoid confusion with an HTML tag
+// Warning: (tsdoc-escape-right-brace) The "}" character should be escaped using a backslash to avoid confusion with a TSDoc inline tag
+// Warning: (tsdoc-html-tag-missing-greater-than) The HTML tag has invalid syntax: Expecting an attribute or ">" or "/>"
+// Warning: (tsdoc-malformed-inline-tag) Expecting a TSDoc tag starting with "{@"
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const ControlledDataGrid: <ComponentProps extends {}>(props: ControlledDataGridProps<ComponentProps>) => ReactElement;
 
 // @public (undocumented)
@@ -844,9 +913,10 @@ export type ControlledDataGridProps<ComponentExtraProps extends {}> = DataGridCo
 // @public (undocumented)
 export type ControlValueParser<ControlVal, FieldVal extends FieldValue> = (value: ControlVal | null | undefined, field: FieldAccessor<FieldVal>) => FieldVal | null;
 
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
 // Warning: (ae-forgotten-export) The symbol "CreateApiKeyFormProps" needs to be exported by the entry point index.d.ts
 //
-// @public (undocumented)
+// @public
 export const CreateApiKeyForm: FC<CreateApiKeyFormProps>;
 
 // @public (undocumented)
@@ -908,8 +978,17 @@ export type CreateNewEntityButtonProps = ButtonProps & {
     iconProps?: IconProps;
 };
 
+// Warning: (tsdoc-html-tag-missing-string) The HTML element has an invalid attribute: Expecting an HTML string starting with a single-quote or double-quote character
+// Warning: (tsdoc-escape-right-brace) The "}" character should be escaped using a backslash to avoid confusion with a TSDoc inline tag
+// Warning: (tsdoc-escape-right-brace) The "}" character should be escaped using a backslash to avoid confusion with a TSDoc inline tag
+// Warning: (tsdoc-malformed-inline-tag) Expecting a TSDoc tag starting with "{@"
+// Warning: (tsdoc-malformed-inline-tag) Expecting a TSDoc tag starting with "{@"
+// Warning: (tsdoc-escape-greater-than) The ">" character should be escaped using a backslash to avoid confusion with an HTML tag
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+// Warning: (ae-forgotten-export) The symbol "PageComponent" needs to be exported by the entry point index.d.ts
+//
 // @public (undocumented)
-export const CreatePage: Partial<PageProvider<CreatePageProps>> & ComponentType<CreatePageProps>;
+export const CreatePage: PageComponent<({ pageName, children, rendererProps, redirectOnSuccess, onPersistSuccess, ...entityProps }: CreatePageProps) => JSX.Element>;
 
 // @public (undocumented)
 export type CreatePageProps = Omit<SugaredUnconstrainedQualifiedSingleEntity, 'isCreating'> & EntitySubTreeAdditionalProps & EntitySubTreeAdditionalCreationProps & {
@@ -996,7 +1075,13 @@ export const cycleOrderDirection: (direction: DataGridOrderDirection) => DataGri
 // @public (undocumented)
 export const DATA_GRID_DEFAULT_ITEMS_PER_PAGE = 50;
 
-// @public (undocumented)
+// Warning: (tsdoc-html-tag-missing-string) The HTML element has an invalid attribute: Expecting an HTML string starting with a single-quote or double-quote character
+// Warning: (tsdoc-escape-right-brace) The "}" character should be escaped using a backslash to avoid confusion with a TSDoc inline tag
+// Warning: (tsdoc-malformed-inline-tag) Expecting a TSDoc tag starting with "{@"
+// Warning: (tsdoc-escape-greater-than) The ">" character should be escaped using a backslash to avoid confusion with an HTML tag
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const DataGrid: <ComponentProps extends {}>(props: DataGridProps<ComponentProps>) => ReactElement;
 
 // @public (undocumented)
@@ -1016,7 +1101,9 @@ export interface DataGridCellPublicProps {
 // @public (undocumented)
 export type DataGridCellsDictionary = typeof dataGridCellsDictionary;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const DataGridColumn: <FA extends DataGridFilterArtifact = DataGridFilterArtifact>(props: DataGridColumnProps<FA>) => ReactElement;
 
 // @public (undocumented)
@@ -1172,8 +1259,10 @@ export type DataGridOrderDirection = 'asc' | 'desc' | null;
 // @public (undocumented)
 export type DataGridOrderDirectionStore = Record<DataGridColumnKey, Exclude<DataGridOrderDirection, null>>;
 
-// @public (undocumented)
-export const DataGridPage: Partial<PageProvider<DataGridPageProps>> & ComponentType<DataGridPageProps>;
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
+export const DataGridPage: PageComponent<({ children, rendererProps, pageName, ...dataGridProps }: DataGridPageProps) => JSX.Element>;
 
 // @public (undocumented)
 export type DataGridPageProps = DataGridProps<{}> & {
@@ -1246,7 +1335,9 @@ export interface DataGridStateMethods {
     updatePaging: DispatchChangePage;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const DateCell: FunctionComponent<DateCellProps>;
 
 // @public (undocumented)
@@ -1255,13 +1346,17 @@ export type DateCellProps = DataGridColumnPublicProps & DateFieldViewProps & {
     initialOrder?: DataGridOrderDirection;
 };
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const DateField: React.NamedExoticComponent<DateFieldProps>;
 
 // @public (undocumented)
 export type DateFieldProps = SimpleRelativeSingleFieldProps & DateInputProps;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const DateFieldView: FunctionComponent<DateFieldViewProps>;
 
 // @public (undocumented)
@@ -1275,7 +1370,9 @@ export type DateFieldViewProps = {
     locale: string | string[];
 }) & FieldFallbackViewPublicProps;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const DateTimeField: React.NamedExoticComponent<DateTimeFieldProps>;
 
 // @public (undocumented)
@@ -1288,16 +1385,20 @@ export const DefaultElement: FunctionComponent<DefaultElementProps>;
 export interface DefaultElementProps extends RenderElementProps {
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const DeleteEntityButton: React.MemoExoticComponent<(props: DeleteEntityButtonProps) => JSX.Element | null>;
 
 // @public (undocumented)
-export type DeleteEntityButtonProps = ButtonProps & {
+export type DeleteEntityButtonProps = {
     immediatePersist?: true;
     children?: ReactNode;
-};
+} & ButtonProps;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const DerivedFieldLink: FunctionComponent<DerivedFieldLinkProps>;
 
 // @public (undocumented)
@@ -1312,8 +1413,10 @@ export interface DerivedFieldLinkProps<SourcePersisted extends FieldValue = Fiel
     transform?: (sourceValue: SourcePersisted | null) => SourcePersisted | null;
 }
 
-// @public (undocumented)
-export const DetailPage: Partial<PageProvider<DetailPageProps>> & ComponentType<DetailPageProps>;
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
+export const DetailPage: PageComponent<({ pageName, children, rendererProps, ...entityProps }: DetailPageProps) => JSX.Element>;
 
 // @public (undocumented)
 export type DetailPageProps = SugaredQualifiedSingleEntity & EntitySubTreeAdditionalProps & {
@@ -1353,7 +1456,9 @@ export interface DimensionsRendererProps {
     slugField: string;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const DimensionsSwitcher: React.MemoExoticComponent<(props: DimensionsSwitcherProps) => JSX.Element>;
 
 // @public (undocumented)
@@ -1379,16 +1484,16 @@ export interface DimensionsSwitcherProps extends DimensionsSwitcherBaseProps {
 // @public (undocumented)
 export const DisableOtpForm: FC<DisableOtpFormProps>;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const DiscriminatedBlocks: FunctionComponent<DiscriminatedBlocksProps>;
 
 // @public (undocumented)
-export interface DiscriminatedBlocksProps extends Omit<FieldContainerProps, 'children'>, SugaredRelativeSingleField {
-    // (undocumented)
-    allowBlockTypeChange?: boolean;
-    // (undocumented)
+export type DiscriminatedBlocksProps = {
     children: ReactNode;
-}
+    allowBlockTypeChange?: boolean;
+} & FieldContainerProps & SugaredRelativeSingleField;
 
 // @public (undocumented)
 export interface DiscriminatedDatum {
@@ -1410,6 +1515,17 @@ export type DispatchChangePage = (action: GridPagingAction) => void;
 export const DragHandle: () => JSX.Element;
 
 // @public (undocumented)
+export type DynamicChoiceFieldOptionProps = {
+    options: ChoiceFieldOptionsAsFieldList;
+};
+
+// @public (undocumented)
+export type DynamicChoiceFieldWithCustomLabelProps = {
+    options: ChoiceFieldOptionsAsEntityList;
+    optionLabel: ReactNode;
+};
+
+// @public (undocumented)
 export const DynamicMultiChoiceField: FunctionComponent<DynamicMultipleChoiceFieldProps & ChoiceFieldData.MultiChoiceFieldProps<EntityAccessor>>;
 
 // @public (undocumented)
@@ -1427,7 +1543,9 @@ export type DynamicRequestParameters = RequestParameters<RoutingParameter>;
 // @public (undocumented)
 export type DynamicSingleChoiceFieldProps = SugaredRelativeSingleEntity & BaseDynamicChoiceField;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const EditIdentity: FC<EditIdentityProps>;
 
 // @public (undocumented)
@@ -1442,7 +1560,9 @@ export interface EditIdentityProps {
     userListLink: RoutingLinkTarget;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const EditMembership: FC<EditMembershipProps>;
 
 // @public (undocumented)
@@ -1555,8 +1675,16 @@ export type EditorWithBlocks = Editor_2 & WithBlockElements;
 // @public (undocumented)
 export type EditorWithEssentials<E extends BaseEditor> = WithEssentials & E;
 
+// Warning: (tsdoc-html-tag-missing-string) The HTML element has an invalid attribute: Expecting an HTML string starting with a single-quote or double-quote character
+// Warning: (tsdoc-escape-right-brace) The "}" character should be escaped using a backslash to avoid confusion with a TSDoc inline tag
+// Warning: (tsdoc-escape-right-brace) The "}" character should be escaped using a backslash to avoid confusion with a TSDoc inline tag
+// Warning: (tsdoc-malformed-inline-tag) Expecting a TSDoc tag starting with "{@"
+// Warning: (tsdoc-malformed-inline-tag) Expecting a TSDoc tag starting with "{@"
+// Warning: (tsdoc-escape-greater-than) The ">" character should be escaped using a backslash to avoid confusion with an HTML tag
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
 // @public (undocumented)
-export const EditPage: Partial<PageProvider<EditPageProps>> & ComponentType<EditPageProps>;
+export const EditPage: PageComponent<({ pageName, children, rendererProps, redirectOnSuccess, onPersistSuccess, refreshDataBindingOnPersist, skipBindingStateUpdateAfterPersist, ...entityProps }: EditPageProps) => JSX.Element>;
 
 // @public (undocumented)
 export type EditPageProps = SugaredQualifiedSingleEntity & EntitySubTreeAdditionalProps & {
@@ -1571,7 +1699,9 @@ export type EditPageProps = SugaredQualifiedSingleEntity & EntitySubTreeAddition
 // @public @deprecated (undocumented)
 export const EditUserInProject: FC<EditUserPageProps>;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const EditUserPage: FC<EditUserPageProps>;
 
 // @public (undocumented)
@@ -1601,7 +1731,9 @@ export interface ElementWithReference extends Element_2 {
     referenceId: EntityId;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const EmailField: React.NamedExoticComponent<EmailFieldProps>;
 
 // @public (undocumented)
@@ -1632,7 +1764,9 @@ export const EmbedHandlers: {
     Spotify: typeof SpotifyEmbedHandler;
 };
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const EmptyMessage: React.MemoExoticComponent<({ children, component, distinction }: EmptyMessageProps) => JSX.Element>;
 
 // @public (undocumented)
@@ -1661,7 +1795,19 @@ export interface EmptyMessageProps {
     distinction?: BoxProps['distinction'];
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-html-tag-missing-string) The HTML element has an invalid attribute: Expecting an HTML string starting with a single-quote or double-quote character
+// Warning: (tsdoc-escape-right-brace) The "}" character should be escaped using a backslash to avoid confusion with a TSDoc inline tag
+// Warning: (tsdoc-malformed-inline-tag) Expecting a TSDoc tag starting with "{@"
+// Warning: (tsdoc-malformed-inline-tag) Expecting a TSDoc tag starting with "{@"
+// Warning: (tsdoc-malformed-inline-tag) Expecting a TSDoc tag starting with "{@"
+// Warning: (tsdoc-escape-right-brace) The "}" character should be escaped using a backslash to avoid confusion with a TSDoc inline tag
+// Warning: (tsdoc-escape-right-brace) The "}" character should be escaped using a backslash to avoid confusion with a TSDoc inline tag
+// Warning: (tsdoc-escape-right-brace) The "}" character should be escaped using a backslash to avoid confusion with a TSDoc inline tag
+// Warning: (tsdoc-malformed-inline-tag) Expecting a TSDoc tag starting with "{@"
+// Warning: (tsdoc-escape-greater-than) The ">" character should be escaped using a backslash to avoid confusion with an HTML tag
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const EnumCell: React.NamedExoticComponent<EnumCellProps>;
 
 // @public (undocumented)
@@ -1693,7 +1839,9 @@ export interface FeedbackRendererProps {
     children: ReactNode;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const FieldFallbackView: FunctionComponent<FieldFallbackViewProps>;
 
 // @public (undocumented)
@@ -1790,7 +1938,9 @@ export interface FileHandler {
     staticRender(environment: Environment): ReactElement;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const FileInput: FunctionComponent<FileInputProps>;
 
 // @public (undocumented)
@@ -1816,7 +1966,9 @@ export type FileKindProps<UploadResult = unknown, AcceptArtifacts = unknown, SFE
     fileSelection: SelectFileInputSelectionComponentProps<SFExtraProps>;
 };
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const FileRepeater: <SFExtraProps extends {} = {}>(props: FileRepeaterProps<SFExtraProps>) => ReactElement | null;
 
 // @public (undocumented)
@@ -1841,14 +1993,15 @@ export interface FileUrlDataExtractorProps {
     urlField: SugaredFieldProps['field'];
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const FileUrlFieldView: FunctionComponent<FileUrlFieldViewProps>;
 
 // @public (undocumented)
-export interface FileUrlFieldViewProps extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> {
-    // (undocumented)
+export type FileUrlFieldViewProps = {
     fileUrlField: SugaredFieldProps['field'];
-}
+} & HTMLAnchorElementProps;
 
 // Warning: (ae-forgotten-export) The symbol "FillResetPasswordTokenFormProps" needs to be exported by the entry point index.d.ts
 //
@@ -1865,7 +2018,9 @@ export interface FilterRendererProps<FA extends DataGridFilterArtifact> {
     setFilter: DataGridSetFilter<FA>;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const FloatField: React.NamedExoticComponent<FloatFieldProps>;
 
 // @public (undocumented)
@@ -1889,7 +2044,23 @@ export type FullFileKind<UploadResult = unknown, AcceptArtifacts = unknown> = In
     extractors: FileDataExtractor<unknown, UploadResult, AcceptArtifacts>[];
 };
 
-// @public (undocumented)
+// Warning: (tsdoc-escape-greater-than) The ">" character should be escaped using a backslash to avoid confusion with an HTML tag
+// Warning: (tsdoc-escape-right-brace) The "}" character should be escaped using a backslash to avoid confusion with a TSDoc inline tag
+// Warning: (tsdoc-html-tag-missing-string) The HTML element has an invalid attribute: Expecting an HTML string starting with a single-quote or double-quote character
+// Warning: (tsdoc-malformed-inline-tag) Expecting a TSDoc tag starting with "{@"
+// Warning: (tsdoc-escape-greater-than) The ">" character should be escaped using a backslash to avoid confusion with an HTML tag
+// Warning: (tsdoc-escape-right-brace) The "}" character should be escaped using a backslash to avoid confusion with a TSDoc inline tag
+// Warning: (tsdoc-escape-right-brace) The "}" character should be escaped using a backslash to avoid confusion with a TSDoc inline tag
+// Warning: (tsdoc-html-tag-missing-string) The HTML element has an invalid attribute: Expecting an HTML string starting with a single-quote or double-quote character
+// Warning: (tsdoc-malformed-inline-tag) Expecting a TSDoc tag starting with "{@"
+// Warning: (tsdoc-malformed-inline-tag) Expecting a TSDoc tag starting with "{@"
+// Warning: (tsdoc-escape-greater-than) The ">" character should be escaped using a backslash to avoid confusion with an HTML tag
+// Warning: (tsdoc-escape-right-brace) The "}" character should be escaped using a backslash to avoid confusion with a TSDoc inline tag
+// Warning: (tsdoc-html-tag-missing-string) The HTML element has an invalid attribute: Expecting an HTML string starting with a single-quote or double-quote character
+// Warning: (tsdoc-malformed-inline-tag) Expecting a TSDoc tag starting with "{@"
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const GenericCell: FunctionComponent<GenericCellProps>;
 
 // @public (undocumented)
@@ -1907,8 +2078,11 @@ export interface GenericFileMetadataExtractorProps {
     lastModifiedField?: SugaredFieldProps['field'];
 }
 
-// @public (undocumented)
-export const GenericPage: Partial<PageProvider<GenericPageProps>> & ComponentType<GenericPageProps>;
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+// Warning: (ae-unresolved-link) The @link reference could not be resolved: This type of declaration is not supported yet by the resolver
+//
+// @public
+export const GenericPage: PageComponent<({ children, ...props }: GenericPageProps) => JSX.Element>;
 
 // @public (undocumented)
 export type GenericPageProps = Omit<LayoutPageProps, 'children'> & {
@@ -2036,7 +2210,9 @@ export type GridPagingState = {
 // @public (undocumented)
 export type HandleIdpResponseError = SignInIDPErrors | 'INVALID_LOCAL_STATE';
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const HasManyAbsentCell: FunctionComponent<HasManyAbsentCellProps>;
 
 // @public (undocumented)
@@ -2045,7 +2221,9 @@ export type HasManyAbsentCellProps = DataGridColumnPublicProps & FieldFallbackVi
     children: ReactNode;
 };
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const HasManySelectCell: FunctionComponent<HasManySelectProps>;
 
 // @public (undocumented)
@@ -2053,13 +2231,17 @@ export type HasManySelectProps = DataGridColumnPublicProps & SugaredRelativeEnti
     renderElements?: (elements: ReactNode[]) => ReactElement;
 };
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const HasOneSelectCell: FunctionComponent<HasOneSelectProps>;
 
 // @public (undocumented)
 export type HasOneSelectProps = DataGridColumnPublicProps & BaseDynamicChoiceField & FieldFallbackViewPublicProps & SugaredRelativeSingleEntity;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const HasRole: React.NamedExoticComponent<HasRoleProps>;
 
 // @public (undocumented)
@@ -2140,7 +2322,9 @@ export const headingTwoNumberedToolbarButton: ElementToolbarButton<HeadingElemen
 // @public (undocumented)
 export const headingTwoToolbarButton: ElementToolbarButton<HeadingElement>;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const HiddenField: React.NamedExoticComponent<HiddenFieldProps>;
 
 // @public (undocumented)
@@ -2298,7 +2482,9 @@ export const identityEnvironmentExtension: Environment.Extension<Identity | null
     identity: Identity | undefined;
 }>;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const IdentityMembership: FC<IdentityMembershipProps>;
 
 // @public (undocumented)
@@ -2367,20 +2553,18 @@ export type IDPResponseState = {
     error: HandleIdpResponseError;
 };
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const ImageFieldView: <SrcField extends FieldValue = string>(props: ImageFieldViewProps<SrcField>) => ReactElement;
 
 // @public (undocumented)
-export interface ImageFieldViewProps<SrcField extends FieldValue = string> extends Omit<ImgHTMLAttributes<HTMLImageElement>, 'src'>, FieldFallbackViewPublicProps {
-    // (undocumented)
-    altField?: SugaredFieldProps['field'];
-    // (undocumented)
-    formatUrl?: (srcFieldValue: SrcField) => string;
-    // (undocumented)
+export type ImageFieldViewProps<SrcField extends FieldValue = string> = {
     srcField: SugaredFieldProps['field'];
-    // (undocumented)
+    altField?: SugaredFieldProps['field'];
     titleField?: SugaredFieldProps['field'];
-}
+    formatUrl?: (srcFieldValue: SrcField) => string;
+} & FieldFallbackViewPublicProps & Omit<HTMLImageElementProps, 'src'>;
 
 // @public (undocumented)
 export interface ImageFileDataExtractorProps {
@@ -2390,13 +2574,17 @@ export interface ImageFileDataExtractorProps {
     widthField?: SugaredFieldProps['field'];
 }
 
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
 // @public (undocumented)
 export const ImageFileRepeater: <AcceptArtifacts = unknown, SFExtraProps extends {} = {}>(props: ImageFileRepeaterProps<AcceptArtifacts, SFExtraProps>) => ReactElement | null;
 
 // @public (undocumented)
-export type ImageFileRepeaterProps<AcceptArtifacts = unknown, SFExtraProps extends {} = {}> = PublicSingleKindFileRepeaterProps<AcceptArtifacts, SFExtraProps> & StockImageFileKindProps<AcceptArtifacts>;
+export type ImageFileRepeaterProps<AcceptArtifacts = unknown, SFExtraProps extends {} = {}> = PublicSingleKindFileRepeaterProps<AcceptArtifacts, SFExtraProps> & ImageFileDataExtractorProps;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const ImageFiles: <AcceptArtifacts = unknown, SFExtraProps extends {} = {}>(props: ImageFilesProps<AcceptArtifacts, SFExtraProps>) => ReactElement | null;
 
 // @public (undocumented)
@@ -2404,11 +2592,13 @@ export type ImageFilesProps<AcceptArtifacts = unknown, SFExtraProps extends {} =
     discriminateBy: SugaredDiscriminateBy;
 };
 
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
 // @public (undocumented)
 export const ImageUploadField: <AcceptArtifacts = unknown, SFExtraProps extends {} = {}>(props: ImageUploadFieldProps<AcceptArtifacts, SFExtraProps>) => ReactElement | null;
 
 // @public (undocumented)
-export type ImageUploadFieldProps<AcceptArtifacts = unknown, SFExtraProps extends {} = {}> = PublicSingleKindUploadFieldProps<AcceptArtifacts, SFExtraProps> & StockImageFileKindProps<AcceptArtifacts>;
+export type ImageUploadFieldProps<AcceptArtifacts = unknown, SFExtraProps extends {} = {}> = PublicSingleKindUploadFieldProps<AcceptArtifacts, SFExtraProps> & ImageFileDataExtractorProps;
 
 // @public (undocumented)
 export const ImmutableEntityListPageRenderer: <ContainerExtraProps, ItemExtraProps>(props: ImmutableEntityListPageRendererProps<ContainerExtraProps, ItemExtraProps>) => ReactElement;
@@ -2527,10 +2717,14 @@ export interface InternalFileKind<UploadResult = unknown, AcceptArtifacts = unkn
 // @public (undocumented)
 export type InviteMethod = 'CREATE_PASSWORD' | 'RESET_PASSWORD';
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const InviteUser: FC<InviteUserProps>;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const InviteUserPage: FC<InviteUserPageProps>;
 
 // @public (undocumented)
@@ -2646,10 +2840,14 @@ export const LegacyDeprecatedEditorFormerlyKnownAsRichTextField: FunctionCompone
 export interface LegacyDeprecatedEditorFormerlyKnownAsRichTextFieldProps extends FieldBasicProps, Omit<FieldContainerProps, 'children' | 'errors'>, CreateEditorPublicOptions, HoveringToolbarsProps {
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const Link: React.NamedExoticComponent<LinkProps>;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const LinkButton: React.NamedExoticComponent<LinkButtonProps>;
 
 // @public (undocumented)
@@ -2711,8 +2909,10 @@ export interface ListMembersQuery {
     };
 }
 
-// @public (undocumented)
-export const ListPage: (<ContainerExtraProps, ItemExtraProps>(props: ListPageProps<ContainerExtraProps, ItemExtraProps>) => ReactElement) & Partial<PageProvider<ListPageProps<never, never>>>;
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
+export const ListPage: PageComponent<(<ContainerExtraProps, ItemExtraProps>({ children, rendererProps, pageName, ...entityListProps }: ListPageProps<ContainerExtraProps, ItemExtraProps>) => JSX.Element)>;
 
 // @public (undocumented)
 export type ListPageProps<ContainerExtraProps, ItemExtraProps> = SugaredQualifiedEntityList & EntityListSubTreeAdditionalProps & {
@@ -2721,7 +2921,9 @@ export type ListPageProps<ContainerExtraProps, ItemExtraProps> = SugaredQualifie
     rendererProps?: Omit<ImmutableEntityListPageRendererProps<ContainerExtraProps, ItemExtraProps>, 'accessor' | 'children'>;
 };
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const LocationField: FunctionComponent<LocationFieldProps>;
 
 // @public (undocumented)
@@ -2745,7 +2947,9 @@ export interface LocationFieldProps extends Omit<FieldContainerProps, 'children'
 // @public (undocumented)
 export const Login: ({ onLogin, resetLink }: LoginProps) => JSX.Element;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const LoginEntrypoint: (props: LoginEntrypointProps) => JSX.Element;
 
 // @public (undocumented)
@@ -2780,7 +2984,9 @@ export interface LoginProps {
     resetLink?: RoutingLinkTarget;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const LogoutLink: React.NamedExoticComponent<LogoutLinkProps>;
 
 // @public (undocumented)
@@ -2815,7 +3021,9 @@ export interface MemberIdentity {
     };
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const MemberList: React.NamedExoticComponent<MemberListProps>;
 
 // @public (undocumented)
@@ -2914,8 +3122,16 @@ export interface MiscPageLayoutProps extends BoxOwnProps {
     footerActions?: ReactNode;
 }
 
+// Warning: (tsdoc-html-tag-missing-string) The HTML element has an invalid attribute: Expecting an HTML string starting with a single-quote or double-quote character
+// Warning: (tsdoc-escape-right-brace) The "}" character should be escaped using a backslash to avoid confusion with a TSDoc inline tag
+// Warning: (tsdoc-escape-right-brace) The "}" character should be escaped using a backslash to avoid confusion with a TSDoc inline tag
+// Warning: (tsdoc-malformed-inline-tag) Expecting a TSDoc tag starting with "{@"
+// Warning: (tsdoc-malformed-inline-tag) Expecting a TSDoc tag starting with "{@"
+// Warning: (tsdoc-escape-greater-than) The ">" character should be escaped using a backslash to avoid confusion with an HTML tag
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
 // @public (undocumented)
-export const MultiEditPage: (<ContainerExtraProps, ItemExtraProps>(props: MultiEditPageProps<ContainerExtraProps, ItemExtraProps>) => ReactElement) & Partial<PageProvider<MultiEditPageProps<never, never>>>;
+export const MultiEditPage: PageComponent<(<ContainerExtraProps, ItemExtraProps>({ children, rendererProps, pageName, ...entityListProps }: MultiEditPageProps<ContainerExtraProps, ItemExtraProps>) => JSX.Element)>;
 
 // @public (undocumented)
 export type MultiEditPageProps<ContainerExtraProps, ItemExtraProps> = SugaredQualifiedEntityList & EntityListSubTreeAdditionalProps & {
@@ -2924,10 +3140,14 @@ export type MultiEditPageProps<ContainerExtraProps, ItemExtraProps> = SugaredQua
     rendererProps?: Omit<MutableEntityListPageRendererProps<ContainerExtraProps, ItemExtraProps>, 'accessor' | 'children'>;
 };
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const MultiSelectField: FunctionComponent<MultiSelectFieldProps>;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "MultiSelectFieldInner" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export const MultiSelectFieldInner: <T = unknown>({ currentValues, data, errors, onAdd, onClear, onRemove, reactSelectProps, placeholder, menuZIndex, onAddNew, onMove, onSearch, isLoading, ...fieldContainerProps }: MultiSelectFieldInnerProps<T>) => JSX.Element;
 
 // @public (undocumented)
@@ -2964,7 +3184,9 @@ export type MutableEntityListRendererProps<ContainerExtraProps, ItemExtraProps> 
 // @public (undocumented)
 export type MutationRequestState<T> = QueryRequestState<T> | RequestStateUninitialized<T>;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const NavigateBackButton: React.NamedExoticComponent<LinkButtonProps>;
 
 // @public (undocumented)
@@ -3029,7 +3251,9 @@ export type NullConditionFilterPublicProps = {
     showNullConditionFilter?: boolean;
 };
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const NumberCell: FunctionComponent<NumberCellProps>;
 
 // @public (undocumented)
@@ -3039,7 +3263,9 @@ export type NumberCellProps = DataGridHeaderCellPublicProps & DataGridCellPublic
     format?: (value: number) => ReactNode;
 };
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const NumberField: React.NamedExoticComponent<NumberFieldProps>;
 
 // @public (undocumented)
@@ -3213,11 +3439,13 @@ export const parseLinkTarget: (to: LinkTarget, env: Environment) => Exclude<Link
 // @public (undocumented)
 export const pathToRequestState: (routing: RoutingContextValue, path: string, query: string) => RequestState;
 
-// @public (undocumented)
-export const PersistButton: React.MemoExoticComponent<React.ForwardRefExoticComponent<Omit<SaveButtonProps, "children" | "isDirty"> & React.RefAttributes<HTMLButtonElement>>>;
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
+export const PersistButton: React.MemoExoticComponent<React.ForwardRefExoticComponent<PersistButtonProps & React.RefAttributes<HTMLButtonElement>>>;
 
 // @public (undocumented)
-export type PersistButtonProps = Omit<SaveButtonProps, 'children' | 'isDirty'> & {};
+export type PersistButtonProps = Omit<SaveButtonProps, 'children' | 'isDirty'>;
 
 // Warning: (ae-forgotten-export) The symbol "persistFeedbackDictionary" needs to be exported by the entry point index.d.ts
 //
@@ -3349,7 +3577,9 @@ export interface QueryRequestObject<T> {
 // @public (undocumented)
 export type QueryRequestState<T> = RequestStateOk<T> | RequestStateError<T> | RequestStateLoading<T>;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const RadioField: FunctionComponent<RadioFieldProps>;
 
 // @public (undocumented)
@@ -3447,7 +3677,9 @@ export const renderImageFilePreview: ({ objectUrl }: RenderFilePreviewOptions) =
 // @public (undocumented)
 export const renderVideoFilePreview: ({ objectUrl }: RenderFilePreviewOptions) => JSX.Element;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const Repeater: <ContainerExtraProps, ItemExtraProps>(props: RepeaterProps<ContainerExtraProps, ItemExtraProps>) => ReactElement;
 
 // @public (undocumented)
@@ -3672,7 +3904,9 @@ export namespace RichEditor {
     };
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const RichTextField: FunctionComponent<RichTextFieldProps>;
 
 // @public (undocumented)
@@ -3756,7 +3990,9 @@ export interface RoutingContextValue {
     routes: RouteMap;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const RoutingLink: React.NamedExoticComponent<RoutingLinkProps<{}> & PublicAnchorProps>;
 
 // @public (undocumented)
@@ -3829,7 +4065,9 @@ export interface ScrollTargetRendererProps extends Omit<RenderElementProps, 'ele
 // @public (undocumented)
 export const scrollTargetToolbarButton: ElementToolbarButton<ScrollTargetElement>;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const SearchField: React.NamedExoticComponent<SearchFieldProps>;
 
 // @public (undocumented)
@@ -3856,10 +4094,14 @@ export interface SelectEntityButtonProps {
     selectButtonText?: ReactNode;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const SelectField: FunctionComponent<SelectFieldProps>;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "SelectFieldInner" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export const SelectFieldInner: React.MemoExoticComponent<({ placeholder, allowNull, currentValue, data, errors, menuZIndex, onSelect, onClear, reactSelectProps, onAddNew, onSearch, isLoading, ...fieldContainerProps }: SelectFieldInnerProps) => JSX.Element>;
 
 // @public (undocumented)
@@ -4011,20 +4253,24 @@ export interface SimpleRelativeSingleFieldMetadata<Value extends FieldValue = Fi
 // @public (undocumented)
 export type SimpleRelativeSingleFieldProps = FieldBasicProps & Omit<FieldContainerProps, 'children'>;
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "SimpleRelativeSingleFieldProxy" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export const SimpleRelativeSingleFieldProxy: React.MemoExoticComponent<({ render, label, labelDescription, labelPosition, description, ...props }: SimpleRelativeSingleFieldProxyProps) => JSX.Element>;
 
 // @public (undocumented)
-export type SimpleRelativeSingleFieldProxyProps = Omit<FieldContainerProps, 'children'> & SugaredRelativeSingleField & {
+export type SimpleRelativeSingleFieldProxyProps = {
     render: (fieldMetadata: SimpleRelativeSingleFieldMetadata<any>, props: any) => ReactNode;
-};
+} & Omit<FieldContainerProps, 'children'> & SugaredRelativeSingleField;
 
 // @public (undocumented)
 export type SingleKindFileProps = FullFileKind & SelectFileInputSelectionComponentProps<any> & {
     hasUploadedFile: (entity: EntityAccessor) => boolean;
 };
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const SlugField: React.NamedExoticComponent<SlugFieldProps>;
 
 // @public (undocumented)
@@ -4039,7 +4285,9 @@ export type SlugFieldProps = SimpleRelativeSingleFieldProps & ControlProps<strin
     linkToExternalUrl?: boolean;
 };
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "SortableBlock" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export const SortableBlock: React.NamedExoticComponent<SortableBlockProps>;
 
 // @public (undocumented)
@@ -4156,8 +4404,10 @@ export const tableElementPlugin: CustomElementPlugin<TableElement>;
 // @public (undocumented)
 export const tableElementType: "table";
 
-// @public (undocumented)
-export const TablePage: (<ContainerExtraProps, ItemExtraProps>(props: TablePageProps<ContainerExtraProps, ItemExtraProps>) => ReactElement) & Partial<PageProvider<TablePageProps<never, never>>>;
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
+export const TablePage: PageComponent<(<ContainerExtraProps, ItemExtraProps>({ rendererProps, children, pageName, ...entityListProps }: TablePageProps<ContainerExtraProps, ItemExtraProps>) => JSX.Element)>;
 
 // @public (undocumented)
 export type TablePageProps<ContainerExtraProps, ItemExtraProps> = SugaredQualifiedEntityList & EntityListSubTreeAdditionalProps & {
@@ -4218,7 +4468,9 @@ export type TenantMutationResponse<Result, ErrorCode extends string> = TenantMut
 // @public @deprecated (undocumented)
 export const TextAreaField: React.NamedExoticComponent<TextareaFieldProps>;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const TextareaField: React.NamedExoticComponent<TextareaFieldProps>;
 
 // @public (undocumented)
@@ -4230,7 +4482,9 @@ export interface TextAttrs {
     [key: string]: any;
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const TextCell: FunctionComponent<TextCellProps>;
 
 // @public (undocumented)
@@ -4240,7 +4494,9 @@ export type TextCellProps = DataGridColumnPublicProps & FieldFallbackViewPublicP
     format?: (value: string | null) => ReactNode;
 };
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const TextField: React.NamedExoticComponent<TextFieldProps>;
 
 // @public (undocumented)
@@ -4259,10 +4515,14 @@ export type TextFilterArtifacts = {
 // @public (undocumented)
 export type TextSpecifics<Text extends Text_2> = Omit<Text, 'text'>;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const Tile: React.NamedExoticComponent<TileProps>;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const TileList: ({ children }: {
     children?: ReactNode;
 }) => JSX.Element;
@@ -4271,7 +4531,9 @@ export const TileList: ({ children }: {
 export interface TileProps extends BoxOwnProps {
 }
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const TimeField: React.NamedExoticComponent<TimeFieldProps>;
 
 // @public (undocumented)
@@ -4315,7 +4577,9 @@ export const unorderedListToolbarButton: ElementToolbarButton<UnorderedListEleme
 // @public (undocumented)
 export type UploadDictionary = typeof uploadDictionary;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const UploadField: <SFExtraProps extends {} = {}>(props: UploadFieldProps<SFExtraProps>) => ReactElement | null;
 
 // @public (undocumented)
@@ -4323,7 +4587,9 @@ export type UploadFieldProps<SFExtraProps extends {} = {}> = FileInputPublicProp
     children?: ReactNode;
 };
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const UrlField: React.NamedExoticComponent<UrlFieldProps>;
 
 // @public (undocumented)
@@ -4625,7 +4891,9 @@ password: GQLVariableType<string, true>;
 // @public (undocumented)
 export const useResponseHandlerFeedback: ({ onLogin }: IDPResponseHandlerProps) => JSX.Element | null;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const UserListPage: <T extends {}>(props: UserListPageProps<T>) => JSX.Element;
 
 // @public (undocumented)
@@ -4658,7 +4926,9 @@ export const useRoutingLink: (target: RoutingLinkTarget, parametersResolver?: Ro
 // @public (undocumented)
 export const useRoutingLinkFactory: () => (target: RoutingLinkTarget, parameters?: RequestParameters, parametersResolver?: RoutingParameterResolver) => RoutingLinkParams;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const UsersList: React.NamedExoticComponent<UsersListProps>;
 
 // @public (undocumented)
@@ -4727,23 +4997,23 @@ export interface Variables {
     [name: string]: string[];
 }
 
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
 // Warning: (ae-forgotten-export) The symbol "VariableSelectorProps" needs to be exported by the entry point index.d.ts
 //
-// @public (undocumented)
+// @public
 export const VariableSelector: FC<VariableSelectorProps>;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const VideoFieldView: <SrcField extends FieldValue = string>(props: VideoFieldViewProps<SrcField>) => ReactElement;
 
 // @public (undocumented)
-export interface VideoFieldViewProps<SrcField extends FieldValue = string> extends Omit<VideoHTMLAttributes<HTMLVideoElement>, 'src'>, FieldFallbackViewPublicProps {
-    // (undocumented)
-    formatUrl?: (srcFieldValue: SrcField) => string;
-    // (undocumented)
+export type VideoFieldViewProps<SrcField extends FieldValue = string> = {
     srcField: SugaredFieldProps['field'];
-    // (undocumented)
     titleField?: SugaredFieldProps['field'];
-}
+    formatUrl?: (srcFieldValue: SrcField) => string;
+} & FieldFallbackViewPublicProps & Omit<HTMLVideoElementProps, 'src'>;
 
 // @public (undocumented)
 export interface VideoFileDataExtractorProps {
@@ -4755,13 +5025,17 @@ export interface VideoFileDataExtractorProps {
     widthField?: SugaredFieldProps['field'];
 }
 
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
 // @public (undocumented)
 export const VideoFileRepeater: <AcceptArtifacts = unknown, SFExtraProps extends {} = {}>(props: VideoFileRepeaterProps<AcceptArtifacts, SFExtraProps>) => ReactElement | null;
 
 // @public (undocumented)
-export type VideoFileRepeaterProps<AcceptArtifacts = unknown, SFExtraProps extends {} = {}> = PublicSingleKindFileRepeaterProps<AcceptArtifacts, SFExtraProps> & StockVideoFileKindProps<AcceptArtifacts>;
+export type VideoFileRepeaterProps<AcceptArtifacts = unknown, SFExtraProps extends {} = {}> = PublicSingleKindFileRepeaterProps<AcceptArtifacts, SFExtraProps> & VideoFileDataExtractorProps;
 
-// @public (undocumented)
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
+// @public
 export const VideoFiles: <AcceptArtifacts = unknown>(props: VideoFilesProps<AcceptArtifacts, {}>) => ReactElement | null;
 
 // @public (undocumented)
@@ -4769,11 +5043,13 @@ export type VideoFilesProps<AcceptArtifacts = unknown, SFExtraProps extends {} =
     discriminateBy: SugaredDiscriminateBy;
 };
 
+// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
+//
 // @public (undocumented)
 export const VideoUploadField: <AcceptArtifacts = unknown, SFExtraProps extends {} = {}>(props: VideoUploadFieldProps<AcceptArtifacts, SFExtraProps>) => ReactElement | null;
 
 // @public (undocumented)
-export type VideoUploadFieldProps<AcceptArtifacts = unknown, SFExtraProps extends {} = {}> = PublicSingleKindUploadFieldProps<AcceptArtifacts, SFExtraProps> & StockVideoFileKindProps<AcceptArtifacts>;
+export type VideoUploadFieldProps<AcceptArtifacts = unknown, SFExtraProps extends {} = {}> = PublicSingleKindUploadFieldProps<AcceptArtifacts, SFExtraProps> & VideoFileDataExtractorProps;
 
 // @public (undocumented)
 export const withAnchors: <E extends Editor>(editor: E) => E;
@@ -4898,13 +5174,13 @@ export * from "@contember/ui";
 // src/components/bindingFacade/environment/SideDimensions.tsx:88:81 - (ae-forgotten-export) The symbol "LabelMiddleware" needs to be exported by the entry point index.d.ts
 // src/components/bindingFacade/fields/SlugField.tsx:23:3 - (ae-forgotten-export) The symbol "SlugPrefix" needs to be exported by the entry point index.d.ts
 // src/components/bindingFacade/richText/ContemberEditor/index.ts:24:29 - (ae-forgotten-export) The symbol "ElementDataAttributes" needs to be exported by the entry point index.d.ts
-// src/components/bindingFacade/richText/blockEditor/BlockEditor.tsx:323:25 - (ae-forgotten-export) The symbol "ContentOutletProps" needs to be exported by the entry point index.d.ts
+// src/components/bindingFacade/richText/blockEditor/BlockEditor.tsx:328:25 - (ae-forgotten-export) The symbol "ContentOutletProps" needs to be exported by the entry point index.d.ts
 // src/components/bindingFacade/richText/blockEditor/embed/index.ts:5:27 - (ae-forgotten-export) The symbol "GoogleFormEmbedHandler" needs to be exported by the entry point index.d.ts
 // src/components/bindingFacade/richText/blockEditor/embed/index.ts:5:27 - (ae-forgotten-export) The symbol "YouTubeEmbedHandler" needs to be exported by the entry point index.d.ts
 // src/components/bindingFacade/richText/blockEditor/embed/index.ts:5:27 - (ae-forgotten-export) The symbol "VimeoEmbedHandler" needs to be exported by the entry point index.d.ts
 // src/components/bindingFacade/richText/blockEditor/embed/index.ts:5:27 - (ae-forgotten-export) The symbol "SoundCloudEmbedHandler" needs to be exported by the entry point index.d.ts
 // src/components/bindingFacade/richText/blockEditor/embed/index.ts:5:27 - (ae-forgotten-export) The symbol "SpotifyEmbedHandler" needs to be exported by the entry point index.d.ts
-// src/components/pageRouting/pageComponents/CreatePage.tsx:22:3 - (ae-forgotten-export) The symbol "RedirectOnSuccessTarget" needs to be exported by the entry point index.d.ts
+// src/components/pageRouting/pageComponents/CreatePage.tsx:21:3 - (ae-forgotten-export) The symbol "RedirectOnSuccessTarget" needs to be exported by the entry point index.d.ts
 // src/tenant/queries/me.ts:63:47 - (ae-forgotten-export) The symbol "MeResponse" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)

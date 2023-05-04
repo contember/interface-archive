@@ -18,6 +18,9 @@ const defaultComponent: FunctionComponent<InnerProps> = ({ onClick, children }) 
 	</a>
 )
 
+/**
+ * @group Tenant
+ */
 export const LogoutLink = memo<LogoutLinkProps>(props => {
 	const onLogout = useLogout()
 	const Component = props.Component || defaultComponent
