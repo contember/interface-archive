@@ -27,6 +27,7 @@ export const list = {
 		'react-multipass-rendering',
 		'react-utils',
 		'ui',
+		'utilities',
 		'vimeo-file-uploader',
 		'vite-plugin',
 	],
