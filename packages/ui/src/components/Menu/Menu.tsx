@@ -78,9 +78,12 @@ const MenuInternal = memo((props: PropsWithChildren<MenuProps>) => {
 
 /**
  * @example
+ * ```
  * <Menu>
  *   <Menu.Item title="Articles" to="articleList"/>
  * </Menu>
+ * ```
+ *
  * @group UI
  */
 export const Menu: MemoExoticComponent<(props: PropsWithChildren<MenuProps>) => JSX.Element> & {

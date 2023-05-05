@@ -19,7 +19,9 @@ type CoalesceTextFilterArtifacts = {
  * DataGrid cells with for text fields with a fallback support.
  *
  * @example
+ * ```
  * <CoalesceTextCell fields={['email', 'user.email']} header="E-mail" />
+ * ```
  *
  * @group Data grid
  */

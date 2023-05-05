@@ -10,7 +10,9 @@ export type AudioUploadFieldProps<AcceptArtifacts = unknown, SFExtraProps extend
 
 /**
  * @example
+ * ```
  * <AudioUploadField urlField="file.url" label="Audio upload" />
+ * ```
  *
  * @group Uploads
  */

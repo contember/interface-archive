@@ -30,7 +30,9 @@ export type NumberFilterArtifacts = {
  * DataGrid cell for displaying a content of number field.
  *
  * @example
+ * ```
  * <NumberCell field="viewCount" header="View count" />
+ * ```
  *
  * @group Data grid
  */

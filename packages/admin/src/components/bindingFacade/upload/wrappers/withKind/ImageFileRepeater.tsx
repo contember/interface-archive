@@ -10,12 +10,14 @@ export type ImageFileRepeaterProps<AcceptArtifacts = unknown, SFExtraProps exten
 
 /**
  * @example
+ * ```
  * <ImageFileRepeater
  *   field="images"
  *   urlField="image.url"
  *   label="Gallery"
  *   sortableBy="order"
  * />
+ * ```
  *
  * @group Uploads
  */

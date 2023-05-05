@@ -25,7 +25,9 @@ type DateRange = {
  * DataGrid cell for displaying a date field value.
  *
  * @example
+ * ```
  * <DateCell header="Created at" field="createdAt" />
+ * ```
  *
  * @group Data grid
  */

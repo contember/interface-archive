@@ -3,7 +3,7 @@ import { ControlDistinction, Intent, Scheme, Size, ValidationState } from '../..
 /**
  * Returns new type where all the properties are required but some of them may be undefined
  */
-type All<T> = {
+export type All<T> = {
 	[P in keyof Required<T>]: Pick<T, P> extends Required<Pick<T, P>> ? T[P] : (T[P] | undefined);
 }
 

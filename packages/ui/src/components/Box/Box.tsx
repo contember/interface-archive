@@ -26,7 +26,9 @@ export type BoxProps =
  * The `Box` component is a container that can be used to wrap other components.
  *
  * @example
+ * ```
  * <Box />
+ * ```
  *
  * @group UI
  */

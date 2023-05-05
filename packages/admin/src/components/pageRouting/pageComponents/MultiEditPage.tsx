@@ -21,12 +21,15 @@ export type MultiEditPageProps<ContainerExtraProps, ItemExtraProps> =
 
 /**
  * @example
+ * ```
  * <MultiEditPage
  *   entities="BottleVolume"
  *   rendererProps={{ title: 'Bottle volumes', sortableBy: 'order' }}
  * >
  * 	<TextField field="volume" label="Volume" />
  * </MultiEditPage>
+ * ```
+ *
  * @group Pages
  */
 export const MultiEditPage = pageComponent(

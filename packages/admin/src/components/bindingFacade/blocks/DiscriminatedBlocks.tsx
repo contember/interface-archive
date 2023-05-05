@@ -17,6 +17,7 @@ export type DiscriminatedBlocksProps =
  * Renders different blocks based on a value in a discrimination field.
  *
  * @example
+ * ```
  * <DiscriminatedBlocks label="Link" field="type">
  *   <Block discriminateBy="article" label="Articles">
  *     <SelectField options="Article.slug" field="article" label="Article" />
@@ -25,6 +26,7 @@ export type DiscriminatedBlocksProps =
  *     <TextField label="Url" field="url" />
  *   </Block>
  * </DiscriminatedBlocks>
+ * ```
  *
  * @group Blocks and repeaters
  */

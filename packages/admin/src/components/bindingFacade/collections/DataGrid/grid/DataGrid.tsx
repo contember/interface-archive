@@ -26,6 +26,7 @@ export type DataGridProps<ComponentExtraProps extends {}> =
  * Main DataGrid component. Requires cells as a children.
  *
  * @example
+ * ```
  * <DataGrid
  *   entities="Article"
  *   itemsPerPage={50}
@@ -33,6 +34,7 @@ export type DataGridProps<ComponentExtraProps extends {}> =
  *   <TextCell header="Title" field="title" />
  *   <TextCell header="Author" field="author.name" />
  * </DataGrid>
+ * ```
  *
  * @group Data grid
  */

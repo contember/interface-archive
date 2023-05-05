@@ -8,7 +8,9 @@ export type AnyFileRepeaterProps<AcceptArtifacts = unknown, SFExtraProps extends
 
 /**
  * @example
+ * ```
  * <AnyFileRepeater field="files" label="Any upload" urlField="file.url" orderBy="order" />
+ * ```
  *
  * @group Uploads
  */

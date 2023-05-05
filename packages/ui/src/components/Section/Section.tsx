@@ -25,7 +25,9 @@ const randomId = () => (Math.random() + 1).toString(36).substring(7)
  * The `Section` component defines a section on page. It automatically generates sub-menu for quick navigation on the page.
  *
  * @example
+ * ```
  * <Section heading="Content" />
+ * ```
  *
  * @group UI
  */

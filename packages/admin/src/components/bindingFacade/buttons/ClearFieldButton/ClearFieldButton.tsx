@@ -9,7 +9,9 @@ export type ClearFieldButtonProps =
  * Renders a button which clears the fields specified in a "field" prop on a click.
  *
  * @example
+ * ```
  * <ClearFieldButton field="name" label="Clear name" />
+ * ```
  *
  * @group Action buttons
  */

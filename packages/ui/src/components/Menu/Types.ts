@@ -14,19 +14,21 @@ export interface MenuProps {
 	focusMenuItemLabel?: string
 }
 
-interface MenuItemPropsTitleRequired<T> {
+export interface MenuItemPropsTitleRequired<T> {
 	title: ReactNode
 	to: T
 }
 
-interface MenuItemPropsTitleOptional {
+export interface MenuItemPropsTitleOptional {
 	title?: ReactNode
 	to?: never
 }
 
-export type MenuItemProps<T = unknown> = (MenuItemPropsTitleRequired<T> | MenuItemPropsTitleOptional) & {
-	children?: ReactNode
-	href?: string
-	external?: boolean
-	expandedByDefault?: boolean
-}
+export type MenuItemProps<T = unknown> =
+	& (MenuItemPropsTitleRequired<T> | MenuItemPropsTitleOptional)
+	& {
+		children?: ReactNode
+		href?: string
+		external?: boolean
+		expandedByDefault?: boolean
+	}

@@ -35,10 +35,12 @@ type REN = ReactElement | null
  * Base field view component with no default formatting.
  *
  * @example
+ * ```
  * <FieldView
  *   field="startsAt"
  *   render={(accessor) => <>{accessor.value}</>}
  * />
+ * ```
  *
  * @group Field Views
  */

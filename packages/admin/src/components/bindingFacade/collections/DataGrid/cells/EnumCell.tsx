@@ -28,6 +28,7 @@ type LegacyEnumCellArtifacts = string[]
  * DataGrid cells for enums fields.
  *
  * @example
+ * ```
  * <EnumCell
  * 	field={'state'}
  * 	options={{
@@ -37,6 +38,7 @@ type LegacyEnumCellArtifacts = string[]
  * 	}}
  * 	header={'State'}
  * />
+ * ```
  *
  * @group Data grid
  */

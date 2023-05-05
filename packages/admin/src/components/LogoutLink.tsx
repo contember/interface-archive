@@ -1,18 +1,18 @@
 import { ComponentType, FunctionComponent, memo, ReactNode } from 'react'
 import { useLogout } from './Identity'
 
-interface InnerProps {
+export interface LogoutLinkInnerProps {
 	onClick: () => void
 	children?: ReactNode
 }
 
 export interface LogoutLinkProps {
-	Component?: ComponentType<InnerProps>
+	Component?: ComponentType<LogoutLinkInnerProps>
 	children?: ReactNode
 }
 
 
-const defaultComponent: FunctionComponent<InnerProps> = ({ onClick, children }) => (
+const defaultComponent: FunctionComponent<LogoutLinkInnerProps> = ({ onClick, children }) => (
 	<a href="#" onClick={onClick}>
 		{children}
 	</a>
