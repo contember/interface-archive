@@ -24,6 +24,7 @@ export type CreatePageProps =
 
 /**
  * @example
+ * ```
  * <CreatePage
  *   entity="Article"
  *   redirectOnSuccess="articleEdit(id: $entity.id)"
@@ -31,6 +32,7 @@ export type CreatePageProps =
  * >
  *   <TextField label="Name" name="name" />
  * </CreatePage>
+ * ```
  *
  * @group Pages
  */

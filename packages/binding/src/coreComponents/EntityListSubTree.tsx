@@ -35,7 +35,9 @@ export type EntityListSubTreeProps<ListProps, EntityProps> = {
  * Creates a subtree with list of entities in current data binding context.
  *
  * @example
+ * ```
  * <EntityListSubTree entities="Post" />
+ * ```
  *
  * @group Data binding
  */

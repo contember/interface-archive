@@ -36,7 +36,9 @@ export type EntitySubTreeProps<EntityProps> =
  * Creates a single entity subtree in current data binding context.
  *
  * @example
+ * ```
  * <EntitySubTree entity="Post(id = $id)" />
+ * ```
  *
  * @group Data binding
  */

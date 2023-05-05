@@ -39,11 +39,13 @@ export interface ButtonOwnProps {
 export type ButtonProps = ButtonOwnProps & Omit<ButtonBasedProps, 'Component'>
 export type AnchorButtonProps = ButtonOwnProps & Omit<AnchorBasedProps, 'Component'>
 
-type BaseButtonProps = ButtonOwnProps & (ButtonBasedProps | AnchorBasedProps)
+export type BaseButtonProps = ButtonOwnProps & (ButtonBasedProps | AnchorBasedProps)
 
 /**
  * @example
+ * ```
  * <AnchorButton href="#id">Go to id</AnchorButton>
+ * ```
  *
  * @group UI
  */

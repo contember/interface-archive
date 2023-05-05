@@ -10,12 +10,14 @@ export type AudioFileRepeaterProps<AcceptArtifacts = unknown, SFExtraProps exten
 
 /**
  * @example
+ * ```
  * <AudioFileRepeater
  *   field="songs"
  *   urlField="song.url"
  *   label="Album"
  *   sortableBy="order"
  * />
+ * ```
  *
  * @group Uploads
  */

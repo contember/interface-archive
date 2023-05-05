@@ -5,15 +5,15 @@ import { Membership } from '../../types'
 import { QueryLoader } from '../QueryLoader'
 import { VariableSelector } from './VariableSelector'
 
-interface VariableConfig {
+export interface VariableConfig {
 	render: ComponentType<{ value: string[]; onChange: (newValues: string[]) => void }>
 }
 
-type VariablesConfig = {
+export type VariablesConfig = {
 	[K in string]?: VariableConfig
 }
 
-interface RoleConfig {
+export interface RoleConfig {
 	name: string
 	variables: VariablesConfig
 }

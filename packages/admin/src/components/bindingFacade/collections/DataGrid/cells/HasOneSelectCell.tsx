@@ -24,7 +24,9 @@ export type HasOneSelectProps =
  * DataGrid cell which allows displaying and filtering by has-one relations.
  *
  * @example
+ * ```
  * <HasOneSelectCell header="Category" field="category" options="Category.name" />
+ * ```
  *
  * @group Data grid
  */

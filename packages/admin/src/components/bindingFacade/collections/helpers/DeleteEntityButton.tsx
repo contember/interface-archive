@@ -15,7 +15,9 @@ export type DeleteEntityButtonProps =
  * Renders a button which deletes an entity in current binding context.
  *
  * @example
+ * ```
  * <DeleteEntityButton />
+ * ```
  *
  * @group Action buttons
  */

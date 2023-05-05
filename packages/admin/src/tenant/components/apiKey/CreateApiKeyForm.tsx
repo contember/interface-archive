@@ -6,7 +6,7 @@ import { useCreateApiKey } from '../../mutations'
 import { Membership } from '../../types'
 import { EditMembership, RolesConfig } from '../member'
 
-interface CreateApiKeyFormProps {
+export interface CreateApiKeyFormProps {
 	project: string
 	rolesConfig?: RolesConfig
 	apiKeyListLink: RoutingLinkTarget

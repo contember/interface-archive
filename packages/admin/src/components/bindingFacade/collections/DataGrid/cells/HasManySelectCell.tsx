@@ -30,7 +30,9 @@ export type HasManySelectProps =
  * DataGrid cell which allows displaying and filtering by has-many relations.
  *
  * @example
+ * ```
  * <HasManySelectCell header="Tags" field="tags" options="Tag.name" />
+ * ```
  *
  * @group Data grid
  */

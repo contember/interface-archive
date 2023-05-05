@@ -10,7 +10,9 @@ export type VideoUploadFieldProps<AcceptArtifacts = unknown, SFExtraProps extend
 
 /**
  * @example
+ * ```
  * <VideoUploadField urlField="video.url" label="Video upload" />
+ * ```
  *
  * @group Uploads
  */

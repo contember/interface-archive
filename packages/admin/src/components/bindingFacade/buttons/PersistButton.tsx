@@ -9,7 +9,9 @@ export type PersistButtonProps = Omit<SaveButtonProps, 'children' | 'isDirty'>
  * Renders a button which triggers persist on a click.
  *
  * @example
+ * ```
  * <PersistButton />
+ * ```
  *
  * @group Action buttons
  */

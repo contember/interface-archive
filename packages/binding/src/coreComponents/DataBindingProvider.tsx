@@ -22,7 +22,9 @@ export type DataBindingProviderProps<StateProps> = DataBindingProviderBaseProps 
  * The `DataBindingProvider` is a root component for all other data binding related components.
  *
  * @example
+ * ```
  * <DataBindingProvider stateComponent={FeedbackRenderer} />
+ * ```
  *
  * @group Data binding
  */

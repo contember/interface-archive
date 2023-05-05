@@ -25,12 +25,14 @@ export type EditPageProps =
 
 /**
  * @example
+ * ```
  * <EditPage
  *   entity="Article(id = $id)"
  *   rendererProps={{ title: 'Edit article' }}
  * >
  *   <TextField label="Name" name="name" />
  * </EditPage>
+ * ```
  *
  * @group Pages
  */

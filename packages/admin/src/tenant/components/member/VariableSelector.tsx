@@ -4,7 +4,7 @@ import { RoleVariableDefinition } from '../../queries'
 import { Membership } from '../../types'
 import { RolesConfig } from './EditMembership'
 
-interface VariableSelectorProps {
+export interface VariableSelectorProps {
 	rolesConfig?: RolesConfig
 	membership: Membership
 	variable: RoleVariableDefinition

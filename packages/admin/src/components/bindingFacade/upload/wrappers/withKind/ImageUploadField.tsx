@@ -10,7 +10,9 @@ export type ImageUploadFieldProps<AcceptArtifacts = unknown, SFExtraProps extend
 
 /**
  * @example
+ * ```
  * <ImageUploadField urlField="image.url" label="Image upload" />
+ * ```
  *
  * @group Uploads
  */

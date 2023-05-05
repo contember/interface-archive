@@ -10,12 +10,14 @@ export type GenericPageProps =
 	}
 
 /**
- * Page for generic content. To use data binding, you must provide {@link DataBindingProvider}
+ * Page for generic content. To use data binding, you must provide {@link @contember/binding#DataBindingProvider}
  *
  * @example
+ * ```
  * <GenericPage>
  *   <p>Welcome to Contember.</p>
  * </GenericPage>
+ * ```
  *
  * @group Pages
  */

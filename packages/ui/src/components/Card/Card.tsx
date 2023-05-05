@@ -27,7 +27,7 @@ const CardInner = ({
 	</div>
 )
 
-interface LinkCompatibleProps {
+export interface LinkCompatibleProps {
 	active: boolean
 	href: string
 	onClick: (e?: MouseEvent<HTMLAnchorElement>) => void

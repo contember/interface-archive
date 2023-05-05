@@ -8,7 +8,7 @@ import { EditorToolbarButton, ToolbarButton } from './EditorToolbarButton'
 
 export type EditorToolbarLayout = 'bar' | 'list' | 'grid'
 
-interface ToolbarButtonOrDropdown extends ToolbarButton {
+export interface ToolbarButtonOrDropdown extends ToolbarButton {
 	groups?: ToolbarGroup[]
 }
 

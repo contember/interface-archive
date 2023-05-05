@@ -11,6 +11,7 @@ export interface LayoutProps extends LayoutChromeProps {
  * The `Layout` component is a component that builds main layout of the admin.
  *
  * @example
+ * ```
  * <Layout
  *   sidebarHeader="Project name"
  *   navigation={
@@ -19,6 +20,7 @@ export interface LayoutProps extends LayoutChromeProps {
  *     </Menu>
  *   }
  * />
+ * ```
  *
  * @group Layout UI
  */

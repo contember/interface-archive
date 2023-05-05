@@ -8,7 +8,9 @@ export type AnyUploadFieldProps<AcceptArtifacts = unknown, SFExtraProps extends 
 
 /**
  * @example
+ * ```
  * <AnyUploadField field="file" urlField="file.url" />
+ * ```
  *
  * @group Uploads
  */

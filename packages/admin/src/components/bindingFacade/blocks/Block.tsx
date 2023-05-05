@@ -17,7 +17,9 @@ export interface BlockProps {
  * The Block component is used for wrapping fields in {@link BlockRepeater}, {@link BlockEditor} or {@link DiscriminatedBlocks} components.
  *
  * @example
+ * ```
  * <Block discriminateBy="gallery" label="Gallery" />
+ * ```
 
  * @group Blocks and repeaters
  */

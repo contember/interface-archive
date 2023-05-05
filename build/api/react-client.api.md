@@ -71,9 +71,7 @@ export type BuiltinLeaves = RichTextBoldLeaf & RichTextCodeLeaf & RichTextHighli
 export class ClientError extends Error {
 }
 
-// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
-//
-// @public
+// @public (undocumented)
 export const ContemberClient: NamedExoticComponent<ContemberClientProps & {
 children: React.ReactNode;
 }>;
@@ -310,9 +308,7 @@ export interface RichTextReferenceElement<CustomElements extends RichTextElement
     type: 'reference';
 }
 
-// Warning: (tsdoc-undefined-tag) The TSDoc tag "@group" is not defined in this configuration
-//
-// @public
+// @public (undocumented)
 export const RichTextRenderer: <CustomElements extends RichTextElement<never, never> = never, CustomLeaves extends RichTextLeaf = never>(props: RichTextRendererProps<CustomElements, CustomLeaves>) => ReactElement;
 
 // @public (undocumented)

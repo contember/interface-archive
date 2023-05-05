@@ -36,7 +36,9 @@ export type StackProps =
  * The `Stack` components allows you to stack any content vertically or horizontally.
  *
  * @example
+ * ```
  * <Stack direction="horizontal" />
+ * ```
  *
  * @group UI
  */

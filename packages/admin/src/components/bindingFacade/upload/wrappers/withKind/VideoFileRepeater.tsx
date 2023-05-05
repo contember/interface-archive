@@ -10,12 +10,14 @@ export type VideoFileRepeaterProps<AcceptArtifacts = unknown, SFExtraProps exten
 
 /**
  * @example
+ * ```
  * <VideoFileRepeater
  *   field="videos"
  *   urlField="video.url"
  *   label="Video serie"
  *   sortableBy="order"
  * />
+ * ```
  *
  * @group Uploads
  */

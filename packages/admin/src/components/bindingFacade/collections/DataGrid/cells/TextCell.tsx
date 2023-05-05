@@ -34,7 +34,9 @@ export type TextFilterArtifacts = {
  * DataGrid cell for displaying a content of text field.
  *
  * @example
- * <NumberCell field="author.name" header="Author name" />
+ * ```
+ * <TextCell field="author.name" header="Author name" />
+ * ```
  *
  * @group Data grid
  */
