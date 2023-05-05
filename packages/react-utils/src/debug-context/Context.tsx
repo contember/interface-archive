@@ -1,5 +1,5 @@
+import { assert, isNonEmptyString } from '@contember/utilities'
 import { ReactNode, createContext, memo, useContext, useMemo, useRef } from 'react'
-import { assert, isNonEmptyString } from '../assert-types'
 import { isNoopScopedConsole, noopScopedConsole } from './Constants'
 import { ScopedConsoleContextType } from './Types'
 

@@ -1,5 +1,5 @@
-import { useReferentiallyStableCallback } from '@contember/react-utils'
 import { useLayoutEffect, useRef } from 'react'
+import { useReferentiallyStableCallback } from '../referentiallyStable'
 import { useOnWindowResize } from './useOnWindowResize'
 
 function intendedFlushOfCSSChangesToCauseImmediateReflow(element: HTMLElement) {

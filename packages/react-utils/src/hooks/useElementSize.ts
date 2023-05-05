@@ -1,6 +1,6 @@
+import { getSizeFromResizeObserverEntryFactory } from '@contember/utilities'
 import { useLayoutEffect, useMemo, useRef, useState } from 'react'
-import { getSizeFromResizeObserverEntryFactory } from '../dom'
-import { useScopedConsoleRef } from '../ui-debug-context'
+import { useScopedConsoleRef } from '../debug-context'
 import { RefObjectOrElement, unwrapRefValue } from './unwrapRefValue'
 import { useOnElementResize } from './useOnElementResize'
 
