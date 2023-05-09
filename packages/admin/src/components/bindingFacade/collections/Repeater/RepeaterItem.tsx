@@ -15,17 +15,21 @@ export interface RepeaterItemProps {
 }
 
 export const RepeaterItem = memo(
-	({ children, canBeRemoved, label, removalType, dragHandleComponent }: RepeaterItemProps) => {
+	({ children, canBeRemoved, label, removalType, dragHandleComponent, index }: RepeaterItemProps) => {
 		if (removalType !== 'delete') {
 			throw new BindingError(
 				`As a temporary limitation, <Repeater /> can currently only delete its items, not disconnect them. ` +
 					`This restriction is planned to be lifted sometime in future.`,
 			)
 		}
+		const labelWithIndex = index !== undefined
+			? <>{label}{label ? ` #${index + 1}` : `#${index + 1}`}</>
+			: label
+
 		return (
 			<RepeaterItemContainer
 				dragHandleComponent={dragHandleComponent}
-				label={label}
+				label={labelWithIndex}
 				actions={canBeRemoved ? <DeleteEntityButton /> : undefined}
 			>
 				{children}
