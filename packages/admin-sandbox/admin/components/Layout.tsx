@@ -1,9 +1,9 @@
-import { Stack, StackOwnProps } from '@contember/admin'
+import { Button, Stack, StackOwnProps } from '@contember/admin'
 import { CommonSlots, LayoutSlotsProvider, PropsWithRequiredChildren } from '@contember/cms-layout'
-import { useReferentiallyStableCallback } from '@contember/react-utils'
-import { ChangeEvent, ComponentType, ReactNode, createElement, memo, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, ComponentType, createElement, memo, ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import * as Layouts from './Layouts'
-import { MetaDirective, MetaDirectivesConsumer } from './MetaDirectives'
+import { MetaDirective, useMetaDirectives } from './MetaDirectives'
+import { DevPanel } from '@contember/admin'
 
 export const { Actions, Back, Title: TitleSlot, Content, Logo, Navigation, Sidebar, ...restOfCommonSlots } = CommonSlots
 
@@ -37,51 +37,51 @@ export const SidebarStack = SlotWithStack(Sidebar)
 export const ContentStack = SlotWithStack(Content)
 
 const types = Object.keys(Layouts) as ReadonlyArray<keyof typeof Layouts>
-type LayoutTypes = typeof types[number]
+export type LayoutTypes = typeof types[number]
 
 export const BREAKPOINT = 768
 
+
 export const Layout = (props: {
-	type?: LayoutTypes,
 	children?: ReactNode;
 }) => {
-	const [typeState, setTypeState] = useState(props.type)
-	const documentTitle = useRef(document.title)
+	const initialTitle = useMemo(() => document.title, [])
 
-	useEffect(() => () => {
-		document.title = documentTitle.current
-	}, [])
+	const { layout, title } = useMetaDirectives()
+	const LayoutComponent = Layouts[layout ?? 'default']
+	useEffect(() => {
+		if (title) {
+			document.title = `${title} / ${initialTitle}`
+		} else {
+			document.title = initialTitle
+		}
+	}, [initialTitle, title])
 
 	return (
 		<LayoutSlotsProvider>
-			<MetaDirectivesConsumer>{({ layout, title }) => {
-				const LayoutComponent = Layouts[typeState ?? layout] ?? Layouts.default
-
-				if (title) {
-					if (document.title !== title) {
-						document.title = `${title} / ${documentTitle.current}`
-					}
-				} else {
-					document.title = documentTitle.current
-				}
-
-				return (
-					<>
-						<TitleSlot><h1>{title}</h1></TitleSlot>
-						<LayoutComponent />
-					</>
-				)
-			}}</MetaDirectivesConsumer>
+			<TitleSlot><h1>{title}</h1></TitleSlot>
+			<LayoutComponent />
 			{props.children}
-			<div style={{ position: 'fixed', bottom: 0, right: 0, zIndex: 1000 }}>
-				<select value={typeState} onChange={useReferentiallyStableCallback((e: ChangeEvent<HTMLSelectElement>) => setTypeState(e.target.value as keyof typeof Layouts))}>
-					<option key="undefined" value="">Select layout...</option>
-					{Object.keys(Layouts).map(key => (
-						<option key={key} value={key}>{key}</option>
-					))}
-				</select>
-			</div>
 		</LayoutSlotsProvider>
+	)
+}
+
+export const LayoutDevPanel = () => {
+	const [typeState, setTypeState] = useState<LayoutTypes>()
+	const [counter, setCounter] = useState(1)
+	const { layout } = useMetaDirectives()
+	return (
+		<>
+			{typeState && <MetaDirective name={'layout'} content={typeState} key={counter} />}
+			<DevPanel heading={`Layout: ${layout}`}>
+				{Object.keys(Layouts).map(key => (
+					<Button key={key} onClick={() => {
+						setTypeState(key as keyof typeof Layouts)
+						setCounter(it => it + 1)
+					}}>{key}</Button>
+				))}
+			</DevPanel>
+		</>
 	)
 }
 
