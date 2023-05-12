@@ -1,6 +1,5 @@
-import classNames from 'classnames'
+import { useClassNameFactory } from '@contember/utilities'
 import { memo, MouseEvent, ReactNode } from 'react'
-import { useComponentClassName } from '../../auxiliary'
 import { HTMLAnchorElementProps, HTMLDivElementProps } from '../../types'
 import { toEnumViewClass, toFeatureClass, toStateClass } from '../../utils'
 import { useInputClassName, VisuallyDependentControlProps } from '../Forms'
@@ -63,26 +62,24 @@ export const LinkCard = memo<LinkCardProps>(
 	({
 		active,
 		children,
-		className: _className,
+		className,
 		layout = 'label-below',
 		src,
 		...props
 	}) => {
-		const componentClassName = useComponentClassName('card')
-		const className = classNames(
-			componentClassName,
-			toEnumViewClass(layout),
-			toFeatureClass('focus', true),
-			toFeatureClass('hover', true),
-			toFeatureClass('press', true),
-			toStateClass('active', active),
-			useInputClassName(props as VisuallyDependentControlProps),
-			_className,
-		)
+		const componentClassName = useClassNameFactory('card')
 
 		return (
-			<a {...props} className={className}>
-				<CardInner src={src} className={componentClassName}>{children}</CardInner>
+			<a {...props} className={componentClassName(null, [
+				toEnumViewClass(layout),
+				toFeatureClass('focus', true),
+				toFeatureClass('hover', true),
+				toFeatureClass('press', true),
+				toStateClass('active', active),
+				useInputClassName(props as VisuallyDependentControlProps),
+				className,
+			])}>
+				<CardInner src={src} className={componentClassName('card')}>{children}</CardInner>
 			</a>
 		)
 	},
@@ -95,28 +92,26 @@ LinkCard.displayName = 'LinkCard'
 export const Card = memo<CardProps>(
 	({
 		children,
-		className: _className,
+		className,
 		layout = 'label-below',
 		onClick,
 		active,
 		src,
 		...props
 	}) => {
-		const componentClassName = useComponentClassName('card')
-		const className = classNames(
-			componentClassName,
-			toEnumViewClass(layout),
-			toFeatureClass('focus', !!onClick),
-			toFeatureClass('hover', !!onClick),
-			toFeatureClass('press', !!onClick),
-			toStateClass('active', active),
-			useInputClassName(props as VisuallyDependentControlProps),
-			_className,
-		)
+		const componentClassName = useClassNameFactory('card')
 
 		return (
-			<div {...props} onClick={onClick} className={className}>
-				<CardInner src={src} className={componentClassName}>{children}</CardInner>
+			<div {...props} onClick={onClick} className={componentClassName(null, [
+				toEnumViewClass(layout),
+				toFeatureClass('focus', !!onClick),
+				toFeatureClass('hover', !!onClick),
+				toFeatureClass('press', !!onClick),
+				toStateClass('active', active),
+				useInputClassName(props as VisuallyDependentControlProps),
+				className,
+			])}>
+				<CardInner src={src} className={componentClassName('card')}>{children}</CardInner>
 			</div>
 		)
 	},
