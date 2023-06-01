@@ -1327,7 +1327,7 @@ export type DataGridPageProps = DataGridProps<{}> & {
     rendererProps?: Omit<LayoutRendererProps, 'children'>;
 };
 
-// @public (undocumented)
+// @public @deprecated (undocumented)
 export const DataGridPageRenderer: React.NamedExoticComponent<LayoutRendererProps & DataGridContainerProps>;
 
 // @public (undocumented)
@@ -2698,7 +2698,7 @@ export const ImageUploadField: <AcceptArtifacts = unknown, SFExtraProps extends 
 // @public (undocumented)
 export type ImageUploadFieldProps<AcceptArtifacts = unknown, SFExtraProps extends {} = {}> = PublicSingleKindUploadFieldProps<AcceptArtifacts, SFExtraProps> & ImageFileDataExtractorProps;
 
-// @public (undocumented)
+// @public @deprecated (undocumented)
 export const ImmutableEntityListPageRenderer: <ContainerExtraProps, ItemExtraProps>(props: ImmutableEntityListPageRendererProps<ContainerExtraProps, ItemExtraProps>) => ReactElement;
 
 // @public (undocumented)
@@ -3364,7 +3364,7 @@ export interface MultiSelectFieldInnerPublicProps extends Omit<FieldContainerPro
 // @public (undocumented)
 export type MultiSelectFieldProps = MultiSelectFieldInnerPublicProps & DynamicMultipleChoiceFieldProps;
 
-// @public (undocumented)
+// @public @deprecated (undocumented)
 export const MutableEntityListPageRenderer: <ContainerExtraProps, ItemExtraProps>(props: MutableEntityListPageRendererProps<ContainerExtraProps, ItemExtraProps>) => ReactElement;
 
 // @public (undocumented)

@@ -34,7 +34,7 @@ export default function () {
 				afterTitle={afterTitle}
 				navigation={back}
 				side={side}
-				title="Lorem ipsum dolor sit amet"
+				title={<h2>Lorem ipsum dolor sit amet</h2>}
 			>
 				<div style={{ backgroundColor: 'blue', width: '100%' }}>Content</div>
 			</LayoutPage>

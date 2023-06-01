@@ -1754,7 +1754,7 @@ export interface LayoutChromeProps extends ThemeScheme {
 }
 
 // @public (undocumented)
-export const LayoutPage: MemoExoticComponent<({ actions, afterTitle, children, fit, headingProps, layout, navigation, pageContentLayout, side, title, ...props }: LayoutPageProps) => JSX.Element>;
+export const LayoutPage: MemoExoticComponent<({ actions, afterTitle, children, fit, navigation, pageContentLayout, side, title, ...props }: LayoutPageProps) => JSX.Element>;
 
 // @public (undocumented)
 export const LayoutPageAside: MemoExoticComponent<({ children }: HTMLDivElementProps) => JSX.Element>;
@@ -1776,8 +1776,6 @@ export interface LayoutPageProps extends Omit<TitleBarProps, 'after' | 'children
     children?: ReactNode;
     // (undocumented)
     fit?: 'content' | 'none';
-    // @deprecated (undocumented)
-    layout?: LayoutPageContentProps['pageContentLayout'];
     // (undocumented)
     pageContentLayout?: LayoutPageContentProps['pageContentLayout'];
     // (undocumented)
@@ -2579,7 +2577,7 @@ export type TimeInputString = string;
 export const TimeInputStringRegExp: RegExp;
 
 // @public (undocumented)
-export const TitleBar: MemoExoticComponent<({ after, navigation, children, headingProps, actions, ...props }: TitleBarProps) => JSX.Element>;
+export const TitleBar: MemoExoticComponent<({ after, navigation, children, actions, ...props }: TitleBarProps) => JSX.Element>;
 
 // @public (undocumented)
 export interface TitleBarProps extends ThemeScheme {
@@ -2589,8 +2587,6 @@ export interface TitleBarProps extends ThemeScheme {
     after?: ReactNode;
     // (undocumented)
     children: ReactNode;
-    // (undocumented)
-    headingProps?: HeadingProps;
     // (undocumented)
     navigation?: ReactNode;
 }

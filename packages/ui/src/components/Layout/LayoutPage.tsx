@@ -1,5 +1,5 @@
 import { useClassNameFactory } from '@contember/utilities'
-import { CSSProperties, memo, ReactNode, useEffect, useMemo, useRef, useState } from 'react'
+import { memo, ReactNode, useEffect, useRef, useState } from 'react'
 import { toEnumClass, toSchemeClass, toThemeClass } from '../../utils'
 import { SectionTabs, useSectionTabs } from '../SectionTabs'
 import { TitleBar, TitleBarProps } from '../TitleBar'
@@ -12,8 +12,6 @@ export interface LayoutPageProps extends Omit<TitleBarProps, 'after' | 'children
 	afterTitle?: TitleBarProps['after']
 	children?: ReactNode
 	fit?: 'content' | 'none'
-	/** @deprecated Use `pageContentLayout` prop */
-	layout?: LayoutPageContentProps['pageContentLayout']
 	pageContentLayout?: LayoutPageContentProps['pageContentLayout']
 	side?: ReactNode
 	title?: ReactNode
@@ -27,8 +25,6 @@ export const LayoutPage = memo(({
 	afterTitle,
 	children,
 	fit = 'content',
-	headingProps,
-	layout,
 	navigation,
 	pageContentLayout,
 	side,

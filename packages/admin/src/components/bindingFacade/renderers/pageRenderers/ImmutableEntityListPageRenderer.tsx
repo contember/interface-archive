@@ -7,26 +7,25 @@ export type ImmutableEntityListPageRendererProps<ContainerExtraProps, ItemExtraP
 	& LayoutRendererProps
 	& ImmutableEntityListRendererProps<ContainerExtraProps, ItemExtraProps>
 
+/** @deprecated Use scope alternative instead of Page */
 export const ImmutableEntityListPageRenderer = Component(
 	<ContainerExtraProps, ItemExtraProps>({
 		children,
-
 		side,
 		title,
 		navigation,
-		headingProps,
 		actions,
-		layout,
-
+		pageContentLayout,
+		afterTitle,
 		...entityListProps
 	}: ImmutableEntityListPageRendererProps<ContainerExtraProps, ItemExtraProps>) => (
 		<LayoutRenderer
 			side={side}
 			title={title}
+			afterTitle={afterTitle}
 			navigation={navigation}
 			actions={actions}
-			headingProps={headingProps}
-			layout={layout}
+			pageContentLayout={pageContentLayout}
 		>
 			<ImmutableEntityListRenderer {...entityListProps}>{children}</ImmutableEntityListRenderer>
 		</LayoutRenderer>
