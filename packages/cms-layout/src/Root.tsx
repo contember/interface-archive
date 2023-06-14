@@ -118,7 +118,7 @@ export const Root = memo(({
 								)}
 
 								<InsetsConsumer className={classNameFor('header-main')}>
-									<div className={classNameFor('header-main-content', classNameFor('content-container'))}>
+									<div className={classNameFor('header-main-content')}>
 										<ResponsiveStack
 											align="center"
 											direction="horizontal"
@@ -209,9 +209,7 @@ export const Root = memo(({
 				)}
 
 				<Layout.PanelBody className={classNameFor('content-body')}>
-					<div className={classNameFor('content-container')}>
-						<ContentBody />
-					</div>
+					<ContentBody />
 				</Layout.PanelBody>
 
 				{setHasOneOf(activeSlots, [slotTargets.ContentFooter]) && (
