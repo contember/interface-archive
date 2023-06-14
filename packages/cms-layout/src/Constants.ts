@@ -34,6 +34,7 @@ export const sidebarLeftSlots = [
 	slotTargets.SidebarLeftBody,
 	slotTargets.SidebarLeftFooter,
 	slotTargets.Navigation,
+	slotTargets.NavigationBar,
 ]
 
 export const sidebarRightSlots = [
