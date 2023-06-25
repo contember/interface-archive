@@ -1,21 +1,13 @@
-import { isSpecialLinkClick } from '@contember/ui'
+import { Anchor, isSpecialLinkClick } from '@contember/ui'
 import {
 	AnchorHTMLAttributes,
-	ComponentType,
-	FunctionComponent,
-	memo,
-	MouseEvent as ReactMouseEvent,
+	ComponentType, MouseEvent as ReactMouseEvent,
 	ReactNode,
+	memo,
 	useCallback,
 } from 'react'
 import { RequestParameters, RoutingLinkTarget, RoutingParameterResolver } from './types'
 import { useRoutingLink } from './useRoutingLink'
-
-
-const defaultComponent: FunctionComponent<InnerRoutingLinkProps> = ({ active, ...props }) => (
-	// TODO do something with isActive?
-	<a {...props} />
-)
 
 /**
  * Low level link. Usually, you should use {@link Link}
@@ -37,7 +29,7 @@ export const RoutingLink = memo<RoutingLinkProps & PublicAnchorProps>(({ onClick
 		navigate(e)
 	}, [navigate, onClick, target])
 
-	const InnerComponent = Component ?? defaultComponent
+	const InnerComponent = Component ?? Anchor
 	return <InnerComponent active={active} href={href} target={target} {...componentProps} {...props} onClick={innerOnClick} />
 })
 RoutingLink.displayName = 'RoutingLink'

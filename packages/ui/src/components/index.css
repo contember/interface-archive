@@ -3,6 +3,7 @@
 
 /* Leaf components */
 @import "./Typography";
+@import "./Anchor";
 @import "./ContainerSpinner";
 @import "./ContentStatus";
 @import "./DevBar";

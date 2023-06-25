@@ -76,7 +76,7 @@ export const useRoutingLinkFactory = () => {
 		}
 		return {
 			href: href,
-			isActive: window.location.pathname === href, // todo better active detection
+			isActive: window.location.pathname === href || window.location.pathname.startsWith(href + '/'),
 			navigate: e => {
 				e?.preventDefault()
 				pushRequest(request)
