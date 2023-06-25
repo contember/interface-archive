@@ -1,7 +1,7 @@
 :where(.cui-brand-icon) {
 	--scale: 1;
 	--aspect-ratio: 1;
-	--square-to-circle-ratio: 1.1284;
+	--square-to-circle-ratio: 1.515;
 	--square-to-circle-margin: calc((var(--square-to-circle-ratio) - 1) / 2);
 	stroke: currentColor;
 	display: inline-block;
