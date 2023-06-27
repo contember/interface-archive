@@ -6,7 +6,8 @@ import { toEnumViewClass, toThemeClass, toViewClass } from '../../utils'
 export type MessageProps =
 	& {
 		intent?: Intent
-		type?: 'prop is deprecated, use intent'
+		/** @deprecated Use `intent` prop */
+		type?: never
 		size?: Size
 		flow?: MessageFlow
 		distinction?: MessageDistinction
@@ -19,7 +20,7 @@ export type MessageProps =
 /**
  * @group UI
  */
-export const Message = memo(({ className, children, intent, size, flow, distinction, type, lifted, action, ...props }: MessageProps) => {
+export const Message = memo(({ className, children, intent, size, flow, distinction, type: DEPRECATED_type, lifted, action, ...props }: MessageProps) => {
 	const componentClassName = useClassNameFactory('message')
 	return (
 		<div
