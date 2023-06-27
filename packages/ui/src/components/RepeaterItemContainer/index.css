@@ -27,8 +27,9 @@
 	width: calc(2 * var(--cui-box-content-padding));
 }
 
-:where(.cui-repeater-item-container-handle .cui-icon) {
-	padding: var(--line-height-negative-vertical-space) 0;
+:where(.cui-repeater-item-container-handle svg) {
+	margin: var(--line-height-negative-vertical-space) 0;
+	stroke-width: 0.05em;
 }
 
 :where(.cui-repeater-item-container-label) {

@@ -1,8 +1,8 @@
 import { useClassNameFactory } from '@contember/utilities'
+import { XIcon } from 'lucide-react'
 import { ReactNode, useContext } from 'react'
 import { Intent } from '../../types'
 import { Button } from '../Forms'
-import { Icon } from '../Icon'
 import { Message } from '../Message'
 import { ToasterContext } from './ToasterContext'
 
@@ -51,7 +51,7 @@ export const Toaster: React.FC = () => {
 										toasterContext.dismissToast(toast.id)
 									}}
 								>
-									<Icon blueprintIcon="cross" />
+									<XIcon />
 								</Button>
 							}
 						>

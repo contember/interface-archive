@@ -1,5 +1,6 @@
 import type { FieldAccessor } from '@contember/binding'
-import { Button, ButtonProps, Icon } from '@contember/ui'
+import { Button, ButtonProps } from '@contember/ui'
+import { XIcon } from 'lucide-react'
 import { useCallback } from 'react'
 
 export type ClearFieldButtonInnerPublicProps = ButtonProps
@@ -29,7 +30,7 @@ export const ClearFieldButtonInner = (props: ClearFieldButtonInnerProps) => {
 			distinction="seamless"
 			{...buttonProps}
 		>
-			<Icon blueprintIcon="cross" />
+			<XIcon />
 		</Button>
 	)
 }

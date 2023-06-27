@@ -1,10 +1,10 @@
 import { useClassNameFactory } from '@contember/utilities'
-import { memo, MouseEvent as ReactMouseEvent, ReactNode, useMemo } from 'react'
+import { PencilIcon, Trash2Icon } from 'lucide-react'
+import { MouseEvent as ReactMouseEvent, ReactNode, memo, useMemo } from 'react'
 import { HTMLDivElementProps } from '../../types'
 import { Box } from '../Box'
 import { Dropdown, DropdownProps } from '../Dropdown/Dropdown'
 import { Button, ButtonOwnProps } from '../Forms'
-import { Icon, IconProps } from '../Icon'
 
 export type ActionableBoxProps =
 	& {
@@ -17,9 +17,6 @@ export type ActionableBoxProps =
 const commonButtonProps: ButtonOwnProps = {
 	size: 'small',
 	flow: 'circular',
-}
-const commonIconProps: IconProps = {
-	size: 'small',
 }
 
 /**
@@ -34,7 +31,7 @@ export const ActionableBox = memo<ActionableBoxProps>(({
 }) => {
 	const buttonProps: DropdownProps['buttonProps'] = useMemo(() => ({
 		...commonButtonProps,
-		children: <Icon {...commonIconProps} contemberIcon="pencil" />,
+		children: <PencilIcon />,
 	}), [])
 
 	const componentClassName = useClassNameFactory('actionableBox')
@@ -60,7 +57,7 @@ export const ActionableBox = memo<ActionableBoxProps>(({
 				{onRemove && (
 					<li className={componentClassName('action')}>
 						<Button intent="danger" {...commonButtonProps} onClick={onRemove}>
-							<Icon {...commonIconProps} blueprintIcon="trash" />
+							<Trash2Icon />
 						</Button>
 					</li>
 				)}

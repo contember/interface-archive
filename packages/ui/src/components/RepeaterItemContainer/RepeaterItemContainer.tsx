@@ -1,9 +1,9 @@
 import { useClassNameFactory } from '@contember/utilities'
+import { GripVerticalIcon } from 'lucide-react'
 import { ComponentType, memo, ReactNode } from 'react'
 import { Size } from '../../types'
 import { toViewClass } from '../../utils'
 import { Box } from '../Box'
-import { Icon } from '../Icon'
 import { Stack } from '../Stack'
 import { Label } from '../Typography/Label'
 
@@ -29,7 +29,7 @@ export const RepeaterItemContainer = memo(({ actions, children, gap, label, drag
 			{Handle && (
 				<div className={componentClassName('handle')}>
 					<Handle>
-						<Icon blueprintIcon="drag-handle-vertical" />
+						<GripVerticalIcon />
 					</Handle>
 				</div>
 			)}

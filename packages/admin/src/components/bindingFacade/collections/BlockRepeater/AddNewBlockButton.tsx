@@ -1,4 +1,5 @@
-import { Dropdown, DropdownProps, FieldContainer, Icon } from '@contember/ui'
+import { Dropdown, DropdownProps, FieldContainer } from '@contember/ui'
+import { PlusCircleIcon } from 'lucide-react'
 import { memo, useMemo } from 'react'
 import { useMessageFormatter } from '../../../../i18n'
 import { AddNewBlockButtonInner, AddNewBlockButtonInnerProps } from './AddNewBlockButtonInner'
@@ -16,14 +17,7 @@ export const AddNewBlockButton = memo<AddNewBlockButtonProps>(props => {
 		() => ({
 			children: (
 				<>
-					<Icon
-						blueprintIcon="add"
-						style={{
-							marginRight: '0.2em',
-							position: 'relative',
-							top: '-0.071em',
-						}}
-					/>
+					<PlusCircleIcon stroke="10" />
 					{props.children ?? formatter('blockRepeater.addNewBlockButton.addBlock')}
 				</>
 			),
