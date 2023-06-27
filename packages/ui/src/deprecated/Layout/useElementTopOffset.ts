@@ -1,5 +1,6 @@
 import { RefObject, useLayoutEffect, useState } from 'react'
 
+/** @deprecated (no alternative) */
 export function useElementTopOffset(ref?: RefObject<HTMLElement>): number | undefined {
 	const [offsetTop, setOffsetTop] = useState<number | undefined>(undefined)
 

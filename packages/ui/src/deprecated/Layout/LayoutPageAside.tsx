@@ -1,8 +1,7 @@
 import { useClassNameFactory } from '@contember/utilities'
 import { memo, useLayoutEffect, useRef } from 'react'
+import { Stack, useSectionTabsRegistration } from '../../components'
 import { HTMLDivElementProps } from '../../types'
-import { useSectionTabsRegistration } from '../SectionTabs'
-import { Stack } from '../Stack'
 
 const metaTab = {
 	id: 'meta-section-aside',
@@ -11,6 +10,7 @@ const metaTab = {
 
 /**
  * @group Layout UI
+ * @deprecated Use `LayoutKit` from `@contember/layout` instead.
  */
 export const LayoutPageAside = memo(({ children }: HTMLDivElementProps) => {
 	const componentClassName = useClassNameFactory('layout-page-aside')

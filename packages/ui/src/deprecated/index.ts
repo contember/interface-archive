@@ -3,4 +3,5 @@
 export default {}
 
 export * from './ContainerSpinner'
+export * from './Layout'
 export * from './Logo'

@@ -2,6 +2,7 @@ import { useClassName } from '@contember/utilities'
 import { CSSProperties, memo, ReactNode, useMemo } from 'react'
 import { HTMLDivElementProps } from '../../types'
 
+/** @deprecated (no alternative) */
 export type LayoutPageStickyContainerProps =
 	& {
 		bottom?: CSSProperties['bottom'],
@@ -12,6 +13,10 @@ export type LayoutPageStickyContainerProps =
 	}
 	& HTMLDivElementProps
 
+/**
+ * @group Layout
+ * @deprecated (no alternative)
+ */
 export const LayoutPageStickyContainer = memo(({
 	bottom,
 	className: classNameProp,

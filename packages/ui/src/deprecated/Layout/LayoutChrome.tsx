@@ -1,16 +1,14 @@
 import { useClassNameFactory } from '@contember/utilities'
 import { CSSProperties, ReactNode, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { NavigationContext } from '../..'
+import { Button, DropdownContentContainerProvider, Icon, PreventCloseContext, Stack } from '../../components'
 import { Intent, Scheme } from '../../types'
 import { toSchemeClass, toStateClass, toThemeClass, toViewClass } from '../../utils'
-import { DropdownContentContainerProvider } from '../Dropdown/Dropdown'
-import { Button } from '../Forms'
-import { Icon } from '../Icon'
 import { useElementTopOffset } from '../Layout/useElementTopOffset'
-import { PreventCloseContext } from '../PreventCloseContext'
-import { Stack } from '../Stack'
 import { ThemeSchemeContext, TitleThemeSchemeContext } from './ThemeSchemeContext'
 import { ThemeScheme } from './Types'
+
+/** @deprecated Use `LayoutKit` from `@contember/layout` instead. */
 export interface LayoutChromeProps extends ThemeScheme {
 	children?: ReactNode
 	navigation?: ReactNode
@@ -31,6 +29,7 @@ const PREVENT_HAPPENED_RECENTLY = 100
 
 /**
  * @group Layout UI
+ * @deprecated Use `LayoutKit` from `@contember/layout` instead.
  */
 export const LayoutChrome = memo(({
 	children,

@@ -2,6 +2,7 @@ import { useClassName } from '@contember/utilities'
 import { memo } from 'react'
 import { LayoutChrome, LayoutChromeProps } from './LayoutChrome'
 
+/** @deprecated Use `LayoutKit` from `@contember/layout` instead. */
 export interface LayoutProps extends LayoutChromeProps {
 	className?: string
 }
@@ -22,6 +23,7 @@ export interface LayoutProps extends LayoutChromeProps {
  * ```
  *
  * @group Layout UI
+ * @deprecated Use `LayoutKit` from `@contember/layout` instead.
  */
 export const Layout = memo(({
 	className,

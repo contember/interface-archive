@@ -1,13 +1,14 @@
 import { px, useClassNameFactory } from '@contember/utilities'
-import { CSSProperties, ReactNode, memo, useEffect, useMemo, useRef, useState } from 'react'
+import { ReactNode, memo, useEffect, useRef, useState } from 'react'
+import { SectionTabs, TitleBar, TitleBarProps, useSectionTabs } from '../../components'
 import { toEnumClass, toSchemeClass, toThemeClass } from '../../utils'
-import { SectionTabs, useSectionTabs } from '../SectionTabs'
-import { TitleBar, TitleBarProps } from '../TitleBar'
 import { LayoutPageAside } from './LayoutPageAside'
 import { LayoutPageContent, LayoutPageContentProps } from './LayoutPageContent'
 import { useThemeScheme } from './ThemeSchemeContext'
 import { ThemeScheme } from './Types'
 import { useElementTopOffset } from './useElementTopOffset'
+
+/** @deprecated Use `LayoutKit` from `@contember/layout` instead. */
 export interface LayoutPageProps extends Omit<TitleBarProps, 'after' | 'children'>, ThemeScheme {
 	afterTitle?: TitleBarProps['after']
 	children?: ReactNode
@@ -19,6 +20,7 @@ export interface LayoutPageProps extends Omit<TitleBarProps, 'after' | 'children
 
 /**
  * @group Layout UI
+ * @deprecated Use `LayoutKit` from `@contember/layout` instead.
  */
 export const LayoutPage = memo(({
 	actions,

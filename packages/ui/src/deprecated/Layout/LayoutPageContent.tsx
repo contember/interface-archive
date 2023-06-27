@@ -3,6 +3,7 @@ import { memo } from 'react'
 import { HTMLDivElementProps } from '../../types'
 import { toEnumClass } from '../../utils'
 
+/** @deprecated Use `LayoutKit` from `@contember/layout` instead. */
 export type LayoutPageContentProps =
 	& {
 		/** @deprecated Use `pageContentLayout` instead */
@@ -11,6 +12,7 @@ export type LayoutPageContentProps =
 	}
 	& HTMLDivElementProps
 
+/** @deprecated Use `LayoutKit` from `@contember/layout` instead. */
 export const LayoutPageContent = memo(({ children, layout, pageContentLayout = 'center' }: LayoutPageContentProps) => {
 	const componentClassName = useClassNameFactory('layout-page-content')
 
