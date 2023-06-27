@@ -3,6 +3,7 @@ import { ReactNode, memo } from 'react'
 import { Size } from '../../types'
 import { toEnumViewClass } from '../../utils'
 
+/** @deprecated use new logo from `@contember/brand` package */
 export interface LogoLabelProps {
 	className?: string
 	children: ReactNode
@@ -11,6 +12,7 @@ export interface LogoLabelProps {
 
 /**
  * @group UI
+ * @deprecated use new logo from `@contember/brand` package
  */
 export const LogoLabel = memo(({ className, children, size }: LogoLabelProps) => {
 	return (

@@ -3,16 +3,16 @@ import { ReactNode, memo } from 'react'
 import type { Size } from '../../types'
 import { toEnumViewClass } from '../../utils'
 
+/** @deprecated use new logo from `@contember/brand` package */
 export interface LogoSymbolProps {
 	className?: string
 	children: ReactNode
 	size?: Size | number
 }
 
-// TODO: repeated IDS
-
 /**
  * @group UI
+ * @deprecated use new logo from `@contember/brand` package
  */
 export const LogoSymbol = memo(({ className, children, size }: LogoSymbolProps) => {
 	return (

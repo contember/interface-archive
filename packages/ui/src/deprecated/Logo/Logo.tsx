@@ -4,6 +4,7 @@ import type { Size } from '../../types'
 import { LogoLabel } from './LogoLabel'
 import { LogoSymbol } from './LogoSymbol'
 
+/** @deprecated use new logo from `@contember/brand` package */
 export interface LogoProps {
 	children?: ReactNode
 	image?: ReactNode
@@ -12,7 +13,8 @@ export interface LogoProps {
 
 /**
  * @group UI
- */
+ * @deprecated use new logo from `@contember/brand` package
+*/
 export function Logo({ children, image, size }: LogoProps) {
 	return (
 		<div className={useClassName('logo')}>

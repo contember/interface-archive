@@ -1,10 +1,12 @@
 import { useClassNameFactory } from '@contember/utilities'
 
-interface ContemberLogoImage {
+/** @deprecated use new logo from `@contember/brand` package */
+export interface ContemberLogoImageProps {
 	withLabel?: boolean
 }
 
-export const ContemberLogoImage = ({ withLabel }: ContemberLogoImage) => {
+/** @deprecated use new logo from `@contember/brand` package */
+export const ContemberLogoImage = ({ withLabel }: ContemberLogoImageProps) => {
 	const componentClassName = useClassNameFactory('contember-logo-image')
 
 	return (
