@@ -5,6 +5,7 @@
 ```ts
 
 import { Context } from 'react';
+import { PropsWithChildren } from 'react';
 
 // @public (undocumented)
 export type AsProp<C extends React.ElementType> = {
@@ -29,6 +30,12 @@ export function capitalize(str: string): string;
 export type ClassNameStateMap = {
     [key: string]: string | number | boolean | null | undefined;
 };
+
+// @public (undocumented)
+export type ComponentClassNameProps = PropsWithChildren<{
+    className?: NestedClassName;
+    componentClassName?: string | string[];
+}>;
 
 // @public (undocumented)
 export function dataAttribute(value: unknown): string | true | undefined;
@@ -102,7 +109,7 @@ export function isNumericString(value: string): value is string;
 export function isObject(value: unknown): value is Object;
 
 // @public (undocumented)
-export function isOneOfFactory<U, T = any>(options: T extends Array<U> | ReadonlyArray<U> ? T : never): (value: unknown) => value is U;
+export function isOneOfFactory<U, T = any>(members: T extends Array<U> | ReadonlyArray<U> ? T : never): (value: unknown) => value is U;
 
 // @public (undocumented)
 export function isPlainObject<T extends Record<string, unknown>>(value: unknown): value is T;
