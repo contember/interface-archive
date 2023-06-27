@@ -2672,7 +2672,7 @@ __metadata:
     "@contember/schema": ^1.2.0
     "@contember/schema-definition": ^1.2.0
     "@contember/ui": "workspace:*"
-    lucide-react: ^0.108.0
+    lucide-react: ^0.244.0
     react: ^17 || ^18
     react-dom: ^17 || ^18
   languageName: unknown
@@ -2737,7 +2737,7 @@ __metadata:
     is-hotkey: 0.1.8
     jsdom: ^18.0.0
     leaflet: ^1.9.2
-    lucide-react: ^0.108.0
+    lucide-react: ^0.244.0
     node-fetch: ^2.6.5
     path-to-regexp: 6.2.0
     pg: ^8.7.3
@@ -2878,7 +2878,7 @@ __metadata:
     "@contember/utilities": "workspace:*"
     "@types/deep-equal": ^1.0.1
     deep-equal: ^2.2.0
-    lucide-react: ^0.108.0
+    lucide-react: ^0.244.0
     react: ^18
     react-dom: ^18
     wait-for-element-transition: ^3.3.1
@@ -12270,12 +12270,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lucide-react@npm:^0.108.0":
-  version: 0.108.0
-  resolution: "lucide-react@npm:0.108.0"
+"lucide-react@npm:^0.244.0":
+  version: 0.244.0
+  resolution: "lucide-react@npm:0.244.0"
   peerDependencies:
     react: ^16.5.1 || ^17.0.0 || ^18.0.0
-  checksum: 9f558de7b76b51c5f535e5273444dcd149e169aebced0e2de37d4b40275b7e386b35f4b883f0b1a2462da49566593b3016d90b220ddea64b6f390547dec6eb12
+  checksum: 5a7eb6df017b37482aec829aadc83ac15c3e75da40ac9d5a8bf1b29d0c449266b6bc617fada5f5c82b48929734129d8541dd37c8742cbf35528b53883a7744a9
   languageName: node
   linkType: hard
 
