@@ -1,0 +1,9 @@
+:where(.cui-legacy-layout) {
+	align-items: stretch;
+	display: flex;
+	flex-direction: row;
+	flex: 1;
+	max-height: 100vh;
+	max-height: 100dvh;
+	overflow: hidden;
+}

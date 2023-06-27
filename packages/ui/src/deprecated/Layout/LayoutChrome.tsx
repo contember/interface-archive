@@ -1,7 +1,8 @@
 import { useClassNameFactory } from '@contember/utilities'
+import { MenuIcon, XIcon } from 'lucide-react'
 import { CSSProperties, ReactNode, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { NavigationContext } from '../..'
-import { Button, DropdownContentContainerProvider, Icon, PreventCloseContext, Stack } from '../../components'
+import { Button, DropdownContentContainerProvider, PreventCloseContext, Stack } from '../../components'
 import { Intent, Scheme } from '../../types'
 import { toSchemeClass, toStateClass, toThemeClass, toViewClass } from '../../utils'
 import { useElementTopOffset } from '../Layout/useElementTopOffset'
@@ -179,7 +180,7 @@ export const LayoutChrome = memo(({
 								{sidebarHeader && <div className={componentBarClassName('header-inner')}>{sidebarHeader}</div>}
 								<Button id="cui-menu-button" distinction="seamless" className={componentClassName('navigation-button')} onClick={toggleCollapsed}>
 									<span className={componentClassName('menu-button-label')}>Menu</span>
-									<Icon blueprintIcon={collapsed ? 'menu' : 'cross'} />
+									{collapsed ? <MenuIcon /> : <XIcon />}
 								</Button>
 							</div>
 							{switchers && <div className={componentBarClassName('switchers')}>{switchers}</div>}

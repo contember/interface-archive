@@ -26,7 +26,7 @@ export interface LayoutProps extends LayoutChromeProps {
  * @deprecated Use `LayoutKit` from `@contember/layout` instead.
  */
 export const Layout = memo(({
-	className,
+	className: classNameProp,
 	children,
 	sidebarHeader,
 	sidebarFooter,
@@ -45,8 +45,25 @@ export const Layout = memo(({
 	titleThemeContent,
 	titleThemeControls,
 }: LayoutProps) => {
+	let fallbackScheme: LayoutProps['scheme'] | undefined = undefined
+
+	const className = useClassName(['layout', 'legacy-layout'], classNameProp)
+
+	const classNameDefinesTheme = className?.match(/cui-theme/) && className.match(/theme-\w+-\w+/)
+	const classNameDefinesScheme = className?.match(/scheme-\w+/)
+
+	if (classNameDefinesTheme && classNameDefinesScheme) {
+		fallbackScheme = undefined
+	} else {
+		if (import.meta.env.DEV && (classNameDefinesScheme || classNameDefinesTheme)) {
+			// throw new Error('Layout: className must define both scheme and theme or neither of them.')
+		}
+
+		fallbackScheme = 'light'
+	}
+
 	return (
-		<div className={useClassName('layout', className)}>
+		<div className={className}>
 			<LayoutChrome
 				sidebarHeader={sidebarHeader}
 				sidebarFooter={sidebarFooter}

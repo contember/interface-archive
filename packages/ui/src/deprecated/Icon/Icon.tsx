@@ -40,6 +40,7 @@ const renderSvgPaths = (pathStrings: string[] | undefined): JSX.Element[] | null
 
 /**
  * @group UI
+ * @deprecated Use dedicated icon library of your choice instead
  */
 export const Icon = memo(forwardRef<HTMLElement, IconProps>(function Icon(props, ref) {
 	const componentClassName = useClassNameFactory('icon')
