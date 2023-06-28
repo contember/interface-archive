@@ -241,7 +241,7 @@
 :where(.view-seamless-with-padding.cui-editorCanvas:hover) {
 	--input-control-background: var(--cui-background-color--above);
 }
-:where(.lucide) {
+:where(.lucide-icons\:override-active .lucide) {
 	--scale: 1;
 	--square-to-circle-ratio: 1.515;
 	--square-to-circle-margin: calc((var(--square-to-circle-ratio) - 1) / 2);

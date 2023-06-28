@@ -2,7 +2,7 @@ import { useClassNameFactory } from '@contember/utilities'
 import { MenuIcon, XIcon } from 'lucide-react'
 import { CSSProperties, ReactNode, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { NavigationContext } from '../..'
-import { Button, DropdownContentContainerProvider, PreventCloseContext, Stack } from '../../components'
+import { Button, PreventCloseContext, Stack } from '../../components'
 import { Intent, Scheme } from '../../types'
 import { toSchemeClass, toStateClass, toThemeClass, toViewClass } from '../../utils'
 import { useElementTopOffset } from '../Layout/useElementTopOffset'
@@ -173,46 +173,41 @@ export const LayoutChrome = memo(({
 			), [barContentOffsetTop])}
 		>
 			{hasBar && (
-				<DropdownContentContainerProvider>
-					<PreventCloseContext.Provider value={preventMenuClose}>
-						<div className={componentBarClassName()}>
-							<div className={componentBarClassName('header')}>
-								{sidebarHeader && <div className={componentBarClassName('header-inner')}>{sidebarHeader}</div>}
-								<Button id="cui-menu-button" distinction="seamless" className={componentClassName('navigation-button')} onClick={toggleCollapsed}>
-									<span className={componentClassName('menu-button-label')}>Menu</span>
-									{collapsed ? <MenuIcon /> : <XIcon />}
-								</Button>
-							</div>
-							{switchers && <div className={componentBarClassName('switchers')}>{switchers}</div>}
-							{navigation && <div ref={contentRef} className={componentBarClassName('body')}>
-								<span className={componentBarClassName('body-scrolled-indicator', [
-									toStateClass('scrolled', isScrolled),
-								])} />
-								<Stack direction="vertical">
-									{navigation}
-								</Stack>
-							</div>}
-							{sidebarFooter && <div className={componentBarClassName('footer')}>
-								{sidebarFooter}
-							</div>}
+				<PreventCloseContext.Provider value={preventMenuClose}>
+					<div className={componentBarClassName()}>
+						<div className={componentBarClassName('header')}>
+							{sidebarHeader && <div className={componentBarClassName('header-inner')}>{sidebarHeader}</div>}
+							<Button id="cui-menu-button" distinction="seamless" className={componentClassName('navigation-button')} onClick={toggleCollapsed}>
+								<span className={componentClassName('menu-button-label')}>Menu</span>
+								{collapsed ? <MenuIcon /> : <XIcon />}
+							</Button>
 						</div>
-					</PreventCloseContext.Provider>
-				</DropdownContentContainerProvider>
+						{switchers && <div className={componentBarClassName('switchers')}>{switchers}</div>}
+						{navigation && <div ref={contentRef} className={componentBarClassName('body')}>
+							<span className={componentBarClassName('body-scrolled-indicator', [
+								toStateClass('scrolled', isScrolled),
+							])} />
+							<Stack direction="vertical">
+								{navigation}
+							</Stack>
+						</div>}
+						{sidebarFooter && <div className={componentBarClassName('footer')}>
+							{sidebarFooter}
+						</div>}
+					</div>
+				</PreventCloseContext.Provider>
 			)}
 
-			<DropdownContentContainerProvider>
-				<div className={componentClassName('body', [
-					toSchemeClass(pageScheme ?? scheme),
-					toThemeClass(pageThemeContent ?? pageTheme, pageThemeControls ?? pageTheme),
-				])}>
-					<ThemeSchemeContext.Provider value={themeScheme}>
-						<TitleThemeSchemeContext.Provider value={titleThemeScheme}>
-							{children}
-						</TitleThemeSchemeContext.Provider>
-					</ThemeSchemeContext.Provider>
-				</div>
-			</DropdownContentContainerProvider>
-			<div id="portal-root" />
+			<div className={componentClassName('body', [
+				toSchemeClass(pageScheme ?? scheme),
+				toThemeClass(pageThemeContent ?? pageTheme, pageThemeControls ?? pageTheme),
+			])}>
+				<ThemeSchemeContext.Provider value={themeScheme}>
+					<TitleThemeSchemeContext.Provider value={titleThemeScheme}>
+						{children}
+					</TitleThemeSchemeContext.Provider>
+				</ThemeSchemeContext.Provider>
+			</div>
 		</div>
 	)
 })
