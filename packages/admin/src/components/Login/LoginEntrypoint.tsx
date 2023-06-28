@@ -1,5 +1,6 @@
 import { ContemberClient } from '@contember/react-client'
-import { Button, ErrorList, Icon, Stack, StyleProvider, Toaster, ToasterProvider } from '@contember/ui'
+import { Button, ErrorList, Stack, StyleProvider, Toaster, ToasterProvider } from '@contember/ui'
+import { LogOutIcon } from 'lucide-react'
 import { FC, ReactNode, useEffect, useMemo, useState } from 'react'
 import { Link, RequestProvider, RoutingContext, RoutingContextValue } from '../../routing'
 import {
@@ -14,7 +15,7 @@ import {
 	useResponseHandlerFeedback,
 } from '../../tenant'
 import { IdentityProvider, useLogout, useOptionalIdentity } from '../Identity'
-import { MiscPageLayout } from '../MiscPageLayout'
+import { CommonPage } from '../CommonPage'
 import { Page, Pages } from '../pageRouting'
 import { Project, ProjectListButtons } from '../Project'
 
@@ -73,14 +74,14 @@ export const LoginEntrypoint = (props: LoginEntrypointProps) => {
 									</IdentityProvider>
 								</Page>
 								<Page name={resetRequestPageName}>
-									<MiscPageLayout heading="Password reset" actions={<>
+									<CommonPage title="Password reset" headerActions={<>
 										<Link to={indexPageName}>&larr; Back to login</Link>
 									</>}>
 										<CreateResetPasswordRequestForm redirectOnSuccess={redirectOnSuccessPageName} />
-									</MiscPageLayout>
+									</CommonPage>
 								</Page>
 								<Page name={redirectOnSuccessPageName}>
-									<MiscPageLayout heading="Password reset" actions={<>
+									<CommonPage title="Password reset" headerActions={<>
 										<Link to={indexPageName}>&larr; Back to login</Link>
 									</>}>
 										<p>
@@ -90,15 +91,15 @@ export const LoginEntrypoint = (props: LoginEntrypointProps) => {
 											Please follow the link in e-mail or copy the reset token here:
 										</p>
 										<FillResetPasswordTokenForm resetLink={`${passwordResetPageName}(token: $token)`} />
-									</MiscPageLayout>
+									</CommonPage>
 								</Page>
 								<Page name={passwordResetPageName}>
 									{({ token }: { token: string }) => (
-										<MiscPageLayout heading="Set a new password" actions={<>
+										<CommonPage title="Set a new password" headerActions={<>
 											<Link to={indexPageName}>&larr; Back to login</Link>
 										</>}>
 											<ResetPasswordForm token={token} redirectOnSuccess={indexPageName} />
-										</MiscPageLayout>
+										</CommonPage>
 									)}
 								</Page>
 							</Pages>
@@ -133,22 +134,22 @@ const LoginEntrypointIndex: FC<Pick<LoginEntrypointProps, 'projects' | 'formatPr
 
 	if (identity === undefined) {
 		return (
-			<MiscPageLayout heading={props.heading ?? 'Contember Admin'}>
+			<CommonPage title={props.heading ?? 'Contember Admin'}>
 				<LoginContainer identityProviders={props.identityProviders} collapsedEmailLogin={props.collapsedEmailLogin} />
-			</MiscPageLayout>
+			</CommonPage>
 		)
 
 	} else if (projects === undefined) {
 		return (
-			<MiscPageLayout
-				heading="Projects"
-				actions={<>
+			<CommonPage
+				title="Projects"
+				headerActions={<>
 					{props.projectsPageActions}
-					<Button onClick={() => logout()} size={'small'} distinction={'seamless'}><Icon blueprintIcon={'log-out'} /></Button>
+					<Button onClick={() => logout()} size={'small'} distinction={'seamless'}><LogOutIcon /></Button>
 				</>}
 			>
 				Loading projects...
-			</MiscPageLayout>
+			</CommonPage>
 		)
 
 	} else if (projects.length === 1) {
@@ -157,13 +158,13 @@ const LoginEntrypointIndex: FC<Pick<LoginEntrypointProps, 'projects' | 'formatPr
 
 	} else {
 		return (
-			<MiscPageLayout
-				heading="Projects"
-				actions={props.projectsPageActions}
-				footerActions={<Button onClick={() => logout()} distinction="seamless" flow="block">Sign out <Icon blueprintIcon="log-out" /></Button>}
+			<CommonPage
+				title="Projects"
+				headerActions={props.projectsPageActions}
+				footerActions={<Button onClick={() => logout()} distinction="seamless" flow="block">Sign out <LogOutIcon /></Button>}
 			>
 				<ProjectListButtons projects={projects} formatProjectUrl={props.formatProjectUrl} />
-			</MiscPageLayout>
+			</CommonPage>
 		)
 	}
 }
@@ -195,7 +196,7 @@ const LoginContainer = ({ identityProviders = [], collapsedEmailLogin: initialCo
 		{!collapsedEmailLogin && <Login resetLink={resetRequestPageName} onLogin={redirectToBacklink} />}
 		{showAlternativeLoginButtons && (
 			<Stack direction="vertical">
-				{visibleIdentityProviders.map((it, i) => <IDPInitButton key={i} provider={it} onError={setError}/>)}
+				{visibleIdentityProviders.map((it, i) => <IDPInitButton key={i} provider={it} onError={setError} />)}
 				{collapsedEmailLogin && <Button onClick={() => setCollapsedEmailLogin(false)}>Login with email</Button>}
 			</Stack>
 		)}

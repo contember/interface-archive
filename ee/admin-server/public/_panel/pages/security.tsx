@@ -1,7 +1,7 @@
-import { Box, ChangePassword, Divider, Heading, LayoutPage, OtpManagement, Stack } from '@contember/admin'
+import { Box, ChangePassword, Divider, GenericPage, Heading, OtpManagement, Stack } from '@contember/admin'
 
 export default () => (
-	<LayoutPage title="Profile security">
+	<GenericPage title="Profile security">
 		<Stack direction="vertical" gap="xlarge">
 			<ChangePassword />
 
@@ -12,5 +12,5 @@ export default () => (
 				<OtpManagement />
 			</Box>
 		</Stack>
-	</LayoutPage>
+	</GenericPage>
 )

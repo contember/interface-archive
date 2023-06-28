@@ -1,6 +1,7 @@
 import { Component, useEntity } from '@contember/binding'
-import { LayoutPage, Message } from '@contember/ui'
+import { Message } from '@contember/ui'
 import { ReactNode } from 'react'
+import { CommonPage } from '../../CommonPage'
 
 export const NotFoundWrapper = Component<{ children: ReactNode, title?: ReactNode }>(
 	({ children, title }) => {
@@ -8,9 +9,9 @@ export const NotFoundWrapper = Component<{ children: ReactNode, title?: ReactNod
 		const node = accessor.environment.getSubTree()
 		if (node.expectedCardinality === 'one' && !accessor.existsOnServer) {
 			return (
-				<LayoutPage title={title}>
+				<CommonPage title={title}>
 					<Message intent="danger">Requested entity of type {accessor.name} was not found</Message>
-				</LayoutPage>
+				</CommonPage>
 			)
 		}
 		return <>{children}</>

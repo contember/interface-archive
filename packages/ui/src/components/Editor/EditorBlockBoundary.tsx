@@ -1,5 +1,5 @@
 import { useClassNameFactory } from '@contember/utilities'
-import { PlusIcon } from 'lucide-react'
+import { PlusCircleIcon } from 'lucide-react'
 import { memo, MouseEvent as ReactMouseEvent } from 'react'
 import { toEnumViewClass } from '../../utils'
 import { Label } from '../Typography/Label'
@@ -23,7 +23,7 @@ export const EditorBlockBoundary = memo(function EditorBlockBoundary({ blockEdge
 			onClick={onClick}
 		>
 			<span className={componentClassName('inner')}>
-				<PlusIcon />
+				<PlusCircleIcon />
 				<Label>{newParagraphText}</Label>
 			</span>
 		</div>

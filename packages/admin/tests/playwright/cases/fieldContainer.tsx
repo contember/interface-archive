@@ -1,5 +1,5 @@
 import { CSSProperties, Fragment } from 'react'
-import { Divider, FieldContainer, FieldContainerProps, Layout, LayoutPage, StyleProvider } from '../../../src'
+import { Divider, FieldContainer, FieldContainerProps, GenericPage, Layout, StyleProvider } from '../../../src'
 
 const verticalStack: CSSProperties = { display: 'flex', flexDirection: 'column', gap: '1em' }
 const horizontalStack: CSSProperties = { display: 'flex', flexDirection: 'row', gap: '1em' }
@@ -20,7 +20,7 @@ export default function () {
 	return (
 		<StyleProvider>
 			<Layout scheme="system">
-				<LayoutPage>
+				<GenericPage>
 					<div style={verticalStack}>
 						{positions.map(position => <Fragment key={position}>
 							<div style={horizontalStack}>
@@ -52,7 +52,7 @@ export default function () {
 							<Divider />
 						</Fragment>)}
 					</div>
-				</LayoutPage>
+				</GenericPage>
 			</Layout>
 		</StyleProvider>
 	)

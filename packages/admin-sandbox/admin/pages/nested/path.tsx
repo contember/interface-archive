@@ -1,17 +1,19 @@
 import { Section, SectionTabs, SectionTabsProvider, SelectFieldInner } from '@contember/admin'
+import { HeaderSlotSources } from '@contember/layout'
 import { Directive, Title } from '../../components/Directives'
-import { Slots } from '../../components/Slots'
-import Lorem from '../lorem'
+import { SlotSources } from '../../components/Slots'
 
 export default function InnerFooPage() {
 	return (
 		<SectionTabsProvider>
 			<Title>Nested Path</Title>
-			<Slots.Title><SectionTabs /></Slots.Title>
+			<HeaderSlotSources.HeaderCenter>
+				<SectionTabs />
+			</HeaderSlotSources.HeaderCenter>
 
-			<Directive name="cms-layout.content.maxWidth" content={720} />
+			<Directive name="content-max-width" content={720} />
 
-			<Slots.Actions>
+			<SlotSources.HeaderActions>
 				<SelectFieldInner
 					menuZIndex={2}
 					errors={undefined}
@@ -28,10 +30,10 @@ export default function InnerFooPage() {
 					label="Select:"
 					labelPosition="labelInlineLeft"
 				/>
-			</Slots.Actions>
+			</SlotSources.HeaderActions>
 
-			<Slots.ContentStack>
-				<h1>Hello from Inner Foo</h1>
+			<SlotSources.Content>
+				<h2>Hello from Inner Foo</h2>
 				<Section heading="Lorem" showTab={false}>
 					<p>
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu est, dignissim at varius vitae, egestas at enim. Cras at malesuada lacus. Sed pellentesque odio in sem malesuada, et feugiat tortor rutrum. Duis vel consectetur mi, sed vulputate quam. Suspendisse elementum sapien nec erat finibus rhoncus. Phasellus et enim et ante hendrerit tempor. In id venenatis felis. Nunc sed orci eu lectus euismod efficitur ornare at nisi. Sed egestas, eros eu dictum porta, enim nunc elementum nisl, et mollis dolor orci a tellus. Suspendisse potenti. Nunc sollicitudin id leo vitae aliquam. Nam efficitur nulla id tristique pulvinar. Nulla a efficitur ipsum, sit amet varius mi. Proin pulvinar dapibus tristique.
@@ -61,14 +63,18 @@ export default function InnerFooPage() {
 						Duis eget nisi laoreet, hendrerit eros vel, molestie justo. Donec mollis orci et cursus dictum. Integer commodo posuere imperdiet. Duis eget vulputate neque, at porta tellus. Etiam vehicula euismod sem a sagittis. Fusce quis sem mattis, scelerisque est eget, posuere nunc. Aliquam erat volutpat. Quisque eget diam leo. Ut dapibus odio mi, vitae volutpat elit faucibus sed. Praesent eu faucibus dui. Quisque quis libero a sapien interdum egestas ut egestas enim. Etiam non ante orci. Etiam et condimentum sapien. Aenean fringilla urna imperdiet diam ornare dictum. Nullam at diam et est tincidunt placerat. Phasellus in magna vulputate, cursus tortor ac, laoreet massa.
 					</p>
 				</Section>
-			</Slots.ContentStack>
-			<Slots.Sidebar>
+			</SlotSources.Content>
+			<SlotSources.Sidebar>
 				<p><small>Hello Contember world from the sidebar!</small></p>
 
 				<p>
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu est, dignissim at varius vitae, egestas at enim. Cras at malesuada lacus. Sed pellentesque odio in sem malesuada, et feugiat tortor rutrum. Duis vel consectetur mi, sed vulputate quam. Suspendisse elementum sapien nec erat finibus rhoncus. Phasellus et enim et ante hendrerit tempor. In id venenatis felis. Nunc sed orci eu lectus euismod efficitur ornare at nisi. Sed egestas, eros eu dictum porta, enim nunc elementum nisl, et mollis dolor orci a tellus. Suspendisse potenti. Nunc sollicitudin id leo vitae aliquam. Nam efficitur nulla id tristique pulvinar. Nulla a efficitur ipsum, sit amet varius mi. Proin pulvinar dapibus tristique.
 				</p>
-			</Slots.Sidebar>
+
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu est, dignissim at varius vitae, egestas at enim. Cras at malesuada lacus. Sed pellentesque odio in sem malesuada, et feugiat tortor rutrum. Duis vel consectetur mi, sed vulputate quam. Suspendisse elementum sapien nec erat finibus rhoncus. Phasellus et enim et ante hendrerit tempor. In id venenatis felis. Nunc sed orci eu lectus euismod efficitur ornare at nisi. Sed egestas, eros eu dictum porta, enim nunc elementum nisl, et mollis dolor orci a tellus. Suspendisse potenti. Nunc sollicitudin id leo vitae aliquam. Nam efficitur nulla id tristique pulvinar. Nulla a efficitur ipsum, sit amet varius mi. Proin pulvinar dapibus tristique.
+				</p>
+			</SlotSources.Sidebar>
 		</SectionTabsProvider>
 	)
 }

@@ -35,7 +35,8 @@ export default function StudioGrid() {
 
 	return (
 		<DataBindingProvider stateComponent={FeedbackRenderer}>
-			<LayoutRenderer title={`List ${entity}`} actions={actions} pageContentLayout="start">
+			{/* TODO: Re-apply pageContentLayout="start" */}
+			<LayoutRenderer title={`List ${entity}`} headerActions={actions}>
 				<AutoGrid entities={entities} createViewLinkTarget={createViewLinkTarget} createEditLinkTarget={createEditLinkTarget} />
 			</LayoutRenderer>
 		</DataBindingProvider>

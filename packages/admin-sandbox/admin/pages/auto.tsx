@@ -14,7 +14,7 @@ import {
 	useOnPersistSuccess,
 } from '@contember/admin'
 import { Directive, Title } from '../components/Directives'
-import { Slots } from '../components/Slots'
+import { SlotSources } from '../components/Slots'
 
 const AutoGridList = () => {
 	const env = useEnvironment()
@@ -33,11 +33,11 @@ const AutoGridList = () => {
 export default (
 	<>
 		<Title>Auto Admin</Title>
-		<Slots.ContentStack>
+		<SlotSources.Content>
 			<DataBindingProvider stateComponent={FeedbackRenderer}>
 				<AutoGridList />
 			</DataBindingProvider>
-		</Slots.ContentStack>
+		</SlotSources.Content>
 	</>
 )
 
@@ -58,18 +58,18 @@ export function Grid() {
 
 	return (
 		<DataBindingProvider stateComponent={FeedbackRenderer}>
-			<Directive name="layout" content="default" />
+			<Directive name="layout" content="legacy" />
 
-			<Slots.Back>
+			<SlotSources.Back>
 				<NavigateBackLink to={{ pageName: 'auto' }}>Back to Auto</NavigateBackLink>
-			</Slots.Back>
+			</SlotSources.Back>
 
 			<Title>{`List ${entity}`}</Title>
 
-			<Slots.Actions>{actions}</Slots.Actions>
-			<Slots.ContentStack>
+			<SlotSources.HeaderActions>{actions}</SlotSources.HeaderActions>
+			<SlotSources.Content>
 				<AutoGrid entities={entity + filter} createViewLinkTarget={createViewLinkTarget} createEditLinkTarget={createEditLinkTarget} />
-			</Slots.ContentStack>
+			</SlotSources.Content>
 		</DataBindingProvider>
 	)
 }
@@ -87,18 +87,18 @@ export function Form() {
 	return (
 		<>
 			<Title>{title}</Title>
-			<Slots.Back>
+			<SlotSources.Back>
 				<NavigateBackLink to={{ pageName: 'auto/grid', parameters: { entity } }}>Back to Grid</NavigateBackLink>
-			</Slots.Back>
+			</SlotSources.Back>
 
-			<Slots.ContentStack>
+			<SlotSources.Content>
 				<DataBindingProvider stateComponent={FeedbackRenderer} >
-					<Slots.Actions>
+					<SlotSources.HeaderActions>
 						<PersistButton />
-					</Slots.Actions>
+					</SlotSources.HeaderActions>
 					<AutoForm entity={entity} id={id} onCreateSuccess={onCreateSuccess} createEditLink={createEditLink} />
 				</DataBindingProvider>
-			</Slots.ContentStack>
+			</SlotSources.Content>
 		</>
 	)
 }

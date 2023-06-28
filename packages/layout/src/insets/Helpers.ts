@@ -26,7 +26,7 @@ export function combineElementInsets(...insets: Array<Partial<ContainerInsets> |
 
 function clampSingleElementInset(containerInset: number | undefined, elementInset: number): number {
 	if (isNonNegativeNumber(containerInset)) {
-		return elementInset > containerInset ? containerInset : elementInset
+		return elementInset >= containerInset ? containerInset : 0
 	} else {
 		return 0
 	}
@@ -83,7 +83,7 @@ export function screenInsetsToCSSCustomProperties<
 >(value: T, prefix: P): { [K in keyof T as `${P}${string & K}`]: `${T[K]}px` } {
 	assert('prefix is CSS custom property prefix', prefix, isCSSPrefix)
 
-	const entries = Object.entries(value).filter(([key, value]) => {
+	const entries = Object.entries(value).filter(([_key_, value]) => {
 		return value !== null && value !== undefined
 	}).map(
 		([key, value]) => [prefix + key, px(value)],

@@ -1,9 +1,10 @@
-import { Box, Checkbox, Dropdown, DropdownProps, FieldContainer, Icon } from '@contember/ui'
+import { Box, Checkbox, Dropdown, DropdownProps, FieldContainer } from '@contember/ui'
+import { ColumnsIcon } from 'lucide-react'
 import { Fragment, ReactElement, useMemo } from 'react'
 import type { MessageFormatter } from '../../../../../i18n'
-import type { DataGridDictionary } from './dataGridDictionary'
 import type { DataGridSetIsColumnHidden } from './DataGridSetIsColumnHidden'
 import type { DataGridState } from './DataGridState'
+import type { DataGridDictionary } from './dataGridDictionary'
 
 export interface DataGridColumnHidingProps {
 	desiredState: DataGridState
@@ -21,7 +22,7 @@ export function DataGridColumnHiding({
 		distinction: 'seamless',
 		children: (
 			<>
-				<Icon blueprintIcon="list-columns" alignWithLowercase style={{ marginRight: '0.4em' }} />
+				<ColumnsIcon />
 				{formatMessage('dataGrid.columnHiding.showMenuButton.text')}
 			</>
 		),

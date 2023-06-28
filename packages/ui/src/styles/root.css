@@ -1,4 +1,9 @@
 :where(:root) {
+	--cui-backdrop-blur-opacity: 0.8;
+	--cui-backdrop-blur: 5px;
+	--cui-box-padding-vertical: 1rem;
+	--cui-box-padding-horizontal: 1rem;
+
 	--cui-transition-duration--immediate: 100ms;
 	--cui-transition-duration--fast: 200ms;
 	--cui-transition-duration: 300ms;
@@ -40,6 +45,12 @@
 	--cui-control-height: calc(var(--cui-tap-target-size) * 1.75);
 	--cui-control-height--large: calc(var(--cui-tap-target-size) * 2);
 	box-sizing: border-box;
+}
+
+@media screen and (min-width: 1024px) {
+	:where(.cui-root) {
+		--cui-box-padding-horizontal: 2rem;
+	}
 }
 
 @supports (font-variation-settings: normal) {

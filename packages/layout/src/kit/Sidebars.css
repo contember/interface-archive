@@ -1,0 +1,5 @@
+:where(.cui-layout-sidebar[data-behavior="static"]) {
+	--cui-content-background-color-rgb: var(--cui-sidebar-background-color-rgb);
+	--cui-header-background-color-rgb: var(--cui-sidebar-background-color-rgb);
+	--cui-footer-background-color-rgb: var(--cui-sidebar-background-color-rgb);
+}

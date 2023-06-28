@@ -15,8 +15,8 @@ export default {
 	component: Button,
 	decorators: [
 		Story => <>
-      <p style={{ flex: '1 1 100%' }}>This is a text with normal weight that is not clickable. And here&apos;s some <a href="#">link</a> that is clickable. Buttons should have enough clickable visual affordance event when seamless.</p>
-      <Story />
+			<p style={{ flex: '1 1 100%' }}>This is a text with normal weight that is not clickable. And here&apos;s some <a href="#">link</a> that is clickable. Buttons should have enough clickable visual affordance event when seamless.</p>
+			<Story />
 		</>,
 	],
 	/**
@@ -48,31 +48,31 @@ export default {
 } as ComponentMeta<typeof Button>
 
 const Template: ComponentStory<typeof Button> = args => <>
-  <Button {...args}>Default</Button>
-  <AnchorButton
-    href="#"
-    size={args.size}
-    flow={args.flow}
-    intent={args.intent}
-    distinction={args.distinction}
-    disabled={args.disabled}
-    bland={args.bland}
-    active={args.active}
-    loading={args.loading}
-    scheme={args.scheme}
-    justification={args.justification}
-  >Anchor</AnchorButton>
+	<Button {...args}>Default</Button>
+	<AnchorButton
+		href="#"
+		size={args.size}
+		flow={args.flow}
+		intent={args.intent}
+		distinction={args.distinction}
+		disabled={args.disabled}
+		bland={args.bland}
+		active={args.active}
+		loading={args.loading}
+		scheme={args.scheme}
+		justification={args.justification}
+	>Anchor</AnchorButton>
 
-  <p style={{ flex: '1 1 100%' }}><strong>Important:</strong> If you use intent, without the scheme, the system preferred scheme is used:</p>
+	<p style={{ flex: '1 1 100%' }}><strong>Important:</strong> If you use intent, without the scheme, the system preferred scheme is used:</p>
 
-  <Button {...args} intent="primary">Primary</Button>
-  <Button {...args} intent="primary">Primary with a verry very long title even for lorem ipsum</Button>
-  <Button {...args} intent="secondary">Secondary</Button>
-  <Button {...args} intent="tertiary">Tertiary</Button>
-  <Button {...args} intent="positive">Positive</Button>
-  <Button {...args} intent="success">Success</Button>
-  <Button {...args} intent="warn">Warn</Button>
-  <Button {...args} intent="danger">Danger</Button>
+	<Button {...args} intent="primary">Primary</Button>
+	<Button {...args} intent="primary">Primary with a verry very long title even for lorem ipsum</Button>
+	<Button {...args} intent="secondary">Secondary</Button>
+	<Button {...args} intent="tertiary">Tertiary</Button>
+	<Button {...args} intent="positive">Positive</Button>
+	<Button {...args} intent="success">Success</Button>
+	<Button {...args} intent="warn">Warn</Button>
+	<Button {...args} intent="danger">Danger</Button>
 </>
 
 export const Default = Template.bind({})

@@ -1,14 +1,15 @@
 import { EditUserPage, InviteUserPage, useEnvironment, UserListPage } from '@contember/admin'
 import { Directive } from '../components/Directives'
-import { Slots } from '../components/Slots'
+import { SlotSources } from '../components/Slots'
 
 export const Users = () => {
 	return (
 		<>
-			<Directive name="layout" content="default" />
-			<Slots.Content>
+			<Directive name="layout" content="bare" />
+			<SlotSources.Content>
 				<UserListPage editUserLink={'tenant/edit(id: $identityId)'} addUserLink={'tenant/invite'} />
-			</Slots.Content>
+			</SlotSources.Content>
+			<Directive name="layout" content="legacy" />
 		</>
 	)
 }
@@ -16,10 +17,10 @@ export const Edit = () => {
 	const id = String(useEnvironment().getParameter('id'))
 	return (
 		<>
-			<Directive name="layout" content="default" />
-			<Slots.Content>
+			<Directive name="layout" content="legacy" />
+			<SlotSources.Content>
 				<EditUserPage identityId={id} userListLink={'tenant/users'} />
-			</Slots.Content>
+			</SlotSources.Content>
 		</>
 	)
 }
@@ -27,10 +28,10 @@ export const Edit = () => {
 export const Invite = () => {
 	return (
 		<>
-			<Directive name="layout" content="default" />
-			<Slots.Content>
+			<Directive name="layout" content="legacy" />
+			<SlotSources.Content>
 				<InviteUserPage userListLink={'tenant/users'} />
-			</Slots.Content>
+			</SlotSources.Content>
 		</>
 	)
 }

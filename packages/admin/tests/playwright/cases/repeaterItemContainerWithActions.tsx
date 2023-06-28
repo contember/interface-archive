@@ -1,5 +1,5 @@
 import { CSSProperties } from 'react'
-import { Button, ButtonDistinction, ButtonFlow, Icon, Intent, Layout, LayoutPage, RepeaterItemContainer, StyleProvider } from '../../../src'
+import { Button, ButtonDistinction, ButtonFlow, GenericPage, Icon, Intent, Layout, RepeaterItemContainer, StyleProvider } from '../../../src'
 
 const verticalStack: CSSProperties = { display: 'flex', flexDirection: 'column', gap: '1em', flex: 1 }
 const horizontalStack: CSSProperties = { display: 'flex', flexDirection: 'row', gap: '1em', flex: 1 }
@@ -16,7 +16,7 @@ export default function () {
 	return (
 		<StyleProvider>
 			<Layout scheme="system">
-				<LayoutPage>
+				<GenericPage>
 					<style>{`
 					.cui-repeater-item-container-header:hover { background-color: #00CCFF33; }
 					`}</style>
@@ -46,7 +46,7 @@ export default function () {
 							</div>
 						))}
 					</div>
-				</LayoutPage>
+				</GenericPage>
 			</Layout>
 		</StyleProvider>
 	)

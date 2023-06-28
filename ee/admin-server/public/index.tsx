@@ -1,4 +1,5 @@
-import { AnchorButton, Icon, LoginEntrypoint, Project, runReactApp } from '@contember/admin'
+import { AnchorButton, LoginEntrypoint, Project, runReactApp } from '@contember/admin'
+import { CogIcon } from 'lucide-react'
 import { customLoginConfig } from '../src/config'
 import './index.css'
 
@@ -16,7 +17,7 @@ const Entry = () => {
 
 	const panelButton = (
 		<AnchorButton href="/_panel/" size="small" distinction="seamless">
-			<Icon blueprintIcon="cog" /> Settings
+			<CogIcon /> Settings
 		</AnchorButton>
 	)
 

@@ -16,10 +16,6 @@
 	z-index: 1;
 }
 
-:where(.cui-titleBar.is-global-theme) {
-	background-color: var(--cui-background-color--below);
-}
-
 :where(.cui-titleBar)::after {
 	content: "";
 	display: block;
@@ -40,6 +36,10 @@
 
 :where(.cui-titleBar-navigation + .cui-titleBar-in) {
 	margin-top: 0;
+}
+
+:where(.cui-titleBar-after:empty) {
+	display: none;
 }
 
 :where(.cui-titleBar-heading) {

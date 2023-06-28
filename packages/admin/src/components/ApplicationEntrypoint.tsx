@@ -4,11 +4,11 @@ import { DialogProvider, SectionTabsProvider, StyleProvider, Toaster, ToasterPro
 import { ReactNode } from 'react'
 import { I18nProvider, MessageDictionaryByLocaleCode } from '../i18n'
 import { RequestProvider, RouteMap, RoutingContext, RoutingContextValue, SelectedDimension } from '../routing'
+import { OutdatedApplicationChecker } from './Application/OutdatedApplicationChecker'
+import { ApplicationDevBar } from './Dev/DevBar'
 import { IdentityProvider } from './Identity'
 import { NavigationProvider } from './NavigationProvider'
 import { projectEnvironmentExtension } from './Project'
-import { OutdatedApplicationChecker } from './Application/OutdatedApplicationChecker'
-import { ApplicationDevBar } from './Dev/DevBar'
 
 export interface ApplicationEntrypointProps extends ContemberClientProps {
 	basePath?: string

@@ -1,6 +1,6 @@
 import { useClassNameFactory } from '@contember/utilities'
+import { Icon } from '../../deprecated/Icon'
 import { Button, ButtonGroup } from '../Forms'
-import { Icon } from '../Icon'
 import { DevErrorInner } from './DevErrorInner'
 import { ProcessedError } from './types'
 

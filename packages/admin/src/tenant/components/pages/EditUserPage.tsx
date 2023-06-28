@@ -1,8 +1,8 @@
-import { EditIdentity, RolesConfig } from '../member'
-import { NavigateBackButton, RoutingLinkTarget } from '../../../routing'
 import { useProjectSlug } from '@contember/react-client'
 import { FC, memo } from 'react'
-import { LayoutPage } from '@contember/ui'
+import { GenericPage } from '../../../components'
+import { NavigateBackButton, RoutingLinkTarget } from '../../../routing'
+import { EditIdentity, RolesConfig } from '../member'
 
 export type EditUserPageProps = {
 	identityId: string
@@ -20,17 +20,17 @@ export const EditUserPage: FC<EditUserPageProps> = memo(
 			return <>Not in project.</>
 		}
 		return (
-			<LayoutPage
+			<GenericPage
 				title="Edit user"
-				navigation={<NavigateBackButton to={userListLink}>Back to list of users</NavigateBackButton>}
+				back={<NavigateBackButton to={userListLink}>Back to list of users</NavigateBackButton>}
 			>
 				<EditIdentity project={project} rolesConfig={rolesConfig} identityId={identityId} userListLink={userListLink} />
-			</LayoutPage>
+			</GenericPage>
 		)
 	},
 )
 
 /**
- * @deprecated EditUserInProject
+ * @deprecated Use `EditUserPage` instead
  */
 export const EditUserInProject = EditUserPage

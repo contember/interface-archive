@@ -31,7 +31,7 @@ export default function StudioForm() {
 
 	return (
 		<DataBindingProvider stateComponent={FeedbackRenderer}>
-			<LayoutRenderer title={title} actions={actions}>
+			<LayoutRenderer title={title} headerActions={actions}>
 				<AutoForm entity={entity} id={id} onCreateSuccess={onCreateSuccess} createEditLink={createEditLink} />
 			</LayoutRenderer>
 		</DataBindingProvider>

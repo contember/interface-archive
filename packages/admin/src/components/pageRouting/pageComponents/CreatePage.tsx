@@ -16,7 +16,8 @@ export type CreatePageProps =
 	& EntitySubTreeAdditionalProps
 	& EntitySubTreeAdditionalCreationProps
 	& {
-		pageName?: string
+		/** @deprecated Use `CreateScope` instead */
+		pageName?: never;
 		children: ReactNode
 		redirectOnSuccess?: RedirectOnSuccessTarget
 		rendererProps?: LayoutRendererProps
@@ -24,6 +25,8 @@ export type CreatePageProps =
 
 /**
  * @example
+ * @deprecated Use `CreateScope` instead
+ *
  * ```
  * <CreatePage
  *   entity="Article"
@@ -41,7 +44,7 @@ export const CreatePage = pageComponent(
 		return (
 			<DataBindingProvider stateComponent={FeedbackRenderer}>
 				<EntitySubTree {...entityProps} onPersistSuccess={useOnPersistSuccess({ redirectOnSuccess, onPersistSuccess })} isCreating>
-					<LayoutRenderer {...rendererProps} actions={rendererProps?.actions ?? <PersistButton />}>
+					<LayoutRenderer {...rendererProps} headerActions={rendererProps?.actions ?? <PersistButton />}>
 						{children}
 					</LayoutRenderer>
 				</EntitySubTree>

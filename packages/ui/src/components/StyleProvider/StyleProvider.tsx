@@ -9,6 +9,9 @@ export const StyleProvider = ({
 }: PropsWithChildren<{
 	displayContents?: boolean;
 }>) => {
+	const lucideIconsOverride = useUserConfig(config =>
+		('StyleProvider.className.lucide-icons-override' in config && !!config['StyleProvider.className.lucide-icons-override']) ?? true,
+	)
 
 	return (
 		<div className={useClassName(displayContents ? 'root-no-display' : 'root', stateClassName({

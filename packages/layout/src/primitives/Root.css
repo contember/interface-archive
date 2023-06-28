@@ -1,0 +1,113 @@
+/* RGB tokens */
+@media (prefers-color-scheme: light) {
+	:where(
+		.cui-layout,
+		.cui-layout.cui-theme:not([class*=scheme-]),
+		.cui-layout.scheme-light,
+		.cui-layout.scheme-light .cui-theme:not([class*=scheme-]),
+		.cui-layout.scheme-system,
+		.cui-layout.scheme-system .cui-theme:not([class*=scheme-]),
+	) {
+		--cui-background-color-rgb--above: var(--cui-content-1000);
+		--cui-background-color-rgb: var(--cui-content-1000);
+		--cui-background-color-rgb--below: var(--cui-content-975);
+
+		--cui-content-background-color-rgb: var(--cui-content-1000);
+		--cui-sidebar-background-color-rgb: var(--cui-content-975);
+
+		--cui-content-background-color--highlighted-rgb: var(--cui-content-975);
+		--cui-sidebar-background-color--highlighted-rgb: var(--cui-content-1000);
+	}
+
+	:where(
+		.cui-layout.scheme-dark,
+		.cui-layout.scheme-dark .cui-theme:not([class*=scheme-]),
+	) {
+		--cui-background-color-rgb--above: var(--cui-content-150);
+		--cui-background-color-rgb: var(--cui-content-100);
+		--cui-background-color-rgb--below: var(--cui-content-50);
+
+		--cui-content-background-color-rgb: var(--cui-content-100);
+		--cui-content-background-color--highlighted-rgb: var(--cui-content-125);
+
+		--cui-content-background-color--highlighted-rgb: var(--cui-content-125);
+		--cui-sidebar-background-color--highlighted-rgb: var(--cui-content-100);
+	}
+}
+@media (prefers-color-scheme: dark) {
+	:where(
+		.cui-layout,
+		.cui-layout.cui-theme:not([class*=scheme-]),
+		.cui-layout.scheme-dark,
+		.cui-layout.scheme-dark .cui-theme:not([class*=scheme-]),
+		.cui-layout.scheme-system,
+		.cui-layout.scheme-system .cui-theme:not([class*=scheme-]),
+	) {
+		--cui-background-color-rgb--above: var(--cui-content-150);
+		--cui-background-color-rgb: var(--cui-content-100);
+		--cui-background-color-rgb--below: var(--cui-content-50);
+
+		--cui-content-background-color-rgb: var(--cui-content-100);
+		--cui-content-background-color--highlighted-rgb: var(--cui-content-125);
+
+		--cui-content-background-color--highlighted-rgb: var(--cui-content-125);
+		--cui-sidebar-background-color--highlighted-rgb: var(--cui-content-100);
+	}
+
+	:where(
+		.cui-layout.scheme-light,
+		.cui-layout.scheme-light .cui-theme:not([class*=scheme-]),
+	) {
+		--cui-background-color-rgb--above: var(--cui-content-1000);
+		--cui-background-color-rgb: var(--cui-content-1000);
+		--cui-background-color-rgb--below: var(--cui-content-975);
+
+		--cui-content-background-color-rgb: var(--cui-content-1000);
+		--cui-sidebar-background-color-rgb: var(--cui-content-975);
+
+		--cui-content-background-color--highlighted-rgb: var(--cui-content-975);
+		--cui-sidebar-background-color--highlighted-rgb: var(--cui-content-1000);
+	}
+}
+
+:where(.cui-layout) {
+	--cui-background-color-alpha: var(--cui-opacity--low);
+}
+
+/* TODO: Update theming */
+/* Global overrides only, do not use directly, use RGB properties and compose the colors */
+/* :where(
+	.cui-layout,
+	.cui-layout.cui-theme:not([class*=scheme-]),
+	.cui-layout.scheme-light,
+	.cui-layout.scheme-light .cui-theme:not([class*=scheme-]),
+	.cui-layout.scheme-dark,
+	.cui-layout.scheme-dark .cui-theme:not([class*=scheme-]),
+	.cui-layout.scheme-system,
+	.cui-layout.scheme-system .cui-theme:not([class*=scheme-]),
+) {
+	--cui-background-color--above: rgb(var(--cui-background-color-rgb--above));
+	--cui-background-color: rgb(var(--cui-background-color-rgb));
+	--cui-background-color--below: rgb(var(--cui-background-color-rgb--below));
+
+	--cui-content-background-color--highlighted: rgb(var(--cui-content-background-color--highlighted-rgb));
+} */
+
+:where(.cui-layout) {
+	display: flex;
+	flex-direction: row;
+	flex: 1;
+}
+:where(.cui-layout):where(
+	.cui-theme,
+	.scheme-light,
+	.scheme-dark,
+	.scheme-system,
+) {
+	background-color: var(--cui-background-color);
+	color: var(--cui-color);
+}
+
+.disable-transitions-on-resize, .disable-transitions-on-resize * {
+	transition-duration: 0ms !important;
+}

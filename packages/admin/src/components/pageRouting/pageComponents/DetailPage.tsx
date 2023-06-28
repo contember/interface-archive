@@ -12,13 +12,15 @@ export type DetailPageProps =
 	& SugaredQualifiedSingleEntity
 	& EntitySubTreeAdditionalProps
 	& {
-		pageName?: string
+		/** @deprecated Use `DetailScope` instead */
+		pageName?: never;
 		children: ReactNode
 		rendererProps?: LayoutRendererProps
 	}
 
 /**
  * @group Pages
+ * @deprecated Use `DetailScope` instead
  */
 export const DetailPage = pageComponent(
 	({ pageName, children, rendererProps, ...entityProps }: DetailPageProps) => (

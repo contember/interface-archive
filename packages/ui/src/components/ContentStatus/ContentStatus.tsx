@@ -1,6 +1,6 @@
 import { useClassNameFactory } from '@contember/utilities'
 import type { ReactNode } from 'react'
-import { Icon } from '../Icon'
+import { Icon } from '../../deprecated/Icon'
 
 export interface ContentStatusProps {
 	label?: ReactNode

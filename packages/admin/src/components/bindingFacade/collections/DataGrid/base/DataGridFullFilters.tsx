@@ -1,11 +1,12 @@
 import type { Environment } from '@contember/binding'
-import { Box, Button, ButtonGroup, Dropdown, DropdownProps, Icon, Table, TableCell, TableHeaderCell, TableRow } from '@contember/ui'
-import { createElement, Fragment, ReactElement, useMemo } from 'react'
+import { Box, Button, ButtonGroup, Dropdown, DropdownProps, Table, TableCell, TableHeaderCell, TableRow } from '@contember/ui'
+import { ListFilterIcon, PlusCircleIcon, Trash2Icon } from 'lucide-react'
+import { Fragment, ReactElement, createElement, useMemo } from 'react'
 import type { MessageFormatter } from '../../../../../i18n'
 import { EmptyMessage } from '../../helpers'
-import type { DataGridDictionary } from './dataGridDictionary'
 import type { DataGridSetColumnFilter } from './DataGridSetFilter'
 import type { DataGridState } from './DataGridState'
+import type { DataGridDictionary } from './dataGridDictionary'
 
 export interface DataGridFullFiltersPublicProps {}
 
@@ -35,14 +36,7 @@ export function DataGridFullFilters({
 		distinction: 'seamless',
 		children: (
 			<>
-				<Icon
-					blueprintIcon="filter"
-					alignWithLowercase
-					style={{
-						marginRight: '0.2em',
-						opacity: hasAnyFilters ? '1' : '0.8',
-					}}
-				/>
+				<ListFilterIcon />
 				{formatMessage('dataGrid.columnFiltering.showMenuButton.text')}
 			</>
 		),
@@ -54,7 +48,7 @@ export function DataGridFullFilters({
 		style: { marginTop: hasAnyFilters ? '1em' : 0 },
 		children: (
 			<>
-				<Icon alignWithLowercase blueprintIcon="add" style={{ marginRight: '0.2em' }} />
+				<PlusCircleIcon />
 				{formatMessage('dataGrid.columnFiltering.addFilterButton.text')}
 			</>
 		),
@@ -111,7 +105,7 @@ export function DataGridFullFilters({
 												size="small"
 												bland
 											>
-												<Icon blueprintIcon="trash" size="small" />
+												<Trash2Icon />
 											</Button>
 										</TableCell>
 									</TableRow>

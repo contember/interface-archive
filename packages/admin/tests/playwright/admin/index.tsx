@@ -5,8 +5,8 @@ import { CSSProperties, ReactNode, createContext, useContext, useEffect, useStat
 import { createRoot } from 'react-dom/client'
 import {
 	ApplicationEntrypoint,
+	CommonPage,
 	Link,
-	MiscPageLayout,
 	PageModule,
 	Pages,
 	SpinnerContainer,
@@ -92,7 +92,7 @@ const IndexPage = () => {
 	const pageNames = Object.keys(pages).map(it => it.slice(9, -4))
 
 	return (
-		<MiscPageLayout>
+		<CommonPage>
 			<ul>
 				{pageNames.map(it => (
 					<li key={it}>
@@ -100,7 +100,7 @@ const IndexPage = () => {
 					</li>
 				))}
 			</ul>
-		</MiscPageLayout>
+		</CommonPage>
 	)
 }
 
@@ -115,7 +115,8 @@ if (import.meta.env.DEV) {
 						stage={'live'}
 						project={slug}
 						basePath={'/'}
-						children={<Pages layout={ProjectInitializingLayout} children={{ index: IndexPage, ...pages }} />}
+						LayoutComponent={ProjectInitializingLayout}
+						children={<Pages children={{ index: IndexPage, ...pages }} />}
 					/>
 				)}
 			</ProjectSlugProvider>

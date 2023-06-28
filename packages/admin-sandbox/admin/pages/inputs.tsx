@@ -22,11 +22,10 @@ import {
 	TextField,
 	TimeField,
 	UrlField,
-	UseControlProps,
 	useFieldControl,
 } from '@contember/admin'
 import { Title } from '../components/Directives'
-import { Slots } from '../components/Slots'
+import { SlotSources } from '../components/Slots'
 
 export const JsonField = SimpleRelativeSingleField<TextareaFieldProps, string>(
 	(fieldMetadata, {
@@ -60,14 +59,14 @@ const extraDebugProps = SHOW_OVERRIDES ? {
 export default () => (
 	<EditScope entity="InputShowcase(unique = One)" setOnCreate="(unique = One)">
 		<Title>Inputs Showcase</Title>
-		<Slots.Actions>
+		<SlotSources.HeaderActions>
 			<PersistButton />
-		</Slots.Actions>
+		</SlotSources.HeaderActions>
 		<style>{`
 		.background-container { background-color: pink !important; }
 		.background-input { background-color: lightblue !important; }
 		`}</style>
-		<Slots.ContentStack>
+		<SlotSources.Content>
 			<TextField {...extraDebugProps} required labelPosition="labelLeft" field={'textValue'} label={'Text'} placeholder="Enter text..." />
 			<DisplayTextField {...extraDebugProps} labelPosition="labelLeft" field={'textValue'} label={'Text'} placeholder="N/A" direction="horizontal-reverse" />
 			<TextField {...extraDebugProps} field={'notNullTextValue'} label={'Not null text'} />
@@ -112,6 +111,6 @@ export default () => (
 				{ value: 'c', label: 'C option' },
 			]} />
 			<JsonField {...extraDebugProps} field={'jsonValue'} label={'JSON'} />
-		</Slots.ContentStack>
+		</SlotSources.Content>
 	</EditScope>
 )

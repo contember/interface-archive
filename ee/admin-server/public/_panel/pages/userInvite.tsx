@@ -1,4 +1,4 @@
-import { InviteMethod, InviteUser, LayoutPage, NavigateBackButton, useCurrentRequest, useEnvironment } from '@contember/admin'
+import { GenericPage, InviteMethod, InviteUser, NavigateBackButton, useCurrentRequest, useEnvironment } from '@contember/admin'
 
 export default () => {
 	const request = useCurrentRequest()!
@@ -8,15 +8,15 @@ export default () => {
 	const inviteMethod = env.getVariableOrElse<undefined, InviteMethod>('inviteMethod', undefined)
 
 	return (
-		<LayoutPage
+		<GenericPage
 			title={`Invite user to project ${project}`}
-			navigation={<NavigateBackButton to={{ pageName: 'projectOverview', parameters: { project } }}>Project</NavigateBackButton>}
+			back={<NavigateBackButton to={{ pageName: 'projectOverview', parameters: { project } }}>Project</NavigateBackButton>}
 		>
 			<InviteUser
 				project={project}
 				userListLink={{ pageName: 'projectOverview', parameters: { project } }}
 				method={inviteMethod}
 			/>
-		</LayoutPage>
+		</GenericPage>
 	)
 }

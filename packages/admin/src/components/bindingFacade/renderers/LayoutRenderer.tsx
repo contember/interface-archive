@@ -1,12 +1,14 @@
 import { Component } from '@contember/binding'
-import { LayoutPage, LayoutPageProps } from '@contember/ui'
 import { FunctionComponent } from 'react'
+import { CommonPage, CommonPageProps } from '../../CommonPage'
 
-export interface LayoutRendererProps extends LayoutPageProps {
-}
+export type LayoutRendererProps = CommonPageProps
 
-export const LayoutRenderer: FunctionComponent<LayoutRendererProps> = Component(
-	LayoutPage,
+/**
+ * @deprecated use any UI component instead combined with Scopes, e.g. `EditScope` or `CreateScope`
+ */
+export const LayoutRenderer: FunctionComponent<CommonPageProps> = Component(
+	CommonPage,
 	props => (
 		<>
 			{props.title}

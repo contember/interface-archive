@@ -1,0 +1,12 @@
+:where(.cui-sticky-container) {
+	--cui-sticky-container-bottom: ;
+	--cui-sticky-container-left: 0px;
+	--cui-sticky-container-right: 0px;
+	--cui-sticky-container-top: ;
+	left: var(--cui-sticky-container-left);
+	bottom: var(--cui-sticky-container-bottom);
+	max-width: calc(min(100%, 100vw) - var(--cui-sticky-container-left) - var(--cui-sticky-container-right));
+	position: sticky;
+	right: var(--cui-sticky-container-right);
+	top: var(--cui-sticky-container-top);
+}

@@ -13,14 +13,14 @@ const Template: ComponentStory<typeof Aether> = args => <Aether {...args} />
 export const Simple = Template.bind({})
 
 Simple.args = {
-  style: { overflow: 'auto' },
-	children: <div className="theme-warn scheme-light-above" style={{
-    background: 'var(--cui-background-color)',
-    color: 'var(--cui-color)',
-    margin: '2em',
-    padding: '1em',
-    textAlign: 'center',
-  }}>
-    Aether is the container around this content.
-  </div>,
+	style: { overflow: 'auto' },
+	children: <div className="theme-warn scheme-light" style={{
+		background: 'var(--cui-background-color)',
+		color: 'var(--cui-color)',
+		margin: '2em',
+		padding: '1em',
+		textAlign: 'center',
+	}}>
+		Aether is the container around this content.
+	</div>,
 }

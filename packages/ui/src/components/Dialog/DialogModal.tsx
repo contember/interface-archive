@@ -1,9 +1,9 @@
 import { useClassNameFactory } from '@contember/utilities'
 import { memo, ReactNode } from 'react'
+import { Icon } from '../../deprecated/Icon'
 import { HTMLDivElementProps } from '../../types'
 import { toEnumViewClass, toFeatureClass } from '../../utils'
 import { Button } from '../Forms'
-import { Icon } from '../Icon'
 import { Stack, StackProps } from '../Stack'
 
 export type DialogModalProps =

@@ -1,7 +1,6 @@
 import {
 	AnchorButton,
-	CreateScope,
-	DataGrid, DataGridScope,
+	CreateScope, DataGridScope,
 	DeleteEntityButton,
 	EditScope,
 	FieldView,
@@ -13,16 +12,16 @@ import {
 	TextField,
 } from '@contember/admin'
 import { Title } from '../components/Directives'
-import { Slots } from '../components/Slots'
+import { SlotSources } from '../components/Slots'
 
 export const list = (
 	<>
 		<Title>List of Seqs</Title>
-		<Slots.Actions>
+		<SlotSources.HeaderActions>
 			<LinkButton to={'seq/create'}>New entity</LinkButton>
-		</Slots.Actions>
+		</SlotSources.HeaderActions>
 
-		<Slots.Content>
+		<SlotSources.Content>
 			<DataGridScope entities={'SeqEntity'}>
 				<TextCell field={'value'} />
 				<GenericCell canBeHidden={false} justification="justifyEnd">
@@ -30,7 +29,7 @@ export const list = (
 					<DeleteEntityButton title="Delete" immediatePersist={true} />
 				</GenericCell>
 			</DataGridScope>
-		</Slots.Content>
+		</SlotSources.Content>
 	</>
 )
 
@@ -38,11 +37,11 @@ export const create = (
 	<>
 		<Title>Create a new Seq</Title>
 		<CreateScope entity="SeqEntity" redirectOnSuccess="seq/edit(id: $entity.id)">
-			<Slots.Actions><PersistButton /></Slots.Actions>
+			<SlotSources.HeaderActions><PersistButton /></SlotSources.HeaderActions>
 
-			<Slots.ContentStack>
+			<SlotSources.Content>
 				<TextField field={'value'} label={'Value'} />
-			</Slots.ContentStack>
+			</SlotSources.Content>
 		</CreateScope>
 	</>
 )
@@ -54,14 +53,14 @@ export const edit = (
 				<Title>{`Edit ${title.getAccessor().value ? title.getAccessor().value : 'Article'}`}</Title>
 			)} />
 
-			<Slots.Actions><PersistButton /></Slots.Actions>
+			<SlotSources.HeaderActions><PersistButton /></SlotSources.HeaderActions>
 
-			<Slots.ContentStack>
+			<SlotSources.Content>
 				<TextField field={'value'} label={'Value'} />
 				<Repeater field={'sub'} label={'Sub'} orderBy={undefined}>
 					<TextField field={'value'} label={'Value sub'} />
 				</Repeater>
-			</Slots.ContentStack>
+			</SlotSources.Content>
 		</EditScope>
 	</>
 )

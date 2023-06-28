@@ -1,13 +1,13 @@
-import { ApiKeyList, LayoutPage, LinkButton, NavigateBackButton, Section, useCurrentRequest, UsersList } from '@contember/admin'
+import { ApiKeyList, GenericPage, LinkButton, NavigateBackButton, Section, useCurrentRequest, UsersList } from '@contember/admin'
 
 export default () => {
 	const request = useCurrentRequest()!
 	const project = String(request.parameters.project)
 
 	return (
-		<LayoutPage
+		<GenericPage
 			title={`Project ${project}`}
-			navigation={<NavigateBackButton to={'projectList'}>Projects</NavigateBackButton>}
+			back={<NavigateBackButton to={'projectList'}>Projects</NavigateBackButton>}
 		>
 			<Section
 				heading={'Users'}
@@ -28,6 +28,6 @@ export default () => {
 					editApiKeyLink={'identityEdit(identity: $identityId, project: $projectSlug)'}
 				/>
 			</Section>
-		</LayoutPage>
+		</GenericPage>
 	)
 }

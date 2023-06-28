@@ -1,9 +1,9 @@
-import { RolesConfig } from '../member'
+import { useProjectSlug } from '@contember/react-client'
+import { FC, memo } from 'react'
+import { GenericPage } from '../../../components'
 import { NavigateBackButton, RoutingLinkTarget } from '../../../routing'
 import { InviteMethod } from '../../mutations'
-import { FC, memo } from 'react'
-import { useProjectSlug } from '@contember/react-client'
-import { LayoutPage } from '@contember/ui'
+import { RolesConfig } from '../member'
 import { InviteUser } from '../person'
 import { createNotInProjectError } from './errors'
 
@@ -22,17 +22,17 @@ export const InviteUserPage: FC<InviteUserPageProps> = memo(({ rolesConfig, user
 		throw createNotInProjectError()
 	}
 	return (
-		<LayoutPage
+		<GenericPage
 			title="Invite user"
-			navigation={<NavigateBackButton to={userListLink}>Back to list of users</NavigateBackButton>}
+			back={<NavigateBackButton to={userListLink}>Back to list of users</NavigateBackButton>}
 		>
 			<InviteUser project={project} rolesConfig={rolesConfig} userListLink={userListLink} method={method} />
-		</LayoutPage>
+		</GenericPage>
 	)
 })
 
 
 /**
- * @deprecated use InviteUserPage
+ * @deprecated use `InviteUserPage` instead
  */
 export const InviteUserToProject = InviteUserPage

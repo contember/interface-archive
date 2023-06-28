@@ -1,5 +1,5 @@
-import { Button, LayoutPageStickyContainer, Stack } from '@contember/ui'
-import { memo, ReactNode, useCallback } from 'react'
+import { Button, Stack, StickyContainer } from '@contember/ui'
+import { ReactNode, memo, useCallback } from 'react'
 import { useMessageFormatter } from '../../../../../../i18n'
 import { dataGridDictionary } from '../dataGridDictionary'
 import type { DataGridContainerProps } from './Types'
@@ -38,10 +38,7 @@ export const DataGridContainerFooter = memo<DataGridContainerFooterProps>(({
 	}, [pagesCount, updatePaging])
 
 	return pagesCount !== undefined && pagesCount > 1 ? (
-		<LayoutPageStickyContainer
-			left="var(--cui-layout-page-padding-left)"
-			right="var(--cui-layout-page-padding-right)"
-		>
+		<StickyContainer bottom={0}>
 			<Stack wrap align="center" direction="horizontal" justify="space-between">
 				<Stack direction="horizontal" justify="space-between" gap="small">
 					<Button
@@ -77,7 +74,7 @@ export const DataGridContainerFooter = memo<DataGridContainerFooterProps>(({
 				</Stack>
 				<div>{pagingSummary}</div>
 			</Stack>
-		</LayoutPageStickyContainer>
+		</StickyContainer>
 	) : null
 })
 DataGridContainerFooter.displayName = 'DataGridContainerFooter'

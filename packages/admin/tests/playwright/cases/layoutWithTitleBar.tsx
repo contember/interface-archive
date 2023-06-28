@@ -1,4 +1,4 @@
-import { Button, Layout, LayoutPage, Stack } from '../../../src'
+import { Button, GenericPage, Layout, Stack } from '../../../src'
 
 const navigation = (
 	<div style={{ backgroundColor: 'yellow', width: '100%' }}>Navigation</div>
@@ -29,15 +29,19 @@ const back = (
 export default function () {
 	return (
 		<Layout scheme="system" navigation={navigation}>
-			<LayoutPage
-				actions={action}
-				afterTitle={afterTitle}
-				navigation={back}
+			<GenericPage
+				headerActions={action}
+				back={back}
 				side={side}
-				title={<h2 className="cui-heading">Lorem ipsum dolor sit amet</h2>}
+				title={(
+					<>
+						<h2 className="cui-heading">Lorem ipsum dolor sit amet</h2>
+						{afterTitle}
+					</>
+				)}
 			>
 				<div style={{ backgroundColor: 'blue', width: '100%' }}>Content</div>
-			</LayoutPage>
+			</GenericPage>
 		</Layout>
 	)
 }

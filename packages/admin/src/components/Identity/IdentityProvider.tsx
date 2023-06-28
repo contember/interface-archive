@@ -1,7 +1,7 @@
 import { ReactNode, createContext, useCallback, useEffect, useMemo, useState } from 'react'
 import { useSessionToken } from '@contember/react-client'
 import { useFetchMe } from '../../tenant'
-import { MiscPageLayout } from '../MiscPageLayout'
+import { CommonPage } from '../CommonPage'
 import { SpinnerContainer, Message } from '@contember/ui'
 import { InvalidIdentityFallback } from './InvalidIdentityFallback'
 import { useLogout } from './useLogout'
@@ -145,9 +145,9 @@ export const IdentityProvider: React.FC<IdentityProviderProps> = ({ children, on
 
 	if (identityState.state === 'cleared') {
 		return (
-			<MiscPageLayout>
+			<CommonPage>
 				<Message size="large" flow="generousBlock">Logging out&hellip;</Message>
-			</MiscPageLayout>
+			</CommonPage>
 		)
 	}
 

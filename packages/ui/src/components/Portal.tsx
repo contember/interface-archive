@@ -7,7 +7,12 @@ export interface PortalProps {
 	children: ReactNode
 }
 
-export const Portal = memo((props: PortalProps) => createPortal(<StyleProvider>{props.children}</StyleProvider>, props.to ?? document.getElementById('portal-root') ?? document.body))
+export const Portal = memo((props: PortalProps) => (
+	createPortal(
+		<StyleProvider displayContents>{props.children}</StyleProvider>,
+		props.to ?? getPortalRoot(),
+	)
+))
 Portal.displayName = 'Portal'
 
 export function getPortalRoot(): HTMLElement {

@@ -20,7 +20,7 @@ export const MutableEntityListPageRenderer = Component(
 		...entityListProps
 	}: MutableEntityListPageRendererProps<ContainerExtraProps, ItemExtraProps>) => (
 		<LayoutRenderer
-			actions={actions ?? <PersistButton />}
+			headerActions={actions ?? <PersistButton />}
 			fit={fit}
 			navigation={navigation}
 			pageContentLayout={pageContentLayout}

@@ -1,6 +1,6 @@
 import { useClassNameFactory } from '@contember/utilities'
 import { ReactNode } from 'react'
-import { Icon } from '../../Icon'
+import { Icon } from '../../../deprecated/Icon'
 import { Button } from '../Button'
 
 export interface SelectCreateNewWrapperProps {

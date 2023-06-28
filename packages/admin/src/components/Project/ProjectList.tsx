@@ -1,6 +1,6 @@
 import { AnchorButton, ButtonList } from '@contember/ui'
+import { CommonPage } from '../CommonPage'
 import { EmptyMessage } from '../bindingFacade'
-import { MiscPageLayout } from '../MiscPageLayout'
 
 export interface Project {
 	slug: string
@@ -14,9 +14,9 @@ export interface ProjectListProps {
 
 export const ProjectList = (props: ProjectListProps) => {
 	return (
-		<MiscPageLayout heading="Projects">
-			<ProjectListButtons {...props}/>
-		</MiscPageLayout>
+		<CommonPage title="Projects">
+			<ProjectListButtons {...props} />
+		</CommonPage>
 	)
 }
 

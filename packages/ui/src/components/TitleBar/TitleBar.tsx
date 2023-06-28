@@ -1,61 +1,48 @@
 import { useClassNameFactory } from '@contember/utilities'
 import { memo, ReactNode } from 'react'
-import { toSchemeClass, toThemeClass } from '../../utils'
 import { ButtonList } from '../Forms'
-import { LayoutPageStickyContainer } from '../Layout/LayoutPageStickyContainer'
-import { useThemeScheme, useTitleThemeScheme } from '../Layout/ThemeSchemeContext'
-import type { ThemeScheme } from '../Layout/Types'
-import { Heading, HeadingProps } from '../Typography/Heading'
 
-export interface TitleBarProps extends ThemeScheme {
+export interface TitleBarProps {
+	className?: string;
 	after?: ReactNode
-	navigation?: ReactNode // This can contain any number of buttons but only buttons
+	navigation?: ReactNode
 	children: ReactNode
-	actions?: ReactNode // This can contain any number of buttons but only buttons
+	actions?: ReactNode
 }
 
 /**
  * @group UI
  */
-export const TitleBar = memo(({ after, navigation, children, actions, ...props }: TitleBarProps) => {
-	const componentClassName = useClassNameFactory('titleBar')
-	const {
-		scheme,
-		theme,
-		themeContent,
-		themeControls,
-	} = useTitleThemeScheme(props)
+export const TitleBar = memo(({ after, className: classNameProp, navigation, children, actions, ...props }: TitleBarProps) => {
+	const className = useClassNameFactory('titleBar')
 
-	const { scheme: layoutScheme } = useThemeScheme({})
+	if (import.meta.env.DEV) {
+		const __exhaustiveCheck: Record<PropertyKey, never> = props
+	}
 
 	return (
-		<LayoutPageStickyContainer
-			top={0}
-			className={componentClassName(null, [
-				toThemeClass(themeContent ?? theme, themeControls ?? theme),
-				toSchemeClass(scheme),
-				scheme !== layoutScheme ? 'is-global-theme' : undefined,
-			])}
+		<div
+			className={className(null, classNameProp)}
 		>
 			{navigation && (
-				<nav className={componentClassName('navigation')}>
+				<nav className={className('navigation')}>
 					<ButtonList>{navigation}</ButtonList>
 				</nav>
 			)}
-			<div className={componentClassName('in')}>
-				<div className={componentClassName('heading')}>
+			<div className={className('in')}>
+				<div className={className('heading')}>
 					{children}
 				</div>
 				{actions && (
-					<div className={componentClassName('actions')}>
+					<div className={className('actions')}>
 						<ButtonList>{actions}</ButtonList>
 					</div>
 				)}
 			</div>
-			{after && <div className={componentClassName('after')}>
+			{after && <div className={className('after')}>
 				{after}
 			</div>}
-		</LayoutPageStickyContainer>
+		</div>
 	)
 })
 TitleBar.displayName = 'TitleBar'

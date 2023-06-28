@@ -1,13 +1,13 @@
 import { Block, DiscriminatedBlocks, MultiEditScope, NumberField, PersistButton, TextField } from '@contember/admin'
 import { Title } from '../components/Directives'
-import { Slots } from '../components/Slots'
+import { SlotSources } from '../components/Slots'
 
 export default () => (
 	<>
 		<Title>Quiz!</Title>
-		<Slots.Content>
+		<SlotSources.Content>
 			<MultiEditScope entities="QuizResult" listProps={{
-				beforeContent: <Slots.Actions><PersistButton /></Slots.Actions>,
+				beforeContent: <SlotSources.HeaderActions><PersistButton /></SlotSources.HeaderActions>,
 			}}>
 				<TextField label="Answer" field="answer" />
 				<DiscriminatedBlocks field={'state'} label={undefined}>
@@ -20,6 +20,6 @@ export default () => (
 					</Block>
 				</DiscriminatedBlocks>
 			</MultiEditScope>
-		</Slots.Content>
+		</SlotSources.Content>
 	</>
 )

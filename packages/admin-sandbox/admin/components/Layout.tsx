@@ -1,68 +1,104 @@
-import { Button, DevPanel, Link, LogoutLink, Stack, VisuallyHidden } from '@contember/admin'
+import { Button, DevPanel, DimensionsSwitcher, Link, LogoutLink, Scheme, Spacer, Stack, VisuallyHidden, toSchemeClass, toThemeClass } from '@contember/admin'
 import { Identity2023 } from '@contember/brand'
-import { useDocumentTitle, useLayoutContainerWidth } from '@contember/react-utils'
-import { Intent, Radio, Spacer } from '@contember/ui'
-import { LayoutIcon, LogOutIcon, PaintBucketIcon } from 'lucide-react'
-import { PropsWithChildren, useState } from 'react'
+import { Directives } from '@contember/layout'
+import { useContainerWidth, useDocumentTitle, useReferentiallyStableCallback, useSessionStorageState } from '@contember/react-utils'
+import { Intent, Radio } from '@contember/ui'
+import { CircleDashedIcon, LayoutIcon, LogOutIcon, MoonIcon, PaintBucketIcon, SunIcon } from 'lucide-react'
+import { Fragment, PropsWithChildren, memo, useState } from 'react'
 import { AlertLogoutLink } from './AlertLogoutLink'
 import { LAYOUT_BREAKPOINT } from './Constants'
 import { Directive, DirectivesType, useDirectives } from './Directives'
 import { LayoutType, Layouts } from './Layouts'
 import { Navigation } from './Navigation'
-import { Slots } from './Slots'
+import { SlotSources } from './Slots'
 
-export const Layout = (props: PropsWithChildren) => {
+const CMSLayout = Fragment
+
+export const Layout = memo(({ children }: PropsWithChildren) => {
 	const directives = useDirectives()
 	useDocumentTitle(directives.title)
 
-	const LayoutComponent = Layouts[directives.layout] ?? Layouts.default
-	const width = useLayoutContainerWidth()
+	const LayoutComponent = Layouts[directives?.layout ?? 'default'] ?? Layouts.default
+	const width = useContainerWidth()
+
+	const [scheme, setScheme] = useSessionStorageState<Scheme>(
+		'contember-admin-sandbox-scheme',
+		scheme => scheme ?? 'light',
+	)
 
 	return (
 		<>
-			<Slots.Title>
-				<h1>{directives.title}</h1>
-			</Slots.Title>
+			<SlotSources.Title>{directives.title}</SlotSources.Title>
 
-			<Slots.Logo>
+			<SlotSources.Logo>
 				<Link to="index">
 					<Stack align="center" direction="horizontal" gap="small">
 						<Identity2023.Edit scale={2} />
 						<VisuallyHidden hidden={width < LAYOUT_BREAKPOINT}>Contember</VisuallyHidden>
 					</Stack>
 				</Link>
-			</Slots.Logo>
+			</SlotSources.Logo>
 
-			<Slots.Navigation>
-				<Navigation />
-			</Slots.Navigation>
+			<SlotSources.Switchers>
+				<Button
+					size="small"
+					elevation="none"
+					distinction="seamless"
+					active={!scheme.match(/system/)}
+					flow="circular"
+					onClick={useReferentiallyStableCallback(() => {
+						setScheme(scheme => (scheme.match(/light/) ? 'dark' : scheme.match(/dark/) ? 'system' : 'light'))
+					})}
+					aria-label={scheme.match(/light/) ? 'Light mode, switch to dark mode' : scheme.match(/dark/) ? 'Dark mode, switch to light mode' : 'System mode, switch to system mode'}
+				>
+					{scheme.match(/light/) ? <SunIcon /> : scheme.match(/dark/) ? <MoonIcon /> : <CircleDashedIcon />}
+				</Button>
 
-			<Slots.Profile>
+				<DimensionsSwitcher
+					optionEntities="Locale"
+					orderBy="code asc"
+					dimension="locale"
+					labelField="code"
+					slugField="code"
+					maxItems={1}
+				/>
+			</SlotSources.Switchers>
+
+			{Navigation && (
+				<SlotSources.Navigation>
+					<Navigation />
+				</SlotSources.Navigation>
+			)}
+
+			<SlotSources.Profile>
 				<LogoutLink Component={AlertLogoutLink}>
 					<Stack align="center" direction="horizontal" gap="small">
 						<LogOutIcon /> Logout
 					</Stack>
 				</LogoutLink>
-			</Slots.Profile>
+			</SlotSources.Profile>
 
-			<LayoutComponent />
-
-			{props.children}
+			<LayoutComponent
+				className={[
+					toThemeClass(directives['layout.theme-content'], directives['layout.theme-controls']),
+					toSchemeClass(scheme),
+				]}
+			>
+				{children}
+			</LayoutComponent>
 		</>
 	)
-}
+})
+Layout.displayName = 'Layout'
 
 export const LayoutDevPanel = () => {
 	const [typeState, setTypeState] = useState<LayoutType>()
 	const { layout } = useDirectives()
-/*
 	const registered = Directives.useDirectiveLifecycle('layout', typeState)
 
 	return !registered
 		? null
 		: (
-*/
-	return (
 			<>
 				<Directive key={typeState ?? '(unset)'} name="layout" content={typeState} />
 				<DevPanel icon={<LayoutIcon />} heading={`Layout: ${layout}`}>

@@ -1,4 +1,4 @@
-import { LayoutPage, LinkButton, ProjectsGrid, useIdentity } from '@contember/admin'
+import { GenericPage, LinkButton, ProjectsGrid, useIdentity } from '@contember/admin'
 
 export default () => {
 	const identity = useIdentity()
@@ -7,9 +7,9 @@ export default () => {
 		: null
 
 	return (
-		<LayoutPage
+		<GenericPage
 			title="Projects"
-			actions={actions}
+			headerActions={actions}
 			children={(
 				<ProjectsGrid
 					projectDetailLink={`projectOverview(project: $projectSlug)`}

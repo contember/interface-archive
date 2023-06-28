@@ -12,13 +12,15 @@ import { pageComponent } from './pageComponent'
 export type DataGridPageProps =
 	& DataGridProps<{}>
 	& {
-		pageName?: string
+		/** @deprecated Use `DataGridScope` instead */
+		pageName?: never;
 		children?: ReactNode
 		rendererProps?: Omit<LayoutRendererProps, 'children'>
 	}
 
 /**
  * @group Pages
+ * @deprecated Use `DataGridScope` instead
  */
 export const DataGridPage = pageComponent(({
 		children,

@@ -1,0 +1,32 @@
+:where(.cui-layout-panel-body) {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	padding-bottom: max(var(--container-inset-bottom, 0px), var(--cui-box-padding-vertical));
+	padding-left: max(var(--container-inset-left, 0px), var(--cui-box-padding-horizontal));
+	padding-right: max(var(--container-inset-right, 0px), var(--cui-box-padding-horizontal));
+	padding-top: max(var(--container-inset-top, 0px), var(--cui-box-padding-vertical));
+	transition-property: transform, opacity;
+	transition-timing-function: ease-in;
+	transition-duration: var(--cui-transition-duration);
+}
+
+:where(.cui-layout-panel-body-content) {
+	display: flex;
+	flex-direction: column;
+	gap: calc(2 * var(--cui-gutter));
+	flex: 1;
+}
+
+:where(.cui-layout-panel-body):empty {
+	display: none;
+}
+
+:where(.cui-layout-panel-body[data-layout-panel-body-behavior='modal']) {
+	max-width: unset;
+}
+
+:where(.cui-layout-panel-body):where([data-layout-panel-body-behavior='overlay'], [data-layout-panel-body-behavior='modal']) {
+	overscroll-behavior: contain;
+	overflow: hidden;
+}

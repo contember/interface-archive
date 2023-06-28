@@ -2,7 +2,7 @@ import { Button, EditScope, PersistButton, useEntity } from '@contember/admin'
 import { AddContent } from '../components/AddContent'
 import { ContentField } from '../components/ContentField'
 import { Title } from '../components/Directives'
-import { Slots } from '../components/Slots'
+import { SlotSources } from '../components/Slots'
 
 const DeleteBlocks = () => {
 	const entity = useEntity()
@@ -24,14 +24,14 @@ export default (
 	<EditScope entity="Homepage(unique = One)" setOnCreate="(unique = One)">
 		<Title>Home Page</Title>
 
-		<Slots.Actions>
-			<PersistButton />
-		</Slots.Actions>
-
-		<Slots.ContentStack>
+		<SlotSources.Content>
 			<ContentField field="content" />
 			<AddContent field="content" />
-			<DeleteBlocks/>
-		</Slots.ContentStack>
+			<DeleteBlocks />
+		</SlotSources.Content>
+
+		<SlotSources.HeaderActions>
+			<PersistButton />
+		</SlotSources.HeaderActions>
 	</EditScope>
 )

@@ -16,7 +16,7 @@ import {
 	useRef,
 } from 'react'
 import { useCurrentRequest } from '../../routing'
-import { MiscPageLayout } from '../MiscPageLayout'
+import { CommonPage } from '../CommonPage'
 import { PageErrorBoundary } from './PageErrorBoundary'
 
 export interface PageProvider<P> {
@@ -172,9 +172,9 @@ export const Pages = memo(({ children, layout }: PagesProps) => {
 
 	if (request === null) {
 		return (
-			<MiscPageLayout>
+			<CommonPage>
 				<Message intent="danger" size="large">Page not found</Message>
-			</MiscPageLayout>
+			</CommonPage>
 		)
 	}
 

@@ -1,4 +1,4 @@
-import { Layout, LayoutPage } from '../../../src'
+import { GenericPage, Layout } from '../../../src'
 
 const navigation = (
 	<div style={{ backgroundColor: 'yellow', width: '100%' }}>Navigation</div>
@@ -11,9 +11,9 @@ const side = (
 export default function () {
 	return (
 		<Layout navigation={navigation} scheme="system">
-			<LayoutPage side={side}>
+			<GenericPage side={side}>
 				<div style={{ backgroundColor: 'blue', width: '100%' }}>Content</div>
-			</LayoutPage>
+			</GenericPage>
 		</Layout>
 	)
 }

@@ -1,4 +1,4 @@
-import { BlockEditor, CreatePage, Layout, RichEditor, TextField } from '../../../src'
+import { BlockEditor, CreatePage, Layout, RichEditor } from '../../../src'
 
 export default function () {
 	return (

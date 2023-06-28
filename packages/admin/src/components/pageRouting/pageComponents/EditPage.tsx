@@ -15,7 +15,8 @@ export type EditPageProps =
 	& SugaredQualifiedSingleEntity
 	& EntitySubTreeAdditionalProps
 	& {
-		pageName?: string
+		/** @deprecated Use `EditScope` instead */
+		pageName?: never;
 		children: ReactNode
 		redirectOnSuccess?: RedirectOnSuccessTarget
 		rendererProps?: LayoutRendererProps
@@ -25,6 +26,7 @@ export type EditPageProps =
 
 /**
  * @example
+ * @deprecated Use `EditScope` instead
  * ```
  * <EditPage
  *   entity="Article(id = $id)"
@@ -45,7 +47,7 @@ export const EditPage = pageComponent(
 		>
 			<EntitySubTree {...entityProps} onPersistSuccess={useOnPersistSuccess({ redirectOnSuccess, onPersistSuccess })}>
 				<NotFoundWrapper title={rendererProps?.title}>
-					<LayoutRenderer {...rendererProps} actions={rendererProps?.actions ?? <PersistButton />}>
+					<LayoutRenderer {...rendererProps} headerActions={rendererProps?.actions ?? <PersistButton />}>
 						{children}
 					</LayoutRenderer>
 				</NotFoundWrapper>

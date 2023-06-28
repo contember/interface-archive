@@ -1,8 +1,8 @@
-import { LinkButton, RoutingLinkTarget } from '../../../routing'
-import { useRoleRendererFactory, UseRoleRendererFactoryProps, UsersList } from '../person'
 import { useProjectSlug } from '@contember/react-client'
+import { GenericPage } from '../../../components'
+import { LinkButton, RoutingLinkTarget } from '../../../routing'
+import { UseRoleRendererFactoryProps, UsersList, useRoleRendererFactory } from '../person'
 import { createNotInProjectError } from './errors'
-import { LayoutPage } from '@contember/ui'
 
 export type UserListPageProps<T> =
 	& UseRoleRendererFactoryProps<T>
@@ -21,8 +21,8 @@ export const UserListPage = <T extends {}>(props: UserListPageProps<T>) => {
 		throw createNotInProjectError()
 	}
 	return (
-		<LayoutPage
-			actions={<LinkButton to={props.addUserLink ?? 'tenantInviteUser'}>Add a user</LinkButton>}
+		<GenericPage
+			headerActions={<LinkButton to={props.addUserLink ?? 'tenantInviteUser'}>Add a user</LinkButton>}
 			title="Users in project"
 		>
 			<UsersList
@@ -30,7 +30,7 @@ export const UserListPage = <T extends {}>(props: UserListPageProps<T>) => {
 				createRoleRenderer={roleRendererFactory}
 				editUserLink={props.editUserLink ?? `tenantEditUser(id: $id)`}
 			/>
-		</LayoutPage>
+		</GenericPage>
 	)
 }
 

@@ -1,4 +1,5 @@
-import { Box, Button, FieldContainer, Icon, Stack, TextareaInput, TextInput } from '@contember/ui'
+import { Box, Button, FieldContainer, TextInput } from '@contember/ui'
+import { PlusCircleIcon, Trash2Icon } from 'lucide-react'
 import { FC, useCallback, useState } from 'react'
 import { RoleVariableDefinition } from '../../queries'
 import { Membership } from '../../types'
@@ -42,7 +43,7 @@ const GenericVariableEdit = ({ label, value, onChange }: { label?: React.ReactNo
 							onChangeCallback(i, null)
 						}}
 					>
-						<Icon blueprintIcon="trash" />
+						<Trash2Icon />
 					</Button>
 				</Box>
 			))}
@@ -53,14 +54,7 @@ const GenericVariableEdit = ({ label, value, onChange }: { label?: React.ReactNo
 					setLocalValues(prev => [...prev, ''])
 				}}
 			>
-				<Icon
-					blueprintIcon="add"
-					style={{
-						marginRight: '0.2em',
-						position: 'relative',
-						top: '0.05em',
-					}}
-				/>
+				<PlusCircleIcon />
 				Add
 			</Button>
 		</FieldContainer>

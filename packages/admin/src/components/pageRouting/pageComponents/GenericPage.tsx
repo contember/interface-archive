@@ -1,17 +1,19 @@
-import { LayoutPage, LayoutPageProps } from '@contember/ui'
 import { ReactNode } from 'react'
+import { CommonPage, CommonPageProps } from '../../CommonPage'
 import { pageComponent } from './pageComponent'
 
 export type GenericPageProps =
-	& Omit<LayoutPageProps, 'children'>
+	& Omit<CommonPageProps, 'children'>
 	& {
-		pageName?: string
+		/** @deprecated Use `React.Fragment` instead */
+		pageName?: never;
 		children: ReactNode
 	}
 
 /**
  * Page for generic content. To use data binding, you must provide {@link @contember/binding#DataBindingProvider}
  *
+ * @deprecated @deprecated Use other component, e.g. `React.Fragment` instead.
  * @example
  * ```
  * <GenericPage>
@@ -22,6 +24,6 @@ export type GenericPageProps =
  * @group Pages
  */
 export const GenericPage = pageComponent(
-	({ children, ...props }: GenericPageProps) => <LayoutPage {...props}>{children}</LayoutPage>,
+	({ children, pageName, ...props }: GenericPageProps) => <CommonPage {...props}>{children}</CommonPage>,
 	'GenericPage',
 )
