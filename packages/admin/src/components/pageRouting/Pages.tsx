@@ -1,5 +1,4 @@
 import {
-	DataBindingStateComponentProps,
 	EnvironmentContext,
 	useEnvironment,
 } from '@contember/binding'
@@ -7,11 +6,12 @@ import { Message, SpinnerOverlay } from '@contember/ui'
 import {
 	ComponentType,
 	Fragment,
+	PropsWithChildren,
 	ReactElement,
-	ReactNode,
 	Suspense,
 	isValidElement,
 	lazy,
+	memo,
 	useMemo,
 	useRef,
 } from 'react'
@@ -45,8 +45,9 @@ export interface PagesProps {
 	| PagesMap
 	| PageProviderElement[]
 	| PageProviderElement
-	layout?: ComponentType<{ children?: ReactNode }>
-	bindingFeedbackRenderer?: ComponentType<DataBindingStateComponentProps>
+	layout?: ComponentType<PropsWithChildren>
+	/** @deprecated no replacement */
+	bindingFeedbackRenderer?: never
 }
 
 type PageActionHandler = ComponentType<{ action?: string }>
@@ -89,7 +90,7 @@ function disallowAction(Component: ComponentType): PageActionHandler {
 /**
  * Pages element specifies collection of pages (component Page or component with getPageName static method).
  */
-export const Pages = ({ children, layout, bindingFeedbackRenderer }: PagesProps) => {
+export const Pages = memo(({ children, layout }: PagesProps) => {
 	const rootEnv = useEnvironment()
 	const request = useCurrentRequest()
 	const requestId = useRef<number>(0)
@@ -207,8 +208,7 @@ export const Pages = ({ children, layout, bindingFeedbackRenderer }: PagesProps)
 			</Layout>
 		</EnvironmentContext.Provider>
 	)
-}
-
+})
 
 function isPageProvider(it: any): it is PageProvider<any> {
 	return typeof it.getPageName === 'function'
