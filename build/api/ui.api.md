@@ -1917,7 +1917,7 @@ export interface MenuProps {
 }
 
 // @public (undocumented)
-export const Message: MemoExoticComponent<({ className, children, intent, size, flow, distinction, type, lifted, action, ...props }: MessageProps) => JSX.Element>;
+export const Message: MemoExoticComponent<({ className, children, intent, size, flow, distinction, type: DEPRECATED_type, lifted, action, ...props }: MessageProps) => JSX.Element>;
 
 // @public (undocumented)
 export type MessageDistinction = Default | 'striking';
@@ -1928,7 +1928,7 @@ export type MessageFlow = Default | 'generous' | 'block' | 'generousBlock';
 // @public (undocumented)
 export type MessageProps = {
     intent?: Intent;
-    type?: 'prop is deprecated, use intent';
+    type?: never;
     size?: Size;
     flow?: MessageFlow;
     distinction?: MessageDistinction;
