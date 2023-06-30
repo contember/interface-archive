@@ -20,6 +20,7 @@ export type GenericPageProps =
  * ```
  *
  * @group Pages
+ * @deprecated No longer used
  */
 export const GenericPage = pageComponent(
 	({ children, ...props }: GenericPageProps) => <LayoutPage {...props}>{children}</LayoutPage>,
