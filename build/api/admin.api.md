@@ -354,6 +354,8 @@ export interface ApplicationEntrypointProps extends ContemberClientProps {
     // (undocumented)
     onInvalidIdentity?: () => void;
     // (undocumented)
+    providers?: ComponentType<PropsWithChildren>;
+    // (undocumented)
     routes?: RouteMap;
     // (undocumented)
     sessionToken?: string;
@@ -2170,7 +2172,7 @@ export interface GenericFileMetadataExtractorProps {
     lastModifiedField?: SugaredFieldProps['field'];
 }
 
-// @public
+// @public @deprecated
 export const GenericPage: PageComponent<({ children, ...props }: GenericPageProps) => JSX.Element>;
 
 // @public (undocumented)
