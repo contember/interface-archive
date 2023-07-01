@@ -165,8 +165,12 @@ export interface BoxOwnProps {
     // (undocumented)
     distinction?: BoxDistinction;
     // (undocumented)
+    footer?: ReactNode;
+    // (undocumented)
     gap?: Size | 'none';
     // (undocumented)
+    header?: ReactNode;
+    // @deprecated (undocumented)
     heading?: ReactNode;
     // (undocumented)
     intent?: Intent;
@@ -619,20 +623,22 @@ export interface DialogProviderProps {
 }
 
 // @public (undocumented)
-export interface DialogSettings<Result> {
-    // (undocumented)
-    bare?: boolean;
-    // (undocumented)
-    container?: HTMLElement;
-    // (undocumented)
-    content: (props: RenderDialogContentProps<Result>) => ReactElement;
-    // (undocumented)
-    gap?: BoxProps['gap'];
-    // (undocumented)
-    heading?: ReactNode;
-    // (undocumented)
+export type DialogSettings<Result> = ({
     type?: Default | 'immersive' | 'captivating';
-}
+    children?: ReactNode | ((resolve: ResolveCallback<Result>) => ReactElement);
+    content?: never;
+    container?: never;
+    bare?: never;
+    heading?: never;
+    gap?: never;
+} | {
+    content: (props: RenderDialogContentProps<Result>) => ReactElement;
+    container?: HTMLElement;
+    type?: Default | 'immersive' | 'captivating';
+    bare?: boolean;
+    heading?: ReactNode;
+    gap?: BoxProps['gap'];
+});
 
 // @public (undocumented)
 export function DimensionSwitcher({ dimensions }: DimensionSwitcherProps): JSX.Element;
@@ -2153,7 +2159,7 @@ withTopToolbar?: boolean | undefined;
 // @public (undocumented)
 export type RangeInputProps = TextInputProps;
 
-// @public (undocumented)
+// @public @deprecated (undocumented)
 export interface RenderDialogContentProps<Result> {
     // (undocumented)
     resolve: (value?: Result) => void;
@@ -2185,6 +2191,9 @@ export interface RepeaterItemContainerProps {
     // (undocumented)
     label?: ReactNode;
 }
+
+// @public (undocumented)
+export type ResolveCallback<Result> = (value?: Result) => void;
 
 // @public (undocumented)
 export interface RestHTMLCheckboxProps extends Omit<AllHTMLAttributes<HTMLInputElement>, ControlPropsKeys<boolean> | 'checked' | 'children'> {
