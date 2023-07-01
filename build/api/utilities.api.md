@@ -45,6 +45,23 @@ export type DeepPartial<T> = T extends Function ? T : T extends Array<infer Infe
     [Key in keyof T]?: DeepPartial<T[Key]>;
 } : T | undefined;
 
+// Warning: (ae-forgotten-export) The symbol "SemverString" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export function deprecate(removal: SemverString, deprecatedName: string, replacementName: string): void;
+
+// @public (undocumented)
+export function deprecate<R, D extends R>(removal: SemverString, deprecatedName: string, replacementName: string, deprecated: undefined, replacement: undefined): void;
+
+// @public (undocumented)
+export function deprecate<R, D extends R>(removal: SemverString, deprecatedName: string, replacementName: string, deprecated: D, replacement: undefined): D;
+
+// @public (undocumented)
+export function deprecate<R, D extends R>(removal: SemverString, deprecatedName: string, replacementName: string, deprecated: undefined, replacement: R): R;
+
+// @public (undocumented)
+export function deprecate<R, D extends R>(removal: SemverString, deprecatedName: string, replacementName: string, deprecated: D, replacement: R): R;
+
 // @public
 export type ExtendableProps<ExtendedProps = {}, OverrideProps = {}> = OverrideProps & Omit<ExtendedProps, keyof OverrideProps>;
 
