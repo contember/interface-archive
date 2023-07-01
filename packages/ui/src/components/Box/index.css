@@ -40,20 +40,29 @@
 	--cui-box-content-padding: 0;
 }
 
-:where(.cui-box-header),
-:where(.cui-box-body) {
+:where(
+	.cui-box-header,
+	.cui-box-body,
+	.cui-box-footer,
+) {
 	display: flex;
 	gap: var(--cui-gap);
 }
 
-:where(.cui-box-header) {
+:where(
+	.cui-box-header,
+	.cui-box-footer,
+) {
 	align-items: center;
 	flex-direction: row;
 	font-weight: 600;
 	justify-content: space-between;
 }
 
-:where(.cui-box:not(.is-active):not(:focus-within) > .cui-stack > .cui-box-header) {
+:where(
+	.cui-box:not(.is-active):not(:focus-within) > .cui-stack > .cui-box-header,
+	.cui-box:not(.is-active):not(:focus-within) > .cui-stack > .cui-box-footer,
+) {
 	color: var(--cui-color--high);
 }
 

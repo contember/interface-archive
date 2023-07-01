@@ -4,14 +4,18 @@ import type { BoxDistinction, Default, HTMLDivElementProps, Intent, Size } from 
 import { toEnumViewClass, toStateClass, toThemeClass } from '../../utils'
 import { Stack, StackProps } from '../Stack'
 import { Label } from '../Typography/Label'
+import { deprecate } from '@contember/utilities'
 
 export interface BoxOwnProps {
 	actions?: ReactNode
 	children?: ReactNode
 	distinction?: BoxDistinction
 	direction?: StackProps['direction']
+	footer?: ReactNode
 	gap?: Size | 'none'
+	/** @deprecated use `header` instead and wrap your content in `Label` as `header` is not fully backward compatible */
 	heading?: ReactNode
+	header?: ReactNode
 	isActive?: boolean
 	intent?: Intent
 	padding?: Default | 'no-padding' | 'with-padding'
@@ -39,11 +43,15 @@ export const Box = memo(forwardRef<HTMLDivElement, BoxProps>(({
 	distinction,
 	gap = 'small',
 	heading,
+	header,
+	footer,
 	intent,
 	isActive,
 	padding,
 	...divProps
 }: BoxProps, ref) => {
+	header = deprecate('1.3.0', '`Box.heading` prop', '`Box.header` prop', heading && <Label>{heading}</Label>, header)
+
 	const componentClassName = useClassNameFactory('box')
 
 	return (
@@ -59,9 +67,9 @@ export const Box = memo(forwardRef<HTMLDivElement, BoxProps>(({
 			ref={ref}
 		>
 			<Stack gap={gap} direction={direction}>
-				{(heading || actions) && (
+				{(header || actions) && (
 					<div className={componentClassName('header')}>
-						{heading && <Label>{heading}</Label>}
+						{header}
 						{actions && (
 							<div className={componentClassName('actions')} contentEditable={false}>
 								{actions}
@@ -70,6 +78,11 @@ export const Box = memo(forwardRef<HTMLDivElement, BoxProps>(({
 					</div>
 				)}
 				{children}
+				{footer && (
+					<div className={componentClassName('footer')}>
+						{footer}
+					</div>
+				)}
 			</Stack>
 		</div>
 	)
