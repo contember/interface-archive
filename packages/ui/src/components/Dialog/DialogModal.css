@@ -25,6 +25,7 @@
 	display: flex;
 	align-items: stretch;
 	flex-direction: column;
+	width: min(calc(100vw - var(--cui-padding)), calc(20rem - var(--cui-padding)));
 }
 
 @media (max-width: 767.98px) {
@@ -112,7 +113,8 @@
 	display: flex;
 	flex: 1 1 0%;
 	max-width: 100%;
-	overflow: hidden;
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 
 :where(.cui-dialog-modal-body) {
