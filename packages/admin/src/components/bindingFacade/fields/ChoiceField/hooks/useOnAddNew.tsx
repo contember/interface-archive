@@ -5,7 +5,7 @@ import {
 	useAccessorTreeState,
 	useGetEntityListSubTree,
 } from '@contember/binding'
-import { Box, Button, Stack, useDialog } from '@contember/ui'
+import { Box, Button, DialogModal, Stack, useDialog } from '@contember/ui'
 import { useMemo } from 'react'
 import { useMessageFormatter } from '../../../../../i18n'
 import { BaseDynamicChoiceField } from '../BaseDynamicChoiceField'
@@ -35,9 +35,9 @@ export const useOnAddNew = ({ createNewForm, connect, ...props }: BaseDynamicCho
 
 				const result = await dialog.openDialog({
 					children: resolve => (
-						<Box
-							gap="large"
+						<DialogModal
 							header={localization('choiceField.createNew.dialogTitle')}
+							onClose={() => resolve()}
 							children={(
 								<Stack direction="vertical">
 									<AccessorTree state={accessorTreeState}>
