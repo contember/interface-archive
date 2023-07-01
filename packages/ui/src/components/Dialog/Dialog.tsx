@@ -1,4 +1,4 @@
-import { useClassNameFactory } from '@contember/utilities'
+import { deprecate, useClassNameFactory } from '@contember/utilities'
 import { useLayoutEffect, useMemo, useState } from 'react'
 import { useCloseOnClickOutside, useCloseOnEscape } from '../../auxiliary'
 import { toEnumViewClass } from '../../utils'
@@ -14,10 +14,7 @@ export const Dialog = (props: DialogProps) => {
 	const componentClassName = useClassNameFactory('dialog')
 	const [contentElement, setContentElement] = useState<HTMLDivElement | null>(null)
 	const [overlayElement, setOverlayElement] = useState<HTMLDivElement | null>(null)
-	const {
-		resolve,
-		settings: { content: RenderContent, bare, gap = 'default', heading, type },
-	} = props.settings
+	const { resolve, settings } = props.settings
 
 	useCloseOnEscape({ isOpen: true, close: resolve })
 	useCloseOnClickOutside({ isOpen: true, close: resolve, contents: useMemo(() => [contentElement], [contentElement]), outside: overlayElement })
@@ -28,13 +25,29 @@ export const Dialog = (props: DialogProps) => {
 		contentElement.focus()
 	}, [contentElement])
 
-	const renderedContent = <RenderContent resolve={resolve} />
+	// TODO: Remove deprecated behavior
+	if (settings.content) {
+		deprecate('1.3.0', 'Dialog `content` prop', 'Dialog `children` prop')
 
-	return (
-		<div className={componentClassName('', toEnumViewClass(type))} ref={setOverlayElement}>
-			<div className={componentClassName('in')} ref={setContentElement}>
-				{bare ? renderedContent : <Box gap={gap} heading={heading}>{renderedContent}</Box>}
+		const { content: RenderContent, bare, gap = 'default', heading, type } = settings
+		const renderedContent =  <RenderContent resolve={resolve} />
+
+		return (
+			<div className={componentClassName('', toEnumViewClass(type))} ref={setOverlayElement}>
+				<div className={componentClassName('in')} ref={setContentElement}>
+					{bare ? renderedContent : <Box gap={gap} heading={heading}>{renderedContent}</Box>}
+				</div>
 			</div>
-		</div>
-	)
+		)
+	} else {
+		const { children, type } = settings
+
+		return (
+			<div className={componentClassName('', toEnumViewClass(type))} ref={setOverlayElement}>
+				<div className={componentClassName('in')} ref={setContentElement}>
+					{typeof children === 'function' ? children(resolve) : children}
+				</div>
+			</div>
+		)
+	}
 }
