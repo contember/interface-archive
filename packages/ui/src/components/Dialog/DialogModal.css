@@ -1,18 +1,18 @@
 :where(.cui-dialog-modal) {
 	--cui-dialog-modal-border: var(--cui-control-border-width, 1px) solid var(--cui-color--lower);
 	--cui-dialog-modal-background-color: var(--cui-background-color--above);
-	--cui-dialog-modal-padding-left: calc(0.5 * var(--cui-padding));
-	--cui-dialog-modal-padding-right: calc(0.5 * var(--cui-padding));
-	--cui-dialog-modal-padding-top: calc(0.5 * var(--cui-padding));
-	--cui-dialog-modal-padding-bottom: calc(0.5 * var(--cui-padding));
+	--cui-dialog-modal-padding-left: var(--cui-padding);
+	--cui-dialog-modal-padding-right: var(--cui-padding);
+	--cui-dialog-modal-padding-top: var(--cui-padding);
+	--cui-dialog-modal-padding-bottom: var(--cui-padding);
 	--cui-dialog-modal-header-padding-left: var(--cui-dialog-modal-padding-left);
 	--cui-dialog-modal-header-padding-right: var(--cui-dialog-modal-padding-right);
 	--cui-dialog-modal-header-padding-top: var(--cui-dialog-modal-padding-top);
 	--cui-dialog-modal-header-padding-bottom: var(--cui-dialog-modal-padding-bottom);
 	--cui-dialog-modal-body-padding-left: var(--cui-dialog-modal-padding-left);
 	--cui-dialog-modal-body-padding-right: var(--cui-dialog-modal-padding-right);
-	--cui-dialog-modal-body-padding-top: var(--cui-dialog-modal-padding-top);
-	--cui-dialog-modal-body-padding-bottom: var(--cui-dialog-modal-padding-bottom);
+	--cui-dialog-modal-body-padding-top: 0;
+	--cui-dialog-modal-body-padding-bottom: 0;
 	--cui-dialog-modal-footer-padding-left: var(--cui-dialog-modal-padding-left);
 	--cui-dialog-modal-footer-padding-right: var(--cui-dialog-modal-padding-right);
 	--cui-dialog-modal-footer-padding-top: var(--cui-dialog-modal-padding-top);
