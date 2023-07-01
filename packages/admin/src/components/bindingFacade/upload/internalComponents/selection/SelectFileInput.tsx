@@ -54,15 +54,13 @@ export const SelectFileInput = Component(
 			event.stopPropagation()
 
 			const selectedEntities = await openDialog({
-				type: 'captivating',
-				bare: true,
-				content: props => (
+				children: resolve => (
 					<DropdownContentContainerProvider>
 						<AccessorTree state={accessorTree}>
 							<SelectFileDialog
 								formatMessage={formatMessage}
-								onCancel={() => props.resolve()}
-								onSelect={props.resolve}
+								onCancel={() => resolve()}
+								onSelect={resolve}
 								insertSelectedText={insertSelectedText}
 								selectButtonText={selectButtonText}
 								isMultiple={isMultiple}

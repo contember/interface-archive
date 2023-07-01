@@ -1,5 +1,5 @@
 import { Entity, useEnvironment, VariableInputTransformer } from '@contember/binding'
-import { EditorToolbar, ToolbarGroup, useDialog } from '@contember/ui'
+import { Box, EditorToolbar, Label, ToolbarGroup, useDialog } from '@contember/ui'
 import { memo, MouseEvent as ReactMouseEvent } from 'react'
 import { Transforms } from 'slate'
 import { useSlate } from 'slate-react'
@@ -68,36 +68,40 @@ export const HoveringToolbarContents = memo(({ buttons: rawButtons }: HoveringTo
 
 								const Content = button.referenceContent
 								const result = await openDialog({
-									heading: button.label,
-									content: props => (
-										<Entity accessor={reference}>
-											<Content
-												referenceId={reference.id}
-												editor={editor}
-												selection={selection}
-												onSuccess={({ createElement } = {}) => {
-													if (createElement !== undefined) {
-														if (!selection) {
-															return
-														}
-														EditorTransforms.select(editor, selection)
-														EditorTransforms.wrapNodes(
-															editor,
-															{
-																type: referenceElementType,
-																children: [{ text: '' }],
-																referenceId: reference.id,
-																...createElement,
-															},
-															{ split: true },
-														)
-														EditorTransforms.collapse(editor, { edge: 'end' })
-													}
-													props.resolve(true)
-												}}
-												onCancel={() => props.resolve()}
-											/>
-										</Entity>
+									children: resolve => (
+										<Box
+											header={<Label>{button.label}</Label>}
+											children={(
+												<Entity accessor={reference}>
+													<Content
+														referenceId={reference.id}
+														editor={editor}
+														selection={selection}
+														onSuccess={({ createElement } = {}) => {
+															if (createElement !== undefined) {
+																if (!selection) {
+																	return
+																}
+																EditorTransforms.select(editor, selection)
+																EditorTransforms.wrapNodes(
+																	editor,
+																	{
+																		type: referenceElementType,
+																		children: [{ text: '' }],
+																		referenceId: reference.id,
+																		...createElement,
+																	},
+																	{ split: true },
+																)
+																EditorTransforms.collapse(editor, { edge: 'end' })
+															}
+															resolve(true)
+														}}
+														onCancel={() => resolve()}
+													/>
+												</Entity>
+											)}
+										/>
 									),
 								})
 								if (result !== true) {

@@ -1,5 +1,6 @@
 import { useProjectSlug, useSessionTokenWithMeta, useSetSessionToken } from '@contember/react-client'
 import {
+	Box,
 	Button,
 	ButtonGroup,
 	DevPanel,
@@ -26,14 +27,20 @@ export const IdentityPanel = () => {
 	const dialog = useDialog()
 	const openSwitchRole = useCallback(() => {
 		dialog.openDialog({
-			heading: 'Login as...',
-			content: () => <LoginAsRole />,
+			children: resolve => (
+				<Box header="Login as..." gap="large">
+					<LoginAsRole />
+				</Box>
+			),
 		})
 	}, [dialog])
 	const openLoginEmail = useCallback(() => {
 		dialog.openDialog({
-			heading: 'Login by email',
-			content: () => <LoginWithEmail />,
+			children: resolve => (
+				<Box header="Login by email" gap="large">
+					<LoginWithEmail />
+				</Box>
+			),
 		})
 	}, [dialog])
 
@@ -89,7 +96,7 @@ export const IdentityPanel = () => {
 	)
 }
 
-const LoginAsRole: FC = ({}) => {
+const LoginAsRole: FC = ({ }) => {
 	const addToast = useShowToast()
 	const [isSubmitting, setSubmitting] = useState(false)
 	const [memberships, setMemberships] = useState<(Membership | undefined)[]>([undefined])

@@ -5,7 +5,7 @@ import {
 	useAccessorTreeState,
 	useGetEntityListSubTree,
 } from '@contember/binding'
-import { Button, Stack, useDialog } from '@contember/ui'
+import { Box, Button, Stack, useDialog } from '@contember/ui'
 import { useMemo } from 'react'
 import { useMessageFormatter } from '../../../../../i18n'
 import { BaseDynamicChoiceField } from '../BaseDynamicChoiceField'
@@ -34,17 +34,24 @@ export const useOnAddNew = ({ createNewForm, connect, ...props }: BaseDynamicCho
 				const entity = subTree.getChildEntityById(newEntityId.value)
 
 				const result = await dialog.openDialog({
-					heading: localization('choiceField.createNew.dialogTitle'),
-					content: contentProps => (
-						<Stack direction="vertical">
-							<AccessorTree state={accessorTreeState}>
-								<Entity accessor={entity}>{createNewForm}</Entity>
-							</AccessorTree>
-							<Stack direction="horizontal" evenly>
-								<Button onClick={() => contentProps.resolve()} distinction="default" elevation="none">{localization('choiceField.createNew.cancelButtonText')}</Button>
-								<Button onClick={() => contentProps.resolve(true)} distinction="primary" elevation="none">{localization('choiceField.createNew.confirmButtonText')}</Button>
-							</Stack>
-						</Stack>
+					children: resolve => (
+						<Box
+							gap="large"
+							header={localization('choiceField.createNew.dialogTitle')}
+							children={(
+								<Stack direction="vertical">
+									<AccessorTree state={accessorTreeState}>
+										<Entity accessor={entity}>{createNewForm}</Entity>
+									</AccessorTree>
+								</Stack>
+							)}
+							footer={(
+								<Stack grow direction="horizontal" evenly>
+									<Button onClick={() => resolve()} distinction="default" elevation="none">{localization('choiceField.createNew.cancelButtonText')}</Button>
+									<Button onClick={() => resolve(true)} distinction="primary" elevation="none">{localization('choiceField.createNew.confirmButtonText')}</Button>
+								</Stack>
+							)}
+						/>
 					),
 				})
 				if (result === true) {

@@ -23,7 +23,7 @@ export const OutdatedApplicationChecker: ComponentType = () => {
 		isOpen.current = true
 
 		const result = await modal.openDialog({
-			content: ({ resolve }) => (
+			children: resolve => (
 				<OutdatedApplicationDialog onReload={() => resolve(true)} onPostpone={() => resolve(false)} />
 			),
 		})
