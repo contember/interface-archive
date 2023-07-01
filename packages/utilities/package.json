@@ -34,5 +34,8 @@
 	},
 	"peerDependencies": {
 		"react": "^17 || ^18"
+	},
+	"dependencies": {
+		"semver": "^7.5.3"
 	}
 }
