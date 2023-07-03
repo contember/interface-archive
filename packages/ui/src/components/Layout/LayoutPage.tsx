@@ -1,6 +1,7 @@
+import { ColorSchemeContext, getThemeClassName, useColorScheme, useThemedClassName } from '@contember/react-utils'
 import { px, useClassNameFactory } from '@contember/utilities'
-import { CSSProperties, ReactNode, memo, useEffect, useMemo, useRef, useState } from 'react'
-import { toEnumClass, toSchemeClass, toThemeClass } from '../../utils'
+import { ReactNode, memo, useEffect, useRef, useState } from 'react'
+import { toEnumClass, toSchemeClass } from '../../utils'
 import { SectionTabs, useSectionTabs } from '../SectionTabs'
 import { TitleBar, TitleBarProps } from '../TitleBar'
 import { LayoutPageAside } from './LayoutPageAside'
@@ -69,28 +70,32 @@ export const LayoutPage = memo(({
 		}
 	}, [])
 
+	const colorScheme = useColorScheme()
+
 	return (
-		<div className={componentClassName(null, [
-			toThemeClass(themeContent ?? theme, themeControls ?? theme),
-			toSchemeClass(scheme),
-		])}>
-			<style>{`.cui-layout-chrome { --cui-content-offset-top: ${px(contentOffsetTop)};}`}</style>
-			{(title || actions) && <TitleBar after={afterTitle === undefined ? hasTabs ? <SectionTabs /> : undefined : afterTitle} navigation={navigation} actions={actions}>
-				{title}
-			</TitleBar>}
-			<div
-				ref={contentRef}
-				className={componentClassName('content-wrap', [
-					toEnumClass('fit-', fit),
-					showDivider ? 'view-aside-divider' : undefined,
-				])}
-			>
-				<LayoutPageContent pageContentLayout={pageContentLayout}>
-					{children}
-				</LayoutPageContent>
-				{side && <LayoutPageAside>{side}</LayoutPageAside>}
+		<ColorSchemeContext.Provider value={scheme ?? colorScheme}>
+			<div className={componentClassName(null, useThemedClassName([
+				getThemeClassName(themeContent ?? theme, themeControls ?? theme),
+				toSchemeClass(scheme),
+			]))}>
+				<style>{`.cui-layout-chrome { --cui-content-offset-top: ${px(contentOffsetTop)};}`}</style>
+				{(title || actions) && <TitleBar after={afterTitle === undefined ? hasTabs ? <SectionTabs /> : undefined : afterTitle} navigation={navigation} actions={actions}>
+					{title}
+				</TitleBar>}
+				<div
+					ref={contentRef}
+					className={componentClassName('content-wrap', [
+						toEnumClass('fit-', fit),
+						showDivider ? 'view-aside-divider' : undefined,
+					])}
+				>
+					<LayoutPageContent pageContentLayout={pageContentLayout}>
+						{children}
+					</LayoutPageContent>
+					{side && <LayoutPageAside>{side}</LayoutPageAside>}
+				</div>
 			</div>
-		</div>
+		</ColorSchemeContext.Provider>
 	)
 })
 

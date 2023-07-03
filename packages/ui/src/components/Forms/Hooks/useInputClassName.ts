@@ -1,5 +1,6 @@
+import { getThemeClassName, useThemedClassName } from '@contember/react-utils'
 import { listClassName } from '@contember/utilities'
-import { toEnumClass, toEnumStateClass, toEnumViewClass, toStateClass, toThemeClass } from '../../../utils'
+import { toEnumClass, toEnumStateClass, toEnumViewClass, toStateClass } from '../../../utils'
 import { NonOptionalVisuallyDependentControlProps } from '../Types'
 import { VisuallyDependentControlProps } from '../Types/ControlProps'
 
@@ -59,8 +60,10 @@ export function useInputClassName<P extends NonOptionalUseInputClassNameProps | 
 		toStateClass('read-only', readOnly),
 		toStateClass('required', required),
 
-		toEnumClass('scheme-', !disabled ? scheme : undefined),
-		toThemeClass(finalIntent, finalIntent),
+		useThemedClassName([
+			toEnumClass('scheme-', !disabled ? scheme : undefined),
+			getThemeClassName(finalIntent, finalIntent),
+		]).join(' '),
 		toEnumViewClass(size),
 		toEnumViewClass(distinction),
 		toEnumStateClass(validationState),

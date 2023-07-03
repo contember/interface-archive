@@ -1,4 +1,4 @@
-import { Button, DevPanel, DimensionsSwitcher, Link, LogoutLink, Scheme, Spacer, Stack, VisuallyHidden, toSchemeClass, toThemeClass } from '@contember/admin'
+import { Button, DevPanel, DimensionsSwitcher, Link, LogoutLink, Scheme, Spacer, Stack, VisuallyHidden, toSchemeClass } from '@contember/admin'
 import { Identity2023 } from '@contember/brand'
 import { SafeAreaInsetsProvider } from '@contember/layout'
 import { useContainerWidth, useDocumentTitle, useReferentiallyStableCallback, useSessionStorageState } from '@contember/react-utils'
@@ -11,6 +11,7 @@ import { Directive, DirectivesType, initialDirectives, useDirectives } from './D
 import { LayoutType, Layouts } from './Layouts'
 import { Navigation } from './Navigation'
 import { SlotSources } from './Slots'
+import { ColorScheme, getThemeClassName, useThemedClassName } from '@contember/utilities'
 
 export const Layout = memo(({ children }: PropsWithChildren) => {
 	const directives = useDirectives()
@@ -29,10 +30,10 @@ export const Layout = memo(({ children }: PropsWithChildren) => {
 	return (
 		<SafeAreaInsetsProvider insets={useMemo(() => ({ top: safeAreaInsets, right: safeAreaInsets, left: safeAreaInsets, bottom: safeAreaInsets }), [safeAreaInsets])}>
 			<LayoutComponent
-				className={[
-					toThemeClass(directives['layout.theme-content'], directives['layout.theme-controls']),
+				className={useThemedClassName([
+					getThemeClassName(directives['layout.theme-content'], directives['layout.theme-controls']),
 					toSchemeClass(scheme),
-				]}
+				])}
 			>
 				<SlotSources.Logo>
 					<Link to="index">

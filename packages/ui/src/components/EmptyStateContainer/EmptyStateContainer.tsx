@@ -1,6 +1,7 @@
+import { useThemedClassName } from '@contember/react-utils'
+import { ComponentClassNameProps, useClassName, useClassNameFactory } from '@contember/utilities'
 import { PropsWithChildren, memo } from 'react'
 import { Intent } from '../../types'
-import { ComponentClassNameProps, useClassName, useClassNameFactory } from '@contember/utilities'
 import { toThemeClass } from '../../utils'
 import { Stack } from '../Stack'
 
@@ -21,10 +22,10 @@ export const EmptyStateContainer = memo<EmptyStateContainerProps>(({
 	const className = useClassNameFactory(componentClassName)
 
 	return (
-		<div className={className(null, [
+		<div className={className(null, useThemedClassName([
 			toThemeClass(intent, intent),
 			classNameProp,
-		])}>
+		]))}>
 			<Stack direction="vertical" gap="large">
 				{header && <div className={className('header')}>{header}</div>}
 				{children}

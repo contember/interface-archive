@@ -1,7 +1,8 @@
+import { getThemeClassName, useThemedClassName } from '@contember/react-utils'
 import { useClassNameFactory } from '@contember/utilities'
-import { CSSProperties, memo, ReactNode } from 'react'
+import { CSSProperties, ReactNode, memo } from 'react'
 import type { Size } from '../../../types'
-import { toEnumClass, toEnumViewClass, toThemeClass } from '../../../utils'
+import { toEnumClass, toEnumViewClass } from '../../../utils'
 import { ErrorList, ErrorListProps } from '../../ErrorList/ErrorList'
 import { Stack, StackProps } from '../../Stack'
 import { Description, Label } from '../../Typography'
@@ -51,6 +52,8 @@ export const FieldContainer = memo(
 		const isLabelInline = labelPosition === 'labelInlineLeft' || labelPosition === 'labelInlineRight'
 		const invalid = !!errors?.length
 
+		const asteriskClassName = useThemedClassName(getThemeClassName('danger', 'danger'))
+
 		return (
 			<div
 				data-invalid={invalid ? true : undefined}
@@ -59,15 +62,17 @@ export const FieldContainer = memo(
 					toEnumViewClass(size),
 					toEnumViewClass(labelPosition),
 					toEnumClass('width-', width === 'none' ? undefined : width),
-					invalid ? toThemeClass(null, 'danger') : null,
-					className,
+					useThemedClassName([
+						invalid ? getThemeClassName(null, 'danger') : null,
+						className,
+					]),
 				])}
 			>
 				<LabelElement className={componentClassName('label')}>
 					{(label || labelDescription) && <span className={componentClassName('header')}>
 						{label && <Label>
 							{label}
-							<span className={componentClassName('required-asterisk', toThemeClass('danger', 'danger'))}>{required && '*'}</span>
+							<span className={componentClassName('required-asterisk', asteriskClassName)}>{required && '*'}</span>
 						</Label>}
 						{labelDescription && <Description>{labelDescription}</Description>}
 					</span>

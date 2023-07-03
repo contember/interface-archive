@@ -1,7 +1,8 @@
+import { getThemeClassName, useThemedClassName } from '@contember/react-utils'
 import { useClassNameFactory } from '@contember/utilities'
-import { memo, ReactNode } from 'react'
+import { ReactNode, memo } from 'react'
 import type { HTMLDivElementProps, Intent, MessageDistinction, MessageFlow, Size } from '../../types'
-import { toEnumViewClass, toThemeClass, toViewClass } from '../../utils'
+import { toEnumViewClass, toViewClass } from '../../utils'
 
 export type MessageProps =
 	& {
@@ -25,12 +26,14 @@ export const Message = memo(({ className, children, intent, size, flow, distinct
 		<div
 			{...props}
 			className={componentClassName(null, [
-				toThemeClass(intent, intent),
 				toEnumViewClass(size),
 				toEnumViewClass(distinction),
 				toViewClass('lifted', lifted),
 				toEnumViewClass(flow),
-				className,
+				useThemedClassName([
+					getThemeClassName(intent, intent),
+					className,
+				]),
 			])}
 		>
 			<div className={componentClassName('content')}>{children}</div>

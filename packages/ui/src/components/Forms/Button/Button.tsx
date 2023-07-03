@@ -1,5 +1,6 @@
+import { ColorSchemeContext, getThemeClassName, useColorScheme, useThemedClassName } from '@contember/react-utils'
 import { useClassNameFactory } from '@contember/utilities'
-import { createElement, forwardRef, memo, ReactNode } from 'react'
+import { ReactNode, createElement, forwardRef, memo } from 'react'
 import type {
 	HTMLAnchorElementProps,
 	HTMLButtonElementProps,
@@ -8,7 +9,7 @@ import type {
 	Scheme,
 	Size,
 } from '../../../types'
-import { toEnumClass, toEnumViewClass, toSchemeClass, toStateClass, toThemeClass, toViewClass } from '../../../utils'
+import { toEnumClass, toEnumViewClass, toSchemeClass, toStateClass, toViewClass } from '../../../utils'
 import { Spinner } from '../../Spinner/Spinner'
 import type { ButtonDistinction, ButtonElevation, ButtonFlow } from './Types'
 
@@ -76,12 +77,15 @@ export const BaseButton = memo(forwardRef<any, BaseButtonProps>((props, ref) => 
 
 	const themeIntent = !props.disabled ? intent : 'default'
 	const componentClassName = useClassNameFactory('button')
+	const colorScheme = useColorScheme()
 
 	const attrs = {
 		className: componentClassName(null, [
-			rest.className,
-			toThemeClass(props.distinction === 'default' ? null : themeIntent, themeIntent),
-			toSchemeClass(!props.disabled ? scheme : undefined),
+			useThemedClassName([
+				getThemeClassName(props.distinction === 'default' ? null : themeIntent, themeIntent),
+				toSchemeClass(!props.disabled ? scheme : undefined),
+				rest.className,
+			]),
 			toEnumViewClass(size),
 			toEnumViewClass(props.disabled ? 'default' : distinction),
 			toEnumViewClass(flow),
@@ -98,14 +102,14 @@ export const BaseButton = memo(forwardRef<any, BaseButtonProps>((props, ref) => 
 		} : undefined),
 	}
 	const content = (
-		<>
+		<ColorSchemeContext.Provider value={(props.disabled ? scheme : undefined) ?? colorScheme}>
 			<div className={componentClassName('content')}>{children}</div>
 			{loading && (
 				<span className={componentClassName('spinner')}>
 					<Spinner />
 				</span>
 			)}
-		</>
+		</ColorSchemeContext.Provider>
 	)
 
 	return createElement(Component, { ...rest, ...attrs }, content)

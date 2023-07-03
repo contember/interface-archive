@@ -1,3 +1,4 @@
+import { useThemedClassName } from '@contember/react-utils'
 import { useClassNameFactory } from '@contember/utilities'
 import { forwardRef, memo, ReactNode } from 'react'
 import type { BoxDistinction, Default, HTMLDivElementProps, Intent, Size } from '../../types'
@@ -52,9 +53,11 @@ export const Box = memo(forwardRef<HTMLDivElement, BoxProps>(({
 			className={componentClassName(null, [
 				toStateClass('active', isActive),
 				toEnumViewClass(distinction),
-				toThemeClass(intent, intent),
 				toEnumViewClass(padding),
-				className,
+				useThemedClassName([
+					toThemeClass(intent, intent),
+					className,
+				]),
 			])}
 			ref={ref}
 		>

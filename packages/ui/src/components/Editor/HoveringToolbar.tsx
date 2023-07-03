@@ -1,5 +1,6 @@
+import { ColorSchemeContext, ColorSchemeProvider, useThemedClassName } from '@contember/react-utils'
 import { useClassNameFactory } from '@contember/utilities'
-import { forwardRef, memo, ReactNode } from 'react'
+import { ReactNode, forwardRef, memo } from 'react'
 import type { HoveringToolbarScope, Scheme } from '../../types'
 import { toEnumViewClass, toSchemeClass, toStateClass } from '../../utils'
 
@@ -19,18 +20,20 @@ export const HoveringToolbar = memo(forwardRef<HTMLDivElement, HoveringToolbarPr
 	const componentClassName = useClassNameFactory('hoveringToolbar')
 
 	return (
-		<div
-			className={componentClassName(null, [
-				toStateClass('active', isActive),
-				toEnumViewClass(scope),
-				toSchemeClass(scheme ?? 'dark'),
-			])}
-			ref={ref}
-		>
-			<div className={componentClassName('content')}>
-				{children}
+		<ColorSchemeProvider scheme={scheme ?? 'dark'}>
+			<div
+				className={componentClassName(null, useThemedClassName([
+					toStateClass('active', isActive),
+					toEnumViewClass(scope),
+					toSchemeClass(scheme ?? 'dark'),
+				]))}
+				ref={ref}
+			>
+				<div className={componentClassName('content')}>
+					{children}
+				</div>
 			</div>
-		</div>
+		</ColorSchemeProvider>
 	)
 }))
 HoveringToolbar.displayName = 'HoveringToolbar'
