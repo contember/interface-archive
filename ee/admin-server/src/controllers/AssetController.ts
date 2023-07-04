@@ -44,17 +44,27 @@ export class AssetController extends BaseController<ProjectParams> {
 		// check and possibly switch handler to legacy mode (client does not have custom deployments with entrypoint)
 		// for these projects we are checking access permissions
 		if (!await this.tryCheckAdvancedStructure(params.projectGroup as string)) {
-			// verify access permissions
-			const token = readAuthCookie(req)
+			// index and static assets should not be authorized because you need login page available for users without auth
+			const specialStaticAssets = [
+				'',
+				'_static',
+				'favicon.ico',
+				'robots.txt',
+			]
 
-			if (token === null || !(await this.tenant.hasProjectAccess(token, params.project as string, params.projectGroup))) {
-				const params = new URLSearchParams({ backlink: req.url! })
+			// verify access permissions for projects (exclude special paths with assets)
+			if (!specialStaticAssets.includes(<string>params.project)) {
+				const token = readAuthCookie(req)
 
-				res.setHeader('Location', '/?' + params.toString())
-				res.writeHead(302)
-				res.end()
+				if (token === null || !(await this.tenant.hasProjectAccess(token, params.project as string, params.projectGroup))) {
+					const params = new URLSearchParams({ backlink: req.url! })
 
-				return
+					res.setHeader('Location', '/?' + params.toString())
+					res.writeHead(302)
+					res.end()
+
+					return
+				}
 			}
 		}
 
