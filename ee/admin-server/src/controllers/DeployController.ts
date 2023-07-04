@@ -63,12 +63,6 @@ export class DeployController extends BaseController<DeployParams> {
 			return
 		}
 
-		if (params.projectGroup === undefined) {
-			res.writeHead(400)
-			res.end('Project group not detected')
-			return
-		}
-
 		// we are supporting two different ways of deploy (project-wide and project-group-wide deployments)
 		if (payload.project === null) {
 			if (!(await this.tenant.canDeployEntrypoint(token, params.projectGroup))) {
@@ -83,7 +77,7 @@ export class DeployController extends BaseController<DeployParams> {
 				await this.systemClient.migrate(
 					{
 						token: token,
-						project: payload.project as string,
+						project: payload.project,
 						projectGroup: params.projectGroup,
 						migrations: [],
 					},

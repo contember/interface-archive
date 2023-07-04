@@ -41,12 +41,6 @@ export class AssetController extends BaseController<ProjectParams> {
 		const pathFile = path.includes('.')
 			? path : `${path === '' ? '' : path + '/'}index.html` // if we are referencing folder add index.html
 
-		// looks like some bad routing and domain to project group translation
-		if (params.projectGroup === undefined) {
-			res.writeHead(500)
-			res.end('Project group not resolved from URL.')
-		}
-
 		// check and possibly switch handler to legacy mode (client does not have custom deployments with entrypoint)
 		// for these projects we are checking access permissions
 		if (!await this.tryCheckAdvancedStructure(params.projectGroup as string)) {
