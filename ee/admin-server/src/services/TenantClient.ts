@@ -86,7 +86,7 @@ export class TenantClient {
 	}
 
 
-	async canDeployEntrypoint(token: string, projectGroup: string): Promise<boolean> {
+	async canDeployEntrypoint(token: string, projectGroup: string | undefined): Promise<boolean> {
 		const response = await this.request({
 			token,
 			projectGroup,
