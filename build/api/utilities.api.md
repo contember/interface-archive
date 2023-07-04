@@ -47,8 +47,14 @@ export type ComponentClassNameProps = PropsWithChildren<{
     componentClassName?: string | string[];
 }>;
 
+// @internal
+export function currentOrDeprecated<R, D>(current: R, deprecated: D, shouldThrow?: boolean): R | D;
+
 // @public (undocumented)
 export function dataAttribute(value: unknown): string | true | undefined;
+
+// @public (undocumented)
+export function deduplicateClassName(classNameArray: string[]): string[];
 
 // @public (undocumented)
 export type DeepPartial<T> = T extends Function ? T : T extends Array<infer InferredArrayMember> ? Array<DeepPartial<InferredArrayMember>> : T extends object ? {
@@ -57,8 +63,14 @@ export type DeepPartial<T> = T extends Function ? T : T extends Array<infer Infe
 
 export { DelimiterCase }
 
+// @internal
+export function deprecate(removal: SemverString, assertion: boolean, deprecated: string, replacement: string): void;
+
 // @public
 export type ExtendableProps<ExtendedProps = {}, OverrideProps = {}> = OverrideProps & Omit<ExtendedProps, keyof OverrideProps>;
+
+// @public (undocumented)
+export function flatClassNameList(className: NestedClassName): string[];
 
 // @public (undocumented)
 export function getMatchingParentElement(element: HTMLElement | null, predicate: (element: HTMLElement | null) => boolean | Promise<boolean>): HTMLElement;
@@ -231,6 +243,9 @@ export type RequiredDeepPlainObject<T extends RequiredDeepPlainObject<Record<str
 
 // @public (undocumented)
 export function satisfiesOneOfFactory<T extends Array<Predicate<any, any>>>(...predicates: T): Predicate<unknown, UnionOfPredicateTypes<T>>;
+
+// @public (undocumented)
+export type SemverString = `${number}.${number}.${number}` | `v${number}.${number}.${number}`;
 
 // @public (undocumented)
 export function setHasOneOf<T>(set: Set<T>, values: T[]): boolean;
