@@ -47,7 +47,6 @@ const MePermissionsResponseType = object({
 	data: object({
 		me: object({
 			permissions: object({
-					canCreateProject: boolean,
 					canDeployEntrypoint: boolean,
 				}),
 		}),
@@ -94,7 +93,6 @@ export class TenantClient {
 				query {
 					me {
 						permissions {
-							canCreateProject,
 							canDeployEntrypoint
 						}
 					}
@@ -103,6 +101,11 @@ export class TenantClient {
 		})
 
 		if (!response.ok) {
+			console.error(
+				'Looks like you are using version of admin server that needs engine with "canDeployEntrypoint" permission field. ' +
+				'Resolve issue with upgrade of engine version.',
+			)
+
 			return false
 		}
 
