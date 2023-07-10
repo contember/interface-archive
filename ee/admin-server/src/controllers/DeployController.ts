@@ -39,12 +39,6 @@ export class DeployController extends BaseController<DeployParams> {
 
 		try {
 			payload = await this.readJsonBody(req, DeployPayloadType)
-
-			if (payload.project) {
-				console.log('Project known')
-			} else {
-				console.log('Project is unknown, deploy whole project group: ' + params.projectGroup)
-			}
 		} catch (e) {
 			if (e instanceof SyntaxError || e instanceof ParseError) {
 				res.writeHead(400)
@@ -133,6 +127,6 @@ export class DeployController extends BaseController<DeployParams> {
 		}
 
 		res.writeHead(200)
-		res.end('Deployment done')
+		res.end()
 	}
 }

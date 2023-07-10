@@ -43,7 +43,7 @@ export class AssetController extends BaseController<ProjectParams> {
 
 		// check and possibly switch handler to legacy mode (client does not have custom deployments with entrypoint)
 		// for these projects we are checking access permissions
-		if (!await this.tryCheckAdvancedStructure(params.projectGroup as string)) {
+		if (!await this.tryCheckAdvancedStructure(params.projectGroup)) {
 			// index and static assets should not be authorized because you need login page available for users without auth
 			const specialStaticAssets = [
 				'',
@@ -53,10 +53,10 @@ export class AssetController extends BaseController<ProjectParams> {
 			]
 
 			// verify access permissions for projects (exclude special paths with assets)
-			if (!specialStaticAssets.includes(<string>params.project)) {
+			if (params.project !== undefined && !specialStaticAssets.includes(params.project)) {
 				const token = readAuthCookie(req)
 
-				if (token === null || !(await this.tenant.hasProjectAccess(token, params.project as string, params.projectGroup))) {
+				if (token === null || !(await this.tenant.hasProjectAccess(token, params.project, params.projectGroup))) {
 					const params = new URLSearchParams({ backlink: req.url! })
 
 					res.setHeader('Location', '/?' + params.toString())
@@ -179,7 +179,7 @@ export class AssetController extends BaseController<ProjectParams> {
 	 * checks if current request handles standard project-only deployment
 	 * or its advanced structure with project-group wide deploy
 	 */
-	private async tryCheckAdvancedStructure(projectGroup: string): Promise<boolean> {
+	private async tryCheckAdvancedStructure(projectGroup: string | undefined): Promise<boolean> {
 		// todo: lets find out better way to diagnose advanced structure,
 		// 	this check can be expensive in case of checkin for every file served.
 
