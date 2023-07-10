@@ -129,10 +129,12 @@ export class AssetController extends BaseController<ProjectParams> {
 				.slice(0, -2)
 				.join('/')
 				.substring(0)
-				+ '/index.html'
 
-			if (fallbackNeeded) {
-				return await this.handleAssetsFromS3(req, res, fallbackPath, params)
+			const fallbackFilePath = fallbackPath === ''
+				? 'index.html' : `${fallbackPath}/index.html`
+
+			if (fallbackNeeded && fallbackFilePath !== path) {
+				return await this.handleAssetsFromS3(req, res, fallbackFilePath, params)
 			}
 
 			return false
