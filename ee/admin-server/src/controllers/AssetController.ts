@@ -119,6 +119,22 @@ export class AssetController extends BaseController<ProjectParams> {
 
 			return true
 		} catch (e) {
+			// check if we should try another s3 search but with directory closer to root
+			// this is done mainly because PAW apps that supports pretty urls but contains only single index.html file in root
+
+			// fallback is activated only when request it not in root directory -> "index.html" is ignored but "xyz/index.html" will try "index.html"
+			const fallbackNeeded = path.endsWith('/index.html')
+			const fallbackPath = path
+				.split('/')
+				.slice(0, -2)
+				.join('/')
+				.substring(0)
+				+ '/index.html'
+
+			if (fallbackNeeded) {
+				return await this.handleAssetsFromS3(req, res, fallbackPath, params)
+			}
+
 			return false
 		}
 	}
