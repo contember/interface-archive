@@ -3,8 +3,8 @@ import { LayoutKit, LayoutPrimitives, Slots, commonSlots, contentSlots, footerSl
 import { useClassName } from '@contember/react-utils'
 import { pick } from '@contember/utilities'
 import { PropsWithChildren } from 'react'
-import { useDirectives } from '../Directives'
-import { SlotTargets } from '../Slots'
+import { useDirectives } from './Directives'
+import { SlotTargets } from './Slots'
 
 const slotsInSidebarLeft = ['Navigation', 'Profile', 'SidebarLeftBody', 'SidebarLeftFooter', 'SidebarLeftHeader', 'Switchers'] as const
 const slotsInSidebarRight = ['SidebarRightHeader', 'Sidebar', 'SidebarRightFooter'] as const
@@ -13,7 +13,7 @@ export const SidebarLeftSlots = pick(SlotTargets, slotsInSidebarLeft)
 export const SidebarRightSlots = pick(SlotTargets, slotsInSidebarRight)
 export const LayoutSlots = pick(SlotTargets, [...commonSlots, ...headerSlots, ...footerSlots, ...contentSlots, ...slotsInSidebarLeft, ...slotsInSidebarRight] as const)
 
-export const Layout = ({ children, ...rest }: PropsWithChildren) => {
+export const LayoutComponent = ({ children, ...rest }: PropsWithChildren) => {
 	const directives = useDirectives()
 	const hasActiveSlots = Slots.useHasActiveSlotsFactory(LayoutSlots)
 	const targetsIfActive = Slots.useTargetsIfActiveFactory(LayoutSlots)
@@ -124,4 +124,4 @@ export const Layout = ({ children, ...rest }: PropsWithChildren) => {
 		</LayoutKit.Frame>
 	)
 }
-Layout.displayName = 'Layout(cms-layout)'
+LayoutComponent.displayName = 'Layout(cms-layout)'

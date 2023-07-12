@@ -18,6 +18,8 @@ import {
 	sidebarLeftSlots,
 	sidebarRightSlots,
 } from '@contember/layout'
+import { useDocumentTitle } from '@contember/react-utils'
+import { memo } from 'react'
 
 export const slots = [
 	...commonSlots,
@@ -51,3 +53,11 @@ export const SlotTargets = {
 	// Your custom slot targets will come here, e.g:
 	// MySLot: Slots.createTargetComponent(slotTargets.MySLot),
 }
+
+export const Title = memo<{ children: string | null | undefined }>(({ children }) => {
+	useDocumentTitle(children)
+
+	return (
+		<CommonSlotSources.Title>{children}</CommonSlotSources.Title>
+	)
+})

@@ -1,10 +1,10 @@
 import { LayoutKit, Slots, createLayoutBarComponent, createLayoutSidebarComponent } from '@contember/layout'
 import { Divider, Spacer, Stack } from '@contember/ui'
-import { pick } from '@contember/utilities'
+import { ComponentClassNameProps, pick } from '@contember/utilities'
 import { PropsWithChildren } from 'react'
-import { AppHeaderTitle } from '../AppHeaderTitle'
-import { useDirectives } from '../Directives'
-import { SlotTargets } from '../Slots'
+import { AppHeaderTitle } from './AppHeaderTitle'
+import { useDirectives } from './Directives'
+import { SlotTargets } from './Slots'
 
 const NAVIGATION_PANEL_NAME = 'navigation-panel'
 
@@ -37,7 +37,7 @@ const SubHeader = createLayoutBarComponent({
 	name: 'sub-header',
 })
 
-export const Layout = ({ children, ...rest }: PropsWithChildren) => {
+export const LayoutComponent = ({ children, ...rest }: PropsWithChildren<ComponentClassNameProps>) => {
 	const directives = useDirectives()
 	const targetsIfActive = Slots.useTargetsIfActiveFactory(LayoutSlots)
 
@@ -103,4 +103,4 @@ export const Layout = ({ children, ...rest }: PropsWithChildren) => {
 		</LayoutKit.Frame>
 	)
 }
-Layout.displayName = 'Layout(default-layout)'
+LayoutComponent.displayName = 'Layout(default-layout)'

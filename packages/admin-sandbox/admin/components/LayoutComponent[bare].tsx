@@ -1,7 +1,7 @@
 import { useClassNameFactory } from '@contember/react-utils'
 import { ComponentClassNameProps, pick } from '@contember/utilities'
 import { PropsWithChildren } from 'react'
-import { SlotTargets } from '../Slots'
+import { SlotTargets } from './Slots'
 
 const LayoutSlots = pick(SlotTargets, [
 	'Actions',
@@ -14,7 +14,7 @@ const LayoutSlots = pick(SlotTargets, [
 	'Sidebar',
 ])
 
-export const Layout = ({ children, className: classNameProp, ...rest }: PropsWithChildren<ComponentClassNameProps>) => {
+export const LayoutComponent = ({ children, className: classNameProp, ...rest }: PropsWithChildren<ComponentClassNameProps>) => {
 	const className = useClassNameFactory('test-layout')
 
 	return (

@@ -1,9 +1,7 @@
-import { CommonSlotSources, Directives } from '@contember/layout'
-import { useDocumentTitle } from '@contember/react-utils'
+import { Directives } from '@contember/layout'
 import { Intent } from '@contember/ui'
-import { memo } from 'react'
 import { LAYOUT_BREAKPOINT } from './Constants'
-import { LayoutType } from './Layouts'
+import { LayoutType } from './LayoutComponent'
 
 export type DirectivesType = {
 	'brand-background-color': string | undefined;
@@ -33,13 +31,3 @@ export const initialDirectives: DirectivesType = Object.freeze({
 
 export const Directive = Directives.Directive as unknown as Directives.DirectiveComponentType<DirectivesType> // <DirectivesType>
 export const useDirectives = Directives.useDirectives<DirectivesType>
-
-export const Title = memo<{ children: string | null | undefined }>(({ children }) => {
-	useDocumentTitle(children)
-
-	return (
-		<CommonSlotSources.Title>{children}</CommonSlotSources.Title>
-	)
-})
-
-// export const Title = CommonSlotSources.Title
