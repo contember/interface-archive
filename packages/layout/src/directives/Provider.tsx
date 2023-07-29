@@ -1,6 +1,6 @@
 import { useScopedConsoleRef } from '@contember/react-utils'
 import equal from 'fast-deep-equal/es6/index.js'
-import { ContextType, ReactNode, memo, useCallback, useEffect, useMemo, useState } from 'react'
+import { ContextType, ReactNode, memo, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { RegistryContext, StateContext } from './contexts'
 import { RegistryContextType } from './types'
 
@@ -86,10 +86,11 @@ function useProviderRegistry<T extends Record<PropertyKey, unknown>>(initialValu
 		}
 	}, [scopedConsole, updateState])
 
+	const parentState = useContext(StateContext)
 	const [combinedState, setCombinedState] = useState<Partial<T>>({})
 
 	useEffect(() => {
-		const nextState: Partial<T> = { ...(initialValue ?? {} as Partial<T>) }
+		const nextState: Partial<T> = { ...parentState, ...(initialValue ?? {} as Partial<T>) }
 
 		for (const [directive, components] of state.entries()) {
 			for (const [, value] of components.entries()) {
@@ -102,7 +103,7 @@ function useProviderRegistry<T extends Record<PropertyKey, unknown>>(initialValu
 		if (!equal(nextState, combinedState)) {
 			setCombinedState(nextState)
 		}
-	}, [combinedState, state, initialValue])
+	}, [combinedState, state, initialValue, parentState])
 
 	scopedConsole.log({ combinedState, state, initialValue })
 
