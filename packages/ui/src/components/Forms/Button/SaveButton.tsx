@@ -1,5 +1,5 @@
 import { forwardRef, memo } from 'react'
-import { Button, ButtonProps } from './Forms/Button'
+import { Button, ButtonProps } from '.'
 
 export type SaveButtonProps =
 	& {
@@ -28,10 +28,12 @@ export const SaveButton = memo(forwardRef<HTMLButtonElement, SaveButtonProps>(({
 }, ref) => (
 	<Button
 		ref={ref}
-		size={size ?? 'large'}
+		componentClassName={['button', 'save-button']}
+		className={[rest.className]}
+		distinction={isPrimary ? 'primary' : distinction}
 		flow={flow}
 		scheme={scheme}
-		distinction={isPrimary ? 'primary' : distinction}
+		size={size}
 		{...rest}
 	>
 		{isDirty
