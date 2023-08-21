@@ -8,9 +8,15 @@ import { PropsWithChildren, memo, useMemo, useRef, useState } from 'react'
 import { AlertLogoutLink } from './AlertLogoutLink'
 import { LAYOUT_BREAKPOINT } from './Constants'
 import { Directive, DirectivesType, initialDirectives, useDirectives } from './Directives'
+import { HorizontalMenuContext } from './HorizontalMenu/contexts'
 import { LayoutComponents, LayoutType } from './LayoutComponent'
-import { Navigation } from './Navigation'
+import { HorizontalNavigation, Navigation } from './Navigation'
 import { SlotSources } from './Slots'
+
+const horizontalMenuInModalProps = {
+	horizontal: false,
+	hover: false,
+}
 
 export const Layout = memo(({ children }: PropsWithChildren) => {
 	const directives = useDirectives()
@@ -45,6 +51,15 @@ export const Layout = memo(({ children }: PropsWithChildren) => {
 							</Link>
 						</SlotSources.Logo>
 
+						<SlotSources.SidebarLeftHeader>
+							<Link to="index">
+								<Stack align="center" horizontal gap="gap">
+									<Identity2023.Edit scale={2} />
+									<VisuallyHidden className="whitespace-nowrap" hidden={width < LAYOUT_BREAKPOINT}>Contember Sandbox</VisuallyHidden>
+								</Stack>
+							</Link>
+						</SlotSources.SidebarLeftHeader>
+
 						<SlotSources.Switchers>
 							<DimensionsSwitcher
 								optionEntities="Locale"
@@ -70,11 +85,25 @@ export const Layout = memo(({ children }: PropsWithChildren) => {
 							</Button>
 						</SlotSources.Switchers>
 
-						{Navigation && (
-							<SlotSources.Navigation>
-								<Navigation />
-							</SlotSources.Navigation>
-						)}
+						{directives.layout === 'right-sidebar'
+							? (
+								<>
+									<SlotSources.Navigation>
+										<HorizontalNavigation />
+									</SlotSources.Navigation>
+									<SlotSources.SidebarLeftBody>
+										<HorizontalMenuContext.Provider value={horizontalMenuInModalProps}>
+											<HorizontalNavigation />
+										</HorizontalMenuContext.Provider>
+									</SlotSources.SidebarLeftBody>
+								</>
+							)
+							: (
+								<SlotSources.Navigation>
+									<Navigation />
+								</SlotSources.Navigation>
+							)
+						}
 
 						<SlotSources.Profile>
 							<LogoutLink Component={AlertLogoutLink}>

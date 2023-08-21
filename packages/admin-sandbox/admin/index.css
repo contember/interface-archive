@@ -1,6 +1,8 @@
 @import "@contember/admin/index.css";
 @import "@contember/brand/index.css";
 @import "@contember/layout/index.css";
+@import "./components/HorizontalMenu/HorizontalMenu.css";
+@import "./components/ScrollView/ScrollView.css";
 
 .whitespace-nowrap {
 	white-space: nowrap;
