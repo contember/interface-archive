@@ -20,11 +20,13 @@
 	.scheme-dark,
 ){
 	/* Opacities */
-	--cui-opacity--strong: 1;
+	--cui-opacity--full: 1; /* TODO: Remove in v1.3 */
+	--cui-opacity--opaque: 1;
 	--cui-opacity--high: 0.750;
 	--cui-opacity--medium: 0.500;
 	--cui-opacity--low: 0.300;
 	--cui-opacity--lower: 0.125;
+	--cui-opacity--transparent: 0;
 }
 
 @media (prefers-color-scheme: light) {
