@@ -158,7 +158,14 @@ export type BaseButtonProps = ButtonOwnProps & (ButtonBasedProps | AnchorBasedPr
 export type BlueprintIconName = IconName;
 
 // @public
-export const Box: MemoExoticComponent<ForwardRefExoticComponent<Omit<HTMLDivElementProps, "children" | "isActive" | "reverse" | "footer" | "header" | "label" | "align" | "evenly" | "grow" | "horizontal" | "justify" | "shrink" | "wrap" | "border" | keyof ComponentClassNameProps | "actions" | "background" | "borderRadius" | "fit" | "focusRing" | "intent" | keyof DeprecatedBoxProps> & Omit<BoxOwnProps, keyof DeprecatedBoxProps> & DeprecatedBoxProps & RefAttributes<HTMLDivElement>>>;
+export const Box: MemoExoticComponent<ForwardRefExoticComponent<Omit<HTMLDivElementProps, "children" | "isActive" | "reverse" | "footer" | "header" | "label" | "align" | "evenly" | "grow" | "horizontal" | "justify" | "shrink" | "wrap" | "border" | keyof ComponentClassNameProps | "actions" | keyof BoxBackgroundProps | "borderRadius" | "fit" | "focusRing" | "intent" | keyof DeprecatedBoxProps> & Omit<BoxOwnProps, keyof DeprecatedBoxProps> & DeprecatedBoxProps & RefAttributes<HTMLDivElement>>>;
+
+// @public (undocumented)
+export type BoxBackgroundProps = {
+    background?: boolean;
+    backgroundColor?: `${SwatchKey}` | ColorSwatch<'toned'> | ColorSwatch<'toned-controls'> | ColorSwatch<'controls'> | ColorSwatch<'controls-inverse'>;
+    backgroundOpacity?: 'opaque' | 'high' | 'medium' | 'low' | 'lower' | 'transparent';
+};
 
 // @public (undocumented)
 export type BoxDepth = 1 | 2 | 3 | 4 | 5 | 6;
@@ -178,8 +185,7 @@ export type BoxHeaderProps = {
 };
 
 // @public (undocumented)
-export type BoxOwnProps = ComponentClassNameProps & BoxHeaderProps & Pick<StackOwnProps, 'align' | 'evenly' | 'gap' | 'grow' | 'horizontal' | 'justify' | 'reverse' | 'shrink' | 'wrap'> & {
-    background?: boolean;
+export type BoxOwnProps = ComponentClassNameProps & BoxHeaderProps & Pick<StackOwnProps, 'align' | 'evenly' | 'gap' | 'grow' | 'horizontal' | 'justify' | 'reverse' | 'shrink' | 'wrap'> & BoxBackgroundProps & {
     border?: boolean;
     borderRadius?: StackOwnProps['gap'];
     children?: ReactNode;
@@ -386,6 +392,9 @@ export const ColorRegExp: RegExp;
 
 // @public (undocumented)
 export type ColorString = string;
+
+// @public (undocumented)
+export type ColorSwatch<T extends string, S extends number = SwatchKey> = T | `${T}-${S}`;
 
 // @public (undocumented)
 export type CommonCardProps = VisuallyDependentControlProps & {
@@ -2707,6 +2716,9 @@ export type StyleProviderProps = {
     transparent?: boolean;
     suppressFocusRing?: boolean;
 };
+
+// @public (undocumented)
+export type SwatchKey = 0 | 25 | 50 | 75 | 100;
 
 // @public (undocumented)
 export const TAB_INDEX_FOCUSABLE = 0;

@@ -1,6 +1,8 @@
 :where(.cui-box) {
 	--cui-box--background-focused-overlay: linear-gradient(rgba(var(--cui-theme-controls--rgb-1000), 0.01), rgba(var(--cui-theme-controls--rgb-1000), 0.01));
-	--cui-box--background-color: transparent;
+	--cui-box--background-color-rgb: ;
+	--cui-box--background-color-opacity: 1;
+	--cui-box--background-color: rgba(var(--cui-box--background-color-rgb), var(--cui-box--background-color-opacity));
 	--cui-box--border-radius: 0px;
 	--cui-box--border-width: 0px;
 	--cui-box--padding: 0px;
@@ -8,7 +10,7 @@
 	--cui-box--padding-right: var(--cui-box--padding);
 	--cui-box--padding-top: var(--cui-box--padding);
 	--cui-box--padding-bottom: var(--cui-box--padding);
-	background-color: var(--cui-box--background-color);
+	background-color: transparent;
 	border-width: var(--cui-box--border-width);
 	border-style: solid;
 	border-color: rgba(var(--cui-color--rgb-50), var(--cui-opacity--low));
@@ -35,9 +37,44 @@
 :where(.cui-box[data-border-radius="large"]) { --cui-box--border-radius: calc(1.5 * var(--cui-padding)) }
 :where(.cui-box[data-border-radius="larger"]) { --cui-box--border-radius: calc(3 * var(--cui-padding)) }
 
-:where(.cui-box[data-background]) {
-	--cui-box--background-color: rgb(var(--cui-background-color--rgb-50));
-}
+:where(.cui-box[data-background]) { background-color: var(--cui-box--background-color) }
+
+:where(.cui-box[data-background]) { --cui-box--background-color-rgb: var(--cui-background-color--rgb-50) }
+:where(.cui-box[data-background-color="0"]) { --cui-box--background-color-rgb: var(--cui-background-color--rgb-0) }
+:where(.cui-box[data-background-color="25"]) { --cui-box--background-color-rgb: var(--cui-background-color--rgb-25) }
+:where(.cui-box[data-background-color="50"]) { --cui-box--background-color-rgb: var(--cui-background-color--rgb-50) }
+:where(.cui-box[data-background-color="100"]) { --cui-box--background-color-rgb: var(--cui-background-color--rgb-100) }
+
+:where(.cui-box[data-background-color="toned"]) { --cui-box--background-color-rgb: var(--cui-background-color--toned-rgb-50) }
+:where(.cui-box[data-background-color="toned-0"]) { --cui-box--background-color-rgb: var(--cui-background-color--toned-rgb-0) }
+:where(.cui-box[data-background-color="toned-25"]) { --cui-box--background-color-rgb: var(--cui-background-color--toned-rgb-25) }
+:where(.cui-box[data-background-color="toned-50"]) { --cui-box--background-color-rgb: var(--cui-background-color--toned-rgb-50) }
+:where(.cui-box[data-background-color="toned-100"]) { --cui-box--background-color-rgb: var(--cui-background-color--toned-rgb-100) }
+
+:where(.cui-box[data-background-color="controls"]) { --cui-box--background-color-rgb: var(--cui-background-color--controls-rgb-50) }
+:where(.cui-box[data-background-color="controls-0"]) { --cui-box--background-color-rgb: var(--cui-background-color--controls-rgb-0) }
+:where(.cui-box[data-background-color="controls-25"]) { --cui-box--background-color-rgb: var(--cui-background-color--controls-rgb-25) }
+:where(.cui-box[data-background-color="controls-50"]) { --cui-box--background-color-rgb: var(--cui-background-color--controls-rgb-50) }
+:where(.cui-box[data-background-color="controls-100"]) { --cui-box--background-color-rgb: var(--cui-background-color--controls-rgb-100) }
+
+:where(.cui-box[data-background-color="toned-controls"]) { --cui-box--background-color-rgb: var(--cui-background-color--toned-controls-rgb-50) }
+:where(.cui-box[data-background-color="toned-controls-0"]) { --cui-box--background-color-rgb: var(--cui-background-color--toned-controls-rgb-0) }
+:where(.cui-box[data-background-color="toned-controls-25"]) { --cui-box--background-color-rgb: var(--cui-background-color--toned-controls-rgb-25) }
+:where(.cui-box[data-background-color="toned-controls-50"]) { --cui-box--background-color-rgb: var(--cui-background-color--toned-controls-rgb-50) }
+:where(.cui-box[data-background-color="toned-controls-100"]) { --cui-box--background-color-rgb: var(--cui-background-color--toned-controls-rgb-100) }
+
+:where(.cui-box[data-background-color="controls-inverse"]) { --cui-box--background-color-rgb: var(--cui-background-color--controls-inverse-rgb-50) }
+:where(.cui-box[data-background-color="controls-inverse-0"]) { --cui-box--background-color-rgb: var(--cui-background-color--controls-inverse-rgb-0) }
+:where(.cui-box[data-background-color="controls-inverse-25"]) { --cui-box--background-color-rgb: var(--cui-background-color--controls-inverse-rgb-25) }
+:where(.cui-box[data-background-color="controls-inverse-50"]) { --cui-box--background-color-rgb: var(--cui-background-color--controls-inverse-rgb-50) }
+:where(.cui-box[data-background-color="controls-inverse-100"]) { --cui-box--background-color-rgb: var(--cui-background-color--controls-inverse-rgb-100) }
+
+:where(.cui-box[data-background-opacity="opaque"]) { --cui-box--background-color-opacity: var(--cui-opacity--opaque) }
+:where(.cui-box[data-background-opacity="high"]) { --cui-box--background-color-opacity: var(--cui-opacity--high) }
+:where(.cui-box[data-background-opacity="medium"]) { --cui-box--background-color-opacity: var(--cui-opacity--medium) }
+:where(.cui-box[data-background-opacity="low"]) { --cui-box--background-color-opacity: var(--cui-opacity--low) }
+:where(.cui-box[data-background-opacity="lower"]) { --cui-box--background-color-opacity: var(--cui-opacity--lower) }
+:where(.cui-box[data-background-opacity="transparent"]) { --cui-box--background-color-opacity: var(--cui-opacity--transparent) }
 
 :where(.cui-box[data-border]) {
 	--cui-box--border-width:	var(--cui-border-width, 1px)

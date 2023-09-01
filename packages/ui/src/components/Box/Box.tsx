@@ -18,6 +18,14 @@ export type BoxHeaderProps =
 		label?: never
 	}
 
+export type SwatchKey = 0 | 25 | 50 | 75 | 100
+export type ColorSwatch<T extends string, S extends number = SwatchKey> = T | `${T}-${S}`
+export type BoxBackgroundProps = {
+	background?: boolean
+	backgroundColor?: | `${SwatchKey}` | ColorSwatch<'toned'> | ColorSwatch<'toned-controls'> | ColorSwatch<'controls'> | ColorSwatch<'controls-inverse'>
+	backgroundOpacity?: 'opaque' | 'high' | 'medium' | 'low' | 'lower' | 'transparent'
+}
+
 /** @deprecated Use `boolean` instead */
 export type DeprecatedPaddingPropLiteral = Default | 'no-padding' | 'with-padding'
 
@@ -25,8 +33,8 @@ export type BoxOwnProps =
 	& ComponentClassNameProps
 	& BoxHeaderProps
 	& Pick<StackOwnProps, 'align' | 'evenly' | 'gap' | 'grow' | 'horizontal' | 'justify' | 'reverse' | 'shrink' | 'wrap'>
+	& BoxBackgroundProps
 	& {
-		background?: boolean
 		border?: boolean
 		borderRadius?: StackOwnProps['gap']
 		children?: ReactNode
@@ -60,10 +68,10 @@ export type BoxProps =
  * @example
  * A basic box:
  * ```tsx
-* <Box padding={false}>A box content</Box>
-* <Box padding="gap">A box content</Box>
-* <Box padding="gutter">A box content</Box>
-* <Box padding="padding">A box content</Box>
+ * <Box padding={false}>A box content</Box>
+ * <Box padding="gap">A box content</Box>
+ * <Box padding="gutter">A box content</Box>
+ * <Box padding="padding">A box content</Box>
  * ```
  *
  * @example
@@ -104,6 +112,8 @@ export const Box = memo(forwardRef<HTMLDivElement, BoxProps>(({
 	actions,
 	align,
 	background = true,
+	backgroundColor,
+	backgroundOpacity,
 	border = true,
 	borderRadius = true,
 	children,
@@ -154,6 +164,8 @@ export const Box = memo(forwardRef<HTMLDivElement, BoxProps>(({
 			align={align}
 			data-active={dataAttribute(isActive)}
 			data-background={dataAttribute(background)}
+			data-background-color={dataAttribute(backgroundColor)}
+			data-background-opacity={dataAttribute(backgroundOpacity)}
 			data-border={dataAttribute(border)}
 			data-border-radius={dataAttribute(borderRadius)}
 			data-focus-ring={dataAttribute(focusRing)}
