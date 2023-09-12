@@ -813,11 +813,13 @@ export interface DimensionSwitcherValue {
 }
 
 // @public (undocumented)
-export const Divider: MemoExoticComponent<({ className, componentClassName, gap, ...rest }: DividerProps) => JSX.Element>;
+export const Divider: MemoExoticComponent<({ className, componentClassName, gap, padding, ...rest }: DividerProps) => JSX.Element>;
 
 // @public (undocumented)
 export interface DividerOwnProps extends ComponentClassNameProps {
     gap?: StackOwnProps['gap'];
+    // (undocumented)
+    padding?: StackOwnProps['gap'];
 }
 
 // @public (undocumented)
