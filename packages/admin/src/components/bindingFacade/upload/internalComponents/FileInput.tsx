@@ -1,5 +1,6 @@
-import { Button, FieldContainer, FieldContainerProps, FieldErrors, FileDropZone, Stack } from '@contember/ui'
-import { ReactNode } from 'react'
+import { useElementSize } from '@contember/react-utils'
+import { Button, FieldContainer, FieldContainerProps, FieldErrors, FileDropZone, Grid, Stack } from '@contember/ui'
+import { CSSProperties, Children, ReactNode, useMemo, useRef } from 'react'
 import type { DropzoneState } from 'react-dropzone'
 import type { MessageFormatter } from '../../../../i18n'
 import type { AddEntityButtonProps } from '../../collections'
@@ -42,6 +43,12 @@ export const FileInput = ({
 	...selectProps
 }: FileInputProps) => {
 	const { getRootProps, isDragActive, isDragAccept, isDragReject, getInputProps } = dropzoneState
+	const gridRef = useRef<HTMLDivElement>(null)
+	const { width = 160 } = useElementSize(gridRef)
+
+	const gridColumns = Math.floor(width / 160)
+	const gridItems = Children.count(children)
+	const columnStart = (gridItems % gridColumns) + 1
 
 	return (
 		<FieldContainer
@@ -51,7 +58,14 @@ export const FileInput = ({
 			labelDescription={labelDescription}
 			errors={errors}
 		>
-			<div className="fileInput">
+			<Grid
+				ref={gridRef}
+				className="fileInput"
+				columnWidth={160}
+				style={useMemo(() => ({
+					'--fileInput-column-start': columnStart,
+				} as CSSProperties), [columnStart])}
+			>
 				{children !== undefined && children}
 				{enableAddingNew && (
 					<FileDropZone
@@ -81,7 +95,7 @@ export const FileInput = ({
 						</div>
 					</FileDropZone>
 				)}
-			</div>
+			</Grid>
 		</FieldContainer>
 	)
 }
