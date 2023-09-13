@@ -14,6 +14,7 @@ export type FileInputPublicProps =
 	& {
 		enableAddingNew?: boolean
 		addButtonSubText?: ReactNode
+		columnWidth?: number
 	}
 
 export type FileInputProps =
@@ -33,6 +34,7 @@ export const FileInput = ({
 	addButtonSubText,
 	addButtonText,
 	children,
+	columnWidth = 160,
 	description,
 	dropzoneState,
 	enableAddingNew = true,
@@ -44,9 +46,9 @@ export const FileInput = ({
 }: FileInputProps) => {
 	const { getRootProps, isDragActive, isDragAccept, isDragReject, getInputProps } = dropzoneState
 	const gridRef = useRef<HTMLDivElement>(null)
-	const { width = 160 } = useElementSize(gridRef)
+	const { width = columnWidth } = useElementSize(gridRef)
 
-	const gridColumns = Math.floor(width / 160)
+	const gridColumns = Math.floor(width / columnWidth)
 	const gridItems = Children.count(children)
 	const columnStart = (gridItems % gridColumns) + 1
 
@@ -61,7 +63,7 @@ export const FileInput = ({
 			<Grid
 				ref={gridRef}
 				className="fileInput"
-				columnWidth={160}
+				columnWidth={columnWidth}
 				style={useMemo(() => ({
 					'--fileInput-column-start': columnStart,
 				} as CSSProperties), [columnStart])}

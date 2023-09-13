@@ -2076,6 +2076,7 @@ export interface FileInputProps {
 export type FileInputPublicProps = Pick<FieldContainerProps, 'label' | 'description' | 'labelDescription'> & AddEntityButtonProps & SelectFileInputPublicProps & {
     enableAddingNew?: boolean;
     addButtonSubText?: ReactNode;
+    columnWidth?: number;
 };
 
 // @public (undocumented)
