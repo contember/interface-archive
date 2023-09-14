@@ -1,6 +1,5 @@
 import { createNonNullableContextFactory, noop } from '@contember/react-utils'
-import { deprecate } from '@contember/utilities'
-import { ComponentType, ElementType, Fragment, ReactNode, RefObject, createElement, useCallback } from 'react'
+import { ComponentType, Fragment, createElement, useCallback } from 'react'
 import { SlotComponentsRecords } from './types'
 
 export type SlotsRefMap = Map<string, HTMLElement>
@@ -47,14 +46,6 @@ export function useSlotTargetsFactory<R extends SlotComponentsRecords<string>>(S
 		}
 	}, [SlotTargets, activeSlotPortals])
 }
-/**
- * Fallback for `useSlotTargetsFactory` for backwards compatibility.
- * @deprecated Use `useSlotTargetsFactory` instead
- */
-export function useTargetsIfActiveFactory<R extends SlotComponentsRecords<string>>(SlotTargets: R) {
-	deprecate('1.3.0', true, '`useTargetsIfActiveFactory()`', '`useSlotTargetsFactory()`')
-	return useSlotTargetsFactory(SlotTargets)
-}
 
 export type SlotTargetsRegistryContextType = {
 	registerSlotTarget: RegisterSlotTarget;
@@ -67,8 +58,6 @@ export const [TargetsRegistryContext, useTargetsRegistryContext] = createNonNull
 
 export type RenderToSlotPortalContextType = {
 	getTarget: undefined | ((slot: string) => HTMLElement | null | undefined);
-	/** @deprecated Use `getTarget` instead */
-	createSlotPortal?: never;
 	registerSlotSource: undefined | ((id: string, slot: string) => void);
 	unregisterSlotSource: undefined | ((id: string, slot: string) => void);
 }
