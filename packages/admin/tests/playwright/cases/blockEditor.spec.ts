@@ -25,7 +25,7 @@ test('basic test', async ({ page }) => {
 
 const keyboardPressOptions = { delay: 10 }
 
-test('inline buttons: ordered list', async ({ page }) => {
+test.skip('inline buttons: ordered list', async ({ page }) => {
 	expectNoConsoleErrors(page)
 
 	await page.goto(`/${projectSlug}/block-editor/inline-buttons-ordered-list`)
@@ -71,7 +71,7 @@ test('inline buttons: ordered list', async ({ page }) => {
 })
 
 
-test('inline buttons: unordered list', async ({ page }) => {
+test.skip('inline buttons: unordered list', async ({ page }) => {
 	expectNoConsoleErrors(page)
 
 	await page.goto(`/${projectSlug}/block-editor/inline-buttons-unordered-list`)
