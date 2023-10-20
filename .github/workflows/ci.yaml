@@ -69,7 +69,7 @@ jobs:
   playwright:
     needs: [ test ]
     runs-on: ubuntu-latest
-    container: mcr.microsoft.com/playwright:v1.32.3-focal
+    container: mcr.microsoft.com/playwright:v1.39.0-focal
 
     services:
       postgres:

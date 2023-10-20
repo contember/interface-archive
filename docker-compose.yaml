@@ -67,7 +67,7 @@ services:
       - .:/src:cached
 
   playwright-tests:
-    image: mcr.microsoft.com/playwright:v1.32.3-focal
+    image: mcr.microsoft.com/playwright:v1.39.0-focal
     scale: 0
     command: [ 'sh' ]
     user: '1000:1000'
