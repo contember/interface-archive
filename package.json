@@ -59,7 +59,7 @@
 		"react-dom": "^18.2.0",
 		"tsx": "^3.12.7",
 		"typedoc": "^0.24.4",
-		"typescript": "^5.0.4",
+		"typescript": "^5.2.2",
 		"vite": "^4.3.2",
 		"vitest": "^0.30.1"
 	},
