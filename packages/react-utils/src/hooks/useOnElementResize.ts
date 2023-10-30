@@ -26,11 +26,12 @@ export function useOnElementResize(
 					const delta = timeStamp - lastTimeStamp.current
 
 					if (delta > timeout) {
-						window.requestAnimationFrame(() => {
+						clearTimeout(timeoutID)
+						timeoutID = setTimeout(() => {
 							scopedConsoleRef.current.warned('element.resize:immediate', null)
 							callbackRef.current(entry)
 							lastTimeStamp.current = timeStamp
-						})
+						}, 0)
 					} else {
 						clearTimeout(timeoutID)
 						timeoutID = setTimeout(() => {
