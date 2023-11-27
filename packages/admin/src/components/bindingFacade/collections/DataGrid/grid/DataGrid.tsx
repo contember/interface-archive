@@ -43,7 +43,7 @@ export const DataGrid = Component(
 		return <ControlledDataGrid {...useDataGrid(props)} />
 	},
 	(props, environment) => {
-		const columns = extractDataGridColumns(props.children)
+		const columns = extractDataGridColumns(props.children, environment)
 		const fakeState: DataGridState = {
 			columns,
 			paging: {
