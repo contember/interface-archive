@@ -1,4 +1,4 @@
-import { BoardProps, createBoard } from '@contember/react-board'
+import { BoardBaseProps, createBoard } from '@contember/react-board'
 import { BoardColumnRendererProps, BoardItemRendererProps, createBoardDndKitRenderer } from './BoardDndKitRenderer'
 import React, { FunctionComponent, ReactNode } from 'react'
 
@@ -10,7 +10,7 @@ export const createBoardDndKit = <ColumnExtraProps extends {}, ItemExtraProps ex
 	Column: React.ComponentType<BoardColumnRendererProps & ColumnExtraProps>
 	Item: React.ComponentType<BoardItemRendererProps & ItemExtraProps>
 	usePortalProvider?: () => Element | null
-}): FunctionComponent<BoardProps<ColumnExtraProps & ItemExtraProps>> => {
+}): FunctionComponent<BoardBaseProps<ColumnExtraProps & ItemExtraProps>> => {
 	const renderer = createBoardDndKitRenderer({ Column, Item, Wrapper, usePortalProvider })
 
 	return createBoard<ColumnExtraProps & ItemExtraProps>({
@@ -19,3 +19,5 @@ export const createBoardDndKit = <ColumnExtraProps extends {}, ItemExtraProps ex
 		ColumnStaticRender: Column as any,
 	})
 }
+
+export * from '@contember/react-board'

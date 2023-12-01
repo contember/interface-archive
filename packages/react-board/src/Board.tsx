@@ -4,7 +4,7 @@ import { useDynamicBoard } from './useDynamicBoard'
 import { useStaticBoard } from './useStaticBoard'
 import { BoardBindingProps } from './BoardBindingProps'
 import {
-	BoardProps,
+	BoardBaseProps,
 	BoardQualifiedDynamicProps,
 	BoardQualifiedStaticProps,
 	BoardRelativeDynamicProps,
@@ -137,7 +137,7 @@ export const createBoard = <RendererExtraProps extends {}>({ Renderer, ItemStati
 
 
 
-	return Component<BoardProps<RendererExtraProps>>(props => {
+	return Component<BoardBaseProps<RendererExtraProps>>(props => {
 		if ('entities' in props) {
 			if (Array.isArray(props.columns)) {
 				return <TopLevelStaticBoard {...(props as BoardQualifiedStaticProps & RendererExtraProps)} />

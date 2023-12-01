@@ -1,11 +1,13 @@
 import { createBoardDndKit } from '@contember/react-board-dnd-kit'
-import { BoardProps as BaseBoardProps } from '@contember/react-board'
+import { BoardBaseProps } from '@contember/react-board'
 import { BoardColumn, BoardColumnExtraProps } from './ui/BoardColumn'
 import { BoardItem, BoardItemExtraProps } from './ui/BoardItem'
 import { Stack, usePortalProvider } from '@contember/ui'
 import { ComponentType } from 'react'
 
-export type BoardProps = BaseBoardProps<BoardColumnExtraProps & BoardItemExtraProps>
+
+export type { BoardColumnExtraProps, BoardItemExtraProps }
+export type BoardProps = BoardBaseProps<BoardColumnExtraProps & BoardItemExtraProps>
 
 export const Board: ComponentType<BoardProps> = createBoardDndKit({
 	Column: BoardColumn,
@@ -14,3 +16,4 @@ export const Board: ComponentType<BoardProps> = createBoardDndKit({
 	usePortalProvider: usePortalProvider,
 })
 
+export * from '@contember/react-board-dnd-kit'

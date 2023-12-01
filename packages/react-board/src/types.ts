@@ -54,7 +54,7 @@ export type BoardRelativeStaticProps =
 	& BoardStaticColumnsBindingProps
 	& BoardRelativeItemsProps
 
-export type BoardProps<RendererExtraProps> =
+export type BoardBaseProps<RendererExtraProps> =
 	& (
 		| BoardQualifiedDynamicProps
 		| BoardRelativeDynamicProps
