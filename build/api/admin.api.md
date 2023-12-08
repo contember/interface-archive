@@ -1374,10 +1374,13 @@ export type DataGridProps<ComponentExtraProps extends {}> = DataGridContainerPub
 });
 
 // @public (undocumented)
-export const DataGridScope: <StateProps>({ stateComponent, stateProps, ...props }: DataGridScopeProps<StateProps>) => JSX.Element;
+export const DataGridScope: <StateProps>({ stateComponent, stateProps, skipBindingStateUpdateAfterPersist, refreshDataBindingOnPersist, ...props }: DataGridScopeProps<StateProps>) => JSX.Element;
 
 // @public (undocumented)
-export type DataGridScopeProps<StateProps> = PropsWithChildren<DataGridProps<{}>> & DataBindingProviderStateComponent<StateProps>;
+export type DataGridScopeProps<StateProps> = PropsWithChildren<DataGridProps<{}>> & DataBindingProviderStateComponent<StateProps> & {
+    refreshDataBindingOnPersist?: boolean;
+    skipBindingStateUpdateAfterPersist?: boolean;
+};
 
 // @public (undocumented)
 export type DataGridSetColumnFilter<FA extends DataGridFilterArtifact = DataGridFilterArtifact> = (columnKey: DataGridColumnKey, columnFilter: FA | undefined) => void;
