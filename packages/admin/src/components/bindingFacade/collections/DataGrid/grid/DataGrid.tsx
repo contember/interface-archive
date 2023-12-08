@@ -44,6 +44,8 @@ export const DataGrid = Component(
 	},
 	(props, environment) => {
 		const columns = extractDataGridColumns(props.children, environment)
+		const entities = QueryLanguage.desugarQualifiedEntityList({ entities: props.entities }, environment)
+		const filter = { and: [entities.filter ?? {}] }
 		const fakeState: DataGridState = {
 			columns,
 			paging: {
@@ -54,8 +56,8 @@ export const DataGrid = Component(
 			filterArtifacts: {},
 			orderDirections: {},
 			orderBy: [],
-			entities: QueryLanguage.desugarQualifiedEntityList({ entities: props.entities }, environment),
-			filter: { and: [{}] },
+			entities: entities,
+			filter,
 			layout: 'default',
 		}
 
