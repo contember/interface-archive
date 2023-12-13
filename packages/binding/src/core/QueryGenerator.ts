@@ -53,9 +53,14 @@ export class QueryGenerator {
 		if (subTree.parameters.isCreating) {
 			return baseQueryBuilder
 		}
+		const baseReadBuilder  = CrudQueryBuilder.ReadBuilder.instantiate<CrudQueryBuilder.GetQueryArguments>().by(subTree.parameters.where)
+		const readBuilderWithFilter = subTree.parameters.filter
+			? baseReadBuilder.filter(subTree.parameters.filter)
+			: baseReadBuilder
+
 		const populatedListQueryBuilder = QueryGenerator.registerQueryPart(
 			subTree.fields.markers,
-			CrudQueryBuilder.ReadBuilder.instantiate<CrudQueryBuilder.GetQueryArguments>().by(subTree.parameters.where),
+			readBuilderWithFilter,
 		)
 		return baseQueryBuilder.get(
 			subTree.entityName,

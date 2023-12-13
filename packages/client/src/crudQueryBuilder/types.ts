@@ -4,7 +4,7 @@ export type Mutations = 'create' | 'update' | 'delete'
 
 export type Queries = 'get' | 'list' | 'paginate'
 
-export type GetQueryArguments = 'by'
+export type GetQueryArguments = 'by' | 'filter'
 
 export type ListQueryArguments = 'filter' | 'orderBy' | 'offset' | 'limit'
 
