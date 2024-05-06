@@ -7,20 +7,29 @@ import { useEntity, useEnvironment } from '../accessorPropagation'
 import { Filter } from '@contember/binding'
 import { FilterFieldsCollector } from './helpers/FilterFieldsCollector'
 import { FilterEvaluator } from './helpers/FilterEvaluator'
+import { createRequiredContext } from '@contember/react-utils'
 
 export type IfProps =
 	| IfFilterProps
 	| IfCallbackProps
 
-export interface IfFilterProps {
+export type IfBaseProps = {
+	children?: ReactNode;
+};
+
+export type IfFilterProps = {
 	condition: string | Filter
+} & IfBaseProps
+
+export type IfCallbackProps = {
+	condition: (accessor: EntityAccessor) => boolean
+} & IfBaseProps
+
+export type ThenProps = {
 	children?: ReactNode
 }
 
-export interface IfCallbackProps {
-	condition: (accessor: EntityAccessor) => boolean
-	children?: ReactNode
-}
+export const [IfContext, useIfContext] = createRequiredContext<boolean>('IfContext')
 
 /**
  * @group Logic Components
@@ -38,10 +47,12 @@ const IfCallback = Component<IfCallbackProps>(
 		const entity = useEntity()
 		const evaluated = useMemo(() => condition(entity), [condition, entity])
 
-		return evaluated ? <>{children}</> : null
+		return <IfContext.Provider value={evaluated}>{children}</IfContext.Provider>
 	},
 	({ children }) => {
-		return <>{children}</>
+		return <>
+			{children}
+		</>
 	},
 	'IfCallback',
 )
@@ -57,7 +68,7 @@ const IfFilter = Component<IfFilterProps>(
 			[condition, entity, env, schema],
 		)
 
-		return evaluated ? <>{children}</> : null
+		return <IfContext.Provider value={evaluated}>{children}</IfContext.Provider>
 	},
 	({ children, condition }, env) => {
 		const desugaredFilter = QueryLanguage.desugarFilter(condition, env)
@@ -72,3 +83,12 @@ const IfFilter = Component<IfFilterProps>(
 	'IfFilter',
 )
 
+export const Then = (({ children }: ThenProps) => {
+	const evaluated = useIfContext()
+	return evaluated ? <>{children}</> : null
+})
+
+export const Else = (({ children }: ThenProps) => {
+	const evaluated = useIfContext()
+	return evaluated ? null : <>{children}</>
+})
