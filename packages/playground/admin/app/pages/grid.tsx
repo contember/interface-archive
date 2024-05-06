@@ -1,4 +1,4 @@
-import { Component, Field, HasMany, HasOne, If } from '@contember/interface'
+import { Component, Field, HasMany, HasOne, If, Then } from '@contember/interface'
 import { Slots } from '../../lib/components/slots'
 import { DataViewEachRow, DataViewElement, DataViewLayout } from '@contember/react-dataview'
 import {
@@ -229,7 +229,9 @@ const CustomGridRow = Component(() => (
 				<Field field="state" />
 			</div>
 			<If condition="[locked = true]">
-				<LockIcon className="w-4 h-4" />
+				<Then>
+					<LockIcon className="w-4 h-4" />
+				</Then>
 			</If>
 		</div>
 		<div className="flex flex-col">

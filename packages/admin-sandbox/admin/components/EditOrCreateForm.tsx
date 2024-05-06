@@ -10,6 +10,7 @@ import {
 	SelectField,
 	SlugField,
 	TextField,
+	Then,
 } from '@contember/admin'
 import { SlotSources } from '../components/Slots'
 import { CategoryForm } from './CategoryForm'
@@ -32,7 +33,9 @@ const ArticleForm = Component(() => <>
 	/>
 
 	<If condition={'[state = removed]'}>
-		<TextField field={'title'} label={'Title'} />
+		<Then>
+			<TextField field={'title'} label={'Title'} />
+		</Then>
 	</If>
 </>,
 	'ArticleForm',
