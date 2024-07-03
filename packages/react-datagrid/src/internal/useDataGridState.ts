@@ -21,7 +21,7 @@ export const useDataGridState = (props: Pick<DataGridProps<{ tile?: unknown }>, 
 	const [initialFilters] = useState(() => (stored: DataViewFilteringArtifacts) => normalizeInitialFilters(stored, columns))
 
 	const [initialSelection] = useState(() => (stored: DataViewSelectionValues) => ({
-		...normalizeInitialHiddenColumnsState(stored, columns),
+		visibility: normalizeInitialHiddenColumnsState(stored, columns),
 		layout: stored?.layout ?? (props.tile ? 'tiles' : 'default'),
 	}))
 
