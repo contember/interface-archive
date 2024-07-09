@@ -314,7 +314,7 @@ export const useDataGridColumns: <T extends {}>() => DataGridColumns<T>;
 
 // @public (undocumented)
 export const useDataGridHiddenColumns: () => {
-    [k: string]: boolean | undefined;
+    [k: string]: boolean;
 };
 
 // @public (undocumented)
