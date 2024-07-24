@@ -1,4 +1,4 @@
-FROM node:16-alpine as builder
+FROM node:20-alpine as builder
 WORKDIR /src
 
 COPY package.json yarn.lock .yarnrc.yml								./
@@ -30,7 +30,7 @@ COPY ./																								./
 
 RUN yarn as:build
 
-FROM node:16-alpine
+FROM node:20-alpine
 
 WORKDIR /src
 COPY --from=builder /src/ee/admin-server/dist/				./
