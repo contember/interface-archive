@@ -42,7 +42,14 @@ export class ProjectController extends BaseController<ProjectParams> {
 					const processedHtml = this.preprocessIndexHtml(html, params)
 					res.end(processedHtml)
 				} else {
-					innerRes.Body.pipe(res)
+					if (res.closed) {
+						(innerRes.Body as Readable)?.destroy()
+					} else {
+						res.on('close', () => {
+							(innerRes.Body as Readable)?.destroy()
+						})
+						innerRes.Body.pipe(res)
+					}
 				}
 			} else {
 				res.writeHead(500)
