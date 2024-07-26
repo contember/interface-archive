@@ -21,3 +21,10 @@ export function writeAuthCookie(req: IncomingMessage, res: OutgoingMessage, toke
 		}),
 	)
 }
+
+export const refreshAuthCookie = (req: IncomingMessage, res: OutgoingMessage): void => {
+	const token = readAuthCookie(req)
+	if (token !== null) {
+		writeAuthCookie(req, res, token)
+	}
+}

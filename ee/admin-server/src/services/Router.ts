@@ -10,6 +10,7 @@ import { LoginController } from '../controllers/LoginController'
 import { LegacyController } from '../controllers/LegacyController'
 import { PanelController } from '../controllers/PanelController'
 import { ProjectController } from '../controllers/ProjectController'
+import { refreshAuthCookie } from '../utils/cookies'
 
 export class Router {
 	constructor(
@@ -25,6 +26,7 @@ export class Router {
 	}
 
 	async handle(req: IncomingMessage, res: ServerResponse) {
+		refreshAuthCookie(req, res)
 		try {
 			const url = new URL(req.url ?? '/', `http://${req.headers.host}`)
 			const [prefix, ...rest] = url.pathname.substring(1).split('/')
